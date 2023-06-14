@@ -1,0 +1,9 @@
+http://192.168.1.155:5002/onlineScienceMuseumAPI/checkId.do
+http://192.168.1.155:5002/onlineScienceMuseumAPI/tryLogin.do
+Id
+pswd
+C:\Users\IIILAB\Desktop\GameFile
+Build
+TCP_Client1
+https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build.zip
+https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/CheckSumJson.json

@@ -71,4 +71,3 @@ public class ShiftCryptography : MonoBehaviour
         return NOT_ARRAY;
     }
 }
-}

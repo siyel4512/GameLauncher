@@ -43,7 +43,8 @@ public class TCP_Server : MonoBehaviour
 
                 NetworkStream stream = Client.GetStream();
 
-                string msg = MainWindow.token;
+                //string msg = Login.token;
+                string msg = "Test";
                 int byteCount = Encoding.UTF8.GetByteCount(msg);
 
                 byte[] sendBuffer = new byte[byteCount];
