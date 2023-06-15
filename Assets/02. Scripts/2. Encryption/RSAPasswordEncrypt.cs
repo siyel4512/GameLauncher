@@ -15,7 +15,7 @@ using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
 
-internal class RSAPasswordEncrypt : MonoBehaviour
+internal class RSAPasswordEncrypt
 {
     public string GetRSAPassword(string pubKeyStr, string id, string password)
     {

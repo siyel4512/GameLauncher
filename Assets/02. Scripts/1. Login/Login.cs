@@ -128,6 +128,7 @@ public class Login : MonoBehaviour
         if (response.IsSuccessStatusCode)
         {
             token = requestResult;
+            Debug.Log("totkon : " + token);
             //Login.Visibility = Visibility.Hidden;
             //FileCheck.Visibility = Visibility.Visible;
 
@@ -161,6 +162,7 @@ public class Login : MonoBehaviour
         if (response.IsSuccessStatusCode)
         {
             token = requestResult;
+            Debug.Log("totkon : " + token);
             //Login.Visibility = Visibility.Hidden;
             //FileCheck.Visibility = Visibility.Visible;
 

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShiftCryptography : MonoBehaviour
+public class ShiftCryptography
 {
     private int NOT_ARRAY = 9999;
 

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 
-public class TCP_Server : MonoBehaviour
+public class TCP_Server
 {
     public TcpListener Server;
     public TcpClient Client;

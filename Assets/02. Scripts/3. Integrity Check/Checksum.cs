@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
-public class Checksum : MonoBehaviour
+public class Checksum
 {
     public static int ChecksumMD5(JObject json, string rootPath)
     {
