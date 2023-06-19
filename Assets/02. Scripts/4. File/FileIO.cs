@@ -10,6 +10,8 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 using Debug = UnityEngine.Debug;
+using UnityEngine.UI;
+using TMPro;
 
 public enum LauncherStatus
 {
@@ -21,11 +23,11 @@ public enum LauncherStatus
 
 public class FileIO : MonoBehaviour
 {
+    public int buttonNum = 0;
     // TCP
     private TCP_Server tcp_Server = new TCP_Server();
 
-
-    private LauncherStatus _status;
+    public LauncherStatus _status;
     internal LauncherStatus Status
     {
         get => _status;
@@ -35,19 +37,19 @@ public class FileIO : MonoBehaviour
             switch (_status)
             {
                 case LauncherStatus.ready:
-                    SetPage(false, "Play");
-
+                    
                     // start TCP server
                     tcp_Server.StartServer();
+                    excuteButton_txt.text = "Play";
                     break;
                 case LauncherStatus.failed:
-                    SetPage(false, "Update Failed - Retry");
+                    excuteButton_txt.text = "Update Failed - Retry";
                     break;
                 case LauncherStatus.downloadingGame:
-                    SetPage(true, "Downloading Game");
+                    excuteButton_txt.text = "Downloading Game";
                     break;
                 case LauncherStatus.downloadingUpdate:
-                    SetPage(true, "Downloading Update");
+                    excuteButton_txt.text = "Downloading Update";
                     break;
                 default:
                     break;
@@ -55,10 +57,18 @@ public class FileIO : MonoBehaviour
         }
     }
 
+    public Button selectButton;
+    public Button excuteButton;
+    public TMP_Text excuteButton_txt;
+    public GameObject selectImage;
+    public bool isSelected = false;
+
+    public Prograss prograss;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        selectButton.onClick.AddListener(SetButtonState);
     }
 
     // Update is called once per frame
@@ -67,32 +77,11 @@ public class FileIO : MonoBehaviour
 
     }
 
-    #region Change file load Page
-    // Set launcher UI layout
-    private void SetPage(bool _isLoading, string _stateText)
-    {
-        //if (_isLoading)
-        //{
-        //    StateText.Visibility = Visibility.Visible;
-        //    StateText.Text = _stateText;
-        //    PrograssBar.Visibility = Visibility.Visible;
-
-        //    PlayButton.Visibility = Visibility.Hidden;
-        //}
-        //else
-        //{
-        //    StateText.Visibility = Visibility.Hidden;
-        //    PrograssBar.Visibility = Visibility.Hidden;
-
-        //    PlayButton.Visibility = Visibility.Visible;
-        //    PlayButton.Content = _stateText;
-        //}
-    }
-    #endregion
-
     #region File Check
-    private void CheckForUpdates()
+    public void CheckForUpdates()
     {
+        Debug.Log("[sss] : " + FilePath.Instance.GameBuildPath);
+
         //if (Directory.Exists(gameBuildPath))
         if (Directory.Exists(FilePath.Instance.GameBuildPath))
         {
@@ -104,6 +93,9 @@ public class FileIO : MonoBehaviour
 
                 JObject jObject = JObject.Parse(onlineJson);
                 //int resultCount = ChecksumMD5(jObject, gameBuildPath);
+                Debug.Log("[sss] : " + FilePath.Instance.GameBuildPath);
+                //int resultCount = Checksum.ChecksumMD5(jObject, FilePath.Instance.GameBuildPath);
+                //int resultCount = Checksum.ChecksumMD5(jObject, FilePath.Instance.RootPath);
                 int resultCount = Checksum.ChecksumMD5(jObject, FilePath.Instance.GameBuildPath);
 
                 if (resultCount == 0)
@@ -112,7 +104,9 @@ public class FileIO : MonoBehaviour
                 }
                 else
                 {
-                    InstallGameFiles(true);
+
+                    //InstallGameFiles(true);
+                    Status = LauncherStatus.downloadingUpdate;
                 }
             }
             catch (Exception ex)
@@ -123,7 +117,8 @@ public class FileIO : MonoBehaviour
         }
         else
         {
-            InstallGameFiles(false);
+            //InstallGameFiles(false);
+            Status = LauncherStatus.downloadingGame;
         }
     }
     #endregion
@@ -133,6 +128,9 @@ public class FileIO : MonoBehaviour
     {
         try
         {
+            excuteButton.interactable = false;
+            prograss.gameObject.SetActive(true);
+
             WebClient webClient = new WebClient();
 
             if (_isUpdate)
@@ -160,6 +158,8 @@ public class FileIO : MonoBehaviour
     {
         //PrograssBar.Value = e.ProgressPercentage;
         Debug.Log(e.ProgressPercentage);
+        prograss.SetBarState(e.ProgressPercentage);
+        prograss.SetPersent(e.ProgressPercentage);
     }
 
     private void DownloadGameCompletedCallback(object sender, AsyncCompletedEventArgs e)
@@ -178,6 +178,10 @@ public class FileIO : MonoBehaviour
             File.Delete(FilePath.Instance.GameZipPath);
 
             Status = LauncherStatus.ready;
+
+            excuteButton.interactable = true;
+            prograss.gameObject.SetActive(false);
+            prograss.ResetState();
         }
         catch (Exception ex)
         {
@@ -206,31 +210,44 @@ public class FileIO : MonoBehaviour
             CheckForUpdates();
         }
     }
+
+    public void Excute()
+    {
+        // excute
+        //if (File.Exists(gameExePath) && Status == LauncherStatus.ready)
+        if (File.Exists(FilePath.Instance.GameExePath) && Status == LauncherStatus.ready)
+        {
+            //ProcessStartInfo startInfo = new ProcessStartInfo(gameExePath);
+            ProcessStartInfo startInfo = new ProcessStartInfo(FilePath.Instance.GameExePath);
+            //startInfo.WorkingDirectory = Path.Combine(rootPath, "Build");
+            startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPath, "Build");
+            Process.Start(startInfo);
+
+            //Close(); // launcher window close
+        }
+        // update
+        else if (File.Exists(FilePath.Instance.GameExePath) && Status == LauncherStatus.downloadingUpdate)
+        {
+            InstallGameFiles(true);
+        }
+        // download
+        else if (!File.Exists(FilePath.Instance.GameExePath) && Status == LauncherStatus.downloadingGame)
+        {
+            InstallGameFiles(false);
+        }
+        else if (Status == LauncherStatus.failed)
+        {
+            CheckForUpdates();
+        }
+    }
     #endregion
 
-    //#region Checksum
-    //public static int ChecksumMD5(JObject json, string rootPath)
-    //{
-    //    var result = new List<string>();
-    //    foreach (JProperty prop in json.Properties())
-    //    {
-    //        byte[] btFile = File.ReadAllBytes(rootPath + prop.Name);
-    //        byte[] btHash = MD5.Create().ComputeHash(btFile);
-
-    //        if (Convert.ToBase64String(btHash) != prop.Value.ToString())
-    //        {
-    //            Debug.Log($"{Convert.ToBase64String(btHash)}, {prop.Value.ToString()}");
-    //            result.Add(prop.Name);
-    //        }
-    //    }
-    //    Debug.Log(result.Count);
-    //    return result.Count;
-    //}
-    //#endregion
-
-    //private void Window_Closed(object sender, EventArgs e)
-    //{
-    //    if (tcp_Server.Server != null) tcp_Server.Server.Stop();
-    //    if (tcp_Server.Client != null) tcp_Server.Client.Close();
-    //}
+    public void SetButtonState()
+    {
+        if (!isSelected)
+        {
+            //CheckForUpdates();
+            GameManager.instance.SetSelectButton(buttonNum);
+        }
+    }
 }

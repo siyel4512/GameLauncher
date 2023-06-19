@@ -9,6 +9,7 @@ public class Checksum
 {
     public static int ChecksumMD5(JObject json, string rootPath)
     {
+        Debug.Log(rootPath);
         var result = new List<string>();
         foreach (JProperty prop in json.Properties())
         {

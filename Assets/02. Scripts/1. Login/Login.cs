@@ -62,7 +62,9 @@ public class Login : MonoBehaviour
     {
         Debug.Log("Key값 요청");
         //tcp_Server.StartServer();
-        await RequestKey();
+        //await RequestKey();
+
+        GameManager.instance.SetPage(1);
     }
 
     // Request public key
@@ -133,6 +135,7 @@ public class Login : MonoBehaviour
             //FileCheck.Visibility = Visibility.Visible;
 
             //CheckForUpdates();
+            GameManager.instance.SetPage(1);
         }
         else
         {
@@ -167,6 +170,7 @@ public class Login : MonoBehaviour
             //FileCheck.Visibility = Visibility.Visible;
 
             //CheckForUpdates();
+            GameManager.instance.SetPage(1);
         }
         else
         {

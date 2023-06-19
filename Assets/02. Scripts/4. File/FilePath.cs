@@ -36,8 +36,7 @@ public class FilePath : MonoBehaviour
     public string BuildFileUrl => buildFileUrl;
     public string JsonFileUrl => jsonFileUrl;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -49,6 +48,12 @@ public class FilePath : MonoBehaviour
         }
 
         SetSettingValues();
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
     }
 
     // read setting file content
