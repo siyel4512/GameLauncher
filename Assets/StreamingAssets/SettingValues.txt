@@ -1,9 +1,9 @@
-http://192.168.1.155:5002/onlineScienceMuseumAPI/checkId.do
-http://192.168.1.155:5002/onlineScienceMuseumAPI/tryLogin.do
+http://101.101.218.135:5002/onlineScienceMuseumAPI/checkId.do
+http://101.101.218.135:5002/onlineScienceMuseumAPI/tryLogin.do
 Id
 pswd
-C:\Users\LSY\Desktop
-Build
-TCP_Client1
+C:\Users\i3_user6\Desktop
 https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build.zip
 https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/CheckSumJson.json
+Build
+TCP_Client1

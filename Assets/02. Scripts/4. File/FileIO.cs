@@ -8,10 +8,10 @@ using System.ComponentModel;
 using System.Security.Cryptography;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
-
-using Debug = UnityEngine.Debug;
 using UnityEngine.UI;
 using TMPro;
+
+using Debug = UnityEngine.Debug;
 
 public enum LauncherStatus
 {
@@ -40,6 +40,7 @@ public class FileIO : MonoBehaviour
                     
                     // start TCP server
                     tcp_Server.StartServer();
+
                     excuteButton_txt.text = "Play";
                     break;
                 case LauncherStatus.failed:
@@ -64,11 +65,13 @@ public class FileIO : MonoBehaviour
     public bool isSelected = false;
 
     public Prograss prograss;
+    private string gameExePath;
 
     // Start is called before the first frame update
     void Start()
     {
         selectButton.onClick.AddListener(SetButtonState);
+        CheckBuidDirectory();
     }
 
     // Update is called once per frame
@@ -80,8 +83,6 @@ public class FileIO : MonoBehaviour
     #region File Check
     public void CheckForUpdates()
     {
-        Debug.Log("[sss] : " + FilePath.Instance.GameBuildPath);
-
         //if (Directory.Exists(gameBuildPath))
         if (Directory.Exists(FilePath.Instance.GameBuildPath))
         {
@@ -93,7 +94,6 @@ public class FileIO : MonoBehaviour
 
                 JObject jObject = JObject.Parse(onlineJson);
                 //int resultCount = ChecksumMD5(jObject, gameBuildPath);
-                Debug.Log("[sss] : " + FilePath.Instance.GameBuildPath);
                 //int resultCount = Checksum.ChecksumMD5(jObject, FilePath.Instance.GameBuildPath);
                 //int resultCount = Checksum.ChecksumMD5(jObject, FilePath.Instance.RootPath);
                 int resultCount = Checksum.ChecksumMD5(jObject, FilePath.Instance.GameBuildPath);
@@ -157,13 +157,14 @@ public class FileIO : MonoBehaviour
     private void DownloadProgressCallback(object sender, DownloadProgressChangedEventArgs e)
     {
         //PrograssBar.Value = e.ProgressPercentage;
-        Debug.Log(e.ProgressPercentage);
+        //Debug.Log(e.ProgressPercentage);
         prograss.SetBarState(e.ProgressPercentage);
         prograss.SetPersent(e.ProgressPercentage);
     }
 
     private void DownloadGameCompletedCallback(object sender, AsyncCompletedEventArgs e)
     {
+        // TODO Build라는 이름 변경하기
         try
         {
             //if (Directory.Exists(rootPath + "\\Build"))
@@ -182,6 +183,10 @@ public class FileIO : MonoBehaviour
             excuteButton.interactable = true;
             prograss.gameObject.SetActive(false);
             prograss.ResetState();
+
+            //-------------------------------------------------------------------------------------//
+
+            CheckBuidDirectory();
         }
         catch (Exception ex)
         {
@@ -189,16 +194,37 @@ public class FileIO : MonoBehaviour
             Debug.Log($"Error finishing download: {ex}");
         }
     }
+
+    private void CheckBuidDirectory()
+    {
+        if (Directory.Exists(FilePath.Instance.GameBuildPath))
+        {
+            string filePath = FilePath.Instance.GameBuildPath;
+            string[] searchFile = Directory.GetFiles(filePath, "*.exe");
+
+            for (int i = 0; i < searchFile.Length; i++)
+            {
+                string[] fileName = searchFile[i].Split('\\');
+
+                if (fileName[fileName.Length - 1] != "UnityCrashHandler64.exe")
+                {
+                    // excute file name
+                    Debug.Log("결과3 : " + fileName[fileName.Length - 1]);
+                    gameExePath = Path.Combine(FilePath.Instance.RootPath, FilePath.Instance.GameBuildPath, fileName[fileName.Length - 1]);
+                }
+            }
+        }
+    }
     #endregion
 
     #region File Execute
     private void PlayButton_Click(object sender/*, RoutedEventArgs e*/)
     {
-        //if (File.Exists(gameExePath) && Status == LauncherStatus.ready)
-        if (File.Exists(FilePath.Instance.GameExePath) && Status == LauncherStatus.ready)
+        if (File.Exists(gameExePath) && Status == LauncherStatus.ready)
+        //if (file.exists(filepath.instance.gameexepath) && status == launcherstatus.ready)
         {
-            //ProcessStartInfo startInfo = new ProcessStartInfo(gameExePath);
-            ProcessStartInfo startInfo = new ProcessStartInfo(FilePath.Instance.GameExePath);
+            ProcessStartInfo startInfo = new ProcessStartInfo(gameExePath);
+            //ProcessStartInfo startInfo = new ProcessStartInfo(FilePath.Instance.GameExePath);
             //startInfo.WorkingDirectory = Path.Combine(rootPath, "Build");
             startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPath, "Build");
             Process.Start(startInfo);
@@ -214,11 +240,11 @@ public class FileIO : MonoBehaviour
     public void Excute()
     {
         // excute
-        //if (File.Exists(gameExePath) && Status == LauncherStatus.ready)
-        if (File.Exists(FilePath.Instance.GameExePath) && Status == LauncherStatus.ready)
+        if (File.Exists(gameExePath) && Status == LauncherStatus.ready)
+        //if (File.Exists(FilePath.Instance.GameExePath) && Status == LauncherStatus.ready)
         {
-            //ProcessStartInfo startInfo = new ProcessStartInfo(gameExePath);
-            ProcessStartInfo startInfo = new ProcessStartInfo(FilePath.Instance.GameExePath);
+            ProcessStartInfo startInfo = new ProcessStartInfo(gameExePath);
+            //ProcessStartInfo startInfo = new ProcessStartInfo(FilePath.Instance.GameExePath);
             //startInfo.WorkingDirectory = Path.Combine(rootPath, "Build");
             startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPath, "Build");
             Process.Start(startInfo);
@@ -226,12 +252,14 @@ public class FileIO : MonoBehaviour
             //Close(); // launcher window close
         }
         // update
-        else if (File.Exists(FilePath.Instance.GameExePath) && Status == LauncherStatus.downloadingUpdate)
+        //else if (File.Exists(FilePath.Instance.GameExePath) && Status == LauncherStatus.downloadingUpdate)
+        else if (File.Exists(gameExePath) && Status == LauncherStatus.downloadingUpdate)
         {
             InstallGameFiles(true);
         }
         // download
-        else if (!File.Exists(FilePath.Instance.GameExePath) && Status == LauncherStatus.downloadingGame)
+        //else if (!File.Exists(FilePath.Instance.GameExePath) && Status == LauncherStatus.downloadingGame)
+        else if (!File.Exists(gameExePath) && Status == LauncherStatus.downloadingGame)
         {
             InstallGameFiles(false);
         }

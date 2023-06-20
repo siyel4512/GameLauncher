@@ -60,11 +60,11 @@ public class Login : MonoBehaviour
 
     private async void TryRequestKey()
     {
-        Debug.Log("Key값 요청");
+        //Debug.Log("Key값 요청");
         //tcp_Server.StartServer();
-        //await RequestKey();
+        await RequestKey();
 
-        GameManager.instance.SetPage(1);
+        //GameManager.instance.SetPage(1);
     }
 
     // Request public key

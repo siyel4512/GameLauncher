@@ -1,3 +1,4 @@
+using Org.BouncyCastle.Asn1.Mozilla;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,17 +25,23 @@ public class FilePath : MonoBehaviour
     private string rootPath;
     private string gameBuildPath;
     private string gameZipPath;
-    private string gameExePath;
     public string RootPath => rootPath;
     public string GameBuildPath => gameBuildPath;
     public string GameZipPath => gameZipPath;
-    public string GameExePath => gameExePath;
 
     // file download
     private string buildFileUrl;
     private string jsonFileUrl;
     public string BuildFileUrl => buildFileUrl;
     public string JsonFileUrl => jsonFileUrl;
+
+
+    // file download
+    public string[] buildFileUrls = new string[4];
+    public string[] jsonFileUrls = new string[4];
+
+    public string[] gameBuildPaths = new string[4];
+    public string[] gameZipPaths = new string[4];
 
     private void Awake()
     {
@@ -59,6 +66,7 @@ public class FilePath : MonoBehaviour
     // read setting file content
     public void SetSettingValues()
     {
+        //-------------------------------- °ø¿ë -------------------------------------//
         string settingFilePath = ChekTextFile();
 
         char[] delims = new[] { '\r', '\n' };
@@ -70,12 +78,16 @@ public class FilePath : MonoBehaviour
         key_password = parsingDate[3];
 
         rootPath = parsingDate[4];
-        gameBuildPath = Path.Combine(rootPath, parsingDate[5]);
-        gameZipPath = Path.Combine(rootPath, gameBuildPath + ".zip");
-        gameExePath = Path.Combine(rootPath, gameBuildPath, parsingDate[6] + ".exe");
+        //--------------------------------------------------------------------------//
 
-        buildFileUrl = parsingDate[7];
-        jsonFileUrl = parsingDate[8];
+        buildFileUrl = parsingDate[5];
+        jsonFileUrl = parsingDate[6];
+
+        string[] buildFileFullName = buildFileUrl.Split("/");
+        string[] buildFileName = buildFileFullName[buildFileFullName.Length - 1].Split(".");
+
+        gameBuildPath = Path.Combine(rootPath, buildFileName[0]);
+        gameZipPath = Path.Combine(rootPath, gameBuildPath + ".zip");
     }
 
     // search setting file
