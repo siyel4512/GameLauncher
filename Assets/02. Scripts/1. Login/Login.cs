@@ -62,19 +62,19 @@ public class Login : MonoBehaviour
     {
         //Debug.Log("Key값 요청");
         //tcp_Server.StartServer();
-        await RequestKey();
+        //await RequestKey();
 
-        //GameManager.instance.SetPage(1);
+        GameManager.instance.SetPage(1);
     }
 
     // Request public key
     private async UniTask RequestKey()
     {
-        Debug.Log($"{FilePath.Instance.Key_id} / {id.text}");
+        Debug.Log($"{URL.Instance.Key_id} / {id.text}");
 
         var idValue = new Dictionary<string, string>
         {
-            { FilePath.Instance.Key_id, id.text }
+            { URL.Instance.Key_id, id.text }
         };
 
         string keyFilePath = Environment.CurrentDirectory + "\\KEY\\" + id.text + ".pem";
@@ -87,10 +87,10 @@ public class Login : MonoBehaviour
         }
         else
         {
-            Debug.Log($"파일 없음 / {FilePath.Instance.GetKeyUrl}");
+            Debug.Log($"파일 없음 / {URL.Instance.GetKeyUrl}");
             var content = new FormUrlEncodedContent(idValue);
             HttpClient client = new HttpClient();
-            var response = await client.PostAsync(FilePath.Instance.GetKeyUrl, content);
+            var response = await client.PostAsync(URL.Instance.GetKeyUrl, content);
             string requestResult = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
@@ -113,18 +113,18 @@ public class Login : MonoBehaviour
 
         var loginValues = new Dictionary<string, string>
         {
-            { FilePath.Instance.Key_id, id.text },
-            { FilePath.Instance.Key_password, rsaPassword }
+            { URL.Instance.Key_id, id.text },
+            { URL.Instance.Key_password, rsaPassword }
         };
 
-        Debug.Log($"FilePath.Instance.GetKeyUrl : {FilePath.Instance.GetKeyUrl} " +
-            $"/ id.text : {id.text} / FilePath.Instance.Key_password : {FilePath.Instance.Key_password}" +
+        Debug.Log($"FilePath.Instance.GetKeyUrl : {URL.Instance.GetKeyUrl} " +
+            $"/ id.text : {id.text} / FilePath.Instance.Key_password : {URL.Instance.Key_password}" +
             $" / rsaPassword : {rsaPassword}");
 
         var content = new FormUrlEncodedContent(loginValues);
 
         HttpClient client = new HttpClient();
-        var response = await client.PostAsync(FilePath.Instance.LoginUrl, content);
+        var response = await client.PostAsync(URL.Instance.LoginUrl, content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
         if (response.IsSuccessStatusCode)
@@ -152,14 +152,14 @@ public class Login : MonoBehaviour
 
         var loginValues = new Dictionary<string, string>
             {
-                { FilePath.Instance.Key_id, id.text },
-                { FilePath.Instance.Key_password, rsaPassword }
+                { URL.Instance.Key_id, id.text },
+                { URL.Instance.Key_password, rsaPassword }
             };
 
         var content = new FormUrlEncodedContent(loginValues);
 
         HttpClient client = new HttpClient();
-        var response = await client.PostAsync(FilePath.Instance.LoginUrl, content);
+        var response = await client.PostAsync(URL.Instance.LoginUrl, content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
         if (response.IsSuccessStatusCode)

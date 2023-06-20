@@ -65,7 +65,7 @@ public class FileIO : MonoBehaviour
     public bool isSelected = false;
 
     public Prograss prograss;
-    private string gameExePath;
+    private string gameExcutePath;
 
     // Start is called before the first frame update
     void Start()
@@ -84,19 +84,19 @@ public class FileIO : MonoBehaviour
     public void CheckForUpdates()
     {
         //if (Directory.Exists(gameBuildPath))
-        if (Directory.Exists(FilePath.Instance.GameBuildPath))
+        if (Directory.Exists(FilePath.Instance.GameBuildPaths[buttonNum]))
         {
             try
             {
                 WebClient webClient = new WebClient();
                 //var onlineJson = webClient.DownloadString(jsonFileUrl); // download json file
-                var onlineJson = webClient.DownloadString(FilePath.Instance.JsonFileUrl); // download json file
+                var onlineJson = webClient.DownloadString(FilePath.Instance.JsonFileUrls[buttonNum]); // download json file
 
                 JObject jObject = JObject.Parse(onlineJson);
                 //int resultCount = ChecksumMD5(jObject, gameBuildPath);
                 //int resultCount = Checksum.ChecksumMD5(jObject, FilePath.Instance.GameBuildPath);
                 //int resultCount = Checksum.ChecksumMD5(jObject, FilePath.Instance.RootPath);
-                int resultCount = Checksum.ChecksumMD5(jObject, FilePath.Instance.GameBuildPath);
+                int resultCount = Checksum.ChecksumMD5(jObject, FilePath.Instance.GameBuildPaths[buttonNum]);
 
                 if (resultCount == 0)
                 {
@@ -145,7 +145,7 @@ public class FileIO : MonoBehaviour
             webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback);
             webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadGameCompletedCallback);
             //webClient.DownloadFileAsync(new Uri(buildFileUrl), gameZipPath); // download build file
-            webClient.DownloadFileAsync(new Uri(FilePath.Instance.BuildFileUrl), FilePath.Instance.GameZipPath); // download build file
+            webClient.DownloadFileAsync(new Uri(FilePath.Instance.BuildFileUrls[buttonNum]), FilePath.Instance.GameZipPaths[buttonNum]); // download build file
         }
         catch (Exception ex)
         {
@@ -164,19 +164,22 @@ public class FileIO : MonoBehaviour
 
     private void DownloadGameCompletedCallback(object sender, AsyncCompletedEventArgs e)
     {
-        // TODO Build라는 이름 변경하기
         try
         {
             //if (Directory.Exists(rootPath + "\\Build"))
-            if (Directory.Exists(FilePath.Instance.RootPath + "\\Build"))
+            //if (Directory.Exists(FilePath.Instance.RootPath + "\\Build"))
+            if (Directory.Exists(FilePath.Instance.RootPath + "\\" + FilePath.Instance.BuildFileNames[buttonNum]))
             {
                 //Directory.CreateDirectory(rootPath + "\\Build");
-                Directory.CreateDirectory(FilePath.Instance.RootPath + "\\Build");
+                //Directory.CreateDirectory(FilePath.Instance.RootPath + "\\Build");
+                Directory.CreateDirectory(FilePath.Instance.RootPath + "\\" + FilePath.Instance.BuildFileNames[buttonNum]);
+                Debug.Log(FilePath.Instance.RootPath + "\\" + FilePath.Instance.BuildFileNames[buttonNum]);
             }
             //ZipFile.ExtractToDirectory(gameZipPath, rootPath + "\\Build", true);
-            ZipFile.ExtractToDirectory(FilePath.Instance.GameZipPath, FilePath.Instance.RootPath + "\\Build", true);
+            //ZipFile.ExtractToDirectory(FilePath.Instance.GameZipPaths[buttonNum], FilePath.Instance.RootPath + "\\Build", true);
+            ZipFile.ExtractToDirectory(FilePath.Instance.GameZipPaths[buttonNum], FilePath.Instance.RootPath + "\\" + FilePath.Instance.BuildFileNames[buttonNum], true);
             //File.Delete(gameZipPath);
-            File.Delete(FilePath.Instance.GameZipPath);
+            File.Delete(FilePath.Instance.GameZipPaths[buttonNum]);
 
             Status = LauncherStatus.ready;
 
@@ -197,9 +200,9 @@ public class FileIO : MonoBehaviour
 
     private void CheckBuidDirectory()
     {
-        if (Directory.Exists(FilePath.Instance.GameBuildPath))
+        if (Directory.Exists(FilePath.Instance.GameBuildPaths[buttonNum]))
         {
-            string filePath = FilePath.Instance.GameBuildPath;
+            string filePath = FilePath.Instance.GameBuildPaths[buttonNum];
             string[] searchFile = Directory.GetFiles(filePath, "*.exe");
 
             for (int i = 0; i < searchFile.Length; i++)
@@ -209,8 +212,7 @@ public class FileIO : MonoBehaviour
                 if (fileName[fileName.Length - 1] != "UnityCrashHandler64.exe")
                 {
                     // excute file name
-                    Debug.Log("결과3 : " + fileName[fileName.Length - 1]);
-                    gameExePath = Path.Combine(FilePath.Instance.RootPath, FilePath.Instance.GameBuildPath, fileName[fileName.Length - 1]);
+                    gameExcutePath = Path.Combine(FilePath.Instance.RootPath, FilePath.Instance.GameBuildPaths[buttonNum], fileName[fileName.Length - 1]);
                 }
             }
         }
@@ -218,48 +220,30 @@ public class FileIO : MonoBehaviour
     #endregion
 
     #region File Execute
-    private void PlayButton_Click(object sender/*, RoutedEventArgs e*/)
-    {
-        if (File.Exists(gameExePath) && Status == LauncherStatus.ready)
-        //if (file.exists(filepath.instance.gameexepath) && status == launcherstatus.ready)
-        {
-            ProcessStartInfo startInfo = new ProcessStartInfo(gameExePath);
-            //ProcessStartInfo startInfo = new ProcessStartInfo(FilePath.Instance.GameExePath);
-            //startInfo.WorkingDirectory = Path.Combine(rootPath, "Build");
-            startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPath, "Build");
-            Process.Start(startInfo);
-
-            //Close(); // launcher window close
-        }
-        else if (Status == LauncherStatus.failed)
-        {
-            CheckForUpdates();
-        }
-    }
-
     public void Excute()
     {
         // excute
-        if (File.Exists(gameExePath) && Status == LauncherStatus.ready)
+        if (File.Exists(gameExcutePath) && Status == LauncherStatus.ready)
         //if (File.Exists(FilePath.Instance.GameExePath) && Status == LauncherStatus.ready)
         {
-            ProcessStartInfo startInfo = new ProcessStartInfo(gameExePath);
+            ProcessStartInfo startInfo = new ProcessStartInfo(gameExcutePath);
             //ProcessStartInfo startInfo = new ProcessStartInfo(FilePath.Instance.GameExePath);
             //startInfo.WorkingDirectory = Path.Combine(rootPath, "Build");
-            startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPath, "Build");
+            //startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPath, "Build");
+            startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPath, FilePath.Instance.BuildFileNames[buttonNum]);
             Process.Start(startInfo);
 
             //Close(); // launcher window close
         }
         // update
         //else if (File.Exists(FilePath.Instance.GameExePath) && Status == LauncherStatus.downloadingUpdate)
-        else if (File.Exists(gameExePath) && Status == LauncherStatus.downloadingUpdate)
+        else if (File.Exists(gameExcutePath) && Status == LauncherStatus.downloadingUpdate)
         {
             InstallGameFiles(true);
         }
         // download
         //else if (!File.Exists(FilePath.Instance.GameExePath) && Status == LauncherStatus.downloadingGame)
-        else if (!File.Exists(gameExePath) && Status == LauncherStatus.downloadingGame)
+        else if (!File.Exists(gameExcutePath) && Status == LauncherStatus.downloadingGame)
         {
             InstallGameFiles(false);
         }
