@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -49,9 +50,11 @@ public class GameManager : MonoBehaviour
     {
         HideSelectButtons();
 
-        SelectButtons[buttonNum].CheckForUpdates();
         SelectButtons[buttonNum].isSelected = true;
         SelectButtons[buttonNum].selectImage.SetActive(true);
+        UniTask.SwitchToThreadPool();
+        SelectButtons[buttonNum].CheckForUpdates().Forget();
+        UniTask.SwitchToMainThread();
         SelectButtons[buttonNum].excuteButton.gameObject.SetActive(true);
     }
 

@@ -10,8 +10,10 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Cysharp.Threading.Tasks;
 
 using Debug = UnityEngine.Debug;
+using static UnityEngine.PlayerLoop.PreUpdate;
 
 public enum LauncherStatus
 {
@@ -81,33 +83,13 @@ public class FileIO : MonoBehaviour
     }
 
     #region File Check
-    public void CheckForUpdates()
+    public async UniTaskVoid CheckForUpdates()
     {
-        //if (Directory.Exists(gameBuildPath))
         if (Directory.Exists(FilePath.Instance.GameBuildPaths[buttonNum]))
         {
             try
             {
-                WebClient webClient = new WebClient();
-                //var onlineJson = webClient.DownloadString(jsonFileUrl); // download json file
-                var onlineJson = webClient.DownloadString(FilePath.Instance.JsonFileUrls[buttonNum]); // download json file
-
-                JObject jObject = JObject.Parse(onlineJson);
-                //int resultCount = ChecksumMD5(jObject, gameBuildPath);
-                //int resultCount = Checksum.ChecksumMD5(jObject, FilePath.Instance.GameBuildPath);
-                //int resultCount = Checksum.ChecksumMD5(jObject, FilePath.Instance.RootPath);
-                int resultCount = Checksum.ChecksumMD5(jObject, FilePath.Instance.GameBuildPaths[buttonNum]);
-
-                if (resultCount == 0)
-                {
-                    Status = LauncherStatus.ready;
-                }
-                else
-                {
-
-                    //InstallGameFiles(true);
-                    Status = LauncherStatus.downloadingUpdate;
-                }
+                CheckData().Forget();
             }
             catch (Exception ex)
             {
@@ -117,35 +99,35 @@ public class FileIO : MonoBehaviour
         }
         else
         {
-            //InstallGameFiles(false);
             Status = LauncherStatus.downloadingGame;
+        }
+    }
+
+    private async UniTaskVoid CheckData()
+    {
+        WebClient webClient = new WebClient();
+        var onlineJson = webClient.DownloadString(FilePath.Instance.JsonFileUrls[buttonNum]); // download json file
+
+        JObject jObject = JObject.Parse(onlineJson);
+        int resultCount = Checksum.ChecksumMD5(jObject, FilePath.Instance.GameBuildPaths[buttonNum]);
+
+        if (resultCount == 0)
+        {
+            Status = LauncherStatus.ready;
+        }
+        else
+        {
+            Status = LauncherStatus.downloadingUpdate;
         }
     }
     #endregion
 
     #region File Download
-    private void InstallGameFiles(bool _isUpdate)
+    private async UniTaskVoid InstallGameFiles(bool _isUpdate)
     {
         try
         {
-            excuteButton.interactable = false;
-            prograss.gameObject.SetActive(true);
-
-            WebClient webClient = new WebClient();
-
-            if (_isUpdate)
-            {
-                Status = LauncherStatus.downloadingUpdate;
-            }
-            else
-            {
-                Status = LauncherStatus.downloadingGame;
-            }
-
-            webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback);
-            webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadGameCompletedCallback);
-            //webClient.DownloadFileAsync(new Uri(buildFileUrl), gameZipPath); // download build file
-            webClient.DownloadFileAsync(new Uri(FilePath.Instance.BuildFileUrls[buttonNum]), FilePath.Instance.GameZipPaths[buttonNum]); // download build file
+            await DownloadFile(_isUpdate);
         }
         catch (Exception ex)
         {
@@ -154,10 +136,29 @@ public class FileIO : MonoBehaviour
         }
     }
 
+    private async UniTask DownloadFile(bool _isUpdate)
+    {
+        excuteButton.interactable = false;
+        prograss.gameObject.SetActive(true);
+
+        WebClient webClient = new WebClient();
+
+        if (_isUpdate)
+        {
+            Status = LauncherStatus.downloadingUpdate;
+        }
+        else
+        {
+            Status = LauncherStatus.downloadingGame;
+        }
+
+        webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback);
+        webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadGameCompletedCallback);
+        webClient.DownloadFileAsync(new Uri(FilePath.Instance.BuildFileUrls[buttonNum]), FilePath.Instance.GameZipPaths[buttonNum]); // download build file
+    }
+
     private void DownloadProgressCallback(object sender, DownloadProgressChangedEventArgs e)
     {
-        //PrograssBar.Value = e.ProgressPercentage;
-        //Debug.Log(e.ProgressPercentage);
         prograss.SetBarState(e.ProgressPercentage);
         prograss.SetPersent(e.ProgressPercentage);
     }
@@ -166,19 +167,13 @@ public class FileIO : MonoBehaviour
     {
         try
         {
-            //if (Directory.Exists(rootPath + "\\Build"))
-            //if (Directory.Exists(FilePath.Instance.RootPath + "\\Build"))
             if (Directory.Exists(FilePath.Instance.RootPath + "\\" + FilePath.Instance.BuildFileNames[buttonNum]))
             {
-                //Directory.CreateDirectory(rootPath + "\\Build");
-                //Directory.CreateDirectory(FilePath.Instance.RootPath + "\\Build");
                 Directory.CreateDirectory(FilePath.Instance.RootPath + "\\" + FilePath.Instance.BuildFileNames[buttonNum]);
                 Debug.Log(FilePath.Instance.RootPath + "\\" + FilePath.Instance.BuildFileNames[buttonNum]);
             }
-            //ZipFile.ExtractToDirectory(gameZipPath, rootPath + "\\Build", true);
-            //ZipFile.ExtractToDirectory(FilePath.Instance.GameZipPaths[buttonNum], FilePath.Instance.RootPath + "\\Build", true);
+
             ZipFile.ExtractToDirectory(FilePath.Instance.GameZipPaths[buttonNum], FilePath.Instance.RootPath + "\\" + FilePath.Instance.BuildFileNames[buttonNum], true);
-            //File.Delete(gameZipPath);
             File.Delete(FilePath.Instance.GameZipPaths[buttonNum]);
 
             Status = LauncherStatus.ready;
@@ -224,32 +219,32 @@ public class FileIO : MonoBehaviour
     {
         // excute
         if (File.Exists(gameExcutePath) && Status == LauncherStatus.ready)
-        //if (File.Exists(FilePath.Instance.GameExePath) && Status == LauncherStatus.ready)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo(gameExcutePath);
-            //ProcessStartInfo startInfo = new ProcessStartInfo(FilePath.Instance.GameExePath);
-            //startInfo.WorkingDirectory = Path.Combine(rootPath, "Build");
-            //startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPath, "Build");
             startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPath, FilePath.Instance.BuildFileNames[buttonNum]);
             Process.Start(startInfo);
 
             //Close(); // launcher window close
         }
         // update
-        //else if (File.Exists(FilePath.Instance.GameExePath) && Status == LauncherStatus.downloadingUpdate)
         else if (File.Exists(gameExcutePath) && Status == LauncherStatus.downloadingUpdate)
         {
-            InstallGameFiles(true);
+            UniTask.SwitchToThreadPool();
+            InstallGameFiles(true).Forget();
+            UniTask.SwitchToMainThread();
         }
         // download
-        //else if (!File.Exists(FilePath.Instance.GameExePath) && Status == LauncherStatus.downloadingGame)
         else if (!File.Exists(gameExcutePath) && Status == LauncherStatus.downloadingGame)
         {
-            InstallGameFiles(false);
+            UniTask.SwitchToThreadPool();
+            InstallGameFiles(false).Forget();
+            UniTask.SwitchToMainThread();
         }
         else if (Status == LauncherStatus.failed)
         {
-            CheckForUpdates();
+            UniTask.SwitchToThreadPool();
+            CheckForUpdates().Forget();
+            UniTask.SwitchToMainThread();
         }
     }
     #endregion
@@ -258,7 +253,6 @@ public class FileIO : MonoBehaviour
     {
         if (!isSelected)
         {
-            //CheckForUpdates();
             GameManager.instance.SetSelectButton(buttonNum);
         }
     }

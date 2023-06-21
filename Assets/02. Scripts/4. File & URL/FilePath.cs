@@ -68,7 +68,7 @@ public class FilePath : LoadFile
         {
             string[] buildFileFullName = buildFileUrls[i].Split("/");
             string[] buildFileName = buildFileFullName[buildFileFullName.Length - 1].Split(".");
-            Debug.Log(buildFileName[0]);
+            
             buildFileNames[i] = buildFileName[0];
             gameBuildPaths[i] = Path.Combine(rootPath, buildFileName[0]);
             gameZipPaths[i] = Path.Combine(rootPath, gameBuildPaths[i] + ".zip");

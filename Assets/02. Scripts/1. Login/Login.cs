@@ -58,17 +58,17 @@ public class Login : MonoBehaviour
         }
     }
 
-    private async void TryRequestKey()
+    private void TryRequestKey()
     {
         //Debug.Log("Key값 요청");
         //tcp_Server.StartServer();
-        //await RequestKey();
+        RequestKey().Forget();
 
-        GameManager.instance.SetPage(1);
+        //GameManager.instance.SetPage(1);
     }
 
     // Request public key
-    private async UniTask RequestKey()
+    private async UniTaskVoid RequestKey()
     {
         Debug.Log($"{URL.Instance.Key_id} / {id.text}");
 
