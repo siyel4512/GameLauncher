@@ -89,7 +89,7 @@ public class FileIO : MonoBehaviour
         {
             try
             {
-                CheckData().Forget();
+                await CheckData();
             }
             catch (Exception ex)
             {
@@ -103,13 +103,16 @@ public class FileIO : MonoBehaviour
         }
     }
 
-    private async UniTaskVoid CheckData()
+    private async UniTask CheckData()
     {
         WebClient webClient = new WebClient();
         var onlineJson = webClient.DownloadString(FilePath.Instance.JsonFileUrls[buttonNum]); // download json file
 
         JObject jObject = JObject.Parse(onlineJson);
-        int resultCount = Checksum.ChecksumMD5(jObject, FilePath.Instance.GameBuildPaths[buttonNum]);
+
+        await UniTask.SwitchToThreadPool();
+        int resultCount = await Checksum.ChecksumMD5(jObject, FilePath.Instance.GameBuildPaths[buttonNum]);
+        await UniTask.SwitchToMainThread();
 
         if (resultCount == 0)
         {
