@@ -4,13 +4,13 @@ C:\Users\i3_user6\Desktop
 http://101.101.218.135:5002/onlineScienceMuseumAPI/checkId.do
 http://101.101.218.135:5002/onlineScienceMuseumAPI/tryLogin.do
 https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build.zip
-https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build_CheckSumJson.json
+https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build.json
 https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build2.zip
-https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build2_CheckSumJson.json
+https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build2.json
 https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build3.zip
-https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build3_CheckSumJson.json
+https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build3.json
 https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build4.zip
-https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build4_CheckSumJson.json
+https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build4.json
 Build
 TCP_Client1
 C:\Users\i3_user6\Desktop

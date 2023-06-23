@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public bool isTEST;
+
     public static GameManager instance;
 
     public GameObject[] pages;
