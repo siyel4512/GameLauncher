@@ -256,19 +256,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8740760894217723624}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8740760895644575258}
-        m_TargetAssemblyTypeName: FileIO, Assembly-CSharp
-        m_MethodName: Excute
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &8740760894254130334
 GameObject:
   m_ObjectHideFlags: 0
@@ -824,7 +812,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8740760895644575259}
-  - component: {fileID: 8740760895644575258}
+  - component: {fileID: 7153272692848610885}
   m_Layer: 5
   m_Name: PC
   m_TagString: Untagged
@@ -855,7 +843,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8740760895644575258
+--- !u!114 &7153272692848610885
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -864,16 +852,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 8740760895644575252}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 834f9565631393d44b92298971d4e86d, type: 3}
+  m_Script: {fileID: 11500000, guid: 5926aec75e105da43851118760430d08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   buttonNum: 0
-  _status: 0
   selectButton: {fileID: 8740760894254130332}
-  excuteButton: {fileID: 8740760894217723625}
-  excuteButton_txt: {fileID: 8740760895067150069}
   selectImage: {fileID: 8740760895167518208}
   isSelected: 0
+  excuteButton: {fileID: 8740760894217723625}
+  excuteButton_txt: {fileID: 8740760895067150069}
   prograss: {fileID: 8740760896093190694}
 --- !u!1 &8740760896075955491
 GameObject:

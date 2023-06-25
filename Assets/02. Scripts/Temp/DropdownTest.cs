@@ -35,7 +35,7 @@ public class DropdownTest : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))
         {
-            Debug.Log("Å¸ÀÌ¸Ó ¸®¼Â");
+            Debug.Log("Å¸ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½");
             currentTimeCount = limitTime;
             sw.Restart();
         }
@@ -44,7 +44,7 @@ public class DropdownTest : MonoBehaviour
 
         if (currentTimeCount < 0)
         {
-            Debug.Log("Å¸ÀÌ¸Ó Á¾·á");
+            Debug.Log("Å¸ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½");
             currentTimeCount = limitTime;
             dropdown.value = 1;
             sw.Restart();

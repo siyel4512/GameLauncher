@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.IO;
 using System.IO.Compression;
 using System.Diagnostics;
 using System.ComponentModel;
-using System.Security.Cryptography;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +11,6 @@ using TMPro;
 using Cysharp.Threading.Tasks;
 
 using Debug = UnityEngine.Debug;
-using static UnityEngine.PlayerLoop.PreUpdate;
 
 public enum LauncherStatus
 {
@@ -23,13 +20,13 @@ public enum LauncherStatus
     downloadingUpdate
 }
 
-public class FileIO : MonoBehaviour
+public class FileDownload : MonoBehaviour
 {
-    public int buttonNum = 0;
     // TCP
     private TCP_Server tcp_Server = new TCP_Server();
 
-    public LauncherStatus _status;
+    private LauncherStatus _status;
+
     internal LauncherStatus Status
     {
         get => _status;
@@ -39,7 +36,7 @@ public class FileIO : MonoBehaviour
             switch (_status)
             {
                 case LauncherStatus.ready:
-                    
+
                     // start TCP server
                     tcp_Server.StartServer();
 
@@ -60,19 +57,25 @@ public class FileIO : MonoBehaviour
         }
     }
 
+
+    public int buttonNum = 0;
+    
     public Button selectButton;
-    public Button excuteButton;
-    public TMP_Text excuteButton_txt;
     public GameObject selectImage;
     public bool isSelected = false;
 
+    public Button excuteButton;
+    public TMP_Text excuteButton_txt;
+
     public Prograss prograss;
+    
     private string gameExcutePath;
 
     // Start is called before the first frame update
     void Start()
     {
         selectButton.onClick.AddListener(SetButtonState);
+        excuteButton.onClick.AddListener(Execute);
         CheckBuidDirectory();
     }
 
@@ -85,7 +88,9 @@ public class FileIO : MonoBehaviour
     #region File Check
     public async UniTaskVoid CheckForUpdates()
     {
-        if (Directory.Exists(FilePath.Instance.GameBuildPaths[buttonNum]))
+        // file check
+
+        if (Directory.Exists(FilePath.Instance.ExeFolderPaths[buttonNum]))
         {
             try
             {
@@ -111,7 +116,7 @@ public class FileIO : MonoBehaviour
         JObject jObject = JObject.Parse(onlineJson);
 
         await UniTask.SwitchToThreadPool();
-        int resultCount = await Checksum.ChecksumMD5(jObject, FilePath.Instance.GameBuildPaths[buttonNum]);
+        int resultCount = await Checksum.ChecksumMD5(jObject, FilePath.Instance.ExeFolderPaths[buttonNum]);
         await UniTask.SwitchToMainThread();
 
         if (resultCount == 0)
@@ -157,7 +162,7 @@ public class FileIO : MonoBehaviour
 
         webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback);
         webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadGameCompletedCallback);
-        webClient.DownloadFileAsync(new Uri(FilePath.Instance.BuildFileUrls[buttonNum]), FilePath.Instance.GameZipPaths[buttonNum]); // download build file
+        webClient.DownloadFileAsync(new Uri(FilePath.Instance.BuildFileUrls[buttonNum]), FilePath.Instance.ExeZipFilePaths[buttonNum]); // download build file
     }
 
     private void DownloadProgressCallback(object sender, DownloadProgressChangedEventArgs e)
@@ -170,14 +175,14 @@ public class FileIO : MonoBehaviour
     {
         try
         {
-            if (Directory.Exists(FilePath.Instance.RootPath + "\\" + FilePath.Instance.BuildFileNames[buttonNum]))
+            if (Directory.Exists(FilePath.Instance.RootPath + "\\" + FilePath.Instance.ExeFolderNames[buttonNum]))
             {
-                Directory.CreateDirectory(FilePath.Instance.RootPath + "\\" + FilePath.Instance.BuildFileNames[buttonNum]);
-                Debug.Log(FilePath.Instance.RootPath + "\\" + FilePath.Instance.BuildFileNames[buttonNum]);
+                Directory.CreateDirectory(FilePath.Instance.RootPath + "\\" + FilePath.Instance.ExeFolderNames[buttonNum]);
+                Debug.Log(FilePath.Instance.RootPath + "\\" + FilePath.Instance.ExeFolderNames[buttonNum]);
             }
 
-            ZipFile.ExtractToDirectory(FilePath.Instance.GameZipPaths[buttonNum], FilePath.Instance.RootPath + "\\" + FilePath.Instance.BuildFileNames[buttonNum], true);
-            File.Delete(FilePath.Instance.GameZipPaths[buttonNum]);
+            ZipFile.ExtractToDirectory(FilePath.Instance.ExeZipFilePaths[buttonNum], FilePath.Instance.RootPath + "\\" + FilePath.Instance.ExeFolderNames[buttonNum], true);
+            File.Delete(FilePath.Instance.ExeZipFilePaths[buttonNum]);
 
             Status = LauncherStatus.ready;
 
@@ -198,9 +203,9 @@ public class FileIO : MonoBehaviour
 
     private void CheckBuidDirectory()
     {
-        if (Directory.Exists(FilePath.Instance.GameBuildPaths[buttonNum]))
+        if (Directory.Exists(FilePath.Instance.ExeFolderPaths[buttonNum]))
         {
-            string filePath = FilePath.Instance.GameBuildPaths[buttonNum];
+            string filePath = FilePath.Instance.ExeFolderPaths[buttonNum];
             string[] searchFile = Directory.GetFiles(filePath, "*.exe");
 
             for (int i = 0; i < searchFile.Length; i++)
@@ -210,7 +215,7 @@ public class FileIO : MonoBehaviour
                 if (fileName[fileName.Length - 1] != "UnityCrashHandler64.exe")
                 {
                     // excute file name
-                    gameExcutePath = Path.Combine(FilePath.Instance.RootPath, FilePath.Instance.GameBuildPaths[buttonNum], fileName[fileName.Length - 1]);
+                    gameExcutePath = Path.Combine(FilePath.Instance.RootPath, FilePath.Instance.ExeFolderPaths[buttonNum], fileName[fileName.Length - 1]);
                 }
             }
         }
@@ -218,13 +223,13 @@ public class FileIO : MonoBehaviour
     #endregion
 
     #region File Execute
-    public void Excute()
+    public void Execute()
     {
-        // excute
+        // execute
         if (File.Exists(gameExcutePath) && Status == LauncherStatus.ready)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo(gameExcutePath);
-            startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPath, FilePath.Instance.BuildFileNames[buttonNum]);
+            startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPath, FilePath.Instance.ExeFolderNames[buttonNum]);
             Process.Start(startInfo);
 
             //Close(); // launcher window close

@@ -11,9 +11,17 @@ public class GameManager : MonoBehaviour
     public bool isTEST;
 
     public static GameManager instance;
-
+    
+    public bool isLogin;
+    
     public GameObject[] pages;
-    public FileIO[] SelectButtons;
+    public FileDownload[] SelectButtons;
+
+    public Login login;
+    public FilePath filePath;
+    public URL url;
+    public PlayerManager playerManager;
+    public PopupManager popupManager;
 
     private void Awake()
     {
@@ -68,5 +76,12 @@ public class GameManager : MonoBehaviour
             SelectButtons[i].selectImage.SetActive(false);
             SelectButtons[i].excuteButton.gameObject.SetActive(false);
         }
+    }
+
+    public void ResetLauncher()
+    {
+        login.LogOut();
+
+        SetPage(0);
     }
 }

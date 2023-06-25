@@ -141,6 +141,7 @@ public class Login : MonoBehaviour
             //FileCheck.Visibility = Visibility.Visible;
 
             //CheckForUpdates();
+            GameManager.instance.isLogin = true;
             GameManager.instance.SetPage(1);
         }
         else
@@ -151,9 +152,7 @@ public class Login : MonoBehaviour
 
     private async UniTask TryLogin(RSACryptoServiceProvider rsa)
     {
-        //RSAPasswordEncrypt rsaPasswordEncrypt = new RSAPasswordEncrypt();
         string rsaPassword;
-        //rsaPassword = rsaPasswordEncrypt.GetRSAPassword(_requestResult, Password_PasswordBox.Password);
         rsaPassword = Convert.ToBase64String(rsa.Encrypt((new UTF8Encoding()).GetBytes(password.text), false));
 
         var loginValues = new Dictionary<string, string>
@@ -176,11 +175,20 @@ public class Login : MonoBehaviour
             //FileCheck.Visibility = Visibility.Visible;
 
             //CheckForUpdates();
+            GameManager.instance.isLogin = true;
             GameManager.instance.SetPage(1);
         }
         else
         {
             Debug.Log("응답 실패 (로그인 실패) : " + requestResult);
         }
+    }
+
+    public void LogOut()
+    {
+        GameManager.instance.isLogin = false;
+
+        id.text = "";
+        password.text = "";
     }
 }

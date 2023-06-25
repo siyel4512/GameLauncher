@@ -19,9 +19,9 @@ public class Timer2 : MonoBehaviour
 
     private async UniTaskVoid HandleTimer()
     {
-        Debug.Log("È£Ãâ Å×½ºÆ®2");
+        Debug.Log("È£ï¿½ï¿½ ï¿½×½ï¿½Æ®2");
 
-        // ÇÊ¿äÇÑ API ¿äÃ»
+        // ï¿½Ê¿ï¿½ï¿½ï¿½ API ï¿½ï¿½Ã»
     }
 
     private void OnApplicationQuit()
