@@ -24,7 +24,7 @@ public class PlayerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Todo : ...
+        // Todo : set dropdown & set stopwatch
         currentState = dropdown.value;
 
         sw = new Stopwatch();

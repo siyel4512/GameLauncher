@@ -11,6 +11,7 @@ public enum PopupType
     UserSearchFaild,
     RequestFriend,
     BlankError,
+    DeleteFriend,
 }
 
 public class PopupManager : MonoBehaviour
@@ -89,7 +90,7 @@ public class PopupManager : MonoBehaviour
 
     public void SetContents(int index, string nickname)
     {
-        popupContents[index].text = $"'{nickname}'´Ô²² Ä£±¸ ¿äÃ»À» ÇÏ½Ã°Ú½À´Ï±î?";
-    }
+        popupContents[index].text = $"'{nickname}'ë‹˜ê»˜ ì¹œêµ¬ ìš”ì²­ì„ í•˜ì‹œê² ìŠµë‹ˆê¹Œ?";
+    }  
     #endregion
 }

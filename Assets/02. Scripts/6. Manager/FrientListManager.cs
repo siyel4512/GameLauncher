@@ -15,6 +15,8 @@ public class FrientListManager : MonoBehaviour
     public Button addButton;
     public Button settingButton;
 
+    public GameObject settingMenu;
+
     //public Button searchUserButton;
 
     // Start is called before the first frame update
@@ -24,7 +26,7 @@ public class FrientListManager : MonoBehaviour
         searchUserNickName.onSubmit.AddListener(TrySearchUser);
 
         addButton.onClick.AddListener(TryAddFriend);
-        settingButton.onClick.AddListener(TryDeleteFriend);
+        settingButton.onClick.AddListener(ShowSettingMenu);
     }
 
     // Update is called once per frame
@@ -69,7 +71,7 @@ public class FrientListManager : MonoBehaviour
 
     public void TryAddFriend()
     {
-        Debug.Log("Ä£±¸ Ãß°¡ ½Ãµµ");
+        Debug.Log("ì¹œêµ¬ ì¶”ê°€ ì‹œë„");
         GameManager.instance.popupManager.popups[(int)PopupType.UserSearch].SetActive(true);
     }
 
@@ -126,13 +128,26 @@ public class FrientListManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("ÀÀ´ä ½ÇÆĞ (Å°°ª ¹Ş¾Æ¿À±â) : " + requestResult);
+                Debug.Log("ì‘ë‹µ ì‹¤íŒ¨ (í‚¤ê°’ ë°›ì•„ì˜¤ê¸°) : " + requestResult);
             }
         }
     }
 
+    public void ShowSettingMenu()
+    {
+        Debug.Log("Show Setting menu");
+        settingMenu.SetActive(true);
+    }
+
     public void TryDeleteFriend()
     {
-        Debug.Log("Ä£±¸ »èÁ¦ ½Ãµµ");
+        Debug.Log("ì¹œêµ¬ ì‚­ì œ ì‹œë„");
+        settingMenu.SetActive(false);
+        
+    }
+
+    public void DeleteFriend()
+    {
+        Debug.Log("ì¹œêµ¬ ì‚­ì œ");
     }
 }
