@@ -99,6 +99,7 @@ public class FilePath : LoadFile
     public string[] currentJsonFileURL;
     //public string[] newJsonFileURL;
 
+    // Todo : file path check Function modify
     private async void FilePathCheck(int _index)
     {
         // Todo : 

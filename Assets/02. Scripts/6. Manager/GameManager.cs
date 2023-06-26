@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public URL url;
     public PlayerManager playerManager;
     public PopupManager popupManager;
+    public FrientListManager friendListManager;
 
     private void Awake()
     {
