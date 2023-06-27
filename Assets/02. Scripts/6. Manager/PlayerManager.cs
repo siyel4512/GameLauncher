@@ -1,6 +1,7 @@
-using UnityEngine;
-using TMPro;
 using System.Diagnostics;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 using Debug = UnityEngine.Debug;
 
@@ -14,18 +15,40 @@ using Debug = UnityEngine.Debug;
 
 public class PlayerManager : MonoBehaviour
 {
-    public TMP_Dropdown dropdown;
+    //public TMP_Dropdown dropdown;
     public int currentState;
 
+    // timer
     private Stopwatch sw;
     public int limitTime;
     public int currentTimeCount;
 
+    // player nickname & state
+    public TMP_Text nickname;
+    public TMP_Text stateName;
+    public Image icon;
+
+    // setting menu buttons
+    public Button StateButton;
+    public Button onlineButton;
+    public Button takeABreakButton;
+    public Button otherWorkButton;
+    public Button logoutButton;
+
+    public bool isStateSettings;
+    public GameObject settingMenu;
+
     // Start is called before the first frame update
     void Start()
     {
+        StateButton.onClick.AddListener(UsingSettingMenu);
+        onlineButton.onClick.AddListener(() => SetPlayerState(0));
+        takeABreakButton.onClick.AddListener(() => SetPlayerState(1));
+        otherWorkButton.onClick.AddListener(() => SetPlayerState(2));
+        logoutButton.onClick.AddListener(ShowLogoutPopup);
+
         // Todo : set dropdown & set stopwatch
-        currentState = dropdown.value;
+        //currentState = dropdown.value;
 
         sw = new Stopwatch();
         sw.Start();
@@ -49,7 +72,7 @@ public class PlayerManager : MonoBehaviour
             {
                 Debug.Log("time out");
                 currentTimeCount = limitTime;
-                dropdown.value = 1;
+                //dropdown.value = 1;
                 sw.Restart();
             }
         }
@@ -60,33 +83,63 @@ public class PlayerManager : MonoBehaviour
         //}
     }
 
-    public void OnChengedValue()
-    {
-        currentState = dropdown.value;
-        Debug.Log("update player state : " + currentState);
-    }
+    //public void OnChengedValue()
+    //{
+    //    currentState = dropdown.value;
+    //    Debug.Log("update player state : " + currentState);
+    //}
 
-    public bool isTryLogout;
-    public GameObject logoutButton;
-
-    public void TryLogout()
+    private void UsingSettingMenu()
     {
-        if (!isTryLogout)
+        if (!isStateSettings)
         {
-            isTryLogout = true;
-            logoutButton.SetActive(isTryLogout);
+            isStateSettings = true;
+            settingMenu.SetActive(isStateSettings);
         }
         else
         {
-            isTryLogout = false;
-            logoutButton.SetActive(isTryLogout);
+            isStateSettings = false;
+            settingMenu.SetActive(isStateSettings);
         }
     }
 
-    public void ShowLogoutPopup()
+    public void SetPlayerState(int i)
     {
-        isTryLogout = false;
-        logoutButton.SetActive(isTryLogout);
-        GameManager.instance.popupManager.popups[1].SetActive(!isTryLogout);
+        currentState = i;
+        
+        switch(i)
+        {
+            // online
+            case 0:
+                stateName.text = "온라인";
+                icon.color = Color.green;
+                break;
+            // take a break
+            case 1:
+                stateName.text = "자리 비움";
+                icon.color = Color.yellow;
+                break;
+            // other work
+            case 2:
+                stateName.text = "다른 용무 중";
+                icon.color = Color.red;
+                break;
+            // logout
+            case 3:
+                stateName.text = "오프라인";
+                icon.color = Color.gray;
+                break;
+        }
+
+        isStateSettings = false;
+        settingMenu.SetActive(isStateSettings);
+    }
+
+    private void ShowLogoutPopup()
+    {
+        isStateSettings = false;
+        settingMenu.SetActive(isStateSettings);
+        //GameManager.instance.popupManager.popups[(int)PopupType.logout].SetActive(!isStateSettings);
+        GameManager.instance.popupManager.ShowLogoutPage();
     }
 }

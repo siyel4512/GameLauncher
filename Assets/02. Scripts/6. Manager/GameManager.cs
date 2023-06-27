@@ -82,6 +82,7 @@ public class GameManager : MonoBehaviour
     public void ResetLauncher()
     {
         login.LogOut();
+        playerManager.SetPlayerState(3);
 
         SetPage(0);
     }

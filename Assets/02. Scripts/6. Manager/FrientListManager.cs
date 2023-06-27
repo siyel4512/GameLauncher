@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System.Net.Http;
 using Cysharp.Threading.Tasks;
 using UnityEngine.Networking;
+using System.Globalization;
 
 public class FrientListManager : MonoBehaviour
 {
@@ -27,7 +28,9 @@ public class FrientListManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        searchFriendNickName.onSubmit.AddListener(TrySearchFriend);
+        searchFriendNickName.onSubmit.AddListener(InputEnter);
+        searchFriendNickName.onValueChanged.AddListener(CheckedNickName);
+
         searchUserNickName.onSubmit.AddListener(TrySearchUser);
 
         addButton.onClick.AddListener(TryAddFriend);
@@ -42,6 +45,7 @@ public class FrientListManager : MonoBehaviour
         
     }
 
+    #region Set List
     public void ResetSelect()
     {
         isSelectedSlot = false;
@@ -53,9 +57,10 @@ public class FrientListManager : MonoBehaviour
         }
     }
 
+    // Todo : 임시 친구 리스트 생성
     private void CreateList()
     {
-        for (int i = 0; i <10; i++)
+        for (int i = 0; i < 100; i++)
         {
             GameObject clone = Instantiate(listSlot);
             clone.transform.SetParent(listContent.transform, false);
@@ -63,41 +68,77 @@ public class FrientListManager : MonoBehaviour
             friendList.Add(clone.GetComponent<FriendInfo>());
         }
     }
+    #endregion
 
-    public void TrySearchFriend(string text)
+    #region Search Friend
+    public void CheckedNickName(string text)
     {
-        Debug.Log("try search my friend : " + text);
-        SearchFriend();
-    }
+        isSelectedSlot = false;
 
-    private void SearchFriend()
-    {
-        // Request
-        // Todo : delete GameManager.instance.isTEST
-        if (GameManager.instance.isTEST)
+        for (int i = 0; i < friendList.Count; i++)
         {
-            // find
-            if (searchFriendNickName.text == "test")
+            friendList[i].selectedImage.SetActive(false);
+            friendList[i].isSelected = false;
+
+            string nickname = friendList[i].nickname.text;
+
+            // contains nickname
+            if (nickname.Contains(text))
             {
-                Debug.Log("show friend list : "  + searchFriendNickName.text);
+                friendList[i].gameObject.SetActive(true);
             }
-            // blank
-            else if (searchFriendNickName.text == "") 
-            {
-                GameManager.instance.popupManager.popups[(int)PopupType.BlankError].SetActive(true);
-            }
-            // not find
+            // not contains
             else
             {
-                Debug.Log("not found friend : " + searchFriendNickName.text);
+                friendList[i].gameObject.SetActive(false);
             }
-        }
-        else
-        {
-            
         }
     }
 
+    private void InputEnter(string text)
+    {
+        Debug.Log("try search my friend : " + text);
+
+        // blank
+        if (searchFriendNickName.text == "")
+        {
+            GameManager.instance.popupManager.popups[(int)PopupType.BlankError].SetActive(true);
+        }
+
+        //SearchFriend();
+    }
+    
+    // 삭제 예정
+    //private void SearchFriend()
+    //{
+    //    // Request
+    //    // Todo : delete GameManager.instance.isTEST
+    //    if (GameManager.instance.isTEST)
+    //    {
+    //        // find
+    //        if (searchFriendNickName.text == "test")
+    //        {
+    //            Debug.Log("show friend list : " + searchFriendNickName.text);
+    //        }
+    //        // blank
+    //        else if (searchFriendNickName.text == "")
+    //        {
+    //            GameManager.instance.popupManager.popups[(int)PopupType.BlankError].SetActive(true);
+    //        }
+    //        // not find
+    //        else
+    //        {
+    //            Debug.Log("not found friend : " + searchFriendNickName.text);
+    //        }
+    //    }
+    //    else
+    //    {
+
+    //    }
+    //}
+    #endregion
+
+    #region Add Friend
     public void TryAddFriend()
     {
         Debug.Log("친구 추가 시도");
@@ -161,7 +202,9 @@ public class FrientListManager : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region Delete Friend
     public void ShowSettingMenu()
     {
         Debug.Log("Show Setting menu");
@@ -172,7 +215,7 @@ public class FrientListManager : MonoBehaviour
     {
         Debug.Log("친구 삭제 시도");
         settingMenu.SetActive(false);
-    
+
         // slot이 선택되어 있는지 확인하기
         if (isSelectedSlot)
         {
@@ -199,4 +242,5 @@ public class FrientListManager : MonoBehaviour
             }
         }
     }
+    #endregion
 }
