@@ -63,11 +63,11 @@ public class Login : MonoBehaviour
         //Debug.Log("Key값 요청");
         //tcp_Server.StartServer();
 
-        if (GameManager.instance.isTEST)
-        {
-            GameManager.instance.SetPage(1);
-        }
-        else
+        //if (GameManager.instance.isTEST)
+        //{
+        //    GameManager.instance.SetPage(1);
+        //}
+        //else
         {
             RequestKey().Forget();
         }
@@ -137,10 +137,7 @@ public class Login : MonoBehaviour
         {
             token = requestResult;
             Debug.Log("totkon : " + token);
-            //Login.Visibility = Visibility.Hidden;
-            //FileCheck.Visibility = Visibility.Visible;
-
-            //CheckForUpdates();
+            
             GameManager.instance.isLogin = true;
             GameManager.instance.SetPage(1);
         }
@@ -152,8 +149,10 @@ public class Login : MonoBehaviour
 
     private async UniTask TryLogin(RSACryptoServiceProvider rsa)
     {
+        Debug.Log("TryLogin 들어옴");
         string rsaPassword;
         rsaPassword = Convert.ToBase64String(rsa.Encrypt((new UTF8Encoding()).GetBytes(password.text), false));
+        Debug.Log(rsaPassword);
 
         var loginValues = new Dictionary<string, string>
             {
@@ -163,18 +162,21 @@ public class Login : MonoBehaviour
 
         var content = new FormUrlEncodedContent(loginValues);
 
+        Debug.Log("content 인코딩 완료");
+
         HttpClient client = new HttpClient();
+        Debug.Log("요청 시작");
         var response = await client.PostAsync(URL.Instance.LoginUrl, content);
+        Debug.Log("요청 완료");
         string requestResult = await response.Content.ReadAsStringAsync();
+
+        Debug.Log(requestResult);
 
         if (response.IsSuccessStatusCode)
         {
             token = requestResult;
             Debug.Log("totkon : " + token);
-            //Login.Visibility = Visibility.Hidden;
-            //FileCheck.Visibility = Visibility.Visible;
-
-            //CheckForUpdates();
+            
             GameManager.instance.isLogin = true;
             GameManager.instance.SetPage(1);
         }

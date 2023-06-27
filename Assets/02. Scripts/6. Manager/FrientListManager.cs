@@ -17,6 +17,11 @@ public class FrientListManager : MonoBehaviour
 
     public GameObject settingMenu;
 
+    public GameObject listContent;
+    public GameObject listSlot;
+    public List<FriendInfo> friendList;
+    public bool isSelectedSlot;
+
     //public Button searchUserButton;
 
     // Start is called before the first frame update
@@ -27,12 +32,36 @@ public class FrientListManager : MonoBehaviour
 
         addButton.onClick.AddListener(TryAddFriend);
         settingButton.onClick.AddListener(ShowSettingMenu);
+
+        CreateList();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void ResetSelect()
+    {
+        isSelectedSlot = false;
+
+        for (int i = 0; i < friendList.Count; i++)
+        {
+            friendList[i].selectedImage.SetActive(false);
+            friendList[i].isSelected = false;
+        }
+    }
+
+    private void CreateList()
+    {
+        for (int i = 0; i <10; i++)
+        {
+            GameObject clone = Instantiate(listSlot);
+            clone.transform.SetParent(listContent.transform, false);
+            clone.GetComponent<FriendInfo>().Test_SetSlotValue(i);
+            friendList.Add(clone.GetComponent<FriendInfo>());
+        }
     }
 
     public void TrySearchFriend(string text)
@@ -143,11 +172,31 @@ public class FrientListManager : MonoBehaviour
     {
         Debug.Log("친구 삭제 시도");
         settingMenu.SetActive(false);
-        
+    
+        // slot이 선택되어 있는지 확인하기
+        if (isSelectedSlot)
+        {
+            GameManager.instance.popupManager.popups[(int)PopupType.DeleteFriend].SetActive(true);
+        }
+        else
+        {
+            GameManager.instance.popupManager.popups[(int)PopupType.NotSelectedFriend].SetActive(true);
+        }
     }
 
     public void DeleteFriend()
     {
         Debug.Log("친구 삭제");
+
+        for (int i = 0; i < friendList.Count; i++)
+        {
+            if (friendList[i].isSelected)
+            {
+                Destroy(friendList[i].gameObject);
+                friendList.RemoveAt(i);
+                isSelectedSlot = false;
+                break;
+            }
+        }
     }
 }

@@ -12,6 +12,7 @@ public enum PopupType
     RequestFriend,
     BlankError,
     DeleteFriend,
+    NotSelectedFriend,
 }
 
 public class PopupManager : MonoBehaviour
@@ -86,6 +87,22 @@ public class PopupManager : MonoBehaviour
     {
         popups[(int)PopupType.BlankError].SetActive(false);
 
+    }
+
+    public void BTN_ConfirmDeleteFriend()
+    {
+        popups[(int)PopupType.DeleteFriend].SetActive(false);
+        GameManager.instance.friendListManager.DeleteFriend();
+    }
+
+    public void BTN_CancelDeleteFriend()
+    {
+        popups[(int)PopupType.DeleteFriend].SetActive(false);
+    }
+
+    public void BTN_ConfrimNotSelectedFriend()
+    {
+        popups[(int)PopupType.NotSelectedFriend].SetActive(false);
     }
 
     public void SetContents(int index, string nickname)

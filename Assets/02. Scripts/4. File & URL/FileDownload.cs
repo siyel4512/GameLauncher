@@ -16,8 +16,8 @@ public enum LauncherStatus
 {
     ready,
     failed,
-    downloadingGame,
-    downloadingUpdate
+    downloadGame,
+    downloadUpdate
 }
 
 public class FileDownload : MonoBehaviour
@@ -45,11 +45,11 @@ public class FileDownload : MonoBehaviour
                 case LauncherStatus.failed:
                     excuteButton_txt.text = "Update Failed - Retry";
                     break;
-                case LauncherStatus.downloadingGame:
-                    excuteButton_txt.text = "Downloading Game";
+                case LauncherStatus.downloadGame:
+                    excuteButton_txt.text = "Download Game";
                     break;
-                case LauncherStatus.downloadingUpdate:
-                    excuteButton_txt.text = "Downloading Update";
+                case LauncherStatus.downloadUpdate:
+                    excuteButton_txt.text = "Download Update";
                     break;
                 default:
                     break;
@@ -104,7 +104,7 @@ public class FileDownload : MonoBehaviour
         }
         else
         {
-            Status = LauncherStatus.downloadingGame;
+            Status = LauncherStatus.downloadGame;
         }
     }
 
@@ -125,7 +125,7 @@ public class FileDownload : MonoBehaviour
         }
         else
         {
-            Status = LauncherStatus.downloadingUpdate;
+            Status = LauncherStatus.downloadUpdate;
         }
     }
     #endregion
@@ -153,11 +153,11 @@ public class FileDownload : MonoBehaviour
 
         if (_isUpdate)
         {
-            Status = LauncherStatus.downloadingUpdate;
+            Status = LauncherStatus.downloadUpdate;
         }
         else
         {
-            Status = LauncherStatus.downloadingGame;
+            Status = LauncherStatus.downloadGame;
         }
 
         webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback);
@@ -235,14 +235,14 @@ public class FileDownload : MonoBehaviour
             //Close(); // launcher window close
         }
         // update
-        else if (File.Exists(gameExcutePath) && Status == LauncherStatus.downloadingUpdate)
+        else if (File.Exists(gameExcutePath) && Status == LauncherStatus.downloadUpdate)
         {
             UniTask.SwitchToThreadPool();
             InstallGameFiles(true).Forget();
             UniTask.SwitchToMainThread();
         }
         // download
-        else if (!File.Exists(gameExcutePath) && Status == LauncherStatus.downloadingGame)
+        else if (!File.Exists(gameExcutePath) && Status == LauncherStatus.downloadGame)
         {
             UniTask.SwitchToThreadPool();
             InstallGameFiles(false).Forget();
