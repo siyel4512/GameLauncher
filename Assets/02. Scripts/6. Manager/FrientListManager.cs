@@ -17,6 +17,7 @@ public class FrientListManager : MonoBehaviour
     public Button settingButton;
 
     public GameObject settingMenu;
+    public bool isFriendSettings;
 
     public GameObject listContent;
     public GameObject listSlot;
@@ -104,44 +105,14 @@ public class FrientListManager : MonoBehaviour
         {
             GameManager.instance.popupManager.popups[(int)PopupType.BlankError].SetActive(true);
         }
-
-        //SearchFriend();
     }
-    
-    // 삭제 예정
-    //private void SearchFriend()
-    //{
-    //    // Request
-    //    // Todo : delete GameManager.instance.isTEST
-    //    if (GameManager.instance.isTEST)
-    //    {
-    //        // find
-    //        if (searchFriendNickName.text == "test")
-    //        {
-    //            Debug.Log("show friend list : " + searchFriendNickName.text);
-    //        }
-    //        // blank
-    //        else if (searchFriendNickName.text == "")
-    //        {
-    //            GameManager.instance.popupManager.popups[(int)PopupType.BlankError].SetActive(true);
-    //        }
-    //        // not find
-    //        else
-    //        {
-    //            Debug.Log("not found friend : " + searchFriendNickName.text);
-    //        }
-    //    }
-    //    else
-    //    {
-
-    //    }
-    //}
     #endregion
 
     #region Add Friend
     public void TryAddFriend()
     {
         Debug.Log("친구 추가 시도");
+        ResetSelect();
         GameManager.instance.popupManager.popups[(int)PopupType.UserSearch].SetActive(true);
     }
 
@@ -205,16 +176,28 @@ public class FrientListManager : MonoBehaviour
     #endregion
 
     #region Delete Friend
+   
     public void ShowSettingMenu()
     {
-        Debug.Log("Show Setting menu");
-        settingMenu.SetActive(true);
+        if (!isFriendSettings)
+        {
+            isFriendSettings = true;
+            Debug.Log("Show Setting menu");
+            settingMenu.SetActive(isFriendSettings);
+        }
+        else
+        {
+            isFriendSettings = false;
+            Debug.Log("Hide Setting menu");
+            settingMenu.SetActive(isFriendSettings);
+        }
     }
 
     public void TryDeleteFriend()
     {
         Debug.Log("친구 삭제 시도");
-        settingMenu.SetActive(false);
+        isFriendSettings = false;
+        settingMenu.SetActive(isFriendSettings);
 
         // slot이 선택되어 있는지 확인하기
         if (isSelectedSlot)
@@ -241,6 +224,17 @@ public class FrientListManager : MonoBehaviour
                 break;
             }
         }
+    }
+    #endregion
+
+    #region Request Friend
+    public void ShowRequestFriendList()
+    {
+        ResetSelect();
+
+        isFriendSettings = false;
+        settingMenu.SetActive(isFriendSettings);
+        GameManager.instance.popupManager.popups[(int)PopupType.RequestFriendList].SetActive(true);
     }
     #endregion
 }

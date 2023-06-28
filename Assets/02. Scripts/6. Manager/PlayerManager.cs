@@ -89,7 +89,7 @@ public class PlayerManager : MonoBehaviour
     //    Debug.Log("update player state : " + currentState);
     //}
 
-    private void UsingSettingMenu()
+    public void UsingSettingMenu()
     {
         if (!isStateSettings)
         {

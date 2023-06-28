@@ -13,6 +13,7 @@ public enum PopupType
     BlankError,
     DeleteFriend,
     NotSelectedFriend,
+    RequestFriendList,
 }
 
 public class PopupManager : MonoBehaviour
@@ -103,6 +104,11 @@ public class PopupManager : MonoBehaviour
     public void BTN_ConfrimNotSelectedFriend()
     {
         popups[(int)PopupType.NotSelectedFriend].SetActive(false);
+    }
+
+    public void BTN_CloseRequestFriendList()
+    {
+        popups[(int)PopupType.RequestFriendList].SetActive(false);
     }
 
     public void SetContents(int index, string nickname)
