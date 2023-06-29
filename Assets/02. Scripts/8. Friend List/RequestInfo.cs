@@ -28,14 +28,14 @@ public class RequestInfo : MonoBehaviour
     public void Test_SetSlotValue(int _index)
     {
         nickname = $"Request_" + _index;
-        state = "¿Â¶óÀÎ";
+        state = "ì˜¨ë¼ì¸";
 
         nickname_text.text = nickname;
     }
 
     public void BTN_Accept()
     {
-        Debug.Log("¿äÃ» ¼ö¶ô / Ä£±¸ ¸®½ºÆ®¿¡ Ãß°¡ ¿äÃ»");
+        Debug.Log("ìš”ì²­ ìˆ˜ë½ / ì¹œêµ¬ ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€ ìš”ì²­");
         isRequestComplate = true;
 
         GameManager.instance.requestFriendManager.RequestAddList();
@@ -43,7 +43,7 @@ public class RequestInfo : MonoBehaviour
 
     public void BTN_Refuse()
     {
-        Debug.Log("¿äÃ» °ÅÀı");
+        Debug.Log("ìš”ì²­ ê±°ì ˆ");
         isRequestComplate = true;
 
         GameManager.instance.requestFriendManager.DeleteList();

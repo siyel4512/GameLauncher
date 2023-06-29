@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static SaveData;
+using System.Linq;
+using System.Reflection;
+//using static SaveData;
 
 public class RequestFriendManager : MonoBehaviour
 {
@@ -25,7 +27,7 @@ public class RequestFriendManager : MonoBehaviour
     }
 
     #region Set List
-    // Todo : ÀÓ½Ã Ä£±¸ ¸®½ºÆ® »ı¼º
+    // Todo : ì„ì‹œ ì¹œêµ¬ ë¦¬ìŠ¤íŠ¸ ìƒì„±
     private void CreateRequestList()
     {
         for (int i = 0; i < 100; i++)
@@ -43,13 +45,15 @@ public class RequestFriendManager : MonoBehaviour
     #region Request
     public void RequestAddList()
     {
+        FrientListManager friendListManager = GameManager.instance.friendListManager;
+
         for (int i = 0; i < requestList.Count; i++)
         {
             if (requestList[i].isRequestComplate)
             {
-                FrientListManager friendListManager = GameManager.instance.friendListManager;
-                
-                // Ãß°¡ ¿äÃ»
+                friendListManager.temp_friendList.Add(new FriendInfo() { nickname = requestList[i].GetComponent<RequestInfo>().nickname, state = requestList[i].GetComponent<RequestInfo>().state });
+
+                // add request
                 GameObject clone = Instantiate(friendListManager.listSlot);
                 clone.transform.SetParent(friendListManager.listContent.transform, false);
 
@@ -59,12 +63,27 @@ public class RequestFriendManager : MonoBehaviour
 
                 friendListManager.friendList.Add(clone.GetComponent<FriendInfo>());
 
-                // »èÁ¦
+                // delete
                 Destroy(requestList[i].gameObject);
                 requestList.RemoveAt(i);
                 break;
             }
-        };
+        }
+
+        // ascending order sort
+        friendListManager.temp_friendList = friendListManager.temp_friendList.OrderBy(x => x.nickname).ToList();
+
+        // descending order sort
+        //friendListManager.friendList = friendListManager.friendList.OrderByDescending(x => x.nickname).ToList();
+
+        // sort slots
+        for (int i = 0; i < friendListManager.friendList.Count; i++)
+        {
+            FriendInfo friendInfo = friendListManager.listContent.transform.GetChild(i).GetComponent<FriendInfo>();
+            friendInfo.nickname = friendListManager.temp_friendList[i].nickname;
+            friendInfo.state = friendListManager.temp_friendList[i].state;
+            friendInfo.SetSlotValues();
+        }
     }
 
     public void DeleteList()
@@ -77,7 +96,7 @@ public class RequestFriendManager : MonoBehaviour
                 requestList.RemoveAt(i);
                 break;
             }
-        };
+        }
     }
     #endregion
 }

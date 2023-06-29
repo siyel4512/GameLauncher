@@ -27,6 +27,7 @@ public class FrientListManager : MonoBehaviour
     public GameObject listContent;
     public GameObject listSlot;
     public List<FriendInfo> friendList;
+    public List<FriendInfo> temp_friendList;
     public bool isSelectedSlot;
 
     // friend request list
@@ -72,11 +73,16 @@ public class FrientListManager : MonoBehaviour
     // Todo : 임시 친구 리스트 생성
     private void CreateList()
     {
-        for (int i = 0; i < 100; i++)
+        //for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 10; i++)
         {
+            temp_friendList.Add(new FriendInfo() { nickname = $"Test_" + i, state = "온라인"});
+
             GameObject clone = Instantiate(listSlot);
             clone.transform.SetParent(listContent.transform, false);
-            clone.GetComponent<FriendInfo>().Test_SetSlotValue(i);
+            clone.GetComponent<FriendInfo>().nickname = temp_friendList[i].nickname;
+            clone.GetComponent<FriendInfo>().state = temp_friendList[i].state;
+            clone.GetComponent<FriendInfo>().SetSlotValues();
             friendList.Add(clone.GetComponent<FriendInfo>());
         }
 
