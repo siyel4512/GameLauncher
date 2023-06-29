@@ -63,12 +63,12 @@ public class Login : MonoBehaviour
         //Debug.Log("Key값 요청");
         //tcp_Server.StartServer();
 
-        if (GameManager.instance.isTEST)
-        {
-            GameManager.instance.playerManager.SetPlayerState(0);
-            GameManager.instance.SetPage(1);
-        }
-        else
+        //if (GameManager.instance.isTEST)
+        //{
+        //    GameManager.instance.playerManager.SetPlayerState(0);
+        //    GameManager.instance.SetPage(1);
+        //}
+        //else
         {
             RequestKey().Forget();
         }
@@ -106,7 +106,10 @@ public class Login : MonoBehaviour
             }
             else
             {
-                Debug.Log("응답 실패 (키값 받아오기) : " + requestResult);
+                Debug.Log("응답 실패 (로그인 실패) : " + requestResult);
+
+                // invalid ID, password value
+                GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
             }
         }
     }
@@ -146,6 +149,9 @@ public class Login : MonoBehaviour
         else
         {
             Debug.Log("응답 실패 (로그인 실패) : " + requestResult);
+
+            // invalid ID, password value
+            GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
         }
     }
 
@@ -186,6 +192,9 @@ public class Login : MonoBehaviour
         else
         {
             Debug.Log("응답 실패 (로그인 실패) : " + requestResult);
+
+            // invalid ID, password value
+            GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
         }
     }
 

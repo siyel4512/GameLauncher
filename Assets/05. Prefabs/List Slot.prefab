@@ -150,8 +150,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4a5157265cec84daeb8e6a1ac51751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nickname: {fileID: 8268103563812084718}
-  state: {fileID: 8268103565426318455}
+  nickname: 
+  state: 
+  nickname_text: {fileID: 8268103563812084718}
+  state_text: {fileID: 8268103565426318455}
   stateIcon: {fileID: 8268103565444102534}
   isSelected: 0
   selectedImage: {fileID: 8268103564664953203}

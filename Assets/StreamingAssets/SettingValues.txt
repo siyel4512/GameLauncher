@@ -15,3 +15,5 @@ Build
 TCP_Client1
 C:\Users\i3_user6\Desktop
 C:\Users\LSY\Desktop
+
+{"frndInfoList" : [{ "frndNo" : 1, "mbrNo" : 1, "frndMbrNo" : 2, "frndSttus" : "1", "frndRqstSttus" : "1", "frndRqstDt" : "2023-06-22 00:00:00.0", "upDt" : "2023-06-22 00:00:00.0", "regDt" : "2023-06-22 00:00:00.0" },{ "frndNo" : 2, "mbrNo" : 1, "frndMbrNo" : 3, "frndSttus" : "0", "frndRqstSttus" : "1", "frndRqstDt" : "2023-06-21 00:00:00.0", "upDt" : "2023-06-21 00:00:00.0", "regDt" : "2023-06-21 00:00:00.0" },{ "frndNo" : 3, "mbrNo" : 1, "frndMbrNo" : 4, "frndSttus" : "0", "frndRqstSttus" : "0", "frndRqstDt" : "2023-06-21 00:00:00.0", "upDt" : "2023-06-21 00:00:00.0", "regDt" : "2023-06-21 00:00:00.0" }]}

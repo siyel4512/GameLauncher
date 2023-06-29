@@ -10,19 +10,27 @@ using System.Globalization;
 
 public class FrientListManager : MonoBehaviour
 {
+    // input field
     public TMP_InputField searchFriendNickName;
     public TMP_InputField searchUserNickName;
 
+    // main buttons
     public Button addButton;
     public Button settingButton;
 
+    // setting menu
     public GameObject settingMenu;
     public bool isFriendSettings;
 
+    // friend list
+    public RectTransform listScrollPos;
     public GameObject listContent;
     public GameObject listSlot;
     public List<FriendInfo> friendList;
     public bool isSelectedSlot;
+
+    // friend request list
+    public RectTransform requestListScrollPos;
 
     //public Button searchUserButton;
 
@@ -36,6 +44,9 @@ public class FrientListManager : MonoBehaviour
 
         addButton.onClick.AddListener(TryAddFriend);
         settingButton.onClick.AddListener(ShowSettingMenu);
+
+        listScrollPos.anchoredPosition = new Vector2(0, 0);
+        requestListScrollPos.anchoredPosition = new Vector2(0, 0);
 
         CreateList();
     }
@@ -68,6 +79,8 @@ public class FrientListManager : MonoBehaviour
             clone.GetComponent<FriendInfo>().Test_SetSlotValue(i);
             friendList.Add(clone.GetComponent<FriendInfo>());
         }
+
+        listScrollPos.anchoredPosition = new Vector2(0, 0);
     }
     #endregion
 
@@ -81,7 +94,7 @@ public class FrientListManager : MonoBehaviour
             friendList[i].selectedImage.SetActive(false);
             friendList[i].isSelected = false;
 
-            string nickname = friendList[i].nickname.text;
+            string nickname = friendList[i].nickname_text.text;
 
             // contains nickname
             if (nickname.Contains(text))
@@ -231,6 +244,7 @@ public class FrientListManager : MonoBehaviour
     public void ShowRequestFriendList()
     {
         ResetSelect();
+        requestListScrollPos.anchoredPosition = new Vector2(0, 0);
 
         isFriendSettings = false;
         settingMenu.SetActive(isFriendSettings);

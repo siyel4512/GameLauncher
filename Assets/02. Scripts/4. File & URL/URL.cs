@@ -19,6 +19,9 @@ public class URL : LoadFile
     public string Key_id => key_id;
     public string Key_password => key_password;
 
+    // friend list
+    public string friendList;
+
     private void Awake()
     {
         if (Instance == null)
