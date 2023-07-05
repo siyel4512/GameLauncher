@@ -1,6 +1,6 @@
 Id
 pswd
-C:\Users\i3_user6\Desktop
+C:\Users\LSY\Desktop
 http://101.101.218.135:5002/onlineScienceMuseumAPI/checkId.do
 http://101.101.218.135:5002/onlineScienceMuseumAPI/tryLogin.do
 https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build.zip

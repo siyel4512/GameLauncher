@@ -63,12 +63,12 @@ public class Login : MonoBehaviour
         //Debug.Log("Key값 요청");
         //tcp_Server.StartServer();
 
-        //if (GameManager.instance.isTEST)
-        //{
-        //    GameManager.instance.playerManager.SetPlayerState(0);
-        //    GameManager.instance.SetPage(1);
-        //}
-        //else
+        if (DEV.instance.isTEST)
+        {
+            GameManager.instance.playerManager.SetPlayerState(0);
+            GameManager.instance.SetPage(1);
+        }
+        else
         {
             RequestKey().Forget();
         }

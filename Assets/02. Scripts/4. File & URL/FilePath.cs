@@ -38,6 +38,7 @@ public class FilePath : LoadFile
      public DataPath dataPath;
     public string defaultDataPath = "C:\\Program Files";
     public string[] rootPaths = new string[4];
+    public string[] RootPaths => rootPaths;
     //---------------------------------//
 
     private void Awake()
@@ -53,7 +54,7 @@ public class FilePath : LoadFile
 
         InitDataPath();
 
-        SetSettingValues();
+        SetDownloadURL();
     }
 
     // Start is called before the first frame update
@@ -109,6 +110,8 @@ public class FilePath : LoadFile
         string jsonData = JsonUtility.ToJson(dataPath, true);
         string path = Path.Combine(Application.dataPath + "/Data Path", "dataPath.json");
         File.WriteAllText(path, jsonData);
+
+        SetFilePath();
     }
 
     // load path data
@@ -134,7 +137,7 @@ public class FilePath : LoadFile
     //---------------------------------//
 
     // read setting file content
-    public void SetSettingValues()
+    public void SetDownloadURL()
     {
         //---------- old version ----------//
         //string[] parsingData = ParsingData();
@@ -175,6 +178,12 @@ public class FilePath : LoadFile
         jsonFileUrls[2] = parsingData[10];
         jsonFileUrls[3] = parsingData[12];
 
+        SetFilePath();
+        //---------------------------------//
+    }
+
+    private void SetFilePath()
+    {
         for (int i = 0; i < 4; i++)
         {
             string[] folderFullName = buildFileUrls[i].Split("/");
@@ -184,7 +193,6 @@ public class FilePath : LoadFile
             exeFolderPaths[i] = Path.Combine(rootPaths[i], exeFolderName[0]);
             exeZipFilePaths[i] = Path.Combine(rootPaths[i], exeFolderPaths[i] + ".zip");
         }
-        //---------------------------------//
     }
 
     //---------------------------------------------//
@@ -314,19 +322,4 @@ public class DataPath
     public string vrPath;
     public string ugcPath;
     public string batchPath;
-}
-
-public class WindowWrapper : IWin32Window
-{
-    public WindowWrapper(IntPtr handle)
-    {
-        _hwnd = handle;
-    }
-
-    public IntPtr Handle
-    {
-        get { return _hwnd; }
-    }
-
-    private IntPtr _hwnd;
 }

@@ -145,7 +145,7 @@ public class FrientListManager : MonoBehaviour
     {
         // Requset
         // Todo : delete GameManager.instance.isTEST
-        if (GameManager.instance.isTEST)
+        if (DEV.instance.isTEST)
         {
             // find
             if (searchUserNickName.text == "test")
