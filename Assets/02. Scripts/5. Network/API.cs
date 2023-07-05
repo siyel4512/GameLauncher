@@ -38,12 +38,12 @@ public class API : URL
 
         if (response.IsSuccessStatusCode)
         {
-            Debug.Log("Ä£±¸ ¸®½ºÆ® : " + requestResult);
+            Debug.Log("ì¹œêµ¬ ë¦¬ìŠ¤íŠ¸ : " + requestResult);
             data = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
         }
         else
         {
-            Debug.Log("ÀÀ´ä ½ÇÆĞ (Ä£±¸ ¸®½ºÆ®) : " + requestResult);
+            Debug.Log("ì‘ë‹µ ì‹¤íŒ¨ (ì¹œêµ¬ ë¦¬ìŠ¤íŠ¸ : " + requestResult);
         }
 
         return data;

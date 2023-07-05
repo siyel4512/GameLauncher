@@ -6,6 +6,7 @@ public class DEV : MonoBehaviour
 {
     public static DEV instance;
     public bool isTEST;
+    public FilePath filePath;
 
     // Start is called before the first frame update
     void Awake()

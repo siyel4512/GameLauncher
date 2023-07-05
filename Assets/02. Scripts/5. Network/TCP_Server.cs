@@ -1,11 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using UnityEngine;
 
 public class TCP_Server
 {
@@ -43,8 +40,18 @@ public class TCP_Server
 
                 NetworkStream stream = Client.GetStream();
 
-                //string msg = Login.token;
-                string msg = "Test";
+                string msg;
+
+                if (DEV.instance.isTEST)
+                {
+                    msg = "Test";
+                }
+                else
+                {
+                    msg = Login.PID;
+                }
+
+
                 int byteCount = Encoding.UTF8.GetByteCount(msg);
 
                 byte[] sendBuffer = new byte[byteCount];

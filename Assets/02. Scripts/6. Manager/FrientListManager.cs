@@ -7,6 +7,8 @@ using System.Net.Http;
 using Cysharp.Threading.Tasks;
 using UnityEngine.Networking;
 using System.Globalization;
+using Unity.VisualScripting;
+//using System.Threading.Tasks;
 
 public class FrientListManager : MonoBehaviour
 {
@@ -48,14 +50,6 @@ public class FrientListManager : MonoBehaviour
 
         listScrollPos.anchoredPosition = new Vector2(0, 0);
         requestListScrollPos.anchoredPosition = new Vector2(0, 0);
-
-        CreateList();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     #region Set List
@@ -71,12 +65,14 @@ public class FrientListManager : MonoBehaviour
     }
 
     // Todo : 임시 친구 리스트 생성
-    private void CreateList()
+    public async UniTaskVoid CreateList()
     {
-        //for (int i = 0; i < 100; i++)
-        for (int i = 0; i < 10; i++)
+        await UniTask.SwitchToTaskPool();
+
+        for (int i = 0; i < 100; i++)
+        //for (int i = 0; i < 10; i++)
         {
-            temp_friendList.Add(new FriendInfo() { nickname = $"Test_" + i, state = "온라인"});
+            temp_friendList.Add(new FriendInfo() { nickname = $"Test_" + i, state = "온라인" });
 
             GameObject clone = Instantiate(listSlot);
             clone.transform.SetParent(listContent.transform, false);
@@ -87,6 +83,17 @@ public class FrientListManager : MonoBehaviour
         }
 
         listScrollPos.anchoredPosition = new Vector2(0, 0);
+
+        await UniTask.SwitchToMainThread();
+        
+    }
+
+    public async UniTaskVoid DeleteList()
+    {
+        await UniTask.SwitchToTaskPool();
+        friendList.Clear();
+        temp_friendList.Clear();
+        await UniTask.SwitchToMainThread();
     }
     #endregion
 

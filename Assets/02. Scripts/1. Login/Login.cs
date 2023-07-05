@@ -17,7 +17,7 @@ public class Login : MonoBehaviour
 
     public Button loginButton;
 
-    public static string token;
+    public static string PID;
 
     // Start is called before the first frame update
     void Start()
@@ -65,8 +65,7 @@ public class Login : MonoBehaviour
 
         if (DEV.instance.isTEST)
         {
-            GameManager.instance.playerManager.SetPlayerState(0);
-            GameManager.instance.SetPage(1);
+            SetLogin();
         }
         else
         {
@@ -139,12 +138,10 @@ public class Login : MonoBehaviour
 
         if (response.IsSuccessStatusCode)
         {
-            token = requestResult;
-            Debug.Log("totkon : " + token);
-            
-            GameManager.instance.isLogin = true;
-            GameManager.instance.playerManager.SetPlayerState(0);
-            GameManager.instance.SetPage(1);
+            PID = requestResult;
+            Debug.Log("PID : " + PID);
+
+            SetLogin();
         }
         else
         {
@@ -182,12 +179,10 @@ public class Login : MonoBehaviour
 
         if (response.IsSuccessStatusCode)
         {
-            token = requestResult;
-            Debug.Log("totkon : " + token);
-            
-            GameManager.instance.isLogin = true;
-            GameManager.instance.playerManager.SetPlayerState(0);
-            GameManager.instance.SetPage(1);
+            PID = requestResult;
+            Debug.Log("PID : " + PID);
+
+            SetLogin();
         }
         else
         {
@@ -197,10 +192,23 @@ public class Login : MonoBehaviour
             GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
         }
     }
+    
+    public void SetLogin()
+    {
+        GameManager.instance.isLogin = true;
+        GameManager.instance.playerManager.SetPlayerState(0);
+        GameManager.instance.SetPage(1);
+        GameManager.instance.SetSelectButton(0);
+        GameManager.instance.friendListManager.CreateList().Forget();
+        GameManager.instance.requestFriendManager.TryCreateRequestList().Forget();
+    }
 
-    public void LogOut()
+    public void SetLogOut()
     {
         GameManager.instance.isLogin = false;
+        GameManager.instance.friendListManager.isSelectedSlot = false;
+        GameManager.instance.friendListManager.DeleteList().Forget();
+        GameManager.instance.requestFriendManager.TryDeleteRequestList().Forget();
 
         id.text = "";
         password.text = "";

@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SetSelectButton(0);
+        
     }
 
     public void SetPage(int pageNum)
@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetLauncher()
     {
-        login.LogOut();
+        login.SetLogOut();
         playerManager.SetPlayerState(3);
 
         SetPage(0);

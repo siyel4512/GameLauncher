@@ -94,7 +94,6 @@ public class FileDownload : MonoBehaviour
     public async UniTaskVoid CheckForUpdates()
     {
         // file check
-
         if (Directory.Exists(FilePath.Instance.ExeFolderPaths[buttonNum]))
         {
             try
