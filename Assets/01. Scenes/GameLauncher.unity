@@ -1984,16 +1984,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dataPath:
-    pcPath: 
-    vrPath: 
-    ugcPath: 
-    batchPath: 
+    pcPath: C:\Program Files
+    vrPath: C:\Program Files
+    ugcPath: C:\Program Files
+    batchPath: C:\Program Files
   defaultDataPath: C:\Program Files
   rootPaths:
-  - 
-  - 
-  - 
-  - 
+  - C:\Program Files
+  - C:\Program Files
+  - C:\Program Files
+  - C:\Program Files
   currentExeFileURL: []
   currentJsonFileURL: []
 --- !u!114 &288331701
@@ -9831,7 +9831,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f2b27d97986c71449c267449c067459, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTEST: 0
+  isTEST: 1
+  filePath: {fileID: 288331700}
 --- !u!1 &1427153889
 GameObject:
   m_ObjectHideFlags: 0
