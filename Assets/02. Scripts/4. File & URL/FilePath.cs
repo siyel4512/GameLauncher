@@ -6,11 +6,15 @@ using System.Net.Http;
 using UnityEditor;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using System.Windows.Forms;
+
+using Application = UnityEngine.Application;
 
 public class FilePath : LoadFile
 {
     public static FilePath Instance;
 
+    //---------- old version ----------//
     // file download path
     private string rootPath;
 
@@ -28,6 +32,13 @@ public class FilePath : LoadFile
 
     private string[] exeFolderNames = new string[4];
     public string[] ExeFolderNames => exeFolderNames;
+    //---------------------------------//
+
+    //---------- new version ----------//
+     public DataPath dataPath;
+    public string defaultDataPath = "C:\\Program Files";
+    public string[] rootPaths = new string[4];
+    //---------------------------------//
 
     private void Awake()
     {
@@ -39,6 +50,8 @@ public class FilePath : LoadFile
         {
             Destroy(gameObject);
         }
+
+        InitDataPath();
 
         SetSettingValues();
     }
@@ -59,13 +72,98 @@ public class FilePath : LoadFile
         //}
     }
 
+    //---------- new version ----------//
+    public void InitDataPath()
+    {
+        string path = Path.Combine(Application.dataPath + "/Data Path", "dataPath.json");
+        string jsonData = File.ReadAllText(path);
+        dataPath = JsonUtility.FromJson<DataPath>(jsonData);
+
+        rootPaths[0] = dataPath.pcPath;
+        rootPaths[1] = dataPath.vrPath;
+        rootPaths[2] = dataPath.ugcPath;
+        rootPaths[3] = dataPath.batchPath;
+    }
+
+    // save path data
+    public void SavePath(int buttonNum, string _path)
+    {
+        switch (buttonNum)
+        {
+            case 0:
+                dataPath.pcPath = _path;
+                break;
+            case 1:
+                dataPath.vrPath = _path;
+                break;
+            case 2:
+                dataPath.ugcPath = _path;
+                break;
+            case 3:
+                dataPath.batchPath = _path;
+                break;
+        }
+
+        rootPaths[buttonNum] = _path;
+
+        string jsonData = JsonUtility.ToJson(dataPath, true);
+        string path = Path.Combine(Application.dataPath + "/Data Path", "dataPath.json");
+        File.WriteAllText(path, jsonData);
+    }
+
+    // load path data
+    public DataPath LoadPath()
+    {
+        string path = Path.Combine(Application.dataPath + "/Data Path", "dataPath.json");
+        string jsonData = File.ReadAllText(path);
+        dataPath = JsonUtility.FromJson<DataPath>(jsonData);
+
+        return dataPath;
+    }
+
+    public void ResetDataPath()
+    {
+        dataPath.pcPath = dataPath.vrPath = dataPath.ugcPath = dataPath.batchPath = defaultDataPath;
+
+        string jsonData = JsonUtility.ToJson(dataPath, true);
+        string path = Path.Combine(Application.dataPath + "/Data Path", "dataPath.json");
+        File.WriteAllText(path, jsonData);
+
+        InitDataPath();
+    }
+    //---------------------------------//
+
     // read setting file content
     public void SetSettingValues()
     {
         //---------- old version ----------//
-        string[] parsingData = ParsingData();
+        //string[] parsingData = ParsingData();
 
-        rootPath = parsingData[2];
+        //rootPath = parsingData[2];
+
+        //buildFileUrls[0] = parsingData[5];
+        //buildFileUrls[1] = parsingData[7];
+        //buildFileUrls[2] = parsingData[9];
+        //buildFileUrls[3] = parsingData[11];
+
+        //jsonFileUrls[0] = parsingData[6];
+        //jsonFileUrls[1] = parsingData[8];
+        //jsonFileUrls[2] = parsingData[10];
+        //jsonFileUrls[3] = parsingData[12];
+
+        //for (int i = 0; i < 4; i++)
+        //{
+        //    string[] folderFullName = buildFileUrls[i].Split("/");
+        //    string[] exeFolderName = folderFullName[folderFullName.Length - 1].Split(".");
+            
+        //    exeFolderNames[i] = exeFolderName[0];
+        //    exeFolderPaths[i] = Path.Combine(rootPath, exeFolderName[0]);
+        //    exeZipFilePaths[i] = Path.Combine(rootPath, exeFolderPaths[i] + ".zip");
+        //}
+        //---------------------------------//
+
+        //---------- new version ----------//
+        string[] parsingData = ParsingData();
 
         buildFileUrls[0] = parsingData[5];
         buildFileUrls[1] = parsingData[7];
@@ -81,15 +179,11 @@ public class FilePath : LoadFile
         {
             string[] folderFullName = buildFileUrls[i].Split("/");
             string[] exeFolderName = folderFullName[folderFullName.Length - 1].Split(".");
-            
+
             exeFolderNames[i] = exeFolderName[0];
-            exeFolderPaths[i] = Path.Combine(rootPath, exeFolderName[0]);
-            exeZipFilePaths[i] = Path.Combine(rootPath, exeFolderPaths[i] + ".zip");
+            exeFolderPaths[i] = Path.Combine(rootPaths[i], exeFolderName[0]);
+            exeZipFilePaths[i] = Path.Combine(rootPaths[i], exeFolderPaths[i] + ".zip");
         }
-        //---------------------------------//
-
-        //---------- new version ----------//
-
         //---------------------------------//
     }
 
@@ -211,4 +305,28 @@ public class FilePath : LoadFile
 
         return requestResult;
     }
+}
+
+[System.Serializable]
+public class DataPath
+{
+    public string pcPath;
+    public string vrPath;
+    public string ugcPath;
+    public string batchPath;
+}
+
+public class WindowWrapper : IWin32Window
+{
+    public WindowWrapper(IntPtr handle)
+    {
+        _hwnd = handle;
+    }
+
+    public IntPtr Handle
+    {
+        get { return _hwnd; }
+    }
+
+    private IntPtr _hwnd;
 }

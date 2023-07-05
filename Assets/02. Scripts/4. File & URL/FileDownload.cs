@@ -11,6 +11,11 @@ using TMPro;
 using Cysharp.Threading.Tasks;
 
 using Debug = UnityEngine.Debug;
+using Button = UnityEngine.UI.Button;
+
+using System.Runtime.InteropServices;
+using Ookii.Dialogs;
+using System.Windows.Forms;
 
 public enum LauncherStatus
 {
@@ -70,6 +75,15 @@ public class FileDownload : MonoBehaviour
     public Prograss prograss;
     
     private string gameExcutePath;
+
+    public GameObject folderDialog;
+
+    // Folder Dialog
+    [DllImport("user32.dll")]
+    private static extern IntPtr GetActiveWindow();
+
+    //public string path = "C:\\Program Files";
+    //public SaveDataPath saveDataPath;
 
     // Start is called before the first frame update
     void Start()
@@ -244,9 +258,12 @@ public class FileDownload : MonoBehaviour
         // download
         else if (!File.Exists(gameExcutePath) && Status == LauncherStatus.downloadGame)
         {
-            UniTask.SwitchToThreadPool();
-            InstallGameFiles(false).Forget();
-            UniTask.SwitchToMainThread();
+            //OpenFolderDialog(buttonNum);
+            folderDialog.SetActive(true);
+
+            //UniTask.SwitchToThreadPool();
+            //InstallGameFiles(false).Forget();
+            //UniTask.SwitchToMainThread();
         }
         else if (Status == LauncherStatus.failed)
         {
@@ -257,7 +274,38 @@ public class FileDownload : MonoBehaviour
     }
     #endregion
 
-    public void SetButtonState()
+    #region Folder Dialog
+    public void OpenFolderDialog(int buttonNum)
+    {
+        VistaFolderBrowserDialog openDialog = new VistaFolderBrowserDialog();
+        openDialog.Description = "Select Folder";
+        openDialog.UseDescriptionForTitle = true;
+
+        switch (buttonNum)
+        {
+            case 0:
+                openDialog.SelectedPath = GameManager.instance.filePath.LoadPath().pcPath + "\\";
+                break;
+            case 1:
+                openDialog.SelectedPath = GameManager.instance.filePath.LoadPath().vrPath + "\\";
+                break;
+            case 2:
+                openDialog.SelectedPath = GameManager.instance.filePath.LoadPath().ugcPath + "\\";
+                break;
+            case 3:
+                openDialog.SelectedPath = GameManager.instance.filePath.LoadPath().batchPath + "\\";
+                break;
+        }
+
+        if (openDialog.ShowDialog(new WindowWrapper(GetActiveWindow())) == DialogResult.OK)
+        {
+            Debug.Log(openDialog.SelectedPath);
+            GameManager.instance.filePath.SavePath(buttonNum, openDialog.SelectedPath);
+        }
+    }
+        #endregion
+
+        public void SetButtonState()
     {
         if (!isSelected)
         {
