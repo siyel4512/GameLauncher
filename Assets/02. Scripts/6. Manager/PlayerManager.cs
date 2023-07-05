@@ -133,6 +133,14 @@ public class PlayerManager : MonoBehaviour
 
         isStateSettings = false;
         settingMenu.SetActive(isStateSettings);
+
+        RequestPlayerStateUpdate(i);
+    }
+
+    private void RequestPlayerStateUpdate(int i)
+    {
+        // Todo : Request player state update
+        Debug.Log("상태 변경 : " + i);
     }
 
     private void ShowLogoutPopup()

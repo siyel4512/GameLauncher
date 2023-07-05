@@ -62,6 +62,7 @@ public class FilePath : LoadFile
     // read setting file content
     public void SetSettingValues()
     {
+        //---------- old version ----------//
         string[] parsingData = ParsingData();
 
         rootPath = parsingData[2];
@@ -85,6 +86,11 @@ public class FilePath : LoadFile
             exeFolderPaths[i] = Path.Combine(rootPath, exeFolderName[0]);
             exeZipFilePaths[i] = Path.Combine(rootPath, exeFolderPaths[i] + ".zip");
         }
+        //---------------------------------//
+
+        //---------- new version ----------//
+
+        //---------------------------------//
     }
 
     //---------------------------------------------//
