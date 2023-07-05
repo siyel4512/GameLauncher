@@ -41,9 +41,8 @@ public class RequestFriendManager : MonoBehaviour
             requestList.Add(clone.GetComponent<RequestInfo>());
         }
 
-        requestScrollPos.anchoredPosition = new Vector2(0, 0);
-
         await UniTask.SwitchToMainThread();
+        requestScrollPos.anchoredPosition = new Vector2(0, 0);
     }
 
     public async UniTask CreateRequestList()
