@@ -1,13 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-using System.Net.Http;
 using Cysharp.Threading.Tasks;
-using UnityEngine.Networking;
-using System.Globalization;
-using Unity.VisualScripting;
+using System.Collections.Generic;
+using System.Net.Http;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 //using System.Threading.Tasks;
 
 public class FrientListManager : MonoBehaviour
@@ -65,10 +61,8 @@ public class FrientListManager : MonoBehaviour
     }
 
     // Todo : 임시 친구 리스트 생성
-    public async UniTaskVoid CreateList()
+    public void CreateList()
     {
-        await UniTask.SwitchToTaskPool();
-
         for (int i = 0; i < 100; i++)
         //for (int i = 0; i < 10; i++)
         {
@@ -83,17 +77,17 @@ public class FrientListManager : MonoBehaviour
         }
 
         listScrollPos.anchoredPosition = new Vector2(0, 0);
-
-        await UniTask.SwitchToMainThread();
-        
     }
 
-    public async UniTaskVoid DeleteList()
+    public void DeleteList()
     {
-        await UniTask.SwitchToTaskPool();
+        for (int i = 0; i < friendList.Count; i++)
+        {
+            Destroy(friendList[i].gameObject);
+        }
+
         friendList.Clear();
         temp_friendList.Clear();
-        await UniTask.SwitchToMainThread();
     }
     #endregion
 

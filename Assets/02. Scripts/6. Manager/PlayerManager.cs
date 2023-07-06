@@ -38,6 +38,8 @@ public class PlayerManager : MonoBehaviour
     public bool isStateSettings;
     public GameObject settingMenu;
 
+    private bool isStartTimer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,7 +53,6 @@ public class PlayerManager : MonoBehaviour
         //currentState = dropdown.value;
 
         sw = new Stopwatch();
-        sw.Start();
     }
 
     // Update is called once per frame
@@ -59,6 +60,12 @@ public class PlayerManager : MonoBehaviour
     {
         if (GameManager.instance.isLogin)
         {
+            if (!isStartTimer)
+            {
+                isStartTimer = true;
+                sw.Start();
+            }
+
             if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))
             {
                 Debug.Log("using detect");
@@ -67,13 +74,21 @@ public class PlayerManager : MonoBehaviour
             }
 
             currentTimeCount = limitTime - (int)(sw.ElapsedMilliseconds / 1000f);
-
+            Debug.Log("[SY] : " + currentTimeCount);
             if (currentTimeCount < 0)
             {
                 Debug.Log("time out");
                 currentTimeCount = limitTime;
                 //dropdown.value = 1;
                 sw.Restart();
+
+                if (currentState != 1)
+                {
+                    currentState = 1;
+                    stateName.text = "자리 비움";
+                    icon.color = Color.yellow;
+                    RequestPlayerStateUpdate(currentState);
+                }
             }
         }
 
@@ -88,6 +103,12 @@ public class PlayerManager : MonoBehaviour
     //    currentState = dropdown.value;
     //    Debug.Log("update player state : " + currentState);
     //}
+
+    public void StopTimer()
+    {
+        sw.Stop();
+        isStartTimer = false;
+    }
 
     public void UsingSettingMenu()
     {

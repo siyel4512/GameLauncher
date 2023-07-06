@@ -4,6 +4,8 @@ using UnityEngine;
 using System.Linq;
 using System.Reflection;
 using Cysharp.Threading.Tasks;
+using System;
+using static SaveData;
 //using static SaveData;
 
 public class RequestFriendManager : MonoBehaviour
@@ -29,23 +31,7 @@ public class RequestFriendManager : MonoBehaviour
 
     #region Set List
     // Todo : 임시 친구 리스트 생성
-    public async UniTaskVoid TryCreateRequestList()
-    {
-        await UniTask.SwitchToThreadPool();
-
-        for (int i = 0; i < 100; i++)
-        {
-            GameObject clone = Instantiate(requestSlot);
-            clone.transform.SetParent(requestContent.transform, false);
-            clone.GetComponent<RequestInfo>().Test_SetSlotValue(i);
-            requestList.Add(clone.GetComponent<RequestInfo>());
-        }
-
-        await UniTask.SwitchToMainThread();
-        requestScrollPos.anchoredPosition = new Vector2(0, 0);
-    }
-
-    public async UniTask CreateRequestList()
+    public void CreateRequestList()
     {
         for (int i = 0; i < 100; i++)
         {
@@ -58,11 +44,14 @@ public class RequestFriendManager : MonoBehaviour
         requestScrollPos.anchoredPosition = new Vector2(0, 0);
     }
 
-    public async UniTaskVoid TryDeleteRequestList()
+    public void DeleteRequestList()
     {
-        await UniTask.SwitchToThreadPool();
+        for (int i = 0; i < requestList.Count; i++)
+        {
+            Destroy(requestList[i].gameObject);
+        }
+
         requestList.Clear();
-        await UniTask.SwitchToMainThread();
     }
     #endregion
 

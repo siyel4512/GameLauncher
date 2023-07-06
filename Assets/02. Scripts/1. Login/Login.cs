@@ -199,16 +199,17 @@ public class Login : MonoBehaviour
         GameManager.instance.playerManager.SetPlayerState(0);
         GameManager.instance.SetPage(1);
         GameManager.instance.SetSelectButton(0);
-        GameManager.instance.friendListManager.CreateList().Forget();
-        GameManager.instance.requestFriendManager.TryCreateRequestList().Forget();
+        GameManager.instance.friendListManager.CreateList();
+        GameManager.instance.requestFriendManager.CreateRequestList();
     }
 
     public void SetLogOut()
     {
         GameManager.instance.isLogin = false;
         GameManager.instance.friendListManager.isSelectedSlot = false;
-        GameManager.instance.friendListManager.DeleteList().Forget();
-        GameManager.instance.requestFriendManager.TryDeleteRequestList().Forget();
+        GameManager.instance.friendListManager.DeleteList();
+        GameManager.instance.requestFriendManager.DeleteRequestList();
+        GameManager.instance.playerManager.StopTimer();
 
         id.text = "";
         password.text = "";
