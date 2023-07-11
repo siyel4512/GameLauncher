@@ -36,7 +36,7 @@ public class BannerUI : SwipeUI
             content.transform.SetParent(spawnContentsPos, false);
             BannerInfo bannerInfo = content.GetComponent<BannerInfo>();
 
-            bannerInfo.SetContents("Banner Image_" + (i + 1), "https://www.youtube.com/");
+            bannerInfo.SetContents("Banner Image_" + (i + 1), "https://www.naver.com/");
             bannerInfo.bannerUI = this;
             spawnedContents.Add(bannerInfo);
 

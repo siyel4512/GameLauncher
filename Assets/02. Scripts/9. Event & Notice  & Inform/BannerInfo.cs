@@ -7,13 +7,11 @@ using UnityEngine.EventSystems;
 public class BannerInfo : MonoBehaviour
 {
     public string title;
-    //public string content;
     public string linkURL;
 
     public BannerUI bannerUI;
 
     public TMP_Text title_text;
-    //public TMP_Text content_text;
 
     public EventTrigger.Entry clickEvent;
 
@@ -27,11 +25,9 @@ public class BannerInfo : MonoBehaviour
     public void SetContents(string _title, string _linkURL)
     {
         title = _title;
-        //content = _content;
         linkURL = _linkURL;
 
         title_text.text = title;
-        //content_text.text = content;
     }
 
     // open url
