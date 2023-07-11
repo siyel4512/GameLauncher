@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class BannerUI : SwipeUI
 {
+    private List<BannerInfo> spawnedContents;
+
     // Start is called before the first frame update
     void Start()
     {
-        AddContents();
+        StartCoroutine(AddContents());
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (!isTimer)
+        {
+            ChangeContent();
+        }
     }
 
     #region Create & delete
@@ -21,7 +25,7 @@ public class BannerUI : SwipeUI
     {
         yield return null;
 
-        spawnedContents = new List<NoticeInfo>();
+        spawnedContents = new List<BannerInfo>();
         spawnedStepButton = new List<StepButton>();
 
         // create contents & step buttons
@@ -30,10 +34,11 @@ public class BannerUI : SwipeUI
             // contents
             GameObject content = Instantiate(conents_prefab);
             content.transform.SetParent(spawnContentsPos, false);
-            NoticeInfo noticeInfo = content.GetComponent<NoticeInfo>();
-            noticeInfo.SetContents("Title_" + (i + 1), "Content Content Content Content Content", "https://www.youtube.com/");
-            //noticeInfo.noticeUI = this;
-            spawnedContents.Add(noticeInfo);
+            BannerInfo bannerInfo = content.GetComponent<BannerInfo>();
+
+            bannerInfo.SetContents("Banner Image_" + (i + 1), "https://www.youtube.com/");
+            bannerInfo.bannerUI = this;
+            spawnedContents.Add(bannerInfo);
 
             // step button
             GameObject stepButton = Instantiate(stepButton_prefab, spawnStepButtonsPos.position, Quaternion.identity);
@@ -43,7 +48,6 @@ public class BannerUI : SwipeUI
             _stepButton.swipeUI = this;
             spawnedStepButton.Add(_stepButton);
         }
-
 
         //scrollPageValues = new float[transform.childCount]; // 스크롤 되는 페이지의 각 value 값을 저장하는 배열 메모리 할당
         scrollPageValues = new float[spawnedContents.Count]; // 스크롤 되는 페이지의 각 value 값을 저장하는 배열 메모리 할당
@@ -61,6 +65,16 @@ public class BannerUI : SwipeUI
 
         // 최초 시작할 때 0번 페이지를 볼 수 있도록 설정
         SetScrollBarValue(0);
+
+        //next content timer
+        if (isTimer)
+        {
+            SetTimer();
+        }
+        else
+        {
+            SetStopwatch();
+        }
     }
     #endregion
 }

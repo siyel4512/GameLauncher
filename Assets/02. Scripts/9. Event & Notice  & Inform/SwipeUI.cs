@@ -21,7 +21,7 @@ public class SwipeUI : MonoBehaviour
     public Transform spawnContentsPos;
     public Transform spawnStepButtonsPos;
 
-    protected List<NoticeInfo> spawnedContents;
+    
     protected List<StepButton> spawnedStepButton;
 
     public int TEST_Contents_Count;

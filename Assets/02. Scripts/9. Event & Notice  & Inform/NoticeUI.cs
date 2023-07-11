@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class NoticeUI : SwipeUI
 {
+    private List<NoticeInfo> spawnedContents;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,7 +56,6 @@ public class NoticeUI : SwipeUI
             spawnedStepButton.Add(_stepButton);
         }
 
-
         //scrollPageValues = new float[transform.childCount]; // 스크롤 되는 페이지의 각 value 값을 저장하는 배열 메모리 할당
         scrollPageValues = new float[spawnedContents.Count]; // 스크롤 되는 페이지의 각 value 값을 저장하는 배열 메모리 할당
         valueDistance = 1f / (scrollPageValues.Length - 1f); // 스크롤 되는 페이지 사이의 거리
@@ -81,7 +82,6 @@ public class NoticeUI : SwipeUI
         {
             SetStopwatch();
         }
-        
     }
     #endregion
 }

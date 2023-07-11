@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
+using System.Collections.Generic;
 
 public class NoticeInfo : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class NoticeInfo : MonoBehaviour
     public string linkURL;
 
     public NoticeUI noticeUI;
+
+    protected List<NoticeInfo> spawnedContents;
 
     public TMP_Text title_text;
     public TMP_Text content_text;
