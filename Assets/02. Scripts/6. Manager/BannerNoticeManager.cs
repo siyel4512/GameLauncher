@@ -15,4 +15,10 @@ public class BannerNoticeManager : MonoBehaviour
     {
         
     }
+    
+    // Create Event Banner
+
+    // Create Notice
+
+    // Create Curiverse Notice
 }
