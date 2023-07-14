@@ -24,9 +24,10 @@ public class SwipeUI : MonoBehaviour
     
     protected List<StepButton> spawnedStepButton;
 
-    public int TEST_Contents_Count;
+    //public int TEST_Contents_Count;
 
     // set state
+    protected bool isExistContents; // have contents
     public bool isUsingSelectStepImage;
 
     // set swipe animation
@@ -46,9 +47,9 @@ public class SwipeUI : MonoBehaviour
 
     #region contents
     // set contents page
-    public void SetScrollBarValue(int index)
+    public void SetScrollBarValue(int contentCount, int index)
     {
-        if (TEST_Contents_Count > 0)
+        if (contentCount > 0)
         {
             currentPage = index;
             scrollBar.value = scrollPageValues[index];
@@ -110,6 +111,14 @@ public class SwipeUI : MonoBehaviour
     // set step button state
     private void UpdateStepButtons()
     {
+        if (scrollPageValues.Length <= 1)
+        {
+            for (int i = 0; i < scrollPageValues.Length; i++)
+            {
+                spawnedStepButton[i].gameObject.SetActive(false);
+            }
+        }
+
         // 아래에 배치된 페이지 버튼 크기, 색상 제어 (현재 머물고 있는 페이지의 버튼만 수정)
         for (int i = 0; i < scrollPageValues.Length; ++i)
         {
@@ -141,7 +150,14 @@ public class SwipeUI : MonoBehaviour
 
     public void ShowNHideSideButton(bool isShow)
     {
-        sideButtons.SetActive(isShow);
+        if (isExistContents)
+        {
+            sideButtons.SetActive(isShow);
+        }
+        else
+        {
+            sideButtons.SetActive(false);
+        }
     }
     #endregion
 
@@ -282,35 +298,32 @@ public class SwipeUI : MonoBehaviour
 
         currentTimeCount = limitTime - (int)(sw.ElapsedMilliseconds / 1000f);
 
+        // time out
         if (currentTimeCount < 0)
         {
-            Debug.Log("time out");
             currentTimeCount = limitTime;
-            //dropdown.value = 1;
             sw.Restart();
-
-            Debug.Log("next content");
 
             currentPage++;
 
+            // last step button
             if (currentPage == maxPage - 1)
             {
                 previousButton.interactable = true;
                 nextButton.interactable = false;
-                Debug.Log("last");
             }
+            // reset step button position
             else if (currentPage > maxPage - 1)
             {
                 currentPage = 0;
                 previousButton.interactable = false;
                 nextButton.interactable = true;
-                Debug.Log("reset");
             }
+            // move to step button
             else
             {
                 previousButton.interactable = true;
                 nextButton.interactable = true;
-                Debug.Log("yet");
             }
 
             StartCoroutine(OnSwipeOneStep(currentPage));

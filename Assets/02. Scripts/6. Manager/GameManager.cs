@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public PopupManager popupManager;
     public FrientListManager friendListManager;
     public RequestFriendManager requestFriendManager;
+    public BannerNoticeManager bannerNoticeManager;
 
     private void Awake()
     {

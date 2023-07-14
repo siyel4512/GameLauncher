@@ -9,7 +9,8 @@ public class GuideInfo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        downloadButton.onClick.AddListener(OnDownloadLink);
+        downloadButton = GetComponent<Button>();
+        SetLinkURL("https://www.google.com/");
     }
 
     // Update is called once per frame
@@ -18,8 +19,14 @@ public class GuideInfo : MonoBehaviour
         
     }
 
+
+    public void SetLinkURL(string linkURL)
+    {
+        downloadLinkURL = linkURL;
+        downloadButton.onClick.AddListener(OnDownloadLink);
+    }
     public void OnDownloadLink()
     {
-
+        Application.OpenURL(downloadLinkURL);
     }
 }

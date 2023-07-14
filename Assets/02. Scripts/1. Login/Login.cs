@@ -195,23 +195,28 @@ public class Login : MonoBehaviour
     
     public void SetLogin()
     {
-        GameManager.instance.isLogin = true;
-        GameManager.instance.playerManager.SetPlayerState(0);
-        GameManager.instance.SetPage(1);
-        GameManager.instance.SetSelectButton(0);
-        GameManager.instance.friendListManager.CreateList();
-        GameManager.instance.requestFriendManager.CreateRequestList();
+        GameManager.instance.isLogin = true; // login
+        GameManager.instance.playerManager.SetPlayerState(0); // set player state
+        GameManager.instance.SetPage(1); // set main page
+        GameManager.instance.SetSelectButton(0); // set file download button
+        GameManager.instance.friendListManager.CreateList(); // create friedn list
+        GameManager.instance.requestFriendManager.CreateRequestList(); // create request friend list
+        GameManager.instance.bannerNoticeManager.CreateAllContents();
+
+        // id & password input field reset
+        id.text = "";
+        password.text = "";
     }
 
     public void SetLogOut()
     {
-        GameManager.instance.isLogin = false;
-        GameManager.instance.friendListManager.isSelectedSlot = false;
-        GameManager.instance.friendListManager.DeleteList();
-        GameManager.instance.requestFriendManager.DeleteRequestList();
-        GameManager.instance.playerManager.StopTimer();
-
-        id.text = "";
-        password.text = "";
+        GameManager.instance.isLogin = false; // logout
+        GameManager.instance.friendListManager.isSelectedSlot = false; // selected friend slot reset
+        GameManager.instance.friendListManager.DeleteList(); // delete friend list
+        GameManager.instance.requestFriendManager.DeleteRequestList(); // delete request friend list
+        GameManager.instance.playerManager.StopTimer(); // player state change timer reset
+        GameManager.instance.bannerNoticeManager.bannerUI.DeleteContents();
+        GameManager.instance.bannerNoticeManager.noticeUIs[0].DeleteContents();
+        GameManager.instance.bannerNoticeManager.noticeUIs[1].DeleteContents();
     }
 }

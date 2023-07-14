@@ -1,16 +1,18 @@
+using Org.BouncyCastle.Asn1.BC;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static SaveData;
 
 public class NoticeUI : SwipeUI
 {
     private List<NoticeInfo> spawnedContents;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        StartCoroutine(AddContents());
-    }
+    //// Start is called before the first frame update
+    //void Start()
+    //{
+        
+    //}
 
     private void Update()
     {
@@ -18,18 +20,32 @@ public class NoticeUI : SwipeUI
         {
             ChangeContent();
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("스페이스 누름");
+            DeleteContents();
+        }
+    }
+
+    public void TryAddContents(int contentCount)
+    {
+        StartCoroutine(AddContents(contentCount));
     }
 
     #region Create & delete
-    IEnumerator AddContents()
+    IEnumerator AddContents(int contentCount)
     {
         yield return null;
+
+        if (contentCount <= 0)
+            yield break;
 
         spawnedContents = new List<NoticeInfo>();
         spawnedStepButton = new List<StepButton>();
 
         // create contents & step buttons
-        for (int i = 0; i < TEST_Contents_Count; i++)
+        for (int i = 0; i < contentCount; i++)
         {
             // contents
             GameObject content = Instantiate(conents_prefab);
@@ -56,6 +72,12 @@ public class NoticeUI : SwipeUI
             spawnedStepButton.Add(_stepButton);
         }
 
+        // If you have more than one content
+        if (spawnedContents.Count > 0)
+        {
+            isExistContents = true;
+        }
+
         //scrollPageValues = new float[transform.childCount]; // 스크롤 되는 페이지의 각 value 값을 저장하는 배열 메모리 할당
         scrollPageValues = new float[spawnedContents.Count]; // 스크롤 되는 페이지의 각 value 값을 저장하는 배열 메모리 할당
         valueDistance = 1f / (scrollPageValues.Length - 1f); // 스크롤 되는 페이지 사이의 거리
@@ -71,7 +93,7 @@ public class NoticeUI : SwipeUI
         maxPage = spawnedContents.Count;
 
         // 최초 시작할 때 0번 페이지를 볼 수 있도록 설정
-        SetScrollBarValue(0);
+        SetScrollBarValue(maxPage, 0);
 
         //next content timer
         if (isTimer)
@@ -82,6 +104,22 @@ public class NoticeUI : SwipeUI
         {
             SetStopwatch();
         }
+    }
+
+    public void DeleteContents()
+    {
+        sw.Stop();
+        isExistContents = false;
+        currentPage = 0;
+
+        for (int i = 0; i < spawnedContents.Count; i++)
+        {
+            Destroy(spawnedContents[i].gameObject);
+            Destroy(spawnedStepButton[i].gameObject);
+        }
+
+        spawnedContents.Clear();
+        spawnedStepButton.Clear();
     }
     #endregion
 }

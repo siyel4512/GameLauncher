@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class BannerNoticeManager : MonoBehaviour
 {
+    public BannerUI bannerUI;
+    public NoticeUI[] noticeUIs;
+
+    public int eventBannerCount;
+    public int noticeCount;
+    public int curiverseNoticeCount;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -13,12 +20,18 @@ public class BannerNoticeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
-    
-    // Create Event Banner
 
-    // Create Notice
+    public void CreateAllContents()
+    {
+        // Create Event Banner
+        bannerUI.TryAddContents(eventBannerCount);
 
-    // Create Curiverse Notice
+        // Create Notice
+        noticeUIs[0].TryAddContents(noticeCount);
+
+        // Create Curiverse Notice
+        noticeUIs[1].TryAddContents(curiverseNoticeCount);
+    }
 }

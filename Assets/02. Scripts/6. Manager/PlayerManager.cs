@@ -49,9 +49,6 @@ public class PlayerManager : MonoBehaviour
         otherWorkButton.onClick.AddListener(() => SetPlayerState(2));
         logoutButton.onClick.AddListener(ShowLogoutPopup);
 
-        // Todo : set dropdown & set stopwatch
-        //currentState = dropdown.value;
-
         sw = new Stopwatch();
     }
 
@@ -60,26 +57,27 @@ public class PlayerManager : MonoBehaviour
     {
         if (GameManager.instance.isLogin)
         {
+            // start timer
             if (!isStartTimer)
             {
                 isStartTimer = true;
                 sw.Start();
             }
 
+            // detect using
             if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))
             {
-                Debug.Log("using detect");
                 currentTimeCount = limitTime;
                 sw.Restart();
             }
 
+            // calculate current time
             currentTimeCount = limitTime - (int)(sw.ElapsedMilliseconds / 1000f);
-            Debug.Log("[SY] : " + currentTimeCount);
+            
+            // time out
             if (currentTimeCount < 0)
             {
-                Debug.Log("time out");
                 currentTimeCount = limitTime;
-                //dropdown.value = 1;
                 sw.Restart();
 
                 if (currentState != 1)
@@ -91,18 +89,7 @@ public class PlayerManager : MonoBehaviour
                 }
             }
         }
-
-        //if(Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    dropdown.value = 100;
-        //}
     }
-
-    //public void OnChengedValue()
-    //{
-    //    currentState = dropdown.value;
-    //    Debug.Log("update player state : " + currentState);
-    //}
 
     public void StopTimer()
     {
