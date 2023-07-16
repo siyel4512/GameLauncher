@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class BannerNoticeManager : MonoBehaviour
 {
+    [Header("[ UI ]")]
     public BannerUI bannerUI;
     public NoticeUI[] noticeUIs;
 
+    [Space(10)]
+    [Header("[ Contents Count ]")]
     public int eventBannerCount;
     public int noticeCount;
     public int curiverseNoticeCount;

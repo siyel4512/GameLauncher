@@ -8,30 +8,38 @@ using UnityEngine.UI;
 
 public class FrientListManager : MonoBehaviour
 {
-    // input field
-    public TMP_InputField searchFriendNickName;
-    public TMP_InputField searchUserNickName;
-
     // main buttons
+    [Space(10)]
+    [Header("[ Main Buttons ]")]
     public Button addButton;
     public Button settingButton;
 
+    // input field
+    [Header("[ Friend Searching ]")]
+    public TMP_InputField searchFriendNickName;
+    public TMP_InputField searchUserNickName;
+
     // setting menu
+    [Space(10)]
+    [Header("[ Setting Menu ]")]
     public GameObject settingMenu;
     public bool isFriendSettings;
 
     // friend list
+    [Space(10)]
+    [Header("[ Friedn List ]")]
     public RectTransform listScrollPos;
     public GameObject listContent;
     public GameObject listSlot;
     public List<FriendInfo> friendList;
     public List<FriendInfo> temp_friendList;
     public bool isSelectedSlot;
+    public int friendCount;
 
     // friend request list
+    [Space(10)]
+    [Header("[ Request List ]")]
     public RectTransform requestListScrollPos;
-
-    //public Button searchUserButton;
 
     // Start is called before the first frame update
     void Start()
@@ -63,8 +71,7 @@ public class FrientListManager : MonoBehaviour
     // Todo : 임시 친구 리스트 생성
     public void CreateList()
     {
-        for (int i = 0; i < 100; i++)
-        //for (int i = 0; i < 10; i++)
+        for (int i = 0; i < friendCount; i++)
         {
             temp_friendList.Add(new FriendInfo() { nickname = $"Test_" + i, state = "온라인" });
 

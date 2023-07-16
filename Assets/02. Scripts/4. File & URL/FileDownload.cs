@@ -22,9 +22,6 @@ public enum LauncherStatus
 
 public class FileDownload : MonoBehaviour
 {
-    // TCP
-    private TCP_Server tcp_Server = new TCP_Server();
-
     private LauncherStatus _status;
 
     internal LauncherStatus Status
@@ -36,10 +33,6 @@ public class FileDownload : MonoBehaviour
             switch (_status)
             {
                 case LauncherStatus.ready:
-
-                    // start TCP server
-                    tcp_Server.StartServer();
-
                     excuteButton_txt.text = "Play";
                     break;
                 case LauncherStatus.failed:
@@ -57,23 +50,24 @@ public class FileDownload : MonoBehaviour
         }
     }
 
-
+    [Header("[ Select Button Settings ]")]
     public int buttonNum = 0;
     
     public Button selectButton;
     public GameObject selectImage;
     public bool isSelected = false;
 
+    [Space(10)]
+    [Header("[ Excute Button Settings ]")]
     public Button excuteButton;
     public TMP_Text excuteButton_txt;
 
-    public Button installButton;
-
-    public Prograss prograss;
-    
-    private string gameExcutePath;
-
+    [Space(10)]
+    [Header("[ File Download ]")]
     public GameObject folderDialog;
+    public Button installButton;
+    public Prograss prograss;
+    private string gameExcutePath;
 
     // Start is called before the first frame update
     void Start()

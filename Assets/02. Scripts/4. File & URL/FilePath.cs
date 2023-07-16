@@ -35,7 +35,8 @@ public class FilePath : LoadFile
     //---------------------------------//
 
     //---------- new version ----------//
-     public DataPath dataPath;
+    [Header("[ Download File Path ]")]
+    public DataPath dataPath;
     public string defaultDataPath = "C:\\Program Files";
     public string[] rootPaths = new string[4];
     public string[] RootPaths => rootPaths;
@@ -52,15 +53,19 @@ public class FilePath : LoadFile
             Destroy(gameObject);
         }
 
-        InitDataPath();
+        //InitDataPath();
 
-        SetDownloadURL();
+        //SetDownloadURL();
     }
 
     // Start is called before the first frame update
     void Start()
     {
         //FilePathCheck(0);
+
+        InitDataPath();
+
+        SetDownloadURL();
     }
 
     private void Update()
@@ -76,7 +81,7 @@ public class FilePath : LoadFile
     //---------- new version ----------//
     public void InitDataPath()
     {
-        string path = Path.Combine(Application.dataPath + "/Data Path", "dataPath.json");
+        string path = Path.Combine(Application.streamingAssetsPath + "/Data Path", "dataPath.json");
         string jsonData = File.ReadAllText(path);
         dataPath = JsonUtility.FromJson<DataPath>(jsonData);
 
@@ -84,6 +89,14 @@ public class FilePath : LoadFile
         rootPaths[1] = dataPath.vrPath;
         rootPaths[2] = dataPath.ugcPath;
         rootPaths[3] = dataPath.batchPath;
+
+        if (DEV.instance != null && DEV.instance.isTEST)
+        {
+            DEV.instance.rootPaths[0] = rootPaths[0];
+            DEV.instance.rootPaths[1] = rootPaths[1];
+            DEV.instance.rootPaths[2] = rootPaths[2];
+            DEV.instance.rootPaths[3] = rootPaths[3];
+        }
     }
 
     // save path data
@@ -107,8 +120,13 @@ public class FilePath : LoadFile
 
         rootPaths[buttonNum] = _path;
 
+        if (DEV.instance.isTEST)
+        {
+            DEV.instance.rootPaths[buttonNum] = _path;
+        }
+
         string jsonData = JsonUtility.ToJson(dataPath, true);
-        string path = Path.Combine(Application.dataPath + "/Data Path", "dataPath.json");
+        string path = Path.Combine(Application.streamingAssetsPath + "/Data Path", "dataPath.json");
         File.WriteAllText(path, jsonData);
 
         SetFilePath();
@@ -117,7 +135,7 @@ public class FilePath : LoadFile
     // load path data
     public DataPath LoadPath()
     {
-        string path = Path.Combine(Application.dataPath + "/Data Path", "dataPath.json");
+        string path = Path.Combine(Application.streamingAssetsPath + "/Data Path", "dataPath.json");
         string jsonData = File.ReadAllText(path);
         dataPath = JsonUtility.FromJson<DataPath>(jsonData);
 
@@ -129,7 +147,7 @@ public class FilePath : LoadFile
         dataPath.pcPath = dataPath.vrPath = dataPath.ugcPath = dataPath.batchPath = defaultDataPath;
 
         string jsonData = JsonUtility.ToJson(dataPath, true);
-        string path = Path.Combine(Application.dataPath + "/Data Path", "dataPath.json");
+        string path = Path.Combine(Application.streamingAssetsPath + "/Data Path", "dataPath.json");
         File.WriteAllText(path, jsonData);
 
         InitDataPath();

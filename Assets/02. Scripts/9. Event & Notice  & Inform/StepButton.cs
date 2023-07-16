@@ -5,10 +5,10 @@ using UnityEngine.EventSystems;
 
 public class StepButton : MonoBehaviour
 {
-    public int indexNum;
+    public int indexNum; // button index number
 
     public SwipeUI swipeUI;
-    public GameObject selectImage;
+    public GameObject selectImage; // selected image gameobejct
     
     public EventTrigger.Entry clickEvent;
 

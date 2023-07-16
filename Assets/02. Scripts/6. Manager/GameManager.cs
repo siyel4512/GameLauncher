@@ -9,12 +9,16 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    
-    public bool isLogin;
-    
-    public GameObject[] pages;
-    public FileDownload[] SelectButtons;
 
+    [Header("[ Login ]")]
+    public bool isLogin;
+
+    [Space(10)]
+    [Header("[ Page Setting ]")]
+    public GameObject[] pages;
+
+    [Space(10)]
+    [Header("[ Using Components ]")]
     public Login login;
     public FilePath filePath;
     public URL url;
@@ -23,6 +27,19 @@ public class GameManager : MonoBehaviour
     public FrientListManager friendListManager;
     public RequestFriendManager requestFriendManager;
     public BannerNoticeManager bannerNoticeManager;
+
+    [Space(10)]
+    [Header("[ File Download Buttons ]")]
+    public FileDownload[] SelectButtons;
+
+    [Space(10)]
+    [Header("[ Friend List Settings ]")]
+    public int friendCount;
+    public int requestFriendCount;
+
+    [Space(10)]
+    [Header("[ Player State Settings ]")]
+    public int playerLimitTime;
 
     private void Awake()
     {
@@ -39,7 +56,9 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        playerManager.limitTime = playerLimitTime;
+        friendListManager.friendCount = friendCount;
+        requestFriendManager.requestfriendCount = requestFriendCount;
     }
 
     public void SetPage(int pageNum)

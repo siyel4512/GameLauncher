@@ -11,26 +11,34 @@ using Debug = UnityEngine.Debug;
 public class SwipeUI : MonoBehaviour
 {
     // set using conpoent
+    [Header("[ Side Button Settings ]")]
     public Button previousButton;
     public Button nextButton;
     public GameObject sideButtons;
 
+    [Space(10)]
+    [Header("[ Contents Settings ]")]
     public GameObject conents_prefab;
-    public GameObject stepButton_prefab;
-
     public Transform spawnContentsPos;
+
+    [Space(10)]
+    [Header("[ Step Button Settings ]")]
+    public GameObject stepButton_prefab;
     public Transform spawnStepButtonsPos;
 
-    
     protected List<StepButton> spawnedStepButton;
 
     //public int TEST_Contents_Count;
 
     // set state
-    protected bool isExistContents; // have contents
+    [Space(10)]
+    [Header("[ State Settings ]")]
+    protected bool isUsingStepButtons; // using step buttons
     public bool isUsingSelectStepImage;
 
     // set swipe animation
+    [Space(10)]
+    [Header("[ Swipe Animation Settings ]")]
     public Scrollbar scrollBar;                    // Scrollbar의 위치를 바탕으로 현재 페이지 검사
     //public Transform[] stepButtons;             // 현재 페이지를 나타내는 원 Image UI들의 Transform
     public float swipeTime = 0.2f;         // 페이지가 Swipe 되는 시간
@@ -150,7 +158,7 @@ public class SwipeUI : MonoBehaviour
 
     public void ShowNHideSideButton(bool isShow)
     {
-        if (isExistContents)
+        if (isUsingStepButtons)
         {
             sideButtons.SetActive(isShow);
         }

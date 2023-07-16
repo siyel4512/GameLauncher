@@ -6,11 +6,14 @@ using TMPro;
 
 public class RequestInfo : MonoBehaviour
 {
+    [Header("[ Info Values ]")]
     public string nickname;
     public string state;
 
     public bool isRequestComplate;
 
+    [Space(10)]
+    [Header("[ UI ]")]
     public TMP_Text nickname_text;
 
     // Start is called before the first frame update

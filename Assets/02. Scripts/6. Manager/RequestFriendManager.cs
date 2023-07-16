@@ -5,17 +5,16 @@ using System.Linq;
 using System.Reflection;
 using Cysharp.Threading.Tasks;
 using System;
-using static SaveData;
-//using static SaveData;
 
 public class RequestFriendManager : MonoBehaviour
 {
     // friend list
+    [Header("[ Reqeuset List Settings ]")]
     public RectTransform requestScrollPos;
     public GameObject requestContent;
     public GameObject requestSlot;
     public List<RequestInfo> requestList;
-    //public bool isSelectedSlot;
+    public int requestfriendCount;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +32,7 @@ public class RequestFriendManager : MonoBehaviour
     // Todo : 임시 친구 리스트 생성
     public void CreateRequestList()
     {
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < requestfriendCount; i++)
         {
             GameObject clone = Instantiate(requestSlot);
             clone.transform.SetParent(requestContent.transform, false);

@@ -11,13 +11,11 @@ public class FolderDialog : MonoBehaviour
     [DllImport("user32.dll")]
     private static extern IntPtr GetActiveWindow();
 
-    public int popupNum;
-    public TMP_InputField installPath_text;
+    public int popupNum; // Folder Dialog Number
+    public TMP_InputField installPath_text; // Install Path
 
     private void OnEnable()
     {
-        Debug.Log("열림");
-
         // set select install path
         installPath_text.text = GameManager.instance.filePath.ExeFolderPaths[popupNum];
     }

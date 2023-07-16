@@ -3,7 +3,11 @@ using UnityEngine.UI;
 
 public class GuideInfo : MonoBehaviour
 {
+    [Header("[ Info Values ]")]
     public string downloadLinkURL;
+
+    [Space(10)]
+    [Header("[ UI ]")]
     private Button downloadButton;
 
     // Start is called before the first frame update

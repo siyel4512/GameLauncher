@@ -6,15 +6,16 @@ using TMPro;
 
 public class FriendInfo : MonoBehaviour
 {
+    [Header("[ Info Values ]")]
     public string nickname;
     public string state;
-    
-    public TMP_Text nickname_text;
-    public TMP_Text state_text;
-
-    public Image stateIcon;
     public bool isSelected;
 
+    [Space(10)]
+    [Header("[ UI ]")]
+    public TMP_Text nickname_text;
+    public TMP_Text state_text;
+    public Image stateIcon;
     public GameObject selectedImage;
 
     // Start is called before the first frame update

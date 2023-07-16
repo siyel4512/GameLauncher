@@ -6,13 +6,17 @@ using UnityEngine.EventSystems;
 
 public class BannerInfo : MonoBehaviour
 {
+    [Header("[ Info Values ]")]
     public string title;
     public string linkURL;
 
+    [Space(10)]
+    [Header("[ UI ]")]
     public BannerUI bannerUI;
-
     public TMP_Text title_text;
 
+    [Space(10)]
+    [Header("[ Event ]")]
     public EventTrigger.Entry clickEvent;
 
     // Start is called before the first frame update

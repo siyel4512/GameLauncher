@@ -15,30 +15,33 @@ using Debug = UnityEngine.Debug;
 
 public class PlayerManager : MonoBehaviour
 {
-    //public TMP_Dropdown dropdown;
-    public int currentState;
-
     // timer
-    private Stopwatch sw;
+    [Header("[ Timer Settings ]")]
     public int limitTime;
     public int currentTimeCount;
+    private bool isStartTimer;
+    private Stopwatch sw;
 
     // player nickname & state
+    [Space(10)]
+    [Header("[ Player State Settings ]")]
     public TMP_Text nickname;
     public TMP_Text stateName;
-    public Image icon;
+    public Image icon; // state icon
+    public int currentState;
 
     // setting menu buttons
+    [Space(10)]
+    [Header("[ Setting Menu ]")]
+    public GameObject settingMenu;
+    public bool isStateSettings;
+
     public Button StateButton;
     public Button onlineButton;
     public Button takeABreakButton;
     public Button otherWorkButton;
     public Button logoutButton;
-
-    public bool isStateSettings;
-    public GameObject settingMenu;
-
-    private bool isStartTimer;
+    
 
     // Start is called before the first frame update
     void Start()

@@ -1,22 +1,24 @@
-using UnityEngine;
-using TMPro;
-using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using TMPro;
 
 public class NoticeInfo : MonoBehaviour
 {
+    [Header("[ Info Values ]")]
     public string title;
     public string content;
     public string linkURL;
+    private List<NoticeInfo> spawnedContents;
 
+    [Space(10)]
+    [Header("[ UI ]")]
     public NoticeUI noticeUI;
-
-    protected List<NoticeInfo> spawnedContents;
-
     public TMP_Text title_text;
     public TMP_Text content_text;
 
+    [Space(10)]
+    [Header("[ Event ]")]
     public EventTrigger.Entry clickEvent;
 
     // Start is called before the first frame update

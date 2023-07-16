@@ -12,12 +12,17 @@ using Debug = UnityEngine.Debug;
 
 public class Login : MonoBehaviour
 {
+    [Header("[ Id & password Inputfield ]")]
     public InputField id;
     public InputField password;
 
+    [Space(10)]
+    [Header("[ Login Button ]")]
     public Button loginButton;
 
     public static string PID;
+
+    private TCP_Server tcp_Server = new TCP_Server();
 
     // Start is called before the first frame update
     void Start()
@@ -192,22 +197,30 @@ public class Login : MonoBehaviour
             GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
         }
     }
-    
+
+    // Success login
     public void SetLogin()
     {
         GameManager.instance.isLogin = true; // login
         GameManager.instance.playerManager.SetPlayerState(0); // set player state
-        GameManager.instance.SetPage(1); // set main page
+        //GameManager.instance.pages[1].SetActive(true); // set main page
+        GameManager.instance.SetPage(1);
         GameManager.instance.SetSelectButton(0); // set file download button
         GameManager.instance.friendListManager.CreateList(); // create friedn list
         GameManager.instance.requestFriendManager.CreateRequestList(); // create request friend list
         GameManager.instance.bannerNoticeManager.CreateAllContents();
+
+        //GameManager.instance.pages[0].SetActive(false); // hide login page
+
+        // start TCP server
+        tcp_Server.StartServer();
 
         // id & password input field reset
         id.text = "";
         password.text = "";
     }
 
+    // Success logout
     public void SetLogOut()
     {
         GameManager.instance.isLogin = false; // logout
@@ -218,5 +231,8 @@ public class Login : MonoBehaviour
         GameManager.instance.bannerNoticeManager.bannerUI.DeleteContents();
         GameManager.instance.bannerNoticeManager.noticeUIs[0].DeleteContents();
         GameManager.instance.bannerNoticeManager.noticeUIs[1].DeleteContents();
+
+        // stop TCP server
+        tcp_Server.StopServer();
     }
 }

@@ -57,10 +57,10 @@ public class BannerUI : SwipeUI
             spawnedStepButton.Add(_stepButton);
         }
 
-        // If you have more than one content
-        if (spawnedContents.Count > 0)
+        // using side buttons
+        if (spawnedContents.Count > 1)
         {
-            isExistContents = true;
+            isUsingStepButtons = true;
         }
 
         //scrollPageValues = new float[transform.childCount]; // 스크롤 되는 페이지의 각 value 값을 저장하는 배열 메모리 할당
@@ -94,7 +94,7 @@ public class BannerUI : SwipeUI
     public void DeleteContents()
     {
         sw.Stop();
-        isExistContents = false;
+        isUsingStepButtons = false;
         currentPage = 0;
 
         for (int i = 0; i < spawnedContents.Count; i++)
