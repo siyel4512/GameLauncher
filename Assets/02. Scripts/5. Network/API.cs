@@ -30,18 +30,28 @@ public class API : URL
 
     #region Friend List
     // friend list
-    private async UniTask<List<SaveData.friendList>> Request_FriendList()
+    //private async UniTask<List<SaveData.friendList>> Request_FriendList()
+    public async UniTask<List<SaveData.friendList>> Request_FriendList()
     {
+        Debug.Log("Request_FriendList() start()");
+
         List<SaveData.friendList> data = new List<SaveData.friendList>();
 
+        HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
+
         HttpClient client = new HttpClient();
-        var response = await client.GetAsync(friendList);
+        //var response = await client.GetAsync(friendList);
+        //var response = await client.GetAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do");
+        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do", content);
+        var response = await client.PostAsync("http://101.101.218.135:5002/authMngr/login.do", content);
         string requestResult = await response.Content.ReadAsStringAsync();
+
+        Debug.Log(response.RequestMessage);
 
         if (response.IsSuccessStatusCode)
         {
             Debug.Log("친구 리스트 : " + requestResult);
-            data = JsonUtility.FromJson<SaveData>(requestResult).friend_List;
+            data = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
         }
         else
         {
@@ -78,7 +88,6 @@ public class API : URL
     // delete friend
 
     #endregion
-
 
     #region player state
     // upudate player state

@@ -7,6 +7,7 @@ public class SaveData
     [Serializable]
     public class friendList
     {
+        public string ncnm;
         public int frndNo;
         public int mbrNo;
         public int frndMbrNo;
@@ -16,11 +17,12 @@ public class SaveData
         public string upDt;
         public string regDt;
     }
-    public List<friendList> friend_List;
+    public List<friendList> frndInfoList;
 
     [Serializable]
     public class requestFriendList
     {
+        public string ncnm;
         public int frndNo;
         public int mbrNo;
         public int frndMbrNo;

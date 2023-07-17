@@ -36,8 +36,8 @@ public class GameManager : MonoBehaviour
 
     [Space(10)]
     [Header("[ Friend List Settings ]")]
-    public int friendCount; // »èÁ¦ ¿¹Á¤
-    public int requestFriendCount; // »èÁ¦ ¿¹Á¤
+    public int friendCount; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public int requestFriendCount; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     [Space(10)]
     [Header("[ Player State Settings ]")]
@@ -60,12 +60,13 @@ public class GameManager : MonoBehaviour
     {
         playerManager.limitTime = playerLimitTime;
 
-        jsonData.friendListValues = JsonUtility.FromJson<SaveData>(api.friendList).friend_List;
+        jsonData.friendListValues = JsonUtility.FromJson<SaveData>(api.friendList).frndInfoList;
         jsonData.requestFriendListValues = JsonUtility.FromJson<SaveData>(api.requestFriendList).requestFriend_List;
         friendListManager.friendCount = jsonData.friendListValues.Count;
         requestFriendManager.requestfriendCount = jsonData.requestFriendListValues.Count;
     }
 
+    #region set launcher page
     public void SetPage(int pageNum)
     {
         HidePages();
@@ -75,12 +76,14 @@ public class GameManager : MonoBehaviour
 
     public void HidePages()
     {
-        for (int i = 0; i < pages.Length; i++) 
+        for (int i = 0; i < pages.Length; i++)
         {
             pages[i].SetActive(false);
         }
     }
+    #endregion
 
+    #region set file download button
     public void SetSelectButton(int buttonNum)
     {
         HideSelectButtons();
@@ -102,7 +105,9 @@ public class GameManager : MonoBehaviour
             SelectButtons[i].excuteButton.gameObject.SetActive(false);
         }
     }
+    #endregion
 
+    #region set logout
     public void ResetLauncher()
     {
         login.SetLogOut();
@@ -110,4 +115,10 @@ public class GameManager : MonoBehaviour
 
         SetPage(0);
     }
+    #endregion
+
+    #region refresh data
+    // timer
+    // request data
+    #endregion
 }

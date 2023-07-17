@@ -12,6 +12,7 @@ public class FriendInfo : MonoBehaviour
     public bool isSelected;
 
     // json 값 저정
+    public string ncnm;
     public int frndNo;
     public int mbrNo;
     public int frndMbrNo;
@@ -69,22 +70,42 @@ public class FriendInfo : MonoBehaviour
 
     public void SetSlotValues()
     {
-        nickname_text.text = nickname;
+        //nickname_text.text = nickname;
+        nickname_text.text = ncnm;
         state_text.text = state;
 
         // set state icon
-        switch (state)
+        //switch (state)
+        //{
+        //    case "온라인":
+        //        stateIcon.color = Color.green;
+        //        break;
+        //    case "자리 비움":
+        //        stateIcon.color = Color.yellow;
+        //        break;
+        //    case "다른 용무 중":
+        //        stateIcon.color = Color.red;
+        //        break;
+        //    case "오프라인":
+        //        stateIcon.color = Color.gray;
+        //        break;
+        //}
+        switch (frndSttus)
         {
-            case "온라인":
+            case "0":
+                state_text.text = "온라인";
                 stateIcon.color = Color.green;
                 break;
-            case "자리 비움":
+            case "1":
+                state_text.text = "자리 비움";
                 stateIcon.color = Color.yellow;
                 break;
-            case "다른 용무 중":
+            case "2":
+                state_text.text = "다른 용무 중";
                 stateIcon.color = Color.red;
                 break;
-            case "오프라인":
+            case "3":
+                state_text.text = "오프라인";
                 stateIcon.color = Color.gray;
                 break;
         }

@@ -202,7 +202,7 @@ public class Login : MonoBehaviour
     public void SetLogin()
     {
         // set nick name
-
+        GameManager.instance.playerManager.nickname.text = "Player Nick Name1";
 
         GameManager.instance.isLogin = true; // login
         GameManager.instance.playerManager.SetPlayerState(0); // set player state
@@ -227,7 +227,8 @@ public class Login : MonoBehaviour
     public void SetLogOut()
     {
         // delete nick name
-        
+        GameManager.instance.playerManager.nickname.text = "";
+
         GameManager.instance.isLogin = false; // logout
         GameManager.instance.friendListManager.isSelectedSlot = false; // selected friend slot reset
         GameManager.instance.friendListManager.DeleteList(); // delete friend list

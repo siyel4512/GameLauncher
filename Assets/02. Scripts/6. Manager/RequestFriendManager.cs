@@ -7,6 +7,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using Org.BouncyCastle.Asn1.Ocsp;
 using TMPro.EditorUtilities;
+using System.Security.Claims;
 
 public class RequestFriendManager : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class RequestFriendManager : MonoBehaviour
     public GameObject requestSlot;
     public List<RequestInfo> requestList;
     public int requestfriendCount;
+
+    public bool isUsingAlarmIcon;
+    public GameObject[] AlarmIcons;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +40,8 @@ public class RequestFriendManager : MonoBehaviour
     {
         for (int i = 0; i < requestfriendCount; i++)
         {
+            List<SaveData.friendList> friendListValues = GameManager.instance.jsonData.friendListValues;
+            
             GameObject clone = Instantiate(requestSlot);
             clone.transform.SetParent(requestContent.transform, false);
 
@@ -55,6 +61,21 @@ public class RequestFriendManager : MonoBehaviour
         }
 
         requestScrollPos.anchoredPosition = new Vector2(0, 0);
+
+        // Alarm Icon
+        if (isUsingAlarmIcon)
+        {
+            if (requestfriendCount > 0)
+            {
+                AlarmIcons[0].SetActive(true);
+                AlarmIcons[1].SetActive(true);
+            }
+            else
+            {
+                AlarmIcons[0].SetActive(false);
+                AlarmIcons[1].SetActive(false);
+            }
+        }
     }
 
     public void DeleteRequestList()
@@ -121,6 +142,21 @@ public class RequestFriendManager : MonoBehaviour
                 Destroy(requestList[i].gameObject);
                 requestList.RemoveAt(i);
                 break;
+            }
+        }
+
+        // Alarm Icon
+        if (isUsingAlarmIcon)
+        {
+            if (requestList.Count > 0)
+            {
+                AlarmIcons[0].SetActive(true);
+                AlarmIcons[1].SetActive(true);
+            }
+            else
+            {
+                AlarmIcons[0].SetActive(false);
+                AlarmIcons[1].SetActive(false);
             }
         }
     }

@@ -73,26 +73,48 @@ public class FrientListManager : MonoBehaviour
     {
         for (int i = 0; i < friendCount; i++)
         {
-            temp_friendList.Add(new FriendInfo() { nickname = $"Test_" + i, state = "온라인" });
+            List<SaveData.friendList> friendListValues = GameManager.instance.jsonData.friendListValues;
 
+            // create & set temp friend info
+            temp_friendList.Add(new FriendInfo() 
+            { 
+                nickname = $"Test_" + i,
+                state = "온라인",
+
+            ncnm = friendListValues[i].ncnm,
+            frndNo = friendListValues[i].frndNo,
+            mbrNo = friendListValues[i].mbrNo,
+            frndMbrNo = friendListValues[i].frndMbrNo,
+            frndSttus = friendListValues[i].frndSttus,
+            frndRqstSttus = friendListValues[i].frndRqstSttus,
+            frndRqstDt = friendListValues[i].frndRqstDt,
+            upDt = friendListValues[i].upDt,
+            regDt = friendListValues[i].regDt
+        });
+
+            // create friend list
             GameObject clone = Instantiate(listSlot);
             clone.transform.SetParent(listContent.transform, false);
 
             // set friend info
             FriendInfo info = clone.GetComponent<FriendInfo>();
+
             info.nickname = temp_friendList[i].nickname;
             info.state = temp_friendList[i].state;
-            info.frndNo = GameManager.instance.jsonData.friendListValues[i].frndNo;
-            info.mbrNo = GameManager.instance.jsonData.friendListValues[i].mbrNo;
-            info.frndMbrNo = GameManager.instance.jsonData.friendListValues[i].frndMbrNo;
-            info.frndSttus = GameManager.instance.jsonData.friendListValues[i].frndSttus;
-            info.frndRqstSttus = GameManager.instance.jsonData.friendListValues[i].frndRqstSttus;
-            info.frndRqstDt = GameManager.instance.jsonData.friendListValues[i].frndRqstDt;
-            info.upDt = GameManager.instance.jsonData.friendListValues[i].upDt;
-            info.regDt = GameManager.instance.jsonData.friendListValues[i].regDt;
+
+            info.ncnm = friendListValues[i].ncnm;
+            info.frndNo = friendListValues[i].frndNo;
+            info.mbrNo = friendListValues[i].mbrNo;
+            info.frndMbrNo = friendListValues[i].frndMbrNo;
+            info.frndSttus = friendListValues[i].frndSttus;
+            info.frndRqstSttus = friendListValues[i].frndRqstSttus;
+            info.frndRqstDt = friendListValues[i].frndRqstDt;
+            info.upDt = friendListValues[i].upDt;
+            info.regDt = friendListValues[i].regDt;
             info.SetSlotValues();
 
-            friendList.Add(clone.GetComponent<FriendInfo>());
+            //friendList.Add(clone.GetComponent<FriendInfo>());
+            friendList.Add(info);
         }
 
         listScrollPos.anchoredPosition = new Vector2(0, 0);

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 public class TestAPI : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class TestAPI : MonoBehaviour
     {
         api = GetComponent<API>();
 
-        friendListValues = JsonUtility.FromJson<SaveData>(api.friendList).friend_List;
+        friendListValues = JsonUtility.FromJson<SaveData>(api.friendList).frndInfoList;
         requestFriendListValues = JsonUtility.FromJson<SaveData>(api.requestFriendList).requestFriend_List;
 
         //Debug.Log($"{friendListValues.Count} / {requestFriendListValues.Count}");
@@ -24,14 +25,12 @@ public class TestAPI : MonoBehaviour
         //}
     }
 
-    //// Update is called once per frame
-    //void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //    {
-    //        friendListValues = JsonUtility.FromJson<SaveData>(api.friendList).friend_List;
-    //        Debug.Log($"json 파일 변환 : {friendListValues.Count}");
-
-    //    }
-    //}
+    // Update is called once per frame
+    async void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            await api.Request_FriendList();
+        }
+    }
 }
