@@ -77,9 +77,21 @@ public class FrientListManager : MonoBehaviour
 
             GameObject clone = Instantiate(listSlot);
             clone.transform.SetParent(listContent.transform, false);
-            clone.GetComponent<FriendInfo>().nickname = temp_friendList[i].nickname;
-            clone.GetComponent<FriendInfo>().state = temp_friendList[i].state;
-            clone.GetComponent<FriendInfo>().SetSlotValues();
+
+            // set friend info
+            FriendInfo info = clone.GetComponent<FriendInfo>();
+            info.nickname = temp_friendList[i].nickname;
+            info.state = temp_friendList[i].state;
+            info.frndNo = GameManager.instance.jsonData.friendListValues[i].frndNo;
+            info.mbrNo = GameManager.instance.jsonData.friendListValues[i].mbrNo;
+            info.frndMbrNo = GameManager.instance.jsonData.friendListValues[i].frndMbrNo;
+            info.frndSttus = GameManager.instance.jsonData.friendListValues[i].frndSttus;
+            info.frndRqstSttus = GameManager.instance.jsonData.friendListValues[i].frndRqstSttus;
+            info.frndRqstDt = GameManager.instance.jsonData.friendListValues[i].frndRqstDt;
+            info.upDt = GameManager.instance.jsonData.friendListValues[i].upDt;
+            info.regDt = GameManager.instance.jsonData.friendListValues[i].regDt;
+            info.SetSlotValues();
+
             friendList.Add(clone.GetComponent<FriendInfo>());
         }
 

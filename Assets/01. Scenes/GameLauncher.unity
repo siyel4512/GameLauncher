@@ -2956,6 +2956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   friendList: 
+  requestFriendList: 
 --- !u!114 &296193938 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7026266054378399249, guid: b14d8f737d1266c47a91021635776f66, type: 3}
@@ -4977,6 +4978,82 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 539923220}
   m_CullTransparentMesh: 1
+--- !u!1 &546057154
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 546057155}
+  - component: {fileID: 546057156}
+  - component: {fileID: 546057157}
+  m_Layer: 0
+  m_Name: API Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &546057155
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546057154}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1420501877}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &546057156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546057154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f6ddb73d92632646ba5e3c5ee06d622, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  friendList: '{"friend_List" : [{ "frndNo" : 1, "mbrNo" : 1, "frndMbrNo" : 2, "frndSttus"
+    : "1", "frndRqstSttus" : "1", "frndRqstDt" : "2023-06-22 00:00:00.0", "upDt"
+    : "2023-06-22 00:00:00.0", "regDt" : "2023-06-22 00:00:00.0" },{ "frndNo" : 2,
+    "mbrNo" : 1, "frndMbrNo" : 3, "frndSttus" : "0", "frndRqstSttus" : "1", "frndRqstDt"
+    : "2023-06-21 00:00:00.0", "upDt" : "2023-06-21 00:00:00.0", "regDt" : "2023-06-21
+    00:00:00.0" },{ "frndNo" : 3, "mbrNo" : 1, "frndMbrNo" : 4, "frndSttus" : "0",
+    "frndRqstSttus" : "0", "frndRqstDt" : "2023-06-21 00:00:00.0", "upDt" : "2023-06-21
+    00:00:00.0", "regDt" : "2023-06-21 00:00:00.0" }]}'
+  requestFriendList: '{"requestFriend_List" : [{ "frndNo" : 1, "mbrNo" : 1, "frndMbrNo"
+    : 2, "frndSttus" : "1", "frndRqstSttus" : "1", "frndRqstDt" : "2023-06-22 00:00:00.0",
+    "upDt" : "2023-06-22 00:00:00.0", "regDt" : "2023-06-22 00:00:00.0" },{ "frndNo"
+    : 2, "mbrNo" : 1, "frndMbrNo" : 3, "frndSttus" : "0", "frndRqstSttus" : "1",
+    "frndRqstDt" : "2023-06-21 00:00:00.0", "upDt" : "2023-06-21 00:00:00.0", "regDt"
+    : "2023-06-21 00:00:00.0" },{ "frndNo" : 3, "mbrNo" : 1, "frndMbrNo" : 4, "frndSttus"
+    : "0", "frndRqstSttus" : "0", "frndRqstDt" : "2023-06-21 00:00:00.0", "upDt"
+    : "2023-06-21 00:00:00.0", "regDt" : "2023-06-21 00:00:00.0" }]}'
+--- !u!114 &546057157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546057154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 272751780dba8a14aae8849f115ae44a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  api: {fileID: 0}
+  friendListValues: []
+  requestFriendListValues: []
 --- !u!1 &548758757
 GameObject:
   m_ObjectHideFlags: 0
@@ -13566,12 +13643,12 @@ GameObject:
   - component: {fileID: 1363374608}
   - component: {fileID: 1363374607}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1363374606
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14644,6 +14721,7 @@ GameObject:
   - component: {fileID: 1420501878}
   - component: {fileID: 1420501879}
   - component: {fileID: 1420501880}
+  - component: {fileID: 1420501881}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -14669,6 +14747,7 @@ Transform:
   - {fileID: 979119268}
   - {fileID: 1385737051}
   - {fileID: 1281924094}
+  - {fileID: 546057155}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14688,11 +14767,6 @@ MonoBehaviour:
   pages:
   - {fileID: 1913790478}
   - {fileID: 72605800}
-  SelectButtons:
-  - {fileID: 1159520791}
-  - {fileID: 1091119051}
-  - {fileID: 2115927125}
-  - {fileID: 2133052417}
   login: {fileID: 758658031}
   filePath: {fileID: 288331700}
   url: {fileID: 288331701}
@@ -14701,6 +14775,13 @@ MonoBehaviour:
   friendListManager: {fileID: 979119269}
   requestFriendManager: {fileID: 979119270}
   bannerNoticeManager: {fileID: 1385737052}
+  api: {fileID: 546057156}
+  jsonData: {fileID: 1420501881}
+  SelectButtons:
+  - {fileID: 1159520791}
+  - {fileID: 1091119051}
+  - {fileID: 2115927125}
+  - {fileID: 2133052417}
   friendCount: 10
   requestFriendCount: 10
   playerLimitTime: 10
@@ -14734,6 +14815,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialScreenWidth: 800
   initialScreenHeight: 600
+--- !u!114 &1420501881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420501876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf1e34a0ea1b4ef4986c24731b4a3a07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  friendListValues: []
+  requestFriendListValues: []
 --- !u!1 &1425853843
 GameObject:
   m_ObjectHideFlags: 0

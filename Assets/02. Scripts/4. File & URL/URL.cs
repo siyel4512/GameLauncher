@@ -21,6 +21,7 @@ public class URL : LoadFile
 
     // friend list
     public string friendList;
+    public string requestFriendList;
 
     private void Awake()
     {

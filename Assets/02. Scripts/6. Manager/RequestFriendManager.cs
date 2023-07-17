@@ -5,6 +5,8 @@ using System.Linq;
 using System.Reflection;
 using Cysharp.Threading.Tasks;
 using System;
+using Org.BouncyCastle.Asn1.Ocsp;
+using TMPro.EditorUtilities;
 
 public class RequestFriendManager : MonoBehaviour
 {
@@ -36,7 +38,19 @@ public class RequestFriendManager : MonoBehaviour
         {
             GameObject clone = Instantiate(requestSlot);
             clone.transform.SetParent(requestContent.transform, false);
-            clone.GetComponent<RequestInfo>().Test_SetSlotValue(i);
+
+            // set request info
+            RequestInfo info = clone.GetComponent<RequestInfo>();
+            info.Test_SetSlotValue(i);
+            info.frndNo = GameManager.instance.jsonData.requestFriendListValues[i].frndNo;
+            info.mbrNo = GameManager.instance.jsonData.requestFriendListValues[i].mbrNo;
+            info.frndMbrNo = GameManager.instance.jsonData.requestFriendListValues[i].frndMbrNo;
+            info.frndSttus = GameManager.instance.jsonData.requestFriendListValues[i].frndSttus;
+            info.frndRqstSttus = GameManager.instance.jsonData.requestFriendListValues[i].frndRqstSttus;
+            info.frndRqstDt = GameManager.instance.jsonData.requestFriendListValues[i].frndRqstDt;
+            info.upDt = GameManager.instance.jsonData.requestFriendListValues[i].upDt;
+            info.regDt = GameManager.instance.jsonData.requestFriendListValues[i].regDt;
+
             requestList.Add(clone.GetComponent<RequestInfo>());
         }
 

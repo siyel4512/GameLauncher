@@ -201,6 +201,9 @@ public class Login : MonoBehaviour
     // Success login
     public void SetLogin()
     {
+        // set nick name
+
+
         GameManager.instance.isLogin = true; // login
         GameManager.instance.playerManager.SetPlayerState(0); // set player state
         //GameManager.instance.pages[1].SetActive(true); // set main page
@@ -223,6 +226,8 @@ public class Login : MonoBehaviour
     // Success logout
     public void SetLogOut()
     {
+        // delete nick name
+        
         GameManager.instance.isLogin = false; // logout
         GameManager.instance.friendListManager.isSelectedSlot = false; // selected friend slot reset
         GameManager.instance.friendListManager.DeleteList(); // delete friend list

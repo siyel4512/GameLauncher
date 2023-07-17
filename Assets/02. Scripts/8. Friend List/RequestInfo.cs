@@ -9,9 +9,18 @@ public class RequestInfo : MonoBehaviour
     [Header("[ Info Values ]")]
     public string nickname;
     public string state;
-
     public bool isRequestComplate;
 
+    // json 값 저정
+    public int frndNo;
+    public int mbrNo;
+    public int frndMbrNo;
+    public string frndSttus;
+    public string frndRqstSttus;
+    public string frndRqstDt;
+    public string upDt;
+    public string regDt;
+    
     [Space(10)]
     [Header("[ UI ]")]
     public TMP_Text nickname_text;

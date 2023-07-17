@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     public FrientListManager friendListManager;
     public RequestFriendManager requestFriendManager;
     public BannerNoticeManager bannerNoticeManager;
+    public API api;
+    public JsonData jsonData;
 
     [Space(10)]
     [Header("[ File Download Buttons ]")]
@@ -34,8 +36,8 @@ public class GameManager : MonoBehaviour
 
     [Space(10)]
     [Header("[ Friend List Settings ]")]
-    public int friendCount;
-    public int requestFriendCount;
+    public int friendCount; // 삭제 예정
+    public int requestFriendCount; // 삭제 예정
 
     [Space(10)]
     [Header("[ Player State Settings ]")]
@@ -57,8 +59,11 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         playerManager.limitTime = playerLimitTime;
-        friendListManager.friendCount = friendCount;
-        requestFriendManager.requestfriendCount = requestFriendCount;
+
+        jsonData.friendListValues = JsonUtility.FromJson<SaveData>(api.friendList).friend_List;
+        jsonData.requestFriendListValues = JsonUtility.FromJson<SaveData>(api.requestFriendList).requestFriend_List;
+        friendListManager.friendCount = jsonData.friendListValues.Count;
+        requestFriendManager.requestfriendCount = jsonData.requestFriendListValues.Count;
     }
 
     public void SetPage(int pageNum)
