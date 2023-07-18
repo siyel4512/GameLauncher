@@ -18,20 +18,20 @@ public class TCP_Server
         ListenThread.Start();
     }
 
-    public void StopServer()
-    {
-        if (Server != null)
-        {
-            Server.Stop();
-            Server = null;
-        }
+    //public void StopServer()
+    //{
+    //    if (Server != null)
+    //    {
+    //        Server.Stop();
+    //        Server = null;
+    //    }
 
-        if (ListenThread != null)
-        {
-            ListenThread.Abort();
-            ListenThread = null;
-        }
-    }
+    //    if (ListenThread != null)
+    //    {
+    //        ListenThread.Abort();
+    //        ListenThread = null;
+    //    }
+    //}
 
     private void Listen()
     {
@@ -75,22 +75,22 @@ public class TCP_Server
                 stream.Write(sendBuffer, 0, sendBuffer.Length);
             }
         }
-        //catch (Exception ex)
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
+        //catch (ThreadAbortException)
         //{
-        //    Console.WriteLine(ex.ToString());
+        //     스레드가 중지되었을 때 발생하는 예외 처리
+        //    Console.WriteLine("stop thread");
         //}
-        catch (ThreadAbortException)
-        {
-            // 스레드가 중지되었을 때 발생하는 예외 처리
-            Console.WriteLine("stop thread");
-        }
-        finally
-        {
-            if (Server != null)
-            {
-                Server.Stop();
-                Server = null;
-            }
-        }
+        //finally
+        //{
+        //    if (Server != null)
+        //    {
+        //        Server.Stop();
+        //        Server = null;
+        //    }
+        //}
     }
 }

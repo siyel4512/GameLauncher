@@ -92,7 +92,7 @@ public class RequestFriendManager : MonoBehaviour
     #region Request
     public void RequestAddList()
     {
-        FrientListManager friendListManager = GameManager.instance.friendListManager;
+        FriendListManager friendListManager = GameManager.instance.friendListManager;
 
         for (int i = 0; i < requestList.Count; i++)
         {

@@ -239,6 +239,6 @@ public class Login : MonoBehaviour
         GameManager.instance.bannerNoticeManager.noticeUIs[1].DeleteContents();
 
         // stop TCP server
-        tcp_Server.StopServer();
+        //tcp_Server.StopServer();
     }
 }

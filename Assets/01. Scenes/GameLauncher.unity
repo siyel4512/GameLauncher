@@ -14703,8 +14703,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1420501877}
-  - component: {fileID: 1420501878}
   - component: {fileID: 1420501879}
+  - component: {fileID: 1420501878}
   - component: {fileID: 1420501880}
   - component: {fileID: 1420501881}
   m_Layer: 0
@@ -14770,6 +14770,9 @@ MonoBehaviour:
   friendCount: 10
   requestFriendCount: 10
   playerLimitTime: 10
+  currentTimeCount: 0
+  limitTime: 10
+  isUsingRefreshTimer: 0
 --- !u!114 &1420501879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14782,7 +14785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f2b27d97986c71449c267449c067459, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTEST: 1
+  isTEST: 0
   filePath: {fileID: 288331700}
   rootPaths: []
   windowSizeInitializer: {fileID: 1420501880}
@@ -14812,8 +14815,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf1e34a0ea1b4ef4986c24731b4a3a07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  temp_friendListValue: []
   friendListValues: []
+  temp_requestFriendListValues: []
   requestFriendListValues: []
+  frndInfoList1:
+  - ncnm: 
+    frndNo: 0
+    mbrNo: 0
+    frndMbrNo: 0
+    frndSttus: 
+    frndRqstSttus: 
+    frndRqstDt: 
+    upDt: 
+    regDt: 
+  - ncnm: 
+    frndNo: 0
+    mbrNo: 0
+    frndMbrNo: 0
+    frndSttus: 
+    frndRqstSttus: 
+    frndRqstDt: 
+    upDt: 
+    regDt: 
+  - ncnm: 
+    frndNo: 0
+    mbrNo: 0
+    frndMbrNo: 0
+    frndSttus: 
+    frndRqstSttus: 
+    frndRqstDt: 
+    upDt: 
+    regDt: 
+  frndInfoList2:
+  - ncnm: 
+    frndNo: 0
+    mbrNo: 0
+    frndMbrNo: 0
+    frndSttus: 
+    frndRqstSttus: 
+    frndRqstDt: 
+    upDt: 
+    regDt: 
+  - ncnm: 
+    frndNo: 0
+    mbrNo: 0
+    frndMbrNo: 0
+    frndSttus: 
+    frndRqstSttus: 
+    frndRqstDt: 
+    upDt: 
+    regDt: 
+  - ncnm: 
+    frndNo: 0
+    mbrNo: 0
+    frndMbrNo: 0
+    frndSttus: 
+    frndRqstSttus: 
+    frndRqstDt: 
+    upDt: 
+    regDt: 
 --- !u!1 &1425853843
 GameObject:
   m_ObjectHideFlags: 0

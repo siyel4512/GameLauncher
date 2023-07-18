@@ -20,13 +20,6 @@ public class NoticeUI : SwipeUI
         {
             ChangeContent();
         }
-
-        // Todo : 공지사항 슬롯 삭제 테스트
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("스페이스 누름");
-            DeleteContents();
-        }
     }
 
     public void TryAddContents(int contentCount)

@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 //using System.Threading.Tasks;
 
-public class FrientListManager : MonoBehaviour
+public class FriendListManager : MonoBehaviour
 {
     // main buttons
     [Space(10)]
