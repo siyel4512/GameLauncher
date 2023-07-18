@@ -9,6 +9,7 @@ using Cysharp.Threading.Tasks;
 
 using Debug = UnityEngine.Debug;
 using System.Windows.Forms;
+using static SaveData;
 
 public class GameManager : MonoBehaviour
 {
@@ -64,10 +65,10 @@ public class GameManager : MonoBehaviour
     {
         playerManager.limitTime = playerLimitTime;
 
-        jsonData.friendListValues = JsonUtility.FromJson<SaveData>(api.friendList).frndInfoList;
-        jsonData.requestFriendListValues = JsonUtility.FromJson<SaveData>(api.requestFriendList).requestFriend_List;
-        friendListManager.friendCount = jsonData.friendListValues.Count;
-        requestFriendManager.requestfriendCount = jsonData.requestFriendListValues.Count;
+        //jsonData.friendListValues = JsonUtility.FromJson<SaveData>(api.friendList).frndInfoList;
+        //jsonData.requestFriendListValues = JsonUtility.FromJson<SaveData>(api.requestFriendList).requestFriend_List;
+        //friendListManager.friendCount = jsonData.friendListValues.Count;
+        //requestFriendManager.requestfriendCount = jsonData.requestFriendListValues.Count;
 
         sw = new Stopwatch();
     }
@@ -170,10 +171,17 @@ public class GameManager : MonoBehaviour
     public void RefreshAllData()
     {
         // friend list
+        GameManager.instance.api.Request_FriendList().Forget();// create friedn list
+        
         // request friend list
+        GameManager.instance.api.Request_RequestFriendList().Forget(); // create request friend list
+        
         // file download url
+        
         // event banner
+        
         // notice
+        
         // curiverse notice
 
         Debug.Log("Request Data");

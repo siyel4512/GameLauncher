@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http;
 using TMPro;
@@ -68,9 +69,11 @@ public class FriendListManager : MonoBehaviour
         }
     }
 
-    // Todo : 임시 친구 리스트 생성
-    public void CreateList()
+    //public void CreateList()
+    public IEnumerator CreateList()
     {
+        yield return null;
+
         for (int i = 0; i < friendCount; i++)
         {
             List<SaveData.friendList> friendListValues = GameManager.instance.jsonData.friendListValues;
@@ -81,16 +84,16 @@ public class FriendListManager : MonoBehaviour
                 nickname = $"Test_" + i,
                 state = "온라인",
 
-            ncnm = friendListValues[i].ncnm,
-            frndNo = friendListValues[i].frndNo,
-            mbrNo = friendListValues[i].mbrNo,
-            frndMbrNo = friendListValues[i].frndMbrNo,
-            frndSttus = friendListValues[i].frndSttus,
-            frndRqstSttus = friendListValues[i].frndRqstSttus,
-            frndRqstDt = friendListValues[i].frndRqstDt,
-            upDt = friendListValues[i].upDt,
-            regDt = friendListValues[i].regDt
-        });
+                ncnm = friendListValues[i].ncnm,
+                frndNo = friendListValues[i].frndNo,
+                mbrNo = friendListValues[i].mbrNo,
+                frndMbrNo = friendListValues[i].frndMbrNo,
+                frndSttus = friendListValues[i].frndSttus,
+                frndRqstSttus = friendListValues[i].frndRqstSttus,
+                frndRqstDt = friendListValues[i].frndRqstDt,
+                upDt = friendListValues[i].upDt,
+                regDt = friendListValues[i].regDt
+            });
 
             // create friend list
             GameObject clone = Instantiate(listSlot);
@@ -285,6 +288,9 @@ public class FriendListManager : MonoBehaviour
                 break;
             }
         }
+
+        // 삭제 요청
+        // 리스트 갱신
     }
     #endregion
 

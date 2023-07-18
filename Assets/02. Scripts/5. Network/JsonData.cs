@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static SaveData;
+//using static SaveData;
 
 public class JsonData : MonoBehaviour
 {
@@ -11,8 +11,11 @@ public class JsonData : MonoBehaviour
     public List<SaveData.friendList> temp_friendListValue;
     public List<SaveData.friendList> friendListValues;
 
-    public List<SaveData.requestFriendList> temp_requestFriendListValues;
-    public List<SaveData.requestFriendList> requestFriendListValues;
+    // Todo : data type
+    //public List<SaveData.requestFriendList> temp_requestFriendListValues;
+    //public List<SaveData.requestFriendList> requestFriendListValues;
+    public List<SaveData.friendList> temp_requestFriendListValues;
+    public List<SaveData.friendList> requestFriendListValues;
 
     public List<SaveData.friendList> frndInfoList1;
     public List<SaveData.friendList> frndInfoList2;
@@ -76,8 +79,8 @@ public class JsonData : MonoBehaviour
         {
             for (int i = 0; i < frndInfoList1.Count; i++)
             {
-                friendList friend1 = frndInfoList1[i];
-                friendList friend2 = frndInfoList2[i];
+                SaveData.friendList friend1 = frndInfoList1[i];
+                SaveData.friendList friend2 = frndInfoList2[i];
 
                 // 각 필드 값을 비교합니다.
                 if (friend1.ncnm != friend2.ncnm
@@ -115,8 +118,8 @@ public class JsonData : MonoBehaviour
         {
             for (int i = 0; i < _list.Count; i++)
             {
-                friendList list = _list[i];
-                friendList temp_list = _temp_list[i];
+                SaveData.friendList list = _list[i];
+                SaveData.friendList temp_list = _temp_list[i];
 
                 if (list.ncnm != temp_list.ncnm
                     || list.frndNo != temp_list.frndNo

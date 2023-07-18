@@ -18,20 +18,20 @@ public class TCP_Server
         ListenThread.Start();
     }
 
-    //public void StopServer()
-    //{
-    //    if (Server != null)
-    //    {
-    //        Server.Stop();
-    //        Server = null;
-    //    }
+    public void StopServer()
+    {
+        if (Server != null)
+        {
+            Server.Stop();
+            Server = null;
+        }
 
-    //    if (ListenThread != null)
-    //    {
-    //        ListenThread.Abort();
-    //        ListenThread = null;
-    //    }
-    //}
+        if (ListenThread != null)
+        {
+            ListenThread.Abort();
+            ListenThread = null;
+        }
+    }
 
     private void Listen()
     {

@@ -209,8 +209,12 @@ public class Login : MonoBehaviour
         //GameManager.instance.pages[1].SetActive(true); // set main page
         GameManager.instance.SetPage(1);
         GameManager.instance.SetSelectButton(0); // set file download button
-        GameManager.instance.friendListManager.CreateList(); // create friedn list
-        GameManager.instance.requestFriendManager.CreateRequestList(); // create request friend list
+
+        //GameManager.instance.friendListManager.CreateList(); // create friedn list
+        //GameManager.instance.requestFriendManager.CreateRequestList(); // create request friend list
+        GameManager.instance.api.Request_FriendList().Forget();// create friedn list
+        GameManager.instance.api.Request_RequestFriendList().Forget(); // create request friend list
+
         GameManager.instance.bannerNoticeManager.CreateAllContents();
 
         //GameManager.instance.pages[0].SetActive(false); // hide login page
@@ -239,6 +243,11 @@ public class Login : MonoBehaviour
         GameManager.instance.bannerNoticeManager.noticeUIs[1].DeleteContents();
 
         // stop TCP server
-        //tcp_Server.StopServer();
+        tcp_Server.StopServer();
+    }
+
+    private void OnApplicationQuit()
+    {
+        tcp_Server.StopServer();
     }
 }

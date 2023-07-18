@@ -12,6 +12,7 @@ public class RequestInfo : MonoBehaviour
     public bool isRequestComplate;
 
     // json 값 저정
+    public string ncnm;
     public int frndNo;
     public int mbrNo;
     public int frndMbrNo;
@@ -37,10 +38,10 @@ public class RequestInfo : MonoBehaviour
         
     }
 
-    public void Test_SetSlotValue(int _index)
+    public void SetSlotValue()
     {
-        nickname = $"Request_" + _index;
-        state = "온라인";
+        nickname = ncnm;
+        //state = "온라인";
 
         nickname_text.text = nickname;
     }
@@ -51,6 +52,10 @@ public class RequestInfo : MonoBehaviour
         isRequestComplate = true;
 
         GameManager.instance.requestFriendManager.RequestAddList();
+
+        // 요청 리스트 갱신
+        // 친구 리스트 추가
+        // 친구 리스트 갱신
     }
 
     public void BTN_Refuse()
@@ -59,5 +64,8 @@ public class RequestInfo : MonoBehaviour
         isRequestComplate = true;
 
         GameManager.instance.requestFriendManager.DeleteList();
+
+        // 요청 삭제 요청
+        // 요청 리스트 갱신
     }
 }

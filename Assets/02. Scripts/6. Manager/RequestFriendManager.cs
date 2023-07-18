@@ -36,8 +36,11 @@ public class RequestFriendManager : MonoBehaviour
 
     #region Set List
     // Todo : 임시 친구 리스트 생성
-    public void CreateRequestList()
+    //public void CreateRequestList()
+    public IEnumerator CreateRequestList()
     {
+        yield return null;
+
         for (int i = 0; i < requestfriendCount; i++)
         {
             List<SaveData.friendList> friendListValues = GameManager.instance.jsonData.friendListValues;
@@ -47,7 +50,7 @@ public class RequestFriendManager : MonoBehaviour
 
             // set request info
             RequestInfo info = clone.GetComponent<RequestInfo>();
-            info.Test_SetSlotValue(i);
+            info.ncnm = GameManager.instance.jsonData.requestFriendListValues[i].ncnm;
             info.frndNo = GameManager.instance.jsonData.requestFriendListValues[i].frndNo;
             info.mbrNo = GameManager.instance.jsonData.requestFriendListValues[i].mbrNo;
             info.frndMbrNo = GameManager.instance.jsonData.requestFriendListValues[i].frndMbrNo;
@@ -56,6 +59,7 @@ public class RequestFriendManager : MonoBehaviour
             info.frndRqstDt = GameManager.instance.jsonData.requestFriendListValues[i].frndRqstDt;
             info.upDt = GameManager.instance.jsonData.requestFriendListValues[i].upDt;
             info.regDt = GameManager.instance.jsonData.requestFriendListValues[i].regDt;
+            info.SetSlotValue();
 
             requestList.Add(clone.GetComponent<RequestInfo>());
         }
@@ -86,6 +90,9 @@ public class RequestFriendManager : MonoBehaviour
         }
 
         requestList.Clear();
+
+        AlarmIcons[0].SetActive(false);
+        AlarmIcons[1].SetActive(false);
     }
     #endregion
 
@@ -98,15 +105,42 @@ public class RequestFriendManager : MonoBehaviour
         {
             if (requestList[i].isRequestComplate)
             {
-                friendListManager.temp_friendList.Add(new FriendInfo() { nickname = requestList[i].GetComponent<RequestInfo>().nickname, state = requestList[i].GetComponent<RequestInfo>().state });
+                friendListManager.temp_friendList.Add(new FriendInfo() 
+                { 
+                    nickname = requestList[i].GetComponent<RequestInfo>().nickname, 
+                    state = requestList[i].GetComponent<RequestInfo>().state,
+
+                    ncnm = requestList[i].GetComponent<RequestInfo>().ncnm,
+                    frndNo = requestList[i].GetComponent<RequestInfo>().frndNo,
+                    mbrNo = requestList[i].GetComponent<RequestInfo>().mbrNo,
+                    frndMbrNo = requestList[i].GetComponent<RequestInfo>().frndMbrNo,
+                    frndSttus = requestList[i].GetComponent<RequestInfo>().frndSttus,
+                    frndRqstSttus = requestList[i].GetComponent<RequestInfo>().frndRqstSttus,
+                    frndRqstDt = requestList[i].GetComponent<RequestInfo>().frndRqstDt,
+                    upDt = requestList[i].GetComponent<RequestInfo>().upDt,
+                    regDt = requestList[i].GetComponent<RequestInfo>().regDt
+            });
 
                 // add request
                 GameObject clone = Instantiate(friendListManager.listSlot);
                 clone.transform.SetParent(friendListManager.listContent.transform, false);
 
-                clone.GetComponent<FriendInfo>().nickname = requestList[i].GetComponent<RequestInfo>().nickname;
-                clone.GetComponent<FriendInfo>().state = requestList[i].GetComponent<RequestInfo>().state;
-                clone.GetComponent<FriendInfo>().SetSlotValues();
+                FriendInfo friendtInfo = clone.GetComponent<FriendInfo>();
+
+                friendtInfo.nickname = requestList[i].GetComponent<RequestInfo>().nickname;
+                //friendtInfo.state = requestList[i].GetComponent<RequestInfo>().state;
+                
+                friendtInfo.ncnm = requestList[i].GetComponent<RequestInfo>().ncnm;
+                friendtInfo.frndNo = requestList[i].GetComponent<RequestInfo>().frndNo;
+                friendtInfo.mbrNo = requestList[i].GetComponent<RequestInfo>().mbrNo;
+                friendtInfo.frndMbrNo = requestList[i].GetComponent<RequestInfo>().frndMbrNo;
+                friendtInfo.frndSttus = requestList[i].GetComponent<RequestInfo>().frndSttus;
+                friendtInfo.frndRqstSttus = requestList[i].GetComponent<RequestInfo>().frndRqstSttus;
+                friendtInfo.frndRqstDt = requestList[i].GetComponent<RequestInfo>().frndRqstDt;
+                friendtInfo.upDt = requestList[i].GetComponent<RequestInfo>().upDt;
+                friendtInfo.regDt = requestList[i].GetComponent<RequestInfo>().regDt;
+
+                friendtInfo.SetSlotValues();
 
                 friendListManager.friendList.Add(clone.GetComponent<FriendInfo>());
 

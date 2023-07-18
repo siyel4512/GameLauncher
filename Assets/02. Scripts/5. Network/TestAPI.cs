@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 
 public class TestAPI : MonoBehaviour
 {
@@ -26,11 +27,12 @@ public class TestAPI : MonoBehaviour
     }
 
     // Update is called once per frame
-    async void Update()
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            await api.Request_FriendList();
+            api.Request_FriendList().Forget();
+            //GameManager.instance.friendListManager.CreateList();
         }
     }
 }
