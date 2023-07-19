@@ -53,9 +53,14 @@ public class RequestInfo : MonoBehaviour
 
         GameManager.instance.requestFriendManager.RequestAddList();
 
-        // 요청 리스트 갱신
         // 친구 리스트 추가
+        GameManager.instance.api.Request_Accept(mbrNo, frndMbrNo).Forget();
+
+        // 요청 리스트 갱신
+        //GameManager.instance.api.Request_RequestFriendList().Forget();
+
         // 친구 리스트 갱신
+        GameManager.instance.api.Request_FriendList().Forget();
     }
 
     public void BTN_Refuse()
@@ -66,6 +71,9 @@ public class RequestInfo : MonoBehaviour
         GameManager.instance.requestFriendManager.DeleteList();
 
         // 요청 삭제 요청
+        //GameManager.instance.api.Request_RefuseNDelete(mbrNo, frndMbrNo).Forget();
+
         // 요청 리스트 갱신
+        //GameManager.instance.api.Request_RequestFriendList().Forget();
     }
 }

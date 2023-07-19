@@ -993,7 +993,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: '>'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 18a947cbbde2d1d43ae2d7495c8b49a2, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1057,7 +1057,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &2804119898635887545
@@ -1128,7 +1128,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: <
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 18a947cbbde2d1d43ae2d7495c8b49a2, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1192,7 +1192,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &2804119898998149212
@@ -1292,10 +1292,9 @@ MonoBehaviour:
   nextButton: {fileID: 2804119897158900038}
   sideButtons: {fileID: 2804119898528267101}
   conents_prefab: {fileID: 6568977670822452804, guid: 8f4525376db138942bfbb6b681beeed9, type: 3}
-  stepButton_prefab: {fileID: 6036468696996979920, guid: 7cece63df24bd6c4b952dcc6e3109b19, type: 3}
   spawnContentsPos: {fileID: 2804119897138884162}
+  stepButton_prefab: {fileID: 6036468696996979920, guid: 7cece63df24bd6c4b952dcc6e3109b19, type: 3}
   spawnStepButtonsPos: {fileID: 2804119898045462507}
-  TEST_Contents_Count: 10
   isUsingSelectStepImage: 1
   scrollBar: {fileID: 2804119898097637520}
   swipeTime: 0.2

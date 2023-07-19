@@ -9,6 +9,7 @@ public enum PopupType
     logout,
     UserSearch,
     UserSearchFaild,
+    AlreadyExistFriend,
     RequestFriend,
     BlankError,
     DeleteFriend,
@@ -65,13 +66,17 @@ public class PopupManager : MonoBehaviour
         popups[(int)PopupType.UserSearch].SetActive(false);
 
         // input field reset
-        GameManager.instance.friendListManager.searchUserNickName.text = "";
+        GameManager.instance.friendListManager.ResetSearchUserNickName();
     }
 
     public void BTN_ConfirmRequestFriend()
     {
         popups[(int)PopupType.UserSearch].SetActive(false);
         popups[(int)PopupType.RequestFriend].SetActive(false);
+
+        // 친구 신청
+        Debug.Log("친구 요청 완료");
+        GameManager.instance.api.Request_AddFriend(GameManager.instance.jsonData.searchFriend.frndMbrNo, GameManager.instance.jsonData.searchFriend.mbrNo).Forget();
     }
 
     public void BTN_CancelRequestFriend()
@@ -99,6 +104,7 @@ public class PopupManager : MonoBehaviour
     public void BTN_CancelDeleteFriend()
     {
         popups[(int)PopupType.DeleteFriend].SetActive(false);
+        Debug.Log("친구 삭제 취소...");
     }
 
     public void BTN_ConfrimNotSelectedFriend()
@@ -114,6 +120,11 @@ public class PopupManager : MonoBehaviour
     public void SetContents(int index, string nickname)
     {
         popupContents[index].text = $"'{nickname}'님께 친구 요청을 하시겠습니까?";
-    }  
+    } 
+    
+    public void BTN_CloseAlreadyFriend()
+    {
+        popups[(int)PopupType.AlreadyExistFriend].SetActive(false);
+    }
     #endregion
 }

@@ -31,7 +31,9 @@ public class TestAPI : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            api.Request_FriendList().Forget();
+            //api.Request_SearchFriend("πË∆Æ∏«").Forget();
+
+            //api.Request_RefuseNDelete(1, 5).Forget();
             //GameManager.instance.friendListManager.CreateList();
         }
     }

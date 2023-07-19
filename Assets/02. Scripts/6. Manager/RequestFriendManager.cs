@@ -2,12 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using System.Reflection;
 using Cysharp.Threading.Tasks;
 using System;
-using Org.BouncyCastle.Asn1.Ocsp;
-using TMPro.EditorUtilities;
-using System.Security.Claims;
 
 public class RequestFriendManager : MonoBehaviour
 {

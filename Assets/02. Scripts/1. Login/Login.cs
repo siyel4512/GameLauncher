@@ -81,7 +81,7 @@ public class Login : MonoBehaviour
     // Request public key
     private async UniTaskVoid RequestKey()
     {
-        Debug.Log($"{URL.Instance.Key_id} / {id.text}");
+        //Debug.Log($"{URL.Instance.Key_id} / {id.text}");
 
         var idValue = new Dictionary<string, string>
         {
@@ -89,16 +89,16 @@ public class Login : MonoBehaviour
         };
 
         string keyFilePath = Environment.CurrentDirectory + "\\KEY\\" + id.text + ".pem";
-        Debug.Log($"key File paht : {keyFilePath}");
+        //Debug.Log($"key File paht : {keyFilePath}");
         
         if (File.Exists(keyFilePath))
         {
-            Debug.Log("파일 있음");
+            //Debug.Log("파일 있음");
             await TryLogin(RSAPasswordEncrypt.ImportPublicKey(File.ReadAllText(keyFilePath)));
         }
         else
         {
-            Debug.Log($"파일 없음 / {URL.Instance.GetKeyUrl}");
+            //Debug.Log($"파일 없음 / {URL.Instance.GetKeyUrl}");
             var content = new FormUrlEncodedContent(idValue);
             HttpClient client = new HttpClient();
             var response = await client.PostAsync(URL.Instance.GetKeyUrl, content);
@@ -131,9 +131,9 @@ public class Login : MonoBehaviour
             { URL.Instance.Key_password, rsaPassword }
         };
 
-        Debug.Log($"FilePath.Instance.GetKeyUrl : {URL.Instance.GetKeyUrl} " +
-            $"/ id.text : {id.text} / FilePath.Instance.Key_password : {URL.Instance.Key_password}" +
-            $" / rsaPassword : {rsaPassword}");
+        //Debug.Log($"FilePath.Instance.GetKeyUrl : {URL.Instance.GetKeyUrl} " +
+        //    $"/ id.text : {id.text} / FilePath.Instance.Key_password : {URL.Instance.Key_password}" +
+        //    $" / rsaPassword : {rsaPassword}");
 
         var content = new FormUrlEncodedContent(loginValues);
 
@@ -159,10 +159,10 @@ public class Login : MonoBehaviour
 
     private async UniTask TryLogin(RSACryptoServiceProvider rsa)
     {
-        Debug.Log("TryLogin 들어옴");
+        //Debug.Log("TryLogin 들어옴");
         string rsaPassword;
         rsaPassword = Convert.ToBase64String(rsa.Encrypt((new UTF8Encoding()).GetBytes(password.text), false));
-        Debug.Log(rsaPassword);
+        //Debug.Log(rsaPassword);
 
         var loginValues = new Dictionary<string, string>
             {
@@ -172,20 +172,20 @@ public class Login : MonoBehaviour
 
         var content = new FormUrlEncodedContent(loginValues);
 
-        Debug.Log("content 인코딩 완료");
+        //Debug.Log("content 인코딩 완료");
 
         HttpClient client = new HttpClient();
-        Debug.Log("요청 시작");
+        //Debug.Log("요청 시작");
         var response = await client.PostAsync(URL.Instance.LoginUrl, content);
-        Debug.Log("요청 완료");
+        //Debug.Log("요청 완료");
         string requestResult = await response.Content.ReadAsStringAsync();
 
-        Debug.Log(requestResult);
+        //Debug.Log(requestResult);
 
         if (response.IsSuccessStatusCode)
         {
             PID = requestResult;
-            Debug.Log("PID : " + PID);
+            //Debug.Log("PID : " + PID);
 
             SetLogin();
         }

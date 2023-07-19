@@ -69,10 +69,10 @@ public class FriendListManager : MonoBehaviour
         }
     }
 
-    //public void CreateList()
-    public IEnumerator CreateList()
+    public void CreateList()
+    //public IEnumerator CreateList()
     {
-        yield return null;
+        //yield return null;
 
         for (int i = 0; i < friendCount; i++)
         {
@@ -116,8 +116,58 @@ public class FriendListManager : MonoBehaviour
             info.regDt = friendListValues[i].regDt;
             info.SetSlotValues();
 
-            //friendList.Add(clone.GetComponent<FriendInfo>());
             friendList.Add(info);
+        }
+
+        // Avoid duplicate creation
+        if (friendList.Count != GameManager.instance.jsonData.friendListValues.Count)
+        {
+            DeleteList();
+
+            for (int i = 0; i < friendCount; i++)
+            {
+                List<SaveData.friendList> friendListValues = GameManager.instance.jsonData.friendListValues;
+
+                // create & set temp friend info
+                temp_friendList.Add(new FriendInfo()
+                {
+                    nickname = $"Test_" + i,
+                    state = "온라인",
+
+                    ncnm = friendListValues[i].ncnm,
+                    frndNo = friendListValues[i].frndNo,
+                    mbrNo = friendListValues[i].mbrNo,
+                    frndMbrNo = friendListValues[i].frndMbrNo,
+                    frndSttus = friendListValues[i].frndSttus,
+                    frndRqstSttus = friendListValues[i].frndRqstSttus,
+                    frndRqstDt = friendListValues[i].frndRqstDt,
+                    upDt = friendListValues[i].upDt,
+                    regDt = friendListValues[i].regDt
+                });
+
+                // create friend list
+                GameObject clone = Instantiate(listSlot);
+                clone.transform.SetParent(listContent.transform, false);
+
+                // set friend info
+                FriendInfo info = clone.GetComponent<FriendInfo>();
+
+                info.nickname = temp_friendList[i].nickname;
+                info.state = temp_friendList[i].state;
+
+                info.ncnm = friendListValues[i].ncnm;
+                info.frndNo = friendListValues[i].frndNo;
+                info.mbrNo = friendListValues[i].mbrNo;
+                info.frndMbrNo = friendListValues[i].frndMbrNo;
+                info.frndSttus = friendListValues[i].frndSttus;
+                info.frndRqstSttus = friendListValues[i].frndRqstSttus;
+                info.frndRqstDt = friendListValues[i].frndRqstDt;
+                info.upDt = friendListValues[i].upDt;
+                info.regDt = friendListValues[i].regDt;
+                info.SetSlotValues();
+
+                friendList.Add(info);
+            }
         }
 
         listScrollPos.anchoredPosition = new Vector2(0, 0);
@@ -214,28 +264,66 @@ public class FriendListManager : MonoBehaviour
         }
         else
         {
-            // Todo : select uniyWebRequest or httpClient
-            var param = new Dictionary<string, string>
+            if (searchUserNickName.text != "")
             {
-                { "dd", "dd" }
-            };
+                bool isSuccess = await GameManager.instance.api.Request_SearchFriend(searchUserNickName.text);
+                //Debug.Log("검색 결과 : " + CheckFriendList(searchUserNickName.text));
+                if (isSuccess)
+                {
+                    Debug.Log("Success find user : " + searchUserNickName.text);
 
-            var content = new FormUrlEncodedContent(param);
+                    bool isCompareResult = CheckFriendList(searchUserNickName.text);
 
-            HttpClient client = new HttpClient();
-
-            var response = await client.PostAsync(URL.Instance.GetKeyUrl, content);
-            string requestResult = await response.Content.ReadAsStringAsync();
-
-            if (response.IsSuccessStatusCode)
+                    // Todo : 친구 검색 및 요청에 대한 수정 필요
+                    //if (!isCompareResult)
+                    {
+                        // 아직 내 친구가 아닐때
+                        GameManager.instance.popupManager.SetContents(1, searchUserNickName.text); // set nick name in popup
+                        GameManager.instance.popupManager.popups[(int)PopupType.RequestFriend].SetActive(true); // open popup
+                        
+                        // 친구 요청
+                        Debug.Log("친구 요청");
+                    }
+                    //else
+                    //{
+                    //    // 내 친구일때
+                    //    GameManager.instance.popupManager.popups[(int)PopupType.AlreadyExistFriend].SetActive(true); // open popup
+                    //    ResetSearchUserNickName();
+                    //}
+                }
+                else
+                {
+                    Debug.Log("Failed find user : " + searchUserNickName.text);
+                    GameManager.instance.popupManager.popups[(int)PopupType.UserSearchFaild].SetActive(true);
+                }
+            }
+            else if (searchUserNickName.text == "")
             {
-                //await TryLogin(requestResult);
+                GameManager.instance.popupManager.popups[(int)PopupType.BlankError].SetActive(true);
+            }
+        }
+    }
+
+    // compare to seache user and my friend list
+    private bool CheckFriendList(string _searchUserNickName)
+    {
+        bool isExistInList = false;
+
+        List<SaveData.friendList> friendListValuse = GameManager.instance.jsonData.friendListValues;
+
+        for (int i = 0; i < friendListValuse.Count; i++)
+        {
+            if (friendListValuse[i].ncnm == _searchUserNickName)
+            {
+                isExistInList = true;
+                break;
             }
             else
             {
-                Debug.Log("응답 실패 (키값 받아오기) : " + requestResult);
+                isExistInList = false;
             }
         }
+        return isExistInList;
     }
     #endregion
 
@@ -274,7 +362,7 @@ public class FriendListManager : MonoBehaviour
         }
     }
 
-    public void DeleteFriend()
+    public async void DeleteFriend()
     {
         Debug.Log("친구 삭제");
 
@@ -282,6 +370,9 @@ public class FriendListManager : MonoBehaviour
         {
             if (friendList[i].isSelected)
             {
+                // 삭제 요청
+                await GameManager.instance.api.Request_RefuseNDelete(friendList[i].mbrNo, friendList[i].frndMbrNo);
+
                 Destroy(friendList[i].gameObject);
                 friendList.RemoveAt(i);
                 isSelectedSlot = false;
@@ -289,8 +380,8 @@ public class FriendListManager : MonoBehaviour
             }
         }
 
-        // 삭제 요청
         // 리스트 갱신
+        GameManager.instance.api.Request_FriendList().Forget();
     }
     #endregion
 
@@ -305,4 +396,10 @@ public class FriendListManager : MonoBehaviour
         GameManager.instance.popupManager.popups[(int)PopupType.RequestFriendList].SetActive(true);
     }
     #endregion
+
+    public void ResetSearchUserNickName()
+    {
+        searchUserNickName.text = "";
+        GameManager.instance.jsonData.searchFriend = null;
+    }
 }
