@@ -152,6 +152,7 @@ public class PlayerManager : MonoBehaviour
     {
         // Todo : Request player state update
         Debug.Log("상태 변경 : " + i);
+        GameManager.instance.api.Update_PlayerState().Forget();
     }
 
     private void ShowLogoutPopup()

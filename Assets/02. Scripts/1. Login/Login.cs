@@ -216,6 +216,7 @@ public class Login : MonoBehaviour
         GameManager.instance.api.Request_RequestFriendList().Forget(); // create request friend list
 
         GameManager.instance.bannerNoticeManager.CreateAllContents();
+        GameManager.instance.bannerNoticeManager.SetGuideDownloadLink();
 
         //GameManager.instance.pages[0].SetActive(false); // hide login page
 

@@ -154,44 +154,35 @@ public class API : URL
     {
         await UniTask.SwitchToThreadPool();
         Debug.Log("Request_AddFriend() start()");
-        //JsonData jsonData = GameManager.instance.jsonData;
-        //FriendListManager friendListManager = GameManager.instance.friendListManager;
+        JsonData jsonData = GameManager.instance.jsonData;
+        FriendListManager friendListManager = GameManager.instance.friendListManager;
 
-        //var param = new Dictionary<string, string>
-        //{
-        //    { "frndMbrNo", frndMbrNo.ToString() },
-        //    { "mbrNo", mbrNo.ToString() }
-        //};
+        var param = new Dictionary<string, string>
+        {
+            { "frndMbrNo", frndMbrNo.ToString() },
+            { "mbrNo", mbrNo.ToString() }
+        };
 
-        //var content = new FormUrlEncodedContent(param);
+        var content = new FormUrlEncodedContent(param);
 
-        ////HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
+        //HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
 
-        //HttpClient client = new HttpClient();
-        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/insertFrndInfo.do", content);
-        //string requestResult = await response.Content.ReadAsStringAsync();
+        HttpClient client = new HttpClient();
+        var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/insertFrndInfo.do", content);
+        string requestResult = await response.Content.ReadAsStringAsync();
 
-        //if (response.IsSuccessStatusCode)
-        //{
-        //    Debug.Log("응답 성공");
-        //    Debug.Log("친구 신청 결과 : " + requestResult);
-        //}
-        //else
-        //{
-        //    Debug.Log("응답 실패 (친구 신청 결과) : " + requestResult);
-        //}
-
-        GameManager.instance.friendListManager.ResetSearchUserNickName();
+        if (response.IsSuccessStatusCode)
+        {
+            Debug.Log("응답 성공");
+            Debug.Log("친구 신청 결과 : " + requestResult);
+        }
+        else
+        {
+            Debug.Log("응답 실패 (친구 신청 결과) : " + requestResult);
+        }
+        await UniTask.SwitchToMainThread();
         
-        await UniTask.SwitchToMainThread();
-    }
-
-    // delete friend
-    public async UniTaskVoid Request_DeleteFriend()
-    {
-        await UniTask.SwitchToThreadPool();
-        Debug.Log("Request_Refuse() start()");
-        await UniTask.SwitchToMainThread();
+        GameManager.instance.friendListManager.ResetSearchUserNickName();
     }
     #endregion
 
@@ -262,11 +253,11 @@ public class API : URL
     }
 
     // request accept
-    public async UniTaskVoid Request_Accept(int _mbrNo, int _frndMbrNo)
+    public async UniTask Request_Accept(int _mbrNo, int _frndMbrNo)
     {
-        await UniTask.SwitchToThreadPool();
+        //await UniTask.SwitchToThreadPool();
 
-        Debug.Log("Request_Refuse() start()");
+        Debug.Log("Request_Accept() start()");
         JsonData jsonData = GameManager.instance.jsonData;
         RequestFriendManager requestFriendManager = GameManager.instance.requestFriendManager;
 
@@ -292,13 +283,13 @@ public class API : URL
             Debug.Log("응답 실패 (친구 요청 승락 결과 ) : " + requestResult);
         }
 
-        await UniTask.SwitchToMainThread();
+        //await UniTask.SwitchToMainThread();
     }
 
-    // request refuse
+    // request refuse & delete
     public async UniTask Request_RefuseNDelete(int _mbrNo, int _frndMbrNo)
     {
-        Debug.Log("Request_Refuse() start()");
+        Debug.Log("Request_RefuseNDelete() start()");
         JsonData jsonData = GameManager.instance.jsonData;
         RequestFriendManager requestFriendManager = GameManager.instance.requestFriendManager;
 
@@ -319,12 +310,12 @@ public class API : URL
         if (response.IsSuccessStatusCode)
         {
             Debug.Log("응답 성공");
-            Debug.Log("삭제 결과 : " + requestResult);
+            Debug.Log("거절 및 삭제 결과 : " + requestResult);
             //jsonData.temp_requestFriendListValues = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList; // temp data save
         }
         else
         {
-            Debug.Log("응답 실패 (삭제 결과) : " + requestResult);
+            Debug.Log("응답 실패 (거절 및 삭제 결과) : " + requestResult);
         }
     }
     #endregion
@@ -334,7 +325,7 @@ public class API : URL
     public async UniTaskVoid Update_PlayerState() 
     {
         await UniTask.SwitchToThreadPool();
-        Debug.Log("Request_Refuse() start()");
+        Debug.Log("Update_PlayerState() start()");
         await UniTask.SwitchToMainThread();
     }
     #endregion
@@ -344,7 +335,7 @@ public class API : URL
     public async UniTaskVoid Request_ExeFileDownload()
     {
         await UniTask.SwitchToThreadPool();
-        Debug.Log("Request_Refuse() start()");
+        Debug.Log("Request_ExeFileDownload() start()");
         await UniTask.SwitchToMainThread();
     }
 
@@ -352,7 +343,7 @@ public class API : URL
     public async UniTaskVoid Request_ChecksumFileDownload()
     {
         await UniTask.SwitchToThreadPool();
-        Debug.Log("Request_Refuse() start()");
+        Debug.Log("Request_ChecksumFileDownload() start()");
         await UniTask.SwitchToMainThread();
     }
     #endregion
@@ -362,7 +353,7 @@ public class API : URL
     public async UniTaskVoid Request_EventBanner()
     {
         await UniTask.SwitchToThreadPool();
-        Debug.Log("Request_Refuse() start()");
+        Debug.Log("Request_EventBanner() start()");
         await UniTask.SwitchToMainThread();
     }
 
@@ -370,7 +361,7 @@ public class API : URL
     public async UniTaskVoid Request_Notice()
     {
         await UniTask.SwitchToThreadPool();
-        Debug.Log("Request_Refuse() start()");
+        Debug.Log("Request_Notice() start()");
         await UniTask.SwitchToMainThread();
     }
 
@@ -378,7 +369,14 @@ public class API : URL
     public async UniTaskVoid Request_CuriverseNotice()
     {
         await UniTask.SwitchToThreadPool();
-        Debug.Log("Request_Refuse() start()");
+        Debug.Log("Request_CuriverseNotice() start()");
+        await UniTask.SwitchToMainThread();
+    }
+
+    public async UniTaskVoid Request_GuideDownload()
+    {
+        await UniTask.SwitchToThreadPool();
+        Debug.Log("Request_GuideDownload() start()");
         await UniTask.SwitchToMainThread();
     }
     #endregion

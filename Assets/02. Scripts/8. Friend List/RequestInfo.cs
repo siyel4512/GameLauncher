@@ -46,15 +46,15 @@ public class RequestInfo : MonoBehaviour
         nickname_text.text = nickname;
     }
 
-    public void BTN_Accept()
+    public async void BTN_Accept()
     {
         Debug.Log("요청 수락 / 친구 리스트에 추가 요청");
         isRequestComplate = true;
 
         GameManager.instance.requestFriendManager.RequestAddList();
 
-        // 친구 리스트 추가
-        GameManager.instance.api.Request_Accept(mbrNo, frndMbrNo).Forget();
+        // 친구 리스트 추가 요청
+        await GameManager.instance.api.Request_Accept(mbrNo, frndMbrNo);
 
         // 요청 리스트 갱신
         //GameManager.instance.api.Request_RequestFriendList().Forget();

@@ -14,15 +14,7 @@ public class GuideInfo : MonoBehaviour
     void Start()
     {
         downloadButton = GetComponent<Button>();
-        SetLinkURL("https://www.google.com/");
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
 
     public void SetLinkURL(string linkURL)
     {

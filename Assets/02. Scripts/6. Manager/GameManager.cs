@@ -171,18 +171,24 @@ public class GameManager : MonoBehaviour
     public void RefreshAllData()
     {
         // friend list
-        GameManager.instance.api.Request_FriendList().Forget();// create friedn list
+        api.Request_FriendList().Forget();// create friedn list
         
         // request friend list
-        GameManager.instance.api.Request_RequestFriendList().Forget(); // create request friend list
-        
+        api.Request_RequestFriendList().Forget(); // create request friend list
+
         // file download url
-        
+
         // event banner
-        
+        api.Request_EventBanner().Forget();
+
         // notice
-        
+        api.Request_Notice().Forget();
+
         // curiverse notice
+        api.Request_CuriverseNotice().Forget();
+
+        // guide download
+        api.Request_GuideDownload().Forget();
 
         Debug.Log("Request Data");
     }

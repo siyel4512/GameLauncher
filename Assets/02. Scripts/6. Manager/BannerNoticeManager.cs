@@ -7,6 +7,7 @@ public class BannerNoticeManager : MonoBehaviour
     [Header("[ UI ]")]
     public BannerUI bannerUI;
     public NoticeUI[] noticeUIs;
+    public GuideInfo[] guideInfo;
 
     [Space(10)]
     [Header("[ Contents Count ]")]
@@ -30,11 +31,23 @@ public class BannerNoticeManager : MonoBehaviour
     {
         // Create Event Banner
         bannerUI.TryAddContents(eventBannerCount);
+        GameManager.instance.api.Request_EventBanner().Forget();
 
         // Create Notice
         noticeUIs[0].TryAddContents(noticeCount);
+        GameManager.instance.api.Request_Notice().Forget();
 
         // Create Curiverse Notice
         noticeUIs[1].TryAddContents(curiverseNoticeCount);
+        GameManager.instance.api.Request_CuriverseNotice().Forget();
+    }
+
+    public void SetGuideDownloadLink()
+    {
+        //
+        guideInfo[0].SetLinkURL("https://www.google.com/");
+        
+        //
+        guideInfo[1].SetLinkURL("https://www.google.com/");
     }
 }
