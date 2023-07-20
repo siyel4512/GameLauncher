@@ -21,6 +21,7 @@ public class SelectServer : MonoBehaviour
     public void OnChangedValue(TMP_Dropdown change)
     {
         selectServerNum = change.value;
+        GameManager.instance.selectedServerNum = selectServerNum;
 
         Debug.Log("New Value: " + change.value);
         Debug.Log("New Value: " + change.options[change.value].text);

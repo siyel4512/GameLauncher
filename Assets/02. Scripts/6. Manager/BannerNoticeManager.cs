@@ -44,10 +44,12 @@ public class BannerNoticeManager : MonoBehaviour
 
     public void SetGuideDownloadLink()
     {
-        //
+        // curiverse using guide download
         guideInfo[0].SetLinkURL("https://www.google.com/");
-        
-        //
+        GameManager.instance.api.Request_GuideDownload1().Forget();
+
+        // make/batch editor guide download
         guideInfo[1].SetLinkURL("https://www.google.com/");
+        GameManager.instance.api.Request_GuideDownload1().Forget();
     }
 }

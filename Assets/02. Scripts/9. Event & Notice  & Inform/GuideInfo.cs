@@ -14,15 +14,16 @@ public class GuideInfo : MonoBehaviour
     void Start()
     {
         downloadButton = GetComponent<Button>();
+        downloadButton.onClick.AddListener(OnDownloadLink);
+    }
+
+    public void OnDownloadLink()
+    {
+        Application.OpenURL(downloadLinkURL);
     }
 
     public void SetLinkURL(string linkURL)
     {
         downloadLinkURL = linkURL;
-        downloadButton.onClick.AddListener(OnDownloadLink);
-    }
-    public void OnDownloadLink()
-    {
-        Application.OpenURL(downloadLinkURL);
     }
 }

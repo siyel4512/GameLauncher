@@ -48,6 +48,10 @@ public class GameManager : MonoBehaviour
     [Header("[ Player State Settings ]")]
     public int playerLimitTime;
 
+    [Space(10)]
+    [Header("[ Selected Server ]")]
+    public int selectedServerNum;
+
     private void Awake()
     {
         if (instance == null)
@@ -177,6 +181,21 @@ public class GameManager : MonoBehaviour
         api.Request_RequestFriendList().Forget(); // create request friend list
 
         // file download url
+        switch(selectedServerNum)
+        {
+            case 0:
+                // dev server
+                break;
+            case 1:
+                // test server
+                break;
+            case 2:
+                // staging server
+                break;
+            case 3:
+                // live server
+                break;
+        }
 
         // event banner
         api.Request_EventBanner().Forget();
@@ -188,7 +207,8 @@ public class GameManager : MonoBehaviour
         api.Request_CuriverseNotice().Forget();
 
         // guide download
-        api.Request_GuideDownload().Forget();
+        api.Request_GuideDownload1().Forget();
+        api.Request_GuideDownload2().Forget();
 
         Debug.Log("Request Data");
     }

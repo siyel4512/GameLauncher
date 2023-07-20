@@ -52,10 +52,6 @@ public class FilePath : LoadFile
         {
             Destroy(gameObject);
         }
-
-        //InitDataPath();
-
-        //SetDownloadURL();
     }
 
     // Start is called before the first frame update
@@ -65,7 +61,7 @@ public class FilePath : LoadFile
 
         InitDataPath();
 
-        SetDownloadURL();
+        //SetDownloadURL();
     }
 
     private void Update()
@@ -76,6 +72,11 @@ public class FilePath : LoadFile
         //    Directory.Delete("C:\\Users\\LSY\\Desktop\\TEST", true);
         //    Debug.Log("삭제 완료");
         //}
+
+        if (Input.GetKeyDown(KeyCode.Space)) 
+        {
+            Test_SetDownloadURL();
+        }
     }
 
     //---------- new version ----------//
@@ -198,6 +199,65 @@ public class FilePath : LoadFile
 
         SetFilePath();
         //---------------------------------//
+    }
+
+    public void Test_SetDownloadURL()
+    {
+        string[] parsingData = ParsingData();
+
+        switch (GameManager.instance.selectedServerNum)
+        {
+            case 0:
+                // dev server
+                buildFileUrls[0] = parsingData[5];
+                buildFileUrls[1] = parsingData[7];
+                buildFileUrls[2] = parsingData[9];
+                buildFileUrls[3] = parsingData[11];
+
+                jsonFileUrls[0] = parsingData[6];
+                jsonFileUrls[1] = parsingData[8];
+                jsonFileUrls[2] = parsingData[10];
+                jsonFileUrls[3] = parsingData[12];
+                break;
+            case 1:
+                // test server
+                buildFileUrls[0] = parsingData[7];
+                buildFileUrls[1] = parsingData[9];
+                buildFileUrls[2] = parsingData[11];
+                buildFileUrls[3] = parsingData[5];
+
+                jsonFileUrls[0] = parsingData[8];
+                jsonFileUrls[1] = parsingData[10];
+                jsonFileUrls[2] = parsingData[12];
+                jsonFileUrls[3] = parsingData[6];
+                break;
+            case 2:
+                // staging server
+                buildFileUrls[0] = parsingData[9];
+                buildFileUrls[1] = parsingData[11];
+                buildFileUrls[2] = parsingData[5];
+                buildFileUrls[3] = parsingData[7];
+
+                jsonFileUrls[0] = parsingData[10];
+                jsonFileUrls[1] = parsingData[12];
+                jsonFileUrls[2] = parsingData[6];
+                jsonFileUrls[3] = parsingData[8];
+                break;
+            case 3:
+                // live server
+                buildFileUrls[0] = parsingData[11];
+                buildFileUrls[1] = parsingData[5];
+                buildFileUrls[2] = parsingData[7];
+                buildFileUrls[3] = parsingData[9];
+
+                jsonFileUrls[0] = parsingData[12];
+                jsonFileUrls[1] = parsingData[6];
+                jsonFileUrls[2] = parsingData[8];
+                jsonFileUrls[3] = parsingData[10];
+                break;
+        }
+
+        SetFilePath();
     }
 
     private void SetFilePath()

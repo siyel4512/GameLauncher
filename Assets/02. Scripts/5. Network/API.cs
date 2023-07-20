@@ -373,10 +373,17 @@ public class API : URL
         await UniTask.SwitchToMainThread();
     }
 
-    public async UniTaskVoid Request_GuideDownload()
+    public async UniTaskVoid Request_GuideDownload1()
     {
         await UniTask.SwitchToThreadPool();
-        Debug.Log("Request_GuideDownload() start()");
+        Debug.Log("Request_GuideDownload1() start()");
+        await UniTask.SwitchToMainThread();
+    }
+
+    public async UniTaskVoid Request_GuideDownload2()
+    {
+        await UniTask.SwitchToThreadPool();
+        Debug.Log("Request_GuideDownload2() start()");
         await UniTask.SwitchToMainThread();
     }
     #endregion

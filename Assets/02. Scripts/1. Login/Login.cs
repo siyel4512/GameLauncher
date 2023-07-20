@@ -218,6 +218,8 @@ public class Login : MonoBehaviour
         GameManager.instance.bannerNoticeManager.CreateAllContents();
         GameManager.instance.bannerNoticeManager.SetGuideDownloadLink();
 
+        GameManager.instance.filePath.Test_SetDownloadURL();
+        
         //GameManager.instance.pages[0].SetActive(false); // hide login page
 
         // start TCP server
