@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -14,7 +15,7 @@ internal class RSAPasswordEncrypt
         // 0 : Modulus
         // 1 : Exponent
         string[] temp = pubKeyStr.Split("||");
-
+        
         return RSAEncrypt(temp[0], temp[1], id, password);
     }
 

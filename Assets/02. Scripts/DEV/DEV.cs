@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -76,6 +77,26 @@ public class DEV : MonoBehaviour
     //    }
     //}
 
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            var myDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            var programFilesPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+            var windowsPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
+            var systemPath = Environment.GetFolderPath(Environment.SpecialFolder.System);
+            string downloadsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),"Downloads");
+
+            Debug.Log($"경로 확인1 : {desktopPath}");
+            Debug.Log($"경로 확인2 : {myDocumentsPath}");
+            Debug.Log($"경로 확인3 : {programFilesPath}");
+            Debug.Log($"경로 확인4 : {windowsPath}");
+            Debug.Log($"경로 확인5 : {systemPath}");
+            Debug.Log($"경로 확인5 : {downloadsPath}");
+        }
+    }
+
 
     private void OnApplicationQuit()
     {
@@ -121,6 +142,7 @@ public class DEV : MonoBehaviour
         File.WriteAllText(path, jsonData);
     }
     #endregion
+
 }
 
 public class DefaultSettings

@@ -87,25 +87,30 @@ public class Login : MonoBehaviour
         {
             { URL.Instance.Key_id, id.text }
         };
+        //var idValue = new Dictionary<string, string>
+        //{
+        //    { URL.Instance.Key_id, "myId22" }
+        //};
 
         string keyFilePath = Environment.CurrentDirectory + "\\KEY\\" + id.text + ".pem";
         //Debug.Log($"key File paht : {keyFilePath}");
         
         if (File.Exists(keyFilePath))
         {
-            //Debug.Log("파일 있음");
+            Debug.Log("파일 있음");
             await TryLogin(RSAPasswordEncrypt.ImportPublicKey(File.ReadAllText(keyFilePath)));
         }
         else
         {
-            //Debug.Log($"파일 없음 / {URL.Instance.GetKeyUrl}");
+            Debug.Log($"파일 없음 / {URL.Instance.GetKeyUrl}");
             var content = new FormUrlEncodedContent(idValue);
             HttpClient client = new HttpClient();
             var response = await client.PostAsync(URL.Instance.GetKeyUrl, content);
             string requestResult = await response.Content.ReadAsStringAsync();
-
+            
             if (response.IsSuccessStatusCode)
             {
+                Debug.Log("결과값 : " + requestResult);
                 await TryLogin(requestResult);
             }
             else
