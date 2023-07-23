@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 8740760894217723631}
   - component: {fileID: 8740760894217723624}
   - component: {fileID: 8740760894217723625}
+  - component: {fileID: 3597622645177440161}
   m_Layer: 5
   m_Name: Execution Button
   m_TagString: Untagged
@@ -257,6 +258,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3597622645177440161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8740760894217723627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4d505d870664f5479b04ab3e7a4ee61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileDownload: {fileID: 7153272692848610885}
+  buttonText: {fileID: 8740760895067150069}
 --- !u!1 &8740760894254130334
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,10 +461,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC2DC\uC791\uD558\uAE30"
+  m_text: '-'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 18a947cbbde2d1d43ae2d7495c8b49a2, type: 2}
-  m_sharedMaterial: {fileID: 5474407742244879747, guid: c9c0da0b964af0c4e874f68d3818ecbe, type: 2}
+  m_sharedMaterial: {fileID: -322181135264957342, guid: 18a947cbbde2d1d43ae2d7495c8b49a2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -864,6 +879,8 @@ MonoBehaviour:
   folderDialog: {fileID: 0}
   installButton: {fileID: 0}
   prograss: {fileID: 8740760896093190694}
+  gameExcutePath: 
+  downloadFailedPopup: {fileID: 0}
 --- !u!1 &8740760896075955491
 GameObject:
   m_ObjectHideFlags: 0

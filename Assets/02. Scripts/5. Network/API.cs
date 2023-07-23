@@ -346,6 +346,40 @@ public class API : URL
         Debug.Log("Request_ChecksumFileDownload() start()");
         await UniTask.SwitchToMainThread();
     }
+
+    // checksum file donwload
+    public async UniTask Request_FileDownloadURL(string _pathFlag, string _folderFlag)
+    {
+        Debug.Log("Request_FileDownloadURL() start()");
+        JsonData jsonData = GameManager.instance.jsonData;
+        FriendListManager friendListManager = GameManager.instance.friendListManager;
+
+        var param = new Dictionary<string, string>
+        {
+            { "pathFlag", "dev" },
+            { "folderFlag", "pc" }
+        };
+
+        var content = new FormUrlEncodedContent(param);
+
+        //HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
+
+        HttpClient client = new HttpClient();
+        var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/downloadBuildFile.do", content);
+        string requestResult = await response.Content.ReadAsStringAsync();
+
+        if (response.IsSuccessStatusCode)
+        {
+            Debug.Log("응답 성공");
+            Debug.Log("다운로드 경로 결과 : " + requestResult);
+            //jsonData.temp_friendListValue = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList; // temp data save
+        }
+        else
+        {
+            Debug.Log("응답 실패 (다운로드 경로 결과) : " + requestResult);
+        }
+    }
+
     #endregion
 
     #region event banner & notice

@@ -2,11 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.IO;
+
+public enum ServerType
+{
+    dev,
+    test,
+    stage,
+    live
+}
+
+public enum FileType
+{
+    pc,
+    vr,
+    prod,
+    colca
+}
 
 public class SelectServer : MonoBehaviour
 {
     public TMP_Dropdown selectServer;
     public int selectServerNum;
+    public SeletedServerState selectedServerState;
+
+    public string jsonFilePath;
 
     // Start is called before the first frame update
     void Start()
@@ -15,16 +35,69 @@ public class SelectServer : MonoBehaviour
             OnChangedValue(selectServer);
         });
 
-        selectServerNum = 0;
+        jsonFilePath = Path.Combine(Application.streamingAssetsPath + "/Default Settings", "SeletedServerState.json");
+        
+        //selectServerNum = 0;
+        selectServerNum = LoadData().selectedServerNum;
+        selectServer.value = selectServerNum;
+
+        if (selectServerNum == 0)
+        {
+            GameManager.instance.filePath.FilePathCheck();
+        }
     }
 
     public void OnChangedValue(TMP_Dropdown change)
     {
         selectServerNum = change.value;
+        SaveData(selectServerNum);
+
         GameManager.instance.selectedServerNum = selectServerNum;
 
-        Debug.Log("New Value: " + change.value);
-        Debug.Log("New Value: " + change.options[change.value].text);
-        Debug.Log("New Value: " + change.captionText.text);
+        //Debug.Log("Server Value: " + change.value);
+        Debug.Log("Server Name: " + change.options[change.value].text);
+        //Debug.Log("Server captionText: " + change.captionText.text);
+
+        GameManager.instance.filePath.FilePathCheck();
     }
+
+    // save server num data
+    public void SaveData(int _serverNum)
+    {
+        selectedServerState.selectedServerNum = _serverNum;
+
+        if (DEV.instance.isTEST)
+        {
+            DEV.instance.selectedServerNum = _serverNum;
+        }
+
+        string jsonData = JsonUtility.ToJson(selectedServerState, true);
+        string serverNum = jsonFilePath;
+        File.WriteAllText(serverNum, jsonData);
+    }
+
+    // load server num data
+    public SeletedServerState LoadData()
+    {
+        string serverNum = jsonFilePath;
+        string jsonData = File.ReadAllText(serverNum);
+        selectedServerState = JsonUtility.FromJson<SeletedServerState>(jsonData);
+        Debug.Log(selectedServerState.selectedServerNum);
+        return selectedServerState;
+    }
+
+    public void ResetSelectedServer()
+    {
+        selectedServerState.selectedServerNum = 0;
+
+        string jsonData = JsonUtility.ToJson(selectedServerState, true);
+        string path = jsonFilePath;
+        File.WriteAllText(path, jsonData);
+    }
+}
+
+[System.Serializable]
+public class SeletedServerState
+{
+    public int selectedServerNum;
 }

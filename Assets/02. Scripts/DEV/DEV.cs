@@ -16,7 +16,11 @@ public class DEV : MonoBehaviour
     public bool isTEST;
     
     public FilePath filePath;
-    public string[] rootPaths;
+    public string[] rootPaths; // div Ïö©
+
+    public SelectServer selectServer;
+    public int selectedServerNum; // div Ïö©
+
 
     public DefaultSettings defaultSettings;
 
@@ -77,24 +81,29 @@ public class DEV : MonoBehaviour
     //    }
     //}
 
-    public void Update()
+    public async void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            var myDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var programFilesPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-            var windowsPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
-            var systemPath = Environment.GetFolderPath(Environment.SpecialFolder.System);
-            string downloadsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),"Downloads");
-
-            Debug.Log($"∞Ê∑Œ »Æ¿Œ1 : {desktopPath}");
-            Debug.Log($"∞Ê∑Œ »Æ¿Œ2 : {myDocumentsPath}");
-            Debug.Log($"∞Ê∑Œ »Æ¿Œ3 : {programFilesPath}");
-            Debug.Log($"∞Ê∑Œ »Æ¿Œ4 : {windowsPath}");
-            Debug.Log($"∞Ê∑Œ »Æ¿Œ5 : {systemPath}");
-            Debug.Log($"∞Ê∑Œ »Æ¿Œ5 : {downloadsPath}");
+            await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev.ToString(), FileType.pc.ToString());
         }
+    }
+
+    public void Test()
+    {
+        var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        var myDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        var programFilesPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+        var windowsPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
+        var systemPath = Environment.GetFolderPath(Environment.SpecialFolder.System);
+        string downloadsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+
+        Debug.Log($"desktopPath : {desktopPath}");
+        Debug.Log($"myDocumentsPath : {myDocumentsPath}");
+        Debug.Log($"programFilesPath : {programFilesPath}");
+        Debug.Log($"windowsPath : {windowsPath}");
+        Debug.Log($"systemPath : {systemPath}");
+        Debug.Log($"downloadsPath : {downloadsPath}");
     }
 
 

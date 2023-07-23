@@ -15,6 +15,7 @@ public enum PopupType
     DeleteFriend,
     NotSelectedFriend,
     RequestFriendList,
+    DownloadFailed
 }
 
 public class PopupManager : MonoBehaviour

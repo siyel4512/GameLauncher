@@ -37,10 +37,13 @@ public class FilePath : LoadFile
     //---------- new version ----------//
     [Header("[ Download File Path ]")]
     public DataPath dataPath;
-    public string defaultDataPath = "C:\\Program Files";
+    //public string defaultDataPath = "C:\\Program Files";
+    public string defaultDataPath;
     public string[] rootPaths = new string[4];
     public string[] RootPaths => rootPaths;
     //---------------------------------//
+
+    public DownloadInfoData exeFilePath;
 
     private void Awake()
     {
@@ -52,6 +55,9 @@ public class FilePath : LoadFile
         {
             Destroy(gameObject);
         }
+
+        //defaultDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+        //Debug.Log(defaultDataPath);
     }
 
     // Start is called before the first frame update
@@ -62,6 +68,9 @@ public class FilePath : LoadFile
         InitDataPath();
 
         //SetDownloadURL();
+        //Test_SetDownloadURL();
+
+        //FilePathCheck();
     }
 
     private void Update()
@@ -76,6 +85,7 @@ public class FilePath : LoadFile
         if (Input.GetKeyDown(KeyCode.Space)) 
         {
             Test_SetDownloadURL();
+            FilePathCheck();
         }
     }
 
@@ -131,6 +141,12 @@ public class FilePath : LoadFile
         File.WriteAllText(path, jsonData);
 
         SetFilePath();
+
+        for (int i = 0; i < 4; i++)
+        {
+            SaveDownloadURL(i, buildFileUrls[i]);
+            SaveDownloadFolderPath(i, exeFolderPaths[i]);
+        }
     }
 
     // load path data
@@ -218,6 +234,9 @@ public class FilePath : LoadFile
                 jsonFileUrls[1] = parsingData[8];
                 jsonFileUrls[2] = parsingData[10];
                 jsonFileUrls[3] = parsingData[12];
+
+                // test
+                //await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev.ToString(), FileType.pc.ToString());
                 break;
             case 1:
                 // test server
@@ -279,118 +298,88 @@ public class FilePath : LoadFile
     //---------------------------------------------//
     //---------------------------------------------//
 
-    public string[] currentExeFileURL;
-    //public string[] newExeFileURL;
-
-    public string[] currentJsonFileURL;
-    //public string[] newJsonFileURL;
-
-    // Todo : file path check Function modify
-    private async void FilePathCheck(int _index)
+    #region File Path Check
+    public void FilePathCheck()
     {
-        // Todo : 
-        currentExeFileURL = new string[4];
+        Test_SetDownloadURL();
 
-        currentJsonFileURL = new string[4];
-
-        if (currentExeFileURL[_index] != "")
+        for (int i = 0; i < 4; i++)
         {
-            Debug.Log("value is null...");
-
-            // set path
-            currentExeFileURL[_index] = await RequestExeFilePathURL();
-            
-            string[] folderFullName = currentExeFileURL[_index].Split("/");
-            string[] exeFolderName = folderFullName[folderFullName.Length - 1].Split(".");
-
-            exeFolderNames[_index] = exeFolderName[0];
-            exeFolderPaths[_index] = Path.Combine(rootPath, exeFolderName[0]);
-            exeZipFilePaths[_index] = Path.Combine(rootPath, exeFolderPaths[_index] + ".zip");
-
-            // set .json file path
-            currentJsonFileURL[_index] = await RequestJsonFilePathURL();
-
-            return;
-        }
-
-        string newExeFileURL = await RequestExeFilePathURL();
-
-        if (currentExeFileURL[_index] != newExeFileURL)
-        {
-            Debug.Log("value is different...");
-
-            // file delete
-            if (Directory.Exists(ExeFolderPaths[_index]))
+            // Check URL Value
+            if (buildFileUrls[i] != LoadDownloadInfoData().downloadURL[i])
             {
-                Directory.Delete(ExeFolderPaths[_index], true);
+                Debug.Log(i + " 값 다름 바로 삭제 필요");
+
+                Debug.Log("경로 : " + LoadDownloadInfoData().exeFolderPaths[i]);
+
+                //if (LoadDownloadInfoData().exeFolderPaths[i] != "")
+                {
+                    if (Directory.Exists(LoadDownloadInfoData().exeFolderPaths[i]))
+                    {
+                        Debug.Log("파일 삭제");
+                        Directory.Delete(LoadDownloadInfoData().exeFolderPaths[i], true);
+                    }
+                }
+            }
+            else
+            {
+                Debug.Log(i + "값 같음 체크썸 진행");
             }
 
-            // set .exe file path
-            currentExeFileURL[_index] = newExeFileURL;
-
-            string[] folderFullName = currentExeFileURL[_index].Split("/");
-            string[] exeFolderName = folderFullName[folderFullName.Length - 1].Split(".");
-
-            exeFolderNames[_index] = exeFolderName[0];
-            exeFolderPaths[_index] = Path.Combine(rootPath, exeFolderName[0]);
-            exeZipFilePaths[_index] = Path.Combine(rootPath, exeFolderPaths[_index] + ".zip");
-
-            // set .json file path
-            currentJsonFileURL[_index] = await RequestJsonFilePathURL();
+            SaveDownloadURL(i, buildFileUrls[i]);
+            SaveDownloadFolderPath(i, exeFolderPaths[i]);
         }
     }
-    
-    private async UniTask<string> RequestExeFilePathURL()
+    #endregion
+
+    #region Exe file path Save & Load
+    //save exe path data
+    public void SaveDownloadURL(int _index, string _path)
     {
-        var idValue = new Dictionary<string, string>
-        {
-            { "dd", "dd" }
-        };
+        exeFilePath.downloadURL[_index] = _path;
 
-        var content = new FormUrlEncodedContent(idValue);
-
-        HttpClient client = new HttpClient();
-
-        var response = await client.PostAsync(URL.Instance.GetKeyUrl, content);
-        string requestResult = await response.Content.ReadAsStringAsync();
-
-        if (response.IsSuccessStatusCode)
-        {
-            //await TryLogin(requestResult);
-        }
-        else
-        {
-            Debug.Log("응답 실패 (키값 받아오기) : " + requestResult);
-        }
-
-        return requestResult;
+        string jsonData = JsonUtility.ToJson(exeFilePath, true);
+        string serverNum = Path.Combine(Application.streamingAssetsPath + "/Data Path", "exeFilePath.json");
+        File.WriteAllText(serverNum, jsonData);
     }
 
-    private async UniTask<string> RequestJsonFilePathURL()
+    public void SaveDownloadFolderPath(int _buttonNum, string _path)
     {
-        var idValue = new Dictionary<string, string>
-        {
-            { "dd", "dd" }
-        };
+        exeFilePath.exeFolderPaths[_buttonNum] = _path;
 
-        var content = new FormUrlEncodedContent(idValue);
-
-        HttpClient client = new HttpClient();
-
-        var response = await client.PostAsync(URL.Instance.GetKeyUrl, content);
-        string requestResult = await response.Content.ReadAsStringAsync();
-
-        if (response.IsSuccessStatusCode)
-        {
-            //await TryLogin(requestResult);
-        }
-        else
-        {
-            Debug.Log("응답 실패 (키값 받아오기) : " + requestResult);
-        }
-
-        return requestResult;
+        string jsonData = JsonUtility.ToJson(exeFilePath, true);
+        string serverNum = Path.Combine(Application.streamingAssetsPath + "/Data Path", "exeFilePath.json");
+        File.WriteAllText(serverNum, jsonData);
     }
+
+    // load download info data
+    public DownloadInfoData LoadDownloadInfoData()
+    {
+        string serverNum = Path.Combine(Application.streamingAssetsPath + "/Data Path", "exeFilePath.json");
+        string jsonData = File.ReadAllText(serverNum);
+        exeFilePath = JsonUtility.FromJson<DownloadInfoData>(jsonData);
+
+        return exeFilePath;
+    }
+
+    public void ResetDownloadInfoData()
+    {
+        //defaultDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+        //defaultDataPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        //defaultDataPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        defaultDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+
+        for (int i = 0; i < 4; i++)
+        {
+            exeFilePath.downloadURL[i] = "";
+            exeFilePath.exeFolderPaths[i] = "";
+        }
+
+        string jsonData = JsonUtility.ToJson(exeFilePath, true);
+        string path = Path.Combine(Application.streamingAssetsPath + "/Data Path", "exeFilePath.json");
+        File.WriteAllText(path, jsonData);
+    }
+    #endregion
 }
 
 [System.Serializable]
@@ -400,4 +389,11 @@ public class DataPath
     public string vrPath;
     public string ugcPath;
     public string batchPath;
+}
+
+[System.Serializable]
+public class DownloadInfoData
+{
+    public string[] downloadURL = new string[4];
+    public string[] exeFolderPaths = new string[4];
 }

@@ -213,5 +213,14 @@ public class GameManager : MonoBehaviour
         Debug.Log("Request Data");
     }
 
+    //public void ResetBuildFilePath()
+    //{
+    //    Debug.Log("Reset all Build File Path");
+
+    //    for (int i = 0; i < SelectButtons.Length; i++)
+    //    {
+    //        SelectButtons[i].gameExcutePath = "";
+    //    }
+    //}
     #endregion
 }

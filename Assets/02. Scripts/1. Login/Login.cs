@@ -223,7 +223,7 @@ public class Login : MonoBehaviour
         GameManager.instance.bannerNoticeManager.CreateAllContents();
         GameManager.instance.bannerNoticeManager.SetGuideDownloadLink();
 
-        GameManager.instance.filePath.Test_SetDownloadURL();
+        //GameManager.instance.filePath.Test_SetDownloadURL();
         
         //GameManager.instance.pages[0].SetActive(false); // hide login page
 
@@ -249,6 +249,8 @@ public class Login : MonoBehaviour
         GameManager.instance.bannerNoticeManager.bannerUI.DeleteContents();
         GameManager.instance.bannerNoticeManager.noticeUIs[0].DeleteContents();
         GameManager.instance.bannerNoticeManager.noticeUIs[1].DeleteContents();
+
+        //GameManager.instance.ResetBuildFilePath();
 
         // stop TCP server
         tcp_Server.StopServer();

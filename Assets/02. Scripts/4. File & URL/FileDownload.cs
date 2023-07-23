@@ -67,7 +67,9 @@ public class FileDownload : MonoBehaviour
     public GameObject folderDialog;
     public Button installButton;
     public Prograss prograss;
-    private string gameExcutePath;
+    public string gameExcutePath;
+
+    public GameObject downloadFailedPopup;
 
     // Start is called before the first frame update
     void Start()
@@ -201,6 +203,8 @@ public class FileDownload : MonoBehaviour
         {
             Status = LauncherStatus.failed;
             Debug.Log($"Error finishing download: {ex}");
+            Debug.Log("해당 경로에 다운로드할 수 없습니다. 다른 경로에서 설치를 진행해 주세요.");
+            downloadFailedPopup.SetActive(true);
         }
     }
 
@@ -229,6 +233,9 @@ public class FileDownload : MonoBehaviour
     #region File Execute
     public void Execute()
     {
+        Debug.Log(gameExcutePath);
+        Debug.Log($"Execute result : {File.Exists(gameExcutePath)} / {Status}");
+
         // execute
         if (File.Exists(gameExcutePath) && Status == LauncherStatus.ready)
         {
@@ -270,7 +277,16 @@ public class FileDownload : MonoBehaviour
     {
         if (!isSelected)
         {
+            Debug.Log("Set Button State");
             GameManager.instance.SetSelectButton(buttonNum);
         }
     }
+
+    #region File Download
+    public void BTN_ConfirmDownloadFailed()
+    {
+        downloadFailedPopup.SetActive(false);
+        folderDialog.SetActive(true);
+    }
+    #endregion
 }

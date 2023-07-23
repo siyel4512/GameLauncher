@@ -14,6 +14,8 @@ public class FolderDialog : MonoBehaviour
     public int popupNum; // Folder Dialog Number
     public TMP_InputField installPath_text; // Install Path
 
+    public FileDownload fileDownload;
+
     private void OnEnable()
     {
         // set select install path
@@ -57,6 +59,10 @@ public class FolderDialog : MonoBehaviour
     public void BTN_ClosePopup()
     {
         gameObject.SetActive(false);
+
+        fileDownload.Status = LauncherStatus.downloadGame;
+        fileDownload.excuteButton.interactable = true;
+        fileDownload.prograss.gameObject.SetActive(false);
     }
 }
 

@@ -20,8 +20,8 @@ C:\Users\LSY\Desktop
 {"frndInfoList":[{"ncnm":"배트맨","frndNo":1,"mbrNo":1,"frndMbrNo":2,"frndSttus":"1","frndRqstSttus":"1","frndRqstDt":"2023-06-22 00:00:00.0","upDt":"2023-06-22 00:00:00.0","regDt":"2023-06-22 00:00:00.0"},{"ncnm":"원더우먼","frndNo":2,"mbrNo":1,"frndMbrNo":3,"frndSttus":"0","frndRqstSttus":"1","frndRqstDt":"2023-06-21 00:00:00.0","upDt":"2023-06-21 00:00:00.0","regDt":"2023-06-21 00:00:00.0"},{"ncnm":"키다리","frndNo":3,"mbrNo":1,"frndMbrNo":4,"frndSttus":"0","frndRqstSttus":"0","frndRqstDt":"2023-06-21 00:00:00.0","upDt":"2023-06-21 00:00:00.0","regDt":"2023-06-21 00:00:00.0"},{"ncnm":"뱃살","frndNo":4,"mbrNo":1,"frndMbrNo":5,"frndSttus":"0","frndRqstSttus":"0","frndRqstDt":"2023-07-17 14:44:51.0"},{"ncnm":"수염","frndNo":8,"mbrNo":1,"frndMbrNo":6,"frndSttus":"0","frndRqstSttus":"1","frndRqstDt":"2023-07-17 16:12:26.0","regDt":"2023-07-17 16:13:07.0"}]}
 
 https://stackoverflow.com/questions/53052647/downloading-an-exe-without-asking-for-administrator-privileges-c-sharp
-
-
+C:\inetpub\wwwroot\onlinemuseum\game\DEV\PC\2023_07_20\Build.zip
+https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build1.zip
 
 
 
