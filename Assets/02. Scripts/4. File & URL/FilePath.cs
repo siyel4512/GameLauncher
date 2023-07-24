@@ -321,10 +321,10 @@ public class FilePath : LoadFile
                     }
                 }
             }
-            else
-            {
-                Debug.Log(i + "값 같음 체크썸 진행");
-            }
+            //else
+            //{
+            //    Debug.Log(i + "값 같음 체크썸 진행");
+            //}
 
             SaveDownloadURL(i, buildFileUrls[i]);
             SaveDownloadFolderPath(i, exeFolderPaths[i]);
@@ -367,7 +367,8 @@ public class FilePath : LoadFile
         //defaultDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
         //defaultDataPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         //defaultDataPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        defaultDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+        //defaultDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+        defaultDataPath = "C:\\Curiverse";
 
         for (int i = 0; i < 4; i++)
         {

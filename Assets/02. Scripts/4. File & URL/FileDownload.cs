@@ -69,7 +69,8 @@ public class FileDownload : MonoBehaviour
     public Prograss prograss;
     public string gameExcutePath;
 
-    public GameObject downloadFailedPopup;
+    public GameObject downloadFailedPopup_1;
+    public GameObject downloadFailedPopup_2;
 
     // Start is called before the first frame update
     void Start()
@@ -203,8 +204,17 @@ public class FileDownload : MonoBehaviour
         {
             Status = LauncherStatus.failed;
             Debug.Log($"Error finishing download: {ex}");
-            Debug.Log("해당 경로에 다운로드할 수 없습니다. 다른 경로에서 설치를 진행해 주세요.");
-            downloadFailedPopup.SetActive(true);
+            
+            if (DEV.instance.isUsingFolderDialog)
+            {
+                //Debug.Log("해당 경로에 다운로드할 수 없습니다. 다른 경로에서 설치를 진행해 주세요.");
+                downloadFailedPopup_1.SetActive(true);
+            }
+            else 
+            {
+                //Debug.Log("해당 경로에 다운로드할 수 없습니다. 다른 경로에서 설치를 진행해 주세요.");
+                downloadFailedPopup_2.SetActive(true);
+            }
         }
     }
 
@@ -236,6 +246,17 @@ public class FileDownload : MonoBehaviour
         Debug.Log(gameExcutePath);
         Debug.Log($"Execute result : {File.Exists(gameExcutePath)} / {Status}");
 
+        // create folder
+        if (Directory.Exists("C:\\Curiverse"))
+        {
+            Debug.Log("exist directory");
+        }
+        else
+        {
+            Debug.Log("not exist directory and create directory");
+            Directory.CreateDirectory("C:\\Curiverse");
+        }
+
         // execute
         if (File.Exists(gameExcutePath) && Status == LauncherStatus.ready)
         {
@@ -254,7 +275,14 @@ public class FileDownload : MonoBehaviour
         // download
         else if (!File.Exists(gameExcutePath) && Status == LauncherStatus.downloadGame)
         {
-            folderDialog.SetActive(true);
+            if (DEV.instance.isUsingFolderDialog)
+            {
+                folderDialog.SetActive(true);
+            }
+            else
+            {
+                InstallFile();
+            }
         }
         else if (Status == LauncherStatus.failed)
         {
@@ -285,8 +313,20 @@ public class FileDownload : MonoBehaviour
     #region File Download
     public void BTN_ConfirmDownloadFailed()
     {
-        downloadFailedPopup.SetActive(false);
-        folderDialog.SetActive(true);
+        if (DEV.instance.isUsingFolderDialog)
+        {
+            downloadFailedPopup_1.SetActive(false);
+            folderDialog.SetActive(true);
+        }
+        else
+        {
+            downloadFailedPopup_2.SetActive(false);
+
+            prograss.gameObject.SetActive(false);
+
+            excuteButton.interactable = true;
+            Status = LauncherStatus.downloadGame;
+        }
     }
     #endregion
 }

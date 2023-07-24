@@ -14,6 +14,7 @@ public class DEV : MonoBehaviour
     public static DEV instance;
 
     public bool isTEST;
+    public bool isUsingFolderDialog;
     
     public FilePath filePath;
     public string[] rootPaths; // div 용

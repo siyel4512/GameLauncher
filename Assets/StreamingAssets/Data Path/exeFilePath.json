@@ -1,14 +1,14 @@
 {
     "downloadURL": [
+        "https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build1.zip",
         "https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build2.zip",
         "https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build3.zip",
-        "https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build4.zip",
-        "https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build1.zip"
+        "https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Build4.zip"
     ],
     "exeFolderPaths": [
-        "C:\\Users\\LSY\\Desktop\\aa\\Build2",
-        "C:\\Program Files\\Build3",
-        "C:\\Program Files\\Build4",
-        "C:\\Program Files\\Build1"
+        "C:\\Curiverse\\Build1",
+        "C:\\Curiverse\\Build2",
+        "C:\\Curiverse\\Build3",
+        "C:\\Curiverse\\Build4"
     ]
 }
