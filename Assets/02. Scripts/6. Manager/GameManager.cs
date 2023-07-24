@@ -180,22 +180,22 @@ public class GameManager : MonoBehaviour
         // request friend list
         api.Request_RequestFriendList().Forget(); // create request friend list
 
-        // file download url
-        switch(selectedServerNum)
-        {
-            case 0:
-                // dev server
-                break;
-            case 1:
-                // test server
-                break;
-            case 2:
-                // staging server
-                break;
-            case 3:
-                // live server
-                break;
-        }
+        //// file download url
+        //switch(selectedServerNum)
+        //{
+        //    case 0:
+        //        // dev server
+        //        break;
+        //    case 1:
+        //        // test server
+        //        break;
+        //    case 2:
+        //        // staging server
+        //        break;
+        //    case 3:
+        //        // live server
+        //        break;
+        //}
 
         // event banner
         api.Request_EventBanner().Forget();
