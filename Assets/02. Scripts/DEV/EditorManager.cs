@@ -19,7 +19,7 @@ public class EditorManager : Editor
         {
             Debug.Log("Reset Data!!!");
             dev.filePath.ResetDataPath();
-            dev.filePath.ResetDownloadInfoData();
+            //dev.filePath.ResetDownloadInfoData();
             //dev.selectServer.ResetSelectedServer();
             //dev.ResetSettingValue();
         }

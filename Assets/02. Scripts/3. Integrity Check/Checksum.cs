@@ -18,7 +18,7 @@ public class Checksum
 
             if (Convert.ToBase64String(btHash) != prop.Value.ToString())
             {
-                Debug.Log($"{Convert.ToBase64String(btHash)}, {prop.Value.ToString()}");
+                //Debug.Log($"{Convert.ToBase64String(btHash)}, {prop.Value.ToString()}");
                 result.Add(prop.Name);
             }
         }

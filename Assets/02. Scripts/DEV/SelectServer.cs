@@ -41,24 +41,32 @@ public class SelectServer : MonoBehaviour
         selectServerNum = LoadData().selectedServerNum;
         selectServer.value = selectServerNum;
 
-        if (selectServerNum == 0)
-        {
-            GameManager.instance.filePath.FilePathCheck();
-        }
+        //if (selectServerNum == 0)
+        //{
+        //    GameManager.instance.filePath.FilePathCheck();
+        //}
+
+        //FilePath.Instance.Test_SetDownloadURL();
+        FilePath.Instance.Test_SetDownloadURL2();
     }
 
     public void OnChangedValue(TMP_Dropdown change)
     {
+        if (selectServerNum != change.value)
+        {
+            //FilePath.Instance.FilePathCheck();
+            FilePath.Instance.DeleteExeFiles();
+        }
+
         selectServerNum = change.value;
         SaveData(selectServerNum);
-
         GameManager.instance.selectedServerNum = selectServerNum;
 
         //Debug.Log("Server Value: " + change.value);
         Debug.Log("Server Name: " + change.options[change.value].text);
         //Debug.Log("Server captionText: " + change.captionText.text);
 
-        GameManager.instance.filePath.FilePathCheck();
+        
     }
 
     // save server num data

@@ -382,9 +382,6 @@ public class API : URL
             jsonData.temp_donwloadUrl.zip_path = zipPath; // temp data save
             jsonData.temp_donwloadUrl.json_path = jsonPath; // temp data save
 
-            Debug.Log($"[SY] {jsonData.temp_donwloadUrl.zip_path}");
-            Debug.Log($"[SY] {jsonData.temp_donwloadUrl.json_path}");
-
             GameManager.instance.filePath.buildFileUrls[(int)_folderFlag] = zipPath;
             GameManager.instance.filePath.jsonFileUrls[(int)_folderFlag] = jsonPath;
         }

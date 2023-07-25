@@ -176,17 +176,12 @@ public class FileDownload : MonoBehaviour
     {
         try
         {
-            //if (Directory.Exists(FilePath.Instance.RootPath + "\\" + FilePath.Instance.ExeFolderNames[buttonNum]))
-            //if (Directory.Exists(FilePath.Instance.RootPaths[buttonNum] + "\\" + FilePath.Instance.ExeFolderNames[buttonNum]))
             if (Directory.Exists(FilePath.Instance.RootPaths[buttonNum] + "\\" + FilePath.Instance.ExeFolderNames[buttonNum]))
             {
-                //Directory.CreateDirectory(FilePath.Instance.RootPath + "\\" + FilePath.Instance.ExeFolderNames[buttonNum]);
                 Directory.CreateDirectory(FilePath.Instance.RootPaths[buttonNum] + "\\" + FilePath.Instance.ExeFolderNames[buttonNum]);
-                //Debug.Log(FilePath.Instance.RootPath + "\\" + FilePath.Instance.ExeFolderNames[buttonNum]);
                 Debug.Log(FilePath.Instance.RootPaths[buttonNum] + "\\" + FilePath.Instance.ExeFolderNames[buttonNum]);
             }
 
-            //ZipFile.ExtractToDirectory(FilePath.Instance.ExeZipFilePaths[buttonNum], FilePath.Instance.RootPath + "\\" + FilePath.Instance.ExeFolderNames[buttonNum], true);
             ZipFile.ExtractToDirectory(FilePath.Instance.ExeZipFilePaths[buttonNum], FilePath.Instance.RootPaths[buttonNum] + "\\" + FilePath.Instance.ExeFolderNames[buttonNum], true);
             File.Delete(FilePath.Instance.ExeZipFilePaths[buttonNum]);
 
@@ -195,8 +190,6 @@ public class FileDownload : MonoBehaviour
             excuteButton.interactable = true;
             prograss.gameObject.SetActive(false);
             prograss.ResetState();
-
-            //-------------------------------------------------------------------------------------//
 
             CheckBuidDirectory();
         }
@@ -245,16 +238,16 @@ public class FileDownload : MonoBehaviour
     {
         Debug.Log(gameExcutePath);
         Debug.Log($"Execute result : {File.Exists(gameExcutePath)} / {Status}");
-
+        Debug.Log(FilePath.Instance.defaultDataPath);
         // create folder
-        if (Directory.Exists("C:\\Curiverse"))
+        if (Directory.Exists(FilePath.Instance.defaultDataPath))
         {
             Debug.Log("exist directory");
         }
         else
         {
             Debug.Log("not exist directory and create directory");
-            Directory.CreateDirectory("C:\\Curiverse");
+            Directory.CreateDirectory(FilePath.Instance.defaultDataPath);
         }
 
         // execute
