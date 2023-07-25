@@ -18,8 +18,8 @@ public class FilePath : LoadFile
     // file download path
     private string rootPath;
 
-    private string[] buildFileUrls = new string[4];
-    private string[] jsonFileUrls = new string[4];
+    public string[] buildFileUrls = new string[4];
+    public string[] jsonFileUrls = new string[4];
 
     private string[] exeFolderPaths = new string[4];
     private string[] exeZipFilePaths = new string[4];
@@ -55,9 +55,6 @@ public class FilePath : LoadFile
         {
             Destroy(gameObject);
         }
-
-        //defaultDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
-        //Debug.Log(defaultDataPath);
     }
 
     // Start is called before the first frame update
@@ -82,11 +79,11 @@ public class FilePath : LoadFile
         //    Debug.Log("삭제 완료");
         //}
 
-        if (Input.GetKeyDown(KeyCode.Space)) 
-        {
-            Test_SetDownloadURL();
-            FilePathCheck();
-        }
+        //if (Input.GetKeyDown(KeyCode.Space)) 
+        //{
+        //    Test_SetDownloadURL();
+        //    FilePathCheck();
+        //}
     }
 
     //---------- new version ----------//
@@ -145,7 +142,7 @@ public class FilePath : LoadFile
         for (int i = 0; i < 4; i++)
         {
             SaveDownloadURL(i, buildFileUrls[i]);
-            SaveDownloadFolderPath(i, exeFolderPaths[i]);
+            SaveDownloadFolderPath(i, exeFolderPaths[i]); // Todo : maybe delete
         }
     }
 
@@ -172,51 +169,6 @@ public class FilePath : LoadFile
     //---------------------------------//
 
     // read setting file content
-    public void SetDownloadURL()
-    {
-        //---------- old version ----------//
-        //string[] parsingData = ParsingData();
-
-        //rootPath = parsingData[2];
-
-        //buildFileUrls[0] = parsingData[5];
-        //buildFileUrls[1] = parsingData[7];
-        //buildFileUrls[2] = parsingData[9];
-        //buildFileUrls[3] = parsingData[11];
-
-        //jsonFileUrls[0] = parsingData[6];
-        //jsonFileUrls[1] = parsingData[8];
-        //jsonFileUrls[2] = parsingData[10];
-        //jsonFileUrls[3] = parsingData[12];
-
-        //for (int i = 0; i < 4; i++)
-        //{
-        //    string[] folderFullName = buildFileUrls[i].Split("/");
-        //    string[] exeFolderName = folderFullName[folderFullName.Length - 1].Split(".");
-            
-        //    exeFolderNames[i] = exeFolderName[0];
-        //    exeFolderPaths[i] = Path.Combine(rootPath, exeFolderName[0]);
-        //    exeZipFilePaths[i] = Path.Combine(rootPath, exeFolderPaths[i] + ".zip");
-        //}
-        //---------------------------------//
-
-        //---------- new version ----------//
-        string[] parsingData = ParsingData();
-
-        buildFileUrls[0] = parsingData[5];
-        buildFileUrls[1] = parsingData[7];
-        buildFileUrls[2] = parsingData[9];
-        buildFileUrls[3] = parsingData[11];
-
-        jsonFileUrls[0] = parsingData[6];
-        jsonFileUrls[1] = parsingData[8];
-        jsonFileUrls[2] = parsingData[10];
-        jsonFileUrls[3] = parsingData[12];
-
-        SetFilePath();
-        //---------------------------------//
-    }
-
     public void Test_SetDownloadURL()
     {
         string[] parsingData = ParsingData();
@@ -279,6 +231,45 @@ public class FilePath : LoadFile
         SetFilePath();
     }
 
+    public async void Test_SetDownloadURL2()
+    {
+        string[] parsingData = ParsingData();
+
+        switch (GameManager.instance.selectedServerNum)
+        {
+            case 0:
+                // dev server
+                await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.pc);
+                await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.vr);
+                await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.prod);
+                await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.colca);
+                break;
+            case 1:
+                // test server
+                await GameManager.instance.api.Request_FileDownloadURL(ServerType.test, FileType.pc);
+                await GameManager.instance.api.Request_FileDownloadURL(ServerType.test, FileType.vr);
+                await GameManager.instance.api.Request_FileDownloadURL(ServerType.test, FileType.prod);
+                await GameManager.instance.api.Request_FileDownloadURL(ServerType.test, FileType.colca);
+                break;
+            case 2:
+                // staging server
+                await GameManager.instance.api.Request_FileDownloadURL(ServerType.stage, FileType.pc);
+                await GameManager.instance.api.Request_FileDownloadURL(ServerType.stage, FileType.vr);
+                await GameManager.instance.api.Request_FileDownloadURL(ServerType.stage, FileType.prod);
+                await GameManager.instance.api.Request_FileDownloadURL(ServerType.stage, FileType.colca);
+                break;
+            case 3:
+                // live server
+                await GameManager.instance.api.Request_FileDownloadURL(ServerType.live, FileType.pc);
+                await GameManager.instance.api.Request_FileDownloadURL(ServerType.live, FileType.vr);
+                await GameManager.instance.api.Request_FileDownloadURL(ServerType.live, FileType.prod);
+                await GameManager.instance.api.Request_FileDownloadURL(ServerType.live, FileType.colca);
+                break;
+        }
+
+        SetFilePath();
+    }
+
     private void SetFilePath()
     {
         for (int i = 0; i < 4; i++)
@@ -302,6 +293,7 @@ public class FilePath : LoadFile
     public void FilePathCheck()
     {
         Test_SetDownloadURL();
+        //Test_SetDownloadURL2();
 
         for (int i = 0; i < 4; i++)
         {
@@ -320,6 +312,9 @@ public class FilePath : LoadFile
                         Directory.Delete(LoadDownloadInfoData().exeFolderPaths[i], true);
                     }
                 }
+
+                // 해당 폴더 밑에 존재하는 모든 파일 삭제 기능필요
+                //Debug.Log("Root Paths : " + RootPaths[i]);
             }
             //else
             //{
@@ -333,7 +328,7 @@ public class FilePath : LoadFile
     #endregion
 
     #region Exe file path Save & Load
-    //save exe path data
+    //save exe file download url
     public void SaveDownloadURL(int _index, string _path)
     {
         exeFilePath.downloadURL[_index] = _path;
@@ -343,6 +338,7 @@ public class FilePath : LoadFile
         File.WriteAllText(serverNum, jsonData);
     }
 
+    // save exe file download folder path
     public void SaveDownloadFolderPath(int _buttonNum, string _path)
     {
         exeFilePath.exeFolderPaths[_buttonNum] = _path;

@@ -1,9 +1,7 @@
-using Ookii.Dialogs;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using static SaveData;
 
 public class JsonData : MonoBehaviour
 {
@@ -20,6 +18,9 @@ public class JsonData : MonoBehaviour
 
     public List<SaveData.friendList> frndInfoList1;
     public List<SaveData.friendList> frndInfoList2;
+
+    public SaveData.downloadUrlList temp_donwloadUrl;
+    public SaveData.downloadUrlList donwloadUrl;
 
     // Start is called before the first frame update
     void Start()

@@ -322,11 +322,13 @@ public class API : URL
 
     #region player state
     // upudate player state
-    public async UniTaskVoid Update_PlayerState() 
+    public async UniTaskVoid Update_PlayerState(int i) 
     {
         await UniTask.SwitchToThreadPool();
         Debug.Log("Update_PlayerState() start()");
         await UniTask.SwitchToMainThread();
+
+        Debug.Log($"{i}번으로 상태 변경 요청 완료!!!");
     }
     #endregion
 
@@ -348,7 +350,8 @@ public class API : URL
     }
 
     // checksum file donwload
-    public async UniTask Request_FileDownloadURL(string _pathFlag, string _folderFlag)
+    //public async UniTask Request_FileDownloadURL(string _pathFlag, string _folderFlag)
+    public async UniTask Request_FileDownloadURL(ServerType _pathFlag, FileType _folderFlag)
     {
         Debug.Log("Request_FileDownloadURL() start()");
         JsonData jsonData = GameManager.instance.jsonData;
@@ -356,8 +359,8 @@ public class API : URL
 
         var param = new Dictionary<string, string>
         {
-            { "pathFlag", "dev" },
-            { "folderFlag", "pc" }
+            { "pathFlag", _pathFlag.ToString() },
+            { "folderFlag", _folderFlag.ToString() }
         };
 
         var content = new FormUrlEncodedContent(param);
@@ -372,7 +375,18 @@ public class API : URL
         {
             Debug.Log("응답 성공");
             Debug.Log("다운로드 경로 결과 : " + requestResult);
-            //jsonData.temp_friendListValue = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList; // temp data save
+
+            string zipPath = JsonUtility.FromJson<SaveData.downloadUrlList>(requestResult).zip_path;
+            string jsonPath = JsonUtility.FromJson<SaveData.downloadUrlList>(requestResult).json_path;
+
+            jsonData.temp_donwloadUrl.zip_path = zipPath; // temp data save
+            jsonData.temp_donwloadUrl.json_path = jsonPath; // temp data save
+
+            Debug.Log($"[SY] {jsonData.temp_donwloadUrl.zip_path}");
+            Debug.Log($"[SY] {jsonData.temp_donwloadUrl.json_path}");
+
+            GameManager.instance.filePath.buildFileUrls[(int)_folderFlag] = zipPath;
+            GameManager.instance.filePath.jsonFileUrls[(int)_folderFlag] = jsonPath;
         }
         else
         {
@@ -389,6 +403,9 @@ public class API : URL
         await UniTask.SwitchToThreadPool();
         Debug.Log("Request_EventBanner() start()");
         await UniTask.SwitchToMainThread();
+
+        BannerNoticeManager bannerNoticeManager = GameManager.instance.bannerNoticeManager;
+        bannerNoticeManager.bannerUI.TryAddContents(bannerNoticeManager.eventBannerCount);
     }
 
     // notice
@@ -397,6 +414,9 @@ public class API : URL
         await UniTask.SwitchToThreadPool();
         Debug.Log("Request_Notice() start()");
         await UniTask.SwitchToMainThread();
+
+        BannerNoticeManager bannerNoticeManager = GameManager.instance.bannerNoticeManager;
+        bannerNoticeManager.noticeUIs[0].TryAddContents(bannerNoticeManager.noticeCount);
     }
 
     // curiverse notice
@@ -405,6 +425,9 @@ public class API : URL
         await UniTask.SwitchToThreadPool();
         Debug.Log("Request_CuriverseNotice() start()");
         await UniTask.SwitchToMainThread();
+
+        BannerNoticeManager bannerNoticeManager = GameManager.instance.bannerNoticeManager;
+        bannerNoticeManager.noticeUIs[1].TryAddContents(bannerNoticeManager.curiverseNoticeCount);
     }
 
     public async UniTaskVoid Request_GuideDownload1()
@@ -412,6 +435,8 @@ public class API : URL
         await UniTask.SwitchToThreadPool();
         Debug.Log("Request_GuideDownload1() start()");
         await UniTask.SwitchToMainThread();
+
+        GameManager.instance.bannerNoticeManager.guideInfo[0].SetLinkURL("https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Test+PDF.pdf");
     }
 
     public async UniTaskVoid Request_GuideDownload2()
@@ -419,6 +444,19 @@ public class API : URL
         await UniTask.SwitchToThreadPool();
         Debug.Log("Request_GuideDownload2() start()");
         await UniTask.SwitchToMainThread();
+
+        GameManager.instance.bannerNoticeManager.guideInfo[1].SetLinkURL("https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Test+PDF.pdf");
+    }
+    #endregion
+
+    #region turn off pc
+    public async UniTaskVoid Request_turnOffPC()
+    {
+        await UniTask.SwitchToThreadPool();
+        Debug.Log("Request_turnOffPC() start()");
+        await UniTask.SwitchToMainThread();
+
+        Debug.Log("PC off 요청 완료");
     }
     #endregion
 }

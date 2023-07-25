@@ -15,6 +15,7 @@ public class DEV : MonoBehaviour
 
     public bool isTEST;
     public bool isUsingFolderDialog;
+    public bool isTEST_CONTENTS; // 삭제 예정
     
     public FilePath filePath;
     public string[] rootPaths; // div 용
@@ -86,7 +87,9 @@ public class DEV : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev.ToString(), FileType.pc.ToString());
+            Debug.Log("다운로드 경로 테스트");
+            //await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev.ToString(), FileType.pc.ToString());
+            await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.pc);
         }
     }
 
@@ -152,7 +155,6 @@ public class DEV : MonoBehaviour
         File.WriteAllText(path, jsonData);
     }
     #endregion
-
 }
 
 public class DefaultSettings

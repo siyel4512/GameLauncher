@@ -10,6 +10,8 @@ public class BannerInfo : MonoBehaviour
     public string title;
     public string linkURL;
 
+    // banner info value save
+
     [Space(10)]
     [Header("[ UI ]")]
     public BannerUI bannerUI;

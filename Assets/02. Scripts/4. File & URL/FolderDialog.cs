@@ -22,6 +22,7 @@ public class FolderDialog : MonoBehaviour
         installPath_text.text = GameManager.instance.filePath.ExeFolderPaths[popupNum];
     }
 
+    // open folder dialog
     public void BTN_OpenFolderDialog()
     {
         VistaFolderBrowserDialog openDialog = new VistaFolderBrowserDialog();

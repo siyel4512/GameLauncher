@@ -117,8 +117,8 @@ public class PlayerManager : MonoBehaviour
     public void SetPlayerState(int i)
     {
         currentState = i;
-        
-        switch(i)
+
+        switch (i)
         {
             // online
             case 0:
@@ -151,8 +151,7 @@ public class PlayerManager : MonoBehaviour
     private void RequestPlayerStateUpdate(int i)
     {
         // Todo : Request player state update
-        Debug.Log("상태 변경 : " + i);
-        GameManager.instance.api.Update_PlayerState().Forget();
+        GameManager.instance.api.Update_PlayerState(i).Forget();
     }
 
     private void ShowLogoutPopup()

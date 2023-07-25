@@ -2941,6 +2941,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c6a545ee8d191144ba9ad393597c4ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buildFileUrls:
+  - 
+  - 
+  - 
+  - 
+  jsonFileUrls:
+  - 
+  - 
+  - 
+  - 
   dataPath:
     pcPath: C:\Curiverse
     vrPath: C:\Curiverse
@@ -7268,6 +7278,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 718879887}
   m_CullTransparentMesh: 1
+--- !u!1 &721861401
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 721861402}
+  - component: {fileID: 721861403}
+  m_Layer: 0
+  m_Name: PC Power Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &721861402
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721861401}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1420501877}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &721861403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721861401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d04fa80c53afdd4ba116a61f0b60a2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCount: 0
+  limitTime: 0
+  isUsingRequestTimer: 0
 --- !u!1001 &733212707
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15906,6 +15963,7 @@ Transform:
   - {fileID: 1385737051}
   - {fileID: 1281924094}
   - {fileID: 546057155}
+  - {fileID: 721861402}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -15927,12 +15985,12 @@ MonoBehaviour:
   - {fileID: 72605800}
   login: {fileID: 758658031}
   filePath: {fileID: 288331700}
-  url: {fileID: 0}
   playerManager: {fileID: 853018779}
   popupManager: {fileID: 1281924095}
   friendListManager: {fileID: 979119269}
   requestFriendManager: {fileID: 979119270}
   bannerNoticeManager: {fileID: 1385737052}
+  pcPowerMnager: {fileID: 721861403}
   api: {fileID: 546057156}
   jsonData: {fileID: 1420501881}
   SelectButtons:
@@ -15945,8 +16003,9 @@ MonoBehaviour:
   playerLimitTime: 10
   selectedServerNum: 0
   currentTimeCount: 0
-  limitTime: 10
+  refreshLimitTime: 10
   isUsingRefreshTimer: 0
+  turnOffLimitTime: 2
 --- !u!114 &1420501879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15961,6 +16020,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isTEST: 0
   isUsingFolderDialog: 0
+  isTEST_CONTENTS: 1
   filePath: {fileID: 288331700}
   rootPaths: []
   selectServer: {fileID: 1420501882}
@@ -16048,6 +16108,12 @@ MonoBehaviour:
     frndRqstDt: 
     upDt: 
     regDt: 
+  temp_donwloadUrl:
+    zip_path: 
+    json_path: 
+  donwloadUrl:
+    zip_path: 
+    json_path: 
 --- !u!114 &1420501882
 MonoBehaviour:
   m_ObjectHideFlags: 0

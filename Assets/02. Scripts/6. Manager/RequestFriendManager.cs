@@ -115,7 +115,7 @@ public class RequestFriendManager : MonoBehaviour
                     frndRqstDt = requestList[i].GetComponent<RequestInfo>().frndRqstDt,
                     upDt = requestList[i].GetComponent<RequestInfo>().upDt,
                     regDt = requestList[i].GetComponent<RequestInfo>().regDt
-            });
+                });
 
                 // add request
                 GameObject clone = Instantiate(friendListManager.listSlot);

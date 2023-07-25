@@ -8,8 +8,6 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 
 using Debug = UnityEngine.Debug;
-using System.Windows.Forms;
-using static SaveData;
 
 public class GameManager : MonoBehaviour
 {
@@ -26,12 +24,13 @@ public class GameManager : MonoBehaviour
     [Header("[ Using Components ]")]
     public Login login;
     public FilePath filePath;
-    public URL url;
+    //public URL url;
     public PlayerManager playerManager;
     public PopupManager popupManager;
     public FriendListManager friendListManager;
     public RequestFriendManager requestFriendManager;
     public BannerNoticeManager bannerNoticeManager;
+    public PCPowerManager pcPowerMnager;
     public API api;
     public JsonData jsonData;
 
@@ -52,6 +51,18 @@ public class GameManager : MonoBehaviour
     [Header("[ Selected Server ]")]
     public int selectedServerNum;
 
+    // refresh timer
+    [Space(10)]
+    [Header("[ Reflesh Timer ]")]
+    public int currentTimeCount;
+    public int refreshLimitTime;
+    public bool isUsingRefreshTimer;
+    public Stopwatch sw;
+
+    [Space(10)]
+    [Header("[ PC Power Setting ]")]
+    public int turnOffLimitTime;
+
     private void Awake()
     {
         if (instance == null)
@@ -62,13 +73,15 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        // set limit Time
+        playerManager.limitTime = playerLimitTime;
+        pcPowerMnager.limitTime = turnOffLimitTime;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        playerManager.limitTime = playerLimitTime;
-
         //jsonData.friendListValues = JsonUtility.FromJson<SaveData>(api.friendList).frndInfoList;
         //jsonData.requestFriendListValues = JsonUtility.FromJson<SaveData>(api.requestFriendList).requestFriend_List;
         //friendListManager.friendCount = jsonData.friendListValues.Count;
@@ -134,14 +147,6 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region refresh data
-    // timer
-    [Space(10)]
-    [Header("[ Reflesh Timer ]")]
-    public int currentTimeCount;
-    public int limitTime;
-    public bool isUsingRefreshTimer;
-    public Stopwatch sw;
-
     public void RefreshTimer()
     {
         if (isLogin)
@@ -152,12 +157,12 @@ public class GameManager : MonoBehaviour
                 sw.Start();
             }
 
-            currentTimeCount = limitTime - (int)(sw.ElapsedMilliseconds / 1000f);
+            currentTimeCount = refreshLimitTime - (int)(sw.ElapsedMilliseconds / 1000f);
 
             // time out
             if (currentTimeCount < 0)
             {
-                currentTimeCount = limitTime;
+                currentTimeCount = refreshLimitTime;
                 sw.Restart();
 
                 RefreshAllData();

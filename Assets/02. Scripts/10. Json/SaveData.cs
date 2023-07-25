@@ -34,4 +34,13 @@ public class SaveData
     }
 
     public List<requestFriendList> requestFriend_List;
+
+    [Serializable]
+    public class downloadUrlList
+    {
+        public string zip_path;
+        public string json_path;
+    }
+
+    public downloadUrlList downloadUrl;
 }

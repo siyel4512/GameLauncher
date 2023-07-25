@@ -49,12 +49,14 @@ public class PopupManager : MonoBehaviour
         popups[(int)PopupType.logout].SetActive(true);
     }
 
+    // confirm logout
     public void BTN_ConfirmLogout()
     {
         popups[(int)PopupType.logout].SetActive(false);
         GameManager.instance.ResetLauncher();
     }
 
+    // cancel logout
     public void BTN_CancelLogout()
     {
         popups[(int)PopupType.logout].SetActive(false);
@@ -62,6 +64,7 @@ public class PopupManager : MonoBehaviour
     #endregion
 
     #region Friend List
+    // cancel user search
     public void BTN_CancelUserSearch()
     {
         popups[(int)PopupType.UserSearch].SetActive(false);
@@ -70,6 +73,7 @@ public class PopupManager : MonoBehaviour
         GameManager.instance.friendListManager.ResetSearchUserNickName();
     }
 
+    // confirm request friend
     public void BTN_ConfirmRequestFriend()
     {
         popups[(int)PopupType.UserSearch].SetActive(false);
@@ -80,28 +84,32 @@ public class PopupManager : MonoBehaviour
         GameManager.instance.api.Request_AddFriend(GameManager.instance.jsonData.searchFriend.frndMbrNo, GameManager.instance.jsonData.searchFriend.mbrNo).Forget();
     }
 
+    // cancel request friend
     public void BTN_CancelRequestFriend()
     {
         popups[(int)PopupType.RequestFriend].SetActive(false);
     }
 
+    // confirm search user failed
     public void BTN_ConfirmSearchUserFailed()
     {
         popups[(int)PopupType.UserSearchFaild].SetActive(false);
     }
 
+    // show blank error popup
     public void BTN_BlankError()
     {
         popups[(int)PopupType.BlankError].SetActive(false);
-
     }
 
+    // confirm delete friend
     public void BTN_ConfirmDeleteFriend()
     {
         popups[(int)PopupType.DeleteFriend].SetActive(false);
         GameManager.instance.friendListManager.DeleteFriend();
     }
 
+    // cancel delete friend
     public void BTN_CancelDeleteFriend()
     {
         popups[(int)PopupType.DeleteFriend].SetActive(false);
@@ -118,11 +126,13 @@ public class PopupManager : MonoBehaviour
         popups[(int)PopupType.RequestFriendList].SetActive(false);
     }
 
+    // set popup contents
     public void SetContents(int index, string nickname)
     {
         popupContents[index].text = $"'{nickname}'님께 친구 요청을 하시겠습니까?";
     } 
     
+    // close already friend popup
     public void BTN_CloseAlreadyFriend()
     {
         popups[(int)PopupType.AlreadyExistFriend].SetActive(false);
