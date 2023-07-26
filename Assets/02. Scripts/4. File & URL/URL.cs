@@ -60,11 +60,9 @@ public class URL : LoadFile
     public string TEST_requesetKey = "http://101.101.218.135:5002/onlineScienceMuseumAPI/checkId.do";
     public string TEST_tryLogin = "http://101.101.218.135:5002/onlineScienceMuseumAPI/tryLogin.do";
 
-    // friend list
+    // friend list & request friend list
     public string TEST_friendList = "http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do";
     public string TEST_addFriend = "http://101.101.218.135:5002/onlineScienceMuseumAPI/insertFrndInfo.do";
-
-    // request friend list
     public string TEST_requestAccept = "http://101.101.218.135:5002/onlineScienceMuseumAPI/updateFrndReqAccept.do";
     public string TEST_requestRefuseNDelete = "http://101.101.218.135:5002/onlineScienceMuseumAPI/deleteFrndReq.do";
 

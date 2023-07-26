@@ -17,7 +17,7 @@ public class DEV : MonoBehaviour
     public bool isTEST;
     public bool isUsingFolderDialog;
     public bool isTEST_Contents;
-    public bool isTEST_WithoutLiveServer;
+    public bool isTEST_Server;
 
     public FilePath filePath;
     public string[] rootPaths; // div 용

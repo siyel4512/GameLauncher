@@ -235,9 +235,9 @@ public class FileDownload : MonoBehaviour
     #region File Execute
     public void Execute()
     {
-        //Debug.Log(gameExcutePath);
-        //Debug.Log($"Execute result : {File.Exists(gameExcutePath)} / {Status}");
-        //Debug.Log(FilePath.Instance.defaultDataPath);
+        //Debug.Log($"[SY] : {gameExcutePath}");
+        //Debug.Log($"[SY] Execute result : {File.Exists(gameExcutePath)} / {Status}");
+        //Debug.Log($"[SY] : {FilePath.Instance.defaultDataPath}");
         // create folder
         if (Directory.Exists(FilePath.Instance.defaultDataPath))
         {

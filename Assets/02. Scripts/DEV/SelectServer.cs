@@ -48,7 +48,7 @@ public class SelectServer : MonoBehaviour
         //}
 
         //FilePath.Instance.Test_SetDownloadURL();
-        FilePath.Instance.Test_SetDownloadURL2();
+        FilePath.Instance.Test_SetDownloadURL2(selectServerNum);
     }
 
     public void OnChangedValue(TMP_Dropdown change)
@@ -56,7 +56,7 @@ public class SelectServer : MonoBehaviour
         if (selectServerNum != change.value)
         {
             //FilePath.Instance.FilePathCheck();
-            FilePath.Instance.DeleteExeFiles();
+            FilePath.Instance.DeleteExeFiles(change.value);
         }
 
         selectServerNum = change.value;

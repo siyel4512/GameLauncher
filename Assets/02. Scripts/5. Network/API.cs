@@ -47,7 +47,19 @@ public class API : URL
         //HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
 
         HttpClient client = new HttpClient();
+
+        string url = "";
+        if (DEV.instance.isTEST_Server)
+        {
+            url = TEST_friendList;
+        }
+        else
+        {
+
+        }
+
         var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do", content);
+        //var response = await client.PostAsync(url, content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
         if (response.IsSuccessStatusCode)
@@ -115,6 +127,10 @@ public class API : URL
         var content = new FormUrlEncodedContent(param);
 
         HttpClient client = new HttpClient();
+        if (DEV.instance.isTEST_Server)
+        {
+
+        }
         var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do", content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
@@ -168,6 +184,10 @@ public class API : URL
         //HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
 
         HttpClient client = new HttpClient();
+        if (DEV.instance.isTEST_Server)
+        {
+
+        }
         var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/insertFrndInfo.do", content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
@@ -207,6 +227,10 @@ public class API : URL
         //HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
 
         HttpClient client = new HttpClient();
+        if (DEV.instance.isTEST_Server)
+        {
+
+        }
         var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do", content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
@@ -270,6 +294,10 @@ public class API : URL
         var content = new FormUrlEncodedContent(param);
 
         HttpClient client = new HttpClient();
+        if (DEV.instance.isTEST_Server)
+        {
+
+        }
         var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/updateFrndReqAccept.do", content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
@@ -304,6 +332,10 @@ public class API : URL
         //HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
 
         HttpClient client = new HttpClient();
+        if (DEV.instance.isTEST_Server)
+        {
+
+        }
         var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/deleteFrndReq.do", content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
@@ -368,6 +400,10 @@ public class API : URL
         //HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
 
         HttpClient client = new HttpClient();
+        if (DEV.instance.isTEST_Server)
+        {
+
+        }
         var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/downloadBuildFile.do", content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
@@ -391,7 +427,7 @@ public class API : URL
         }
     }
 
-    public async UniTask Request_FileDownloadURL_live()
+    public async UniTask Request_FileDownloadURL_live(FileType _folderFlag)
     {
         Debug.Log("Request_FileDownloadURL_live() start()");
         JsonData jsonData = GameManager.instance.jsonData;
@@ -400,7 +436,7 @@ public class API : URL
         var param = new Dictionary<string, string>
         {
             { "pathFlag", "dev" },
-            { "folderFlag", "pc" }
+            { "folderFlag", _folderFlag.ToString() }
         };
 
         var content = new FormUrlEncodedContent(param);
@@ -408,6 +444,10 @@ public class API : URL
         //HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
 
         HttpClient client = new HttpClient();
+        if (DEV.instance.isTEST_Server)
+        {
+
+        }
         var response = await client.PostAsync("http://49.50.162.141:5002/onlineScienceMuseumAPI/downloadBuildFile.do", content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
@@ -419,11 +459,21 @@ public class API : URL
             string zipPath = JsonUtility.FromJson<SaveData.downloadUrlList>(requestResult).zip_path;
             string jsonPath = JsonUtility.FromJson<SaveData.downloadUrlList>(requestResult).json_path;
 
-            jsonData.temp_donwloadUrl.zip_path = zipPath; // temp data save
-            jsonData.temp_donwloadUrl.json_path = jsonPath; // temp data save
+            //jsonData.temp_donwloadUrl.zip_path = zipPath; // temp data save
+            //jsonData.temp_donwloadUrl.json_path = jsonPath; // temp data save
 
-            GameManager.instance.filePath.buildFileUrls[3] = zipPath;
-            GameManager.instance.filePath.jsonFileUrls[3] = jsonPath;
+            //GameManager.instance.filePath.buildFileUrls[(int)_folderFlag] = zipPath;
+            //GameManager.instance.filePath.jsonFileUrls[(int)_folderFlag] = jsonPath;
+
+            // Todo : 문자열 변환....
+            string temp_zipPath = zipPath.Replace("\\", "/");
+            string temp_jsonPath = jsonPath.Replace("\\", "/");
+
+            jsonData.temp_donwloadUrl.zip_path = temp_zipPath; // temp data save
+            jsonData.temp_donwloadUrl.json_path = temp_jsonPath; // temp data save
+
+            GameManager.instance.filePath.buildFileUrls[(int)_folderFlag] = temp_zipPath;
+            GameManager.instance.filePath.jsonFileUrls[(int)_folderFlag] = temp_jsonPath;
         }
         else
         {

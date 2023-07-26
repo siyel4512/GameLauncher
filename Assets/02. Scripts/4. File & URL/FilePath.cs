@@ -238,14 +238,16 @@ public class FilePath : LoadFile
         SetFilePath();
     }
 
-    public async void Test_SetDownloadURL2()
+    public async void Test_SetDownloadURL2(int serverNum)
     {
         string[] parsingData = ParsingData();
 
-        switch (GameManager.instance.selectedServerNum)
+        //switch (GameManager.instance.selectedServerNum)
+        switch (serverNum)
         {
             case 0:
                 // dev server
+                Debug.Log("dev server");
                 await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.pc);
                 await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.vr);
                 await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.prod);
@@ -253,6 +255,7 @@ public class FilePath : LoadFile
                 break;
             case 1:
                 // test server
+                Debug.Log("test server");
                 await GameManager.instance.api.Request_FileDownloadURL(ServerType.test, FileType.pc);
                 await GameManager.instance.api.Request_FileDownloadURL(ServerType.test, FileType.vr);
                 await GameManager.instance.api.Request_FileDownloadURL(ServerType.test, FileType.prod);
@@ -260,6 +263,7 @@ public class FilePath : LoadFile
                 break;
             case 2:
                 // staging server
+                Debug.Log("staging server");
                 await GameManager.instance.api.Request_FileDownloadURL(ServerType.stage, FileType.pc);
                 await GameManager.instance.api.Request_FileDownloadURL(ServerType.stage, FileType.vr);
                 await GameManager.instance.api.Request_FileDownloadURL(ServerType.stage, FileType.prod);
@@ -267,10 +271,11 @@ public class FilePath : LoadFile
                 break;
             case 3:
                 // live server
-                await GameManager.instance.api.Request_FileDownloadURL_live();
-                await GameManager.instance.api.Request_FileDownloadURL_live();
-                await GameManager.instance.api.Request_FileDownloadURL_live();
-                await GameManager.instance.api.Request_FileDownloadURL_live();
+                Debug.Log("live server");
+                await GameManager.instance.api.Request_FileDownloadURL_live(FileType.pc);
+                await GameManager.instance.api.Request_FileDownloadURL_live(FileType.vr);
+                await GameManager.instance.api.Request_FileDownloadURL_live(FileType.prod);
+                await GameManager.instance.api.Request_FileDownloadURL_live(FileType.colca);
                 break;
         }
 
@@ -333,8 +338,10 @@ public class FilePath : LoadFile
     //    }
     //}
 
-    public void DeleteExeFiles()
+    public void DeleteExeFiles(int serverNum)
     {
+        Test_SetDownloadURL2(serverNum);
+
         if (Directory.Exists(defaultDataPath))
         {
             // delete all files in a directory
