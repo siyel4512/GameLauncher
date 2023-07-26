@@ -56,19 +56,36 @@ public class URL : LoadFile
     }
 
     #region TEST API
-    // Login
-    public string TEST_requesetKey;
-    public string TEST_tryLogin;
+    // login
+    public string TEST_requesetKey = "http://101.101.218.135:5002/onlineScienceMuseumAPI/checkId.do";
+    public string TEST_tryLogin = "http://101.101.218.135:5002/onlineScienceMuseumAPI/tryLogin.do";
 
-    // Friend List
+    // friend list
+    public string TEST_friendList = "http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do";
+    public string TEST_addFriend = "http://101.101.218.135:5002/onlineScienceMuseumAPI/insertFrndInfo.do";
 
-    // Request Friend List
-        
-    // Event Banner & Notice
+    // request friend list
+    public string TEST_requestAccept = "http://101.101.218.135:5002/onlineScienceMuseumAPI/updateFrndReqAccept.do";
+    public string TEST_requestRefuseNDelete = "http://101.101.218.135:5002/onlineScienceMuseumAPI/deleteFrndReq.do";
 
+    // event banner & notice
+
+    // file download
+    public string TEST_fileDownload = "http://101.101.218.135:5002/onlineScienceMuseumAPI/downloadBuildFile.do";
     #endregion
 
     #region LIVE API
+    // login
+    public string requesetKey;
+    public string tryLogin;
 
+    // friend list
+
+    // request friend list
+
+    // event banner & notice
+
+    // file download
+    public string fileDownload = "http://49.50.162.141:5002/onlineScienceMuseumAPI/downloadBuildFile.do";
     #endregion
 }
