@@ -391,6 +391,45 @@ public class API : URL
         }
     }
 
+    public async UniTask Request_FileDownloadURL_live()
+    {
+        Debug.Log("Request_FileDownloadURL_live() start()");
+        JsonData jsonData = GameManager.instance.jsonData;
+        FriendListManager friendListManager = GameManager.instance.friendListManager;
+
+        var param = new Dictionary<string, string>
+        {
+            { "pathFlag", "dev" },
+            { "folderFlag", "pc" }
+        };
+
+        var content = new FormUrlEncodedContent(param);
+
+        //HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
+
+        HttpClient client = new HttpClient();
+        var response = await client.PostAsync("http://49.50.162.141:5002/onlineScienceMuseumAPI/downloadBuildFile.do", content);
+        string requestResult = await response.Content.ReadAsStringAsync();
+
+        if (response.IsSuccessStatusCode)
+        {
+            Debug.Log("응답 성공");
+            Debug.Log("다운로드 경로 결과 : " + requestResult);
+
+            string zipPath = JsonUtility.FromJson<SaveData.downloadUrlList>(requestResult).zip_path;
+            string jsonPath = JsonUtility.FromJson<SaveData.downloadUrlList>(requestResult).json_path;
+
+            jsonData.temp_donwloadUrl.zip_path = zipPath; // temp data save
+            jsonData.temp_donwloadUrl.json_path = jsonPath; // temp data save
+
+            GameManager.instance.filePath.buildFileUrls[3] = zipPath;
+            GameManager.instance.filePath.jsonFileUrls[3] = jsonPath;
+        }
+        else
+        {
+            Debug.Log("응답 실패 (다운로드 경로 결과) : " + requestResult);
+        }
+    }
     #endregion
 
     #region event banner & notice

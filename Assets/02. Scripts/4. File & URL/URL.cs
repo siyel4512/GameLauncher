@@ -54,4 +54,21 @@ public class URL : LoadFile
         getKeyUrl = parsingData[3];
         loginUrl = parsingData[4];
     }
+
+    #region TEST API
+    // Login
+    public string TEST_requesetKey;
+    public string TEST_tryLogin;
+
+    // Friend List
+
+    // Request Friend List
+        
+    // Event Banner & Notice
+
+    #endregion
+
+    #region LIVE API
+
+    #endregion
 }

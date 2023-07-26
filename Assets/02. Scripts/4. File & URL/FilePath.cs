@@ -162,8 +162,8 @@ public class FilePath : LoadFile
         //defaultDataPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         //defaultDataPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         //defaultDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-        //defaultDataPath = "C:\\Curiverse";
-        defaultDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "TEST Folder");
+        defaultDataPath = "C:\\Curiverse";
+        //defaultDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "TEST Folder");
 
         dataPath.pcPath = dataPath.vrPath = dataPath.ugcPath = dataPath.batchPath = defaultDataPath;
 
@@ -267,10 +267,10 @@ public class FilePath : LoadFile
                 break;
             case 3:
                 // live server
-                await GameManager.instance.api.Request_FileDownloadURL(ServerType.live, FileType.pc);
-                await GameManager.instance.api.Request_FileDownloadURL(ServerType.live, FileType.vr);
-                await GameManager.instance.api.Request_FileDownloadURL(ServerType.live, FileType.prod);
-                await GameManager.instance.api.Request_FileDownloadURL(ServerType.live, FileType.colca);
+                await GameManager.instance.api.Request_FileDownloadURL_live();
+                await GameManager.instance.api.Request_FileDownloadURL_live();
+                await GameManager.instance.api.Request_FileDownloadURL_live();
+                await GameManager.instance.api.Request_FileDownloadURL_live();
                 break;
         }
 

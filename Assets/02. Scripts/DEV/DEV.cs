@@ -1,3 +1,4 @@
+using Org.BouncyCastle.Bcpg.OpenPgp;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,14 +16,14 @@ public class DEV : MonoBehaviour
 
     public bool isTEST;
     public bool isUsingFolderDialog;
-    public bool isTEST_CONTENTS; // 삭제 예정
-    
+    public bool isTEST_Contents;
+    public bool isTEST_WithoutLiveServer;
+
     public FilePath filePath;
     public string[] rootPaths; // div 용
 
     public SelectServer selectServer;
     public int selectedServerNum; // div 용
-
 
     public DefaultSettings defaultSettings;
 

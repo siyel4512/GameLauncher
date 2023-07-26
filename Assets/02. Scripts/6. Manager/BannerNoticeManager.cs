@@ -29,7 +29,7 @@ public class BannerNoticeManager : MonoBehaviour
 
     public void CreateAllContents()
     {
-        if (DEV.instance.isTEST_CONTENTS)
+        if (DEV.instance.isTEST_Contents)
         {
             // Create Event Banner
             bannerUI.TryAddContents(eventBannerCount);
@@ -55,7 +55,7 @@ public class BannerNoticeManager : MonoBehaviour
 
     public void SetGuideDownloadLink()
     {
-        if (DEV.instance.isTEST_CONTENTS)
+        if (DEV.instance.isTEST_Contents)
         {
             // curiverse using guide download
             guideInfo[0].SetLinkURL("https://www.google.com/");

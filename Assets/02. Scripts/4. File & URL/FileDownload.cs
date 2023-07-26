@@ -225,7 +225,6 @@ public class FileDownload : MonoBehaviour
                 if (fileName[fileName.Length - 1] != "UnityCrashHandler64.exe")
                 {
                     // excute file name
-                    //gameExcutePath = Path.Combine(FilePath.Instance.RootPath, FilePath.Instance.ExeFolderPaths[buttonNum], fileName[fileName.Length - 1]);
                     gameExcutePath = Path.Combine(FilePath.Instance.RootPaths[buttonNum], FilePath.Instance.ExeFolderPaths[buttonNum], fileName[fileName.Length - 1]);
                 }
             }
@@ -236,9 +235,9 @@ public class FileDownload : MonoBehaviour
     #region File Execute
     public void Execute()
     {
-        Debug.Log(gameExcutePath);
-        Debug.Log($"Execute result : {File.Exists(gameExcutePath)} / {Status}");
-        Debug.Log(FilePath.Instance.defaultDataPath);
+        //Debug.Log(gameExcutePath);
+        //Debug.Log($"Execute result : {File.Exists(gameExcutePath)} / {Status}");
+        //Debug.Log(FilePath.Instance.defaultDataPath);
         // create folder
         if (Directory.Exists(FilePath.Instance.defaultDataPath))
         {
@@ -254,7 +253,6 @@ public class FileDownload : MonoBehaviour
         if (File.Exists(gameExcutePath) && Status == LauncherStatus.ready)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo(gameExcutePath);
-            //startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPath, FilePath.Instance.ExeFolderNames[buttonNum]);
             startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPaths[buttonNum], FilePath.Instance.ExeFolderNames[buttonNum]);
             Process.Start(startInfo);
         }

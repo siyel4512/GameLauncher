@@ -36,10 +36,11 @@ public class SelectServer : MonoBehaviour
         });
 
         jsonFilePath = Path.Combine(Application.streamingAssetsPath + "/Default Settings", "SeletedServerState.json");
-        
+
         //selectServerNum = 0;
         selectServerNum = LoadData().selectedServerNum;
         selectServer.value = selectServerNum;
+
 
         //if (selectServerNum == 0)
         //{
@@ -65,8 +66,6 @@ public class SelectServer : MonoBehaviour
         //Debug.Log("Server Value: " + change.value);
         Debug.Log("Server Name: " + change.options[change.value].text);
         //Debug.Log("Server captionText: " + change.captionText.text);
-
-        
     }
 
     // save server num data
