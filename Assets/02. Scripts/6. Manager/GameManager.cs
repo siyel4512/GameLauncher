@@ -179,6 +179,11 @@ public class GameManager : MonoBehaviour
     // request json data
     public void RefreshAllData()
     {
+        //// Toto : delete all data
+        //bannerNoticeManager.bannerUI.DeleteContents();
+        //bannerNoticeManager.noticeUIs[0].DeleteContents();
+        //bannerNoticeManager.noticeUIs[1].DeleteContents();
+
         // friend list
         api.Request_FriendList().Forget();// create friedn list
         
@@ -203,13 +208,13 @@ public class GameManager : MonoBehaviour
         //}
 
         // event banner
-        api.Request_EventBanner().Forget();
+        //api.Request_EventBanner().Forget();
 
         // notice
-        api.Request_Notice().Forget();
+        //api.Request_Notice().Forget();
 
         // curiverse notice
-        api.Request_CuriverseNotice().Forget();
+        //api.Request_CuriverseNotice().Forget();
 
         // guide download
         api.Request_GuideDownload1().Forget();
