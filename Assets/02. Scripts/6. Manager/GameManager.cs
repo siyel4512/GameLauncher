@@ -165,7 +165,7 @@ public class GameManager : MonoBehaviour
                 currentTimeCount = refreshLimitTime;
                 sw.Restart();
 
-                RefreshAllData();
+                //RefreshAllData();
             }
         }
         else

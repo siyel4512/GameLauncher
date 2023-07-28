@@ -33,8 +33,10 @@ public class API : URL
         await UniTask.SwitchToThreadPool();
 
         Debug.Log("Request_FriendList() start()");
+
         JsonData jsonData = GameManager.instance.jsonData;
         FriendListManager friendListManager = GameManager.instance.friendListManager;
+        List<SaveData.friendList> tempSaveData = new List<SaveData.friendList>();
 
         var param = new Dictionary<string, string>
         {
@@ -48,15 +50,15 @@ public class API : URL
 
         HttpClient client = new HttpClient();
 
-        string url = "";
-        if (DEV.instance.isTEST_Server)
-        {
-            url = TEST_friendList;
-        }
-        else
-        {
+        //string url = "";
+        //if (DEV.instance.isTEST_Server)
+        //{
+        //    url = TEST_friendList;
+        //}
+        //else
+        //{
 
-        }
+        //}
 
         var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do", content);
         //var response = await client.PostAsync(url, content);
@@ -66,7 +68,18 @@ public class API : URL
         {
             Debug.Log("응답 성공");
             Debug.Log("친구 리스트 결과 : " + requestResult);
-            jsonData.temp_friendListValue = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList; // temp data save
+            //jsonData.temp_friendListValue = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList; // temp data save
+
+            
+            tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
+
+            for (int i = 0; tempSaveData.Count > i; i++)
+            {
+                if (tempSaveData[i].frndRqstSttus == "1")
+                {
+                    jsonData.temp_friendListValue.Add(tempSaveData[i]);
+                }
+            }
         }
         else
         {
@@ -77,13 +90,15 @@ public class API : URL
 
         // set friend list count
         friendListManager.friendCount = jsonData.temp_friendListValue.Count;
+        Debug.Log($"[SY] {friendListManager.friendCount} / {jsonData.temp_friendListValue.Count}");
 
         // frist time setting
         if (jsonData.friendListValues.Count == 0 || (jsonData.friendListValues.Count != jsonData.temp_friendListValue.Count))
         {
             //Debug.Log("값 없음");
             jsonData.friendListValues = null;            
-            jsonData.friendListValues = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
+            //jsonData.friendListValues = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
+            jsonData.friendListValues = tempSaveData;
 
             // create data
             //StartCoroutine(friendListManager.CreateList());

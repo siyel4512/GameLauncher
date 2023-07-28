@@ -73,15 +73,13 @@ public class FriendListManager : MonoBehaviour
     //public IEnumerator CreateList()
     {
         //yield return null;
-        int myFriendCount = 0;
-
         for (int i = 0; i < friendCount; i++)
         {
             List<SaveData.friendList> friendListValues = GameManager.instance.jsonData.friendListValues;
 
             // create & set temp friend info
-            temp_friendList.Add(new FriendInfo() 
-            { 
+            temp_friendList.Add(new FriendInfo()
+            {
                 nickname = $"Test_" + i,
                 state = "온라인",
 
@@ -95,6 +93,8 @@ public class FriendListManager : MonoBehaviour
                 upDt = friendListValues[i].upDt,
                 regDt = friendListValues[i].regDt
             });
+
+            Debug.Log("[SY] " + temp_friendList.Count);
 
             // create friend list
             GameObject clone = Instantiate(listSlot);
@@ -119,16 +119,23 @@ public class FriendListManager : MonoBehaviour
 
             friendList.Add(info);
 
-            if (GameManager.instance.jsonData.friendListValues[i].frndRqstSttus == "1")
-            {
-                myFriendCount++;
-            }
+            Debug.Log("[SY] " + friendList.Count);
+            //myFriendCount++;
         }
 
-        Debug.Log("총 내 친구 수 : " + myFriendCount + " / " + GameManager.instance.jsonData.friendListValues.Count);
+        //for (int i = 0; i < GameManager.instance.jsonData.friendListValues.Count; i++)
+        //{
+        //    if (GameManager.instance.jsonData.friendListValues[i].frndRqstSttus == "1")
+        //    {
+        //        myFriendCount++;
+        //    }
+        //}
+
+        //Debug.Log("[SY] 총 내 친구 수 : " + myFriendCount + " / " + GameManager.instance.jsonData.friendListValues.Count);
 
         // Avoid duplicate creation
         if (friendList.Count != GameManager.instance.jsonData.friendListValues.Count)
+        //if (friendList.Count != myFriendCount)
         {
             DeleteList();
 
@@ -136,45 +143,48 @@ public class FriendListManager : MonoBehaviour
             {
                 List<SaveData.friendList> friendListValues = GameManager.instance.jsonData.friendListValues;
 
-                // create & set temp friend info
-                temp_friendList.Add(new FriendInfo()
+                if (friendListValues[i].frndRqstSttus == "1")
                 {
-                    nickname = $"Test_" + i,
-                    state = "온라인",
+                    // create & set temp friend info
+                    temp_friendList.Add(new FriendInfo()
+                    {
+                        nickname = $"Test_" + i,
+                        state = "온라인",
 
-                    ncnm = friendListValues[i].ncnm,
-                    frndNo = friendListValues[i].frndNo,
-                    mbrNo = friendListValues[i].mbrNo,
-                    frndMbrNo = friendListValues[i].frndMbrNo,
-                    frndSttus = friendListValues[i].frndSttus,
-                    frndRqstSttus = friendListValues[i].frndRqstSttus,
-                    frndRqstDt = friendListValues[i].frndRqstDt,
-                    upDt = friendListValues[i].upDt,
-                    regDt = friendListValues[i].regDt
-                });
+                        ncnm = friendListValues[i].ncnm,
+                        frndNo = friendListValues[i].frndNo,
+                        mbrNo = friendListValues[i].mbrNo,
+                        frndMbrNo = friendListValues[i].frndMbrNo,
+                        frndSttus = friendListValues[i].frndSttus,
+                        frndRqstSttus = friendListValues[i].frndRqstSttus,
+                        frndRqstDt = friendListValues[i].frndRqstDt,
+                        upDt = friendListValues[i].upDt,
+                        regDt = friendListValues[i].regDt
+                    });
 
-                // create friend list
-                GameObject clone = Instantiate(listSlot);
-                clone.transform.SetParent(listContent.transform, false);
+                    // create friend list
+                    GameObject clone = Instantiate(listSlot);
+                    clone.transform.SetParent(listContent.transform, false);
 
-                // set friend info
-                FriendInfo info = clone.GetComponent<FriendInfo>();
+                    // set friend info
+                    FriendInfo info = clone.GetComponent<FriendInfo>();
 
-                info.nickname = temp_friendList[i].nickname;
-                info.state = temp_friendList[i].state;
+                    info.nickname = temp_friendList[i].nickname;
+                    info.state = temp_friendList[i].state;
 
-                info.ncnm = friendListValues[i].ncnm;
-                info.frndNo = friendListValues[i].frndNo;
-                info.mbrNo = friendListValues[i].mbrNo;
-                info.frndMbrNo = friendListValues[i].frndMbrNo;
-                info.frndSttus = friendListValues[i].frndSttus;
-                info.frndRqstSttus = friendListValues[i].frndRqstSttus;
-                info.frndRqstDt = friendListValues[i].frndRqstDt;
-                info.upDt = friendListValues[i].upDt;
-                info.regDt = friendListValues[i].regDt;
-                info.SetSlotValues();
+                    info.ncnm = friendListValues[i].ncnm;
+                    info.frndNo = friendListValues[i].frndNo;
+                    info.mbrNo = friendListValues[i].mbrNo;
+                    info.frndMbrNo = friendListValues[i].frndMbrNo;
+                    info.frndSttus = friendListValues[i].frndSttus;
+                    info.frndRqstSttus = friendListValues[i].frndRqstSttus;
+                    info.frndRqstDt = friendListValues[i].frndRqstDt;
+                    info.upDt = friendListValues[i].upDt;
+                    info.regDt = friendListValues[i].regDt;
+                    info.SetSlotValues();
 
-                friendList.Add(info);
+                    friendList.Add(info);
+                }
             }
         }
 
