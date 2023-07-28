@@ -15,7 +15,7 @@ public enum PopupType
     DeleteFriend,
     NotSelectedFriend,
     RequestFriendList,
-    DownloadFailed
+    BlackList
 }
 
 public class PopupManager : MonoBehaviour
@@ -23,6 +23,8 @@ public class PopupManager : MonoBehaviour
     public GameObject[] popups;
 
     public TMP_Text[] popupContents;
+
+    public TMP_Text[] blackListContents; 
 
     // Start is called before the first frame update
     void Start()
@@ -136,6 +138,21 @@ public class PopupManager : MonoBehaviour
     public void BTN_CloseAlreadyFriend()
     {
         popups[(int)PopupType.AlreadyExistFriend].SetActive(false);
+    }
+    #endregion
+
+    #region Black List
+    // close black list alert popup
+    public void BTN_ConfirmBlackList()
+    {
+        popups[(int)PopupType.BlackList].SetActive(false);
+    }
+
+    // set black list alert contents
+    public void SetBlackListAlertContents(string content, string reason)
+    {
+        blackListContents[0].text = content;
+        blackListContents[1].text = reason;
     }
     #endregion
 }

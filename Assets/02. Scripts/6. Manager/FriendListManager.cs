@@ -73,6 +73,7 @@ public class FriendListManager : MonoBehaviour
     //public IEnumerator CreateList()
     {
         //yield return null;
+        int myFriendCount = 0;
 
         for (int i = 0; i < friendCount; i++)
         {
@@ -117,7 +118,14 @@ public class FriendListManager : MonoBehaviour
             info.SetSlotValues();
 
             friendList.Add(info);
+
+            if (GameManager.instance.jsonData.friendListValues[i].frndRqstSttus == "1")
+            {
+                myFriendCount++;
+            }
         }
+
+        Debug.Log("총 내 친구 수 : " + myFriendCount + " / " + GameManager.instance.jsonData.friendListValues.Count);
 
         // Avoid duplicate creation
         if (friendList.Count != GameManager.instance.jsonData.friendListValues.Count)

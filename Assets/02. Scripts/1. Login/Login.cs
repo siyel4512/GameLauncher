@@ -151,8 +151,26 @@ public class Login : MonoBehaviour
         {
             Debug.Log("응답 실패 (로그인 실패) : " + requestResult);
 
+            //Debug.Log("블랙리스트 결과 : " + requestResult.Contains("TL_103"));
+
+            bool isBlackList = requestResult.Contains("TL_103");
+
+            // error code : TL_103
+            // black list
+            if (isBlackList)
+            {
+                string blackListContents = requestResult.Substring(6, requestResult.Length - 6);
+                string[] contents = blackListContents.Split(" / ");
+
+                GameManager.instance.popupManager.SetBlackListAlertContents(contents[0], contents[1]);
+                GameManager.instance.popupManager.popups[(int)PopupType.BlackList].SetActive(true);
+            }
+            // error code : TL_102
             // invalid ID, password value
-            GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
+            else
+            {
+                GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
+            }
         }
     }
 
@@ -186,8 +204,26 @@ public class Login : MonoBehaviour
         {
             Debug.Log("응답 실패 (로그인 실패) : " + requestResult);
 
+            //Debug.Log("블랙리스트 결과 : " + requestResult.Contains("TL_103"));
+
+            bool isBlackList = requestResult.Contains("TL_103");
+            
+            // error code : TL_103
+            // black list
+            if (isBlackList)
+            {
+                string blackListContents = requestResult.Substring(6, requestResult.Length - 6);
+                string[] contents = blackListContents.Split(" / ");
+
+                GameManager.instance.popupManager.SetBlackListAlertContents(contents[0], contents[1]);
+                GameManager.instance.popupManager.popups[(int)PopupType.BlackList].SetActive(true);
+            }
+            // error code : TL_102
             // invalid ID, password value
-            GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
+            else
+            {
+                GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
+            }
         }
     }
 

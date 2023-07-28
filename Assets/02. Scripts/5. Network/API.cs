@@ -354,13 +354,43 @@ public class API : URL
 
     #region player state
     // upudate player state
-    public async UniTaskVoid Update_PlayerState(int i) 
+    public async UniTaskVoid Update_PlayerState(int status, string token) 
     {
         await UniTask.SwitchToThreadPool();
         Debug.Log("Update_PlayerState() start()");
+
+        var param = new Dictionary<string, string>
+        {
+            { "myStatus", status.ToString() },
+            { "token", token }
+        };
+
+        var content = new FormUrlEncodedContent(param);
+
+        HttpClient client = new HttpClient();
+
+        if (DEV.instance.isTEST_Server)
+        {
+
+        }
+
+        var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/changeMyStatus.do", content);
+        string requestResult = await response.Content.ReadAsStringAsync();
+
+        if (response.IsSuccessStatusCode)
+        {
+            Debug.Log("응답 성공");
+            Debug.Log("플레이어 상태 변경 결과 : " + requestResult);
+        }
+        else
+        {
+            // error code : TL_104
+            Debug.Log("응답 실패 (플레이어 상태 변경 결과) : " + requestResult);
+        }
+
         await UniTask.SwitchToMainThread();
 
-        Debug.Log($"{i}번으로 상태 변경 요청 완료!!!");
+        Debug.Log($"{status}번으로 상태 변경 요청 완료!!!");
     }
     #endregion
 

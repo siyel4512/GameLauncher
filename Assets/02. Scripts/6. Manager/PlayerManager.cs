@@ -151,7 +151,7 @@ public class PlayerManager : MonoBehaviour
     private void RequestPlayerStateUpdate(int i)
     {
         // Todo : Request player state update
-        GameManager.instance.api.Update_PlayerState(i).Forget();
+        GameManager.instance.api.Update_PlayerState(i, Login.PID).Forget();
     }
 
     private void ShowLogoutPopup()
