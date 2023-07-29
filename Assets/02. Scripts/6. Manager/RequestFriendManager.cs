@@ -103,8 +103,8 @@ public class RequestFriendManager : MonoBehaviour
             {
                 friendListManager.temp_friendList.Add(new FriendInfo() 
                 { 
-                    nickname = requestList[i].GetComponent<RequestInfo>().nickname, 
-                    state = requestList[i].GetComponent<RequestInfo>().state,
+                    //nickname = requestList[i].GetComponent<RequestInfo>().nickname, 
+                    //state = requestList[i].GetComponent<RequestInfo>().state,
 
                     ncnm = requestList[i].GetComponent<RequestInfo>().ncnm,
                     frndNo = requestList[i].GetComponent<RequestInfo>().frndNo,
@@ -123,7 +123,7 @@ public class RequestFriendManager : MonoBehaviour
 
                 FriendInfo friendtInfo = clone.GetComponent<FriendInfo>();
 
-                friendtInfo.nickname = requestList[i].GetComponent<RequestInfo>().nickname;
+                //friendtInfo.nickname = requestList[i].GetComponent<RequestInfo>().nickname;
                 //friendtInfo.state = requestList[i].GetComponent<RequestInfo>().state;
                 
                 friendtInfo.ncnm = requestList[i].GetComponent<RequestInfo>().ncnm;
@@ -147,20 +147,20 @@ public class RequestFriendManager : MonoBehaviour
             }
         }
 
-        // ascending order sort
-        friendListManager.temp_friendList = friendListManager.temp_friendList.OrderBy(x => x.nickname).ToList();
+        //// ascending order sort
+        //friendListManager.temp_friendList = friendListManager.temp_friendList.OrderBy(x => x.nickname).ToList();
 
-        // descending order sort
-        //friendListManager.friendList = friendListManager.friendList.OrderByDescending(x => x.nickname).ToList();
+        //// descending order sort
+        ////friendListManager.friendList = friendListManager.friendList.OrderByDescending(x => x.nickname).ToList();
 
-        // sort slots
-        for (int i = 0; i < friendListManager.friendList.Count; i++)
-        {
-            FriendInfo friendInfo = friendListManager.listContent.transform.GetChild(i).GetComponent<FriendInfo>();
-            friendInfo.nickname = friendListManager.temp_friendList[i].nickname;
-            friendInfo.state = friendListManager.temp_friendList[i].state;
-            friendInfo.SetSlotValues();
-        }
+        //// sort slots
+        //for (int i = 0; i < friendListManager.friendList.Count; i++)
+        //{
+        //    FriendInfo friendInfo = friendListManager.listContent.transform.GetChild(i).GetComponent<FriendInfo>();
+        //    //friendInfo.nickname = friendListManager.temp_friendList[i].nickname;
+        //    //friendInfo.state = friendListManager.temp_friendList[i].state;
+        //    friendInfo.SetSlotValues();
+        //}
     }
 
     public void DeleteList()

@@ -57,7 +57,7 @@ public class TCP_Server
 
                 string msg;
 
-                if (DEV.instance.isTEST)
+                if (DEV.instance.isTEST_Login)
                 {
                     msg = "Test";
                 }

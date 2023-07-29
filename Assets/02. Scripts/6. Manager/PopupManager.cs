@@ -15,7 +15,8 @@ public enum PopupType
     DeleteFriend,
     NotSelectedFriend,
     RequestFriendList,
-    BlackList
+    BlackList,
+    InvalidPID
 }
 
 public class PopupManager : MonoBehaviour
@@ -153,6 +154,13 @@ public class PopupManager : MonoBehaviour
     {
         blackListContents[0].text = content;
         blackListContents[1].text = reason;
+    }
+    #endregion
+
+    #region Player State Update
+    public void BTN_ConfirmInvalidPIDError()
+    {
+        popups[(int)PopupType.InvalidPID].SetActive(false);
     }
     #endregion
 }

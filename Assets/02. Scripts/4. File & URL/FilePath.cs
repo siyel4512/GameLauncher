@@ -98,7 +98,7 @@ public class FilePath : LoadFile
         rootPaths[2] = dataPath.ugcPath;
         rootPaths[3] = dataPath.batchPath;
 
-        if (DEV.instance != null && DEV.instance.isTEST)
+        if (DEV.instance != null && DEV.instance.isTEST_Login)
         {
             DEV.instance.rootPaths[0] = rootPaths[0];
             DEV.instance.rootPaths[1] = rootPaths[1];
@@ -128,7 +128,7 @@ public class FilePath : LoadFile
 
         rootPaths[buttonNum] = _path;
 
-        if (DEV.instance.isTEST)
+        if (DEV.instance.isTEST_Login)
         {
             DEV.instance.rootPaths[buttonNum] = _path;
         }

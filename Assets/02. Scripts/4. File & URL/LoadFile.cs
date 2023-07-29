@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+// 삭제 예정
 public class LoadFile : MonoBehaviour
 {
     // read file content

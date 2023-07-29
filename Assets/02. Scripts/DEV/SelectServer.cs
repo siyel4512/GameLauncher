@@ -73,7 +73,7 @@ public class SelectServer : MonoBehaviour
     {
         selectedServerState.selectedServerNum = _serverNum;
 
-        if (DEV.instance.isTEST)
+        if (DEV.instance.isTEST_Login)
         {
             DEV.instance.selectedServerNum = _serverNum;
         }

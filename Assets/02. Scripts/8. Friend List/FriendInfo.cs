@@ -7,8 +7,8 @@ using TMPro;
 public class FriendInfo : MonoBehaviour
 {
     [Header("[ Info Values ]")]
-    public string nickname;
-    public string state;
+    //public string nickname;
+    //public string state;
     public bool isSelected;
 
     // json 값 저정
@@ -72,7 +72,7 @@ public class FriendInfo : MonoBehaviour
     {
         //nickname_text.text = nickname;
         nickname_text.text = ncnm;
-        state_text.text = state;
+        //state_text.text = state;
 
         // set state icon
         //switch (state)

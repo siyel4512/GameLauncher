@@ -2,13 +2,13 @@ using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Net.Http;
 using UnityEngine;
+using static System.Net.WebRequestMethods;
 
 public class API : URL
 {
     public static API instance;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         if (instance == null)
         {
@@ -18,6 +18,12 @@ public class API : URL
         {
             Destroy(gameObject);
         }
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        SetURL();
     }
 
     //// Update is called once per frame
@@ -36,7 +42,6 @@ public class API : URL
 
         JsonData jsonData = GameManager.instance.jsonData;
         FriendListManager friendListManager = GameManager.instance.friendListManager;
-        List<SaveData.friendList> tempSaveData = new List<SaveData.friendList>();
 
         var param = new Dictionary<string, string>
         {
@@ -49,19 +54,8 @@ public class API : URL
         //HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
 
         HttpClient client = new HttpClient();
-
-        //string url = "";
-        //if (DEV.instance.isTEST_Server)
-        //{
-        //    url = TEST_friendList;
-        //}
-        //else
-        //{
-
-        //}
-
-        var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do", content);
-        //var response = await client.PostAsync(url, content);
+        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do", content);
+        var response = await client.PostAsync(friendListURL, content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
         if (response.IsSuccessStatusCode)
@@ -70,9 +64,10 @@ public class API : URL
             Debug.Log("친구 리스트 결과 : " + requestResult);
             //jsonData.temp_friendListValue = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList; // temp data save
 
+            List<SaveData.friendList> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
+            //jsonData.temp_friendListValue = null;
+            jsonData.temp_friendListValue = new List<SaveData.friendList>();
             
-            tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
-
             for (int i = 0; tempSaveData.Count > i; i++)
             {
                 if (tempSaveData[i].frndRqstSttus == "1")
@@ -90,15 +85,28 @@ public class API : URL
 
         // set friend list count
         friendListManager.friendCount = jsonData.temp_friendListValue.Count;
-        Debug.Log($"[SY] {friendListManager.friendCount} / {jsonData.temp_friendListValue.Count}");
 
         // frist time setting
         if (jsonData.friendListValues.Count == 0 || (jsonData.friendListValues.Count != jsonData.temp_friendListValue.Count))
         {
             //Debug.Log("값 없음");
-            jsonData.friendListValues = null;            
+            //jsonData.friendListValues = null;
             //jsonData.friendListValues = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
-            jsonData.friendListValues = tempSaveData;
+            //jsonData.friendListValues = jsonData.temp_friendListValue;
+
+            jsonData.friendListValues = new List<SaveData.friendList>();
+            List<SaveData.friendList> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
+            jsonData.friendListValues = new List<SaveData.friendList>();
+
+            for (int i = 0; tempSaveData.Count > i; i++)
+            {
+                if (tempSaveData[i].frndRqstSttus == "1")
+                {
+                    jsonData.friendListValues.Add(tempSaveData[i]);
+                }
+            }
+
+            //Debug.Log("[SY] "+jsonData.friendListValues.Count);
 
             // create data
             //StartCoroutine(friendListManager.CreateList());
@@ -127,8 +135,6 @@ public class API : URL
     {
         bool isSuccessSearch = false;
 
-        //await UniTask.SwitchToThreadPool();
-
         Debug.Log("Request_FriendList() start()");
         JsonData jsonData = GameManager.instance.jsonData;
         FriendListManager friendListManager = GameManager.instance.friendListManager;
@@ -142,11 +148,8 @@ public class API : URL
         var content = new FormUrlEncodedContent(param);
 
         HttpClient client = new HttpClient();
-        if (DEV.instance.isTEST_Server)
-        {
-
-        }
-        var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do", content);
+        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do", content);
+        var response = await client.PostAsync(friendListURL, content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
         if (response.IsSuccessStatusCode)
@@ -171,8 +174,6 @@ public class API : URL
             Debug.Log("응답 실패 (친구 검색 결과) : " + requestResult);
             isSuccessSearch = false;
         }
-
-        //await UniTask.SwitchToMainThread();
 
         // set friend list count
         friendListManager.friendCount = jsonData.temp_friendListValue.Count;
@@ -199,11 +200,8 @@ public class API : URL
         //HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
 
         HttpClient client = new HttpClient();
-        if (DEV.instance.isTEST_Server)
-        {
-
-        }
-        var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/insertFrndInfo.do", content);
+        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/insertFrndInfo.do", content);
+        var response = await client.PostAsync(addFriendURL, content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
         if (response.IsSuccessStatusCode)
@@ -228,9 +226,10 @@ public class API : URL
         await UniTask.SwitchToThreadPool();
 
         Debug.Log("Request_RequestFriendList() start()");
+
         JsonData jsonData = GameManager.instance.jsonData;
         RequestFriendManager requestFriendManager = GameManager.instance.requestFriendManager;
-
+        
         var param = new Dictionary<string, string>
         {
             { "token", Login.PID },
@@ -242,18 +241,27 @@ public class API : URL
         //HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
 
         HttpClient client = new HttpClient();
-        if (DEV.instance.isTEST_Server)
-        {
-
-        }
-        var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do", content);
+        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do", content);
+        var response = await client.PostAsync(friendListURL, content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
         if (response.IsSuccessStatusCode)
         {
             Debug.Log("응답 성공");
             Debug.Log("친구 요청 리스트 결과 : " + requestResult);
-            jsonData.temp_requestFriendListValues = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList; // temp data save
+            //jsonData.temp_requestFriendListValues = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList; // temp data save
+            
+            List<SaveData.friendList> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
+            //jsonData.temp_requestFriendListValues = null;
+            jsonData.temp_requestFriendListValues = new List<SaveData.friendList>();
+
+            for (int i = 0; tempSaveData.Count > i; i++)
+            {
+                if (tempSaveData[i].frndRqstSttus == "0")
+                {
+                    jsonData.temp_requestFriendListValues.Add(tempSaveData[i]);
+                }
+            }
         }
         else
         {
@@ -265,11 +273,29 @@ public class API : URL
         // set request friend list count
         requestFriendManager.requestfriendCount = jsonData.temp_requestFriendListValues.Count;
 
+        // if (jsonData.friendListValues.Count == 0 || (jsonData.friendListValues.Count != jsonData.temp_friendListValue.Count))
         // frist time setting
-        if (jsonData.requestFriendListValues.Count == 0)
+        if (jsonData.requestFriendListValues.Count == 0 || (jsonData.requestFriendListValues.Count != jsonData.temp_requestFriendListValues.Count))
         {
             //Debug.Log("값 없음");
-            jsonData.requestFriendListValues = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
+            //jsonData.requestFriendListValues = null;
+            //jsonData.requestFriendListValues = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
+            //jsonData.requestFriendListValues = jsonData.temp_requestFriendListValues;
+
+            jsonData.requestFriendListValues = new List<SaveData.friendList>();
+
+            List<SaveData.friendList> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
+            jsonData.requestFriendListValues = new List<SaveData.friendList>();
+
+            for (int i = 0; tempSaveData.Count > i; i++)
+            {
+                if (tempSaveData[i].frndRqstSttus == "0")
+                {
+                    jsonData.requestFriendListValues.Add(tempSaveData[i]);
+                }
+            }
+
+            //Debug.Log($"[SY] {jsonData.requestFriendListValues.Count}");
 
             // create data
             StartCoroutine(requestFriendManager.CreateRequestList());
@@ -297,8 +323,9 @@ public class API : URL
         //await UniTask.SwitchToThreadPool();
 
         Debug.Log("Request_Accept() start()");
-        JsonData jsonData = GameManager.instance.jsonData;
-        RequestFriendManager requestFriendManager = GameManager.instance.requestFriendManager;
+
+        //JsonData jsonData = GameManager.instance.jsonData;
+        //RequestFriendManager requestFriendManager = GameManager.instance.requestFriendManager;
 
         var param = new Dictionary<string, string>
         {
@@ -309,11 +336,8 @@ public class API : URL
         var content = new FormUrlEncodedContent(param);
 
         HttpClient client = new HttpClient();
-        if (DEV.instance.isTEST_Server)
-        {
-
-        }
-        var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/updateFrndReqAccept.do", content);
+        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/updateFrndReqAccept.do", content);
+        var response = await client.PostAsync(requestAcceptURL, content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
         if (response.IsSuccessStatusCode)
@@ -333,8 +357,9 @@ public class API : URL
     public async UniTask Request_RefuseNDelete(int _mbrNo, int _frndMbrNo)
     {
         Debug.Log("Request_RefuseNDelete() start()");
-        JsonData jsonData = GameManager.instance.jsonData;
-        RequestFriendManager requestFriendManager = GameManager.instance.requestFriendManager;
+
+        //JsonData jsonData = GameManager.instance.jsonData;
+        //RequestFriendManager requestFriendManager = GameManager.instance.requestFriendManager;
 
         var param = new Dictionary<string, string>
         {
@@ -347,11 +372,8 @@ public class API : URL
         //HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
 
         HttpClient client = new HttpClient();
-        if (DEV.instance.isTEST_Server)
-        {
-
-        }
-        var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/deleteFrndReq.do", content);
+        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/deleteFrndReq.do", content);
+        var response = await client.PostAsync(requestRefuseNDeleteURL, content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
         if (response.IsSuccessStatusCode)
@@ -383,13 +405,8 @@ public class API : URL
         var content = new FormUrlEncodedContent(param);
 
         HttpClient client = new HttpClient();
-
-        if (DEV.instance.isTEST_Server)
-        {
-
-        }
-
-        var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/changeMyStatus.do", content);
+        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/changeMyStatus.do", content);
+        var response = await client.PostAsync(playerStateUpdateURL, content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
         if (response.IsSuccessStatusCode)
@@ -401,6 +418,9 @@ public class API : URL
         {
             // error code : TL_104
             Debug.Log("응답 실패 (플레이어 상태 변경 결과) : " + requestResult);
+
+            // pid값이 유효하지 않습니다.
+            GameManager.instance.popupManager.popups[(int)PopupType.InvalidPID].SetActive(true);
         }
 
         await UniTask.SwitchToMainThread();
@@ -410,29 +430,12 @@ public class API : URL
     #endregion
 
     #region donwload file
-    // exe file download
-    public async UniTaskVoid Request_ExeFileDownload()
-    {
-        await UniTask.SwitchToThreadPool();
-        Debug.Log("Request_ExeFileDownload() start()");
-        await UniTask.SwitchToMainThread();
-    }
-
     // checksum file donwload
-    public async UniTaskVoid Request_ChecksumFileDownload()
-    {
-        await UniTask.SwitchToThreadPool();
-        Debug.Log("Request_ChecksumFileDownload() start()");
-        await UniTask.SwitchToMainThread();
-    }
-
-    // checksum file donwload
-    //public async UniTask Request_FileDownloadURL(string _pathFlag, string _folderFlag)
     public async UniTask Request_FileDownloadURL(ServerType _pathFlag, FileType _folderFlag)
     {
         Debug.Log("Request_FileDownloadURL() start()");
+        
         JsonData jsonData = GameManager.instance.jsonData;
-        FriendListManager friendListManager = GameManager.instance.friendListManager;
 
         var param = new Dictionary<string, string>
         {
@@ -442,14 +445,9 @@ public class API : URL
 
         var content = new FormUrlEncodedContent(param);
 
-        //HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
-
         HttpClient client = new HttpClient();
-        if (DEV.instance.isTEST_Server)
-        {
-
-        }
-        var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/downloadBuildFile.do", content);
+        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/downloadBuildFile.do", content);
+        var response = await client.PostAsync(fileDownloadURL, content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
         if (response.IsSuccessStatusCode)
@@ -475,9 +473,9 @@ public class API : URL
     public async UniTask Request_FileDownloadURL_live(FileType _folderFlag)
     {
         Debug.Log("Request_FileDownloadURL_live() start()");
+        
         JsonData jsonData = GameManager.instance.jsonData;
-        FriendListManager friendListManager = GameManager.instance.friendListManager;
-
+        
         var param = new Dictionary<string, string>
         {
             { "pathFlag", "dev" },
@@ -486,14 +484,9 @@ public class API : URL
 
         var content = new FormUrlEncodedContent(param);
 
-        //HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
-
         HttpClient client = new HttpClient();
-        if (DEV.instance.isTEST_Server)
-        {
-
-        }
-        var response = await client.PostAsync("http://49.50.162.141:5002/onlineScienceMuseumAPI/downloadBuildFile.do", content);
+        //var response = await client.PostAsync("http://49.50.162.141:5002/onlineScienceMuseumAPI/downloadBuildFile.do", content);
+        var response = await client.PostAsync(fileDownloadURL_Live, content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
         if (response.IsSuccessStatusCode)

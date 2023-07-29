@@ -14,7 +14,7 @@ public class DEV : MonoBehaviour
 {
     public static DEV instance;
 
-    public bool isTEST;
+    public bool isTEST_Login;
     public bool isUsingFolderDialog;
     public bool isTEST_Contents;
     public bool isTEST_Server;

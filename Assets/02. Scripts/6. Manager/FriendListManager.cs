@@ -80,8 +80,8 @@ public class FriendListManager : MonoBehaviour
             // create & set temp friend info
             temp_friendList.Add(new FriendInfo()
             {
-                nickname = $"Test_" + i,
-                state = "온라인",
+                //nickname = $"Test_" + i,
+                //state = "온라인",
 
                 ncnm = friendListValues[i].ncnm,
                 frndNo = friendListValues[i].frndNo,
@@ -94,8 +94,6 @@ public class FriendListManager : MonoBehaviour
                 regDt = friendListValues[i].regDt
             });
 
-            Debug.Log("[SY] " + temp_friendList.Count);
-
             // create friend list
             GameObject clone = Instantiate(listSlot);
             clone.transform.SetParent(listContent.transform, false);
@@ -103,8 +101,8 @@ public class FriendListManager : MonoBehaviour
             // set friend info
             FriendInfo info = clone.GetComponent<FriendInfo>();
 
-            info.nickname = temp_friendList[i].nickname;
-            info.state = temp_friendList[i].state;
+            //info.nickname = temp_friendList[i].nickname;
+            //info.state = temp_friendList[i].state;
 
             info.ncnm = friendListValues[i].ncnm;
             info.frndNo = friendListValues[i].frndNo;
@@ -118,24 +116,10 @@ public class FriendListManager : MonoBehaviour
             info.SetSlotValues();
 
             friendList.Add(info);
-
-            Debug.Log("[SY] " + friendList.Count);
-            //myFriendCount++;
         }
-
-        //for (int i = 0; i < GameManager.instance.jsonData.friendListValues.Count; i++)
-        //{
-        //    if (GameManager.instance.jsonData.friendListValues[i].frndRqstSttus == "1")
-        //    {
-        //        myFriendCount++;
-        //    }
-        //}
-
-        //Debug.Log("[SY] 총 내 친구 수 : " + myFriendCount + " / " + GameManager.instance.jsonData.friendListValues.Count);
 
         // Avoid duplicate creation
         if (friendList.Count != GameManager.instance.jsonData.friendListValues.Count)
-        //if (friendList.Count != myFriendCount)
         {
             DeleteList();
 
@@ -148,8 +132,8 @@ public class FriendListManager : MonoBehaviour
                     // create & set temp friend info
                     temp_friendList.Add(new FriendInfo()
                     {
-                        nickname = $"Test_" + i,
-                        state = "온라인",
+                        //nickname = $"Test_" + i,
+                        //state = "온라인",
 
                         ncnm = friendListValues[i].ncnm,
                         frndNo = friendListValues[i].frndNo,
@@ -169,8 +153,8 @@ public class FriendListManager : MonoBehaviour
                     // set friend info
                     FriendInfo info = clone.GetComponent<FriendInfo>();
 
-                    info.nickname = temp_friendList[i].nickname;
-                    info.state = temp_friendList[i].state;
+                    //info.nickname = temp_friendList[i].nickname;
+                    //info.state = temp_friendList[i].state;
 
                     info.ncnm = friendListValues[i].ncnm;
                     info.frndNo = friendListValues[i].frndNo;
@@ -250,7 +234,6 @@ public class FriendListManager : MonoBehaviour
 
     public void TrySearchUser(string text)
     {
-        //Debug.Log("try search user : " + text);
         SearchUser();
     }
 
@@ -258,7 +241,7 @@ public class FriendListManager : MonoBehaviour
     {
         // Requset
         // Todo : delete GameManager.instance.isTEST
-        if (DEV.instance.isTEST)
+        if (DEV.instance.isTEST_Login)
         {
             // find
             if (searchUserNickName.text == "test")

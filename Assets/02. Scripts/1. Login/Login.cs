@@ -68,7 +68,7 @@ public class Login : MonoBehaviour
         //Debug.Log("Key값 요청");
         //tcp_Server.StartServer();
 
-        if (DEV.instance.isTEST)
+        if (DEV.instance.isTEST_Login)
         {
             SetLogin();
         }
@@ -83,7 +83,7 @@ public class Login : MonoBehaviour
     {
         var idValue = new Dictionary<string, string>
         {
-            { URL.Instance.Key_id, id.text }
+            { "Id", id.text }
         };
 
         string keyFilePath = Environment.CurrentDirectory + "\\KEY\\" + id.text + ".pem";
@@ -96,10 +96,12 @@ public class Login : MonoBehaviour
         }
         else
         {
-            Debug.Log($"파일 없음 / {URL.Instance.GetKeyUrl}");
+            //Debug.Log($"파일 없음 / {URL.Instance.Old_GetKeyUrl}");
+            Debug.Log($"파일 없음 / {API.instance.GetKeyURL}");
             var content = new FormUrlEncodedContent(idValue);
             HttpClient client = new HttpClient();
-            var response = await client.PostAsync(URL.Instance.GetKeyUrl, content);
+            //var response = await client.PostAsync(URL.Instance.Old_GetKeyUrl, content);
+            var response = await client.PostAsync(API.instance.GetKeyURL, content);
             string requestResult = await response.Content.ReadAsStringAsync();
             
             if (response.IsSuccessStatusCode)
@@ -126,8 +128,8 @@ public class Login : MonoBehaviour
 
         var loginValues = new Dictionary<string, string>
         {
-            { URL.Instance.Key_id, id.text },
-            { URL.Instance.Key_password, rsaPassword }
+            { "Id", id.text },
+            { "pswd", rsaPassword }
         };
 
         //Debug.Log($"FilePath.Instance.GetKeyUrl : {URL.Instance.GetKeyUrl} " +
@@ -137,7 +139,9 @@ public class Login : MonoBehaviour
         var content = new FormUrlEncodedContent(loginValues);
 
         HttpClient client = new HttpClient();
-        var response = await client.PostAsync(URL.Instance.LoginUrl, content);
+        client.BaseAddress = new Uri(API.instance.BaseServer);
+        //var response = await client.PostAsync(URL.Instance.Old_LoginUrl, content);
+        var response = await client.PostAsync(API.instance.TryLoginURL, content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
         if (response.IsSuccessStatusCode)
@@ -180,17 +184,19 @@ public class Login : MonoBehaviour
         rsaPassword = Convert.ToBase64String(rsa.Encrypt((new UTF8Encoding()).GetBytes(password.text), false));
 
         var loginValues = new Dictionary<string, string>
-            {
-                { URL.Instance.Key_id, id.text },
-                { URL.Instance.Key_password, rsaPassword }
-            };
+        {
+            { "Id", id.text },
+            { "pswd", rsaPassword }
+        };
 
         var content = new FormUrlEncodedContent(loginValues);
 
         //Debug.Log("content 인코딩 완료");
 
         HttpClient client = new HttpClient();
-        var response = await client.PostAsync(URL.Instance.LoginUrl, content);
+        client.BaseAddress = new Uri(API.instance.BaseServer);
+        //var response = await client.PostAsync(URL.Instance.Old_LoginUrl, content);
+        var response = await client.PostAsync(API.instance.TryLoginURL, content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
         if (response.IsSuccessStatusCode)
@@ -278,10 +284,14 @@ public class Login : MonoBehaviour
 
         // stop TCP server
         tcp_Server.StopServer();
+
+        PID = "";
     }
 
     private void OnApplicationQuit()
     {
         tcp_Server.StopServer();
+
+        PID = "";
     }
 }
