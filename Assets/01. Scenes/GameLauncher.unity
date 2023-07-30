@@ -5891,18 +5891,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f6ddb73d92632646ba5e3c5ee06d622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  friendList: "{\"frndInfoList\":[{\"ncnm\":\"\uBC30\uD2B8\uB9E8\",\"frndNo\":1,\"mbrNo\":1,\"frndMbrNo\":2,\"frndSttus\":\"1\",\"frndRqstSttus\":\"1\",\"frndRqstDt\":\"2023-06-22
-    00:00:00.0\",\"upDt\":\"2023-06-22 00:00:00.0\",\"regDt\":\"2023-06-22 00:00:00.0\"},{\"ncnm\":\"\uC6D0\uB354\uC6B0\uBA3C\",\"frndNo\":2,\"mbrNo\":1,\"frndMbrNo\":3,\"frndSttus\":\"0\",\"frndRqstSttus\":\"1\",\"frndRqstDt\":\"2023-06-21
-    00:00:00.0\",\"upDt\":\"2023-06-21 00:00:00.0\",\"regDt\":\"2023-06-21 00:00:00.0\"},{\"ncnm\":\"\uD0A4\uB2E4\uB9AC\",\"frndNo\":3,\"mbrNo\":1,\"frndMbrNo\":4,\"frndSttus\":\"0\",\"frndRqstSttus\":\"0\",\"frndRqstDt\":\"2023-06-21
-    00:00:00.0\",\"upDt\":\"2023-06-21 00:00:00.0\",\"regDt\":\"2023-06-21 00:00:00.0\"},{\"ncnm\":\"\uBC43\uC0B4\",\"frndNo\":4,\"mbrNo\":1,\"frndMbrNo\":5,\"frndSttus\":\"0\",\"frndRqstSttus\":\"0\",\"frndRqstDt\":\"2023-07-17
-    14:44:51.0\"},{\"ncnm\":\"\uC218\uC5FC\",\"frndNo\":8,\"mbrNo\":1,\"frndMbrNo\":6,\"frndSttus\":\"0\",\"frndRqstSttus\":\"1\",\"frndRqstDt\":\"2023-07-17
-    16:12:26.0\",\"regDt\":\"2023-07-17 16:13:07.0\"}]}"
-  requestFriendList: "{\"requestFriend_List\":[{\"ncnm\":\"\uBC30\uD2B8\uB9E8\",\"frndNo\":1,\"mbrNo\":1,\"frndMbrNo\":2,\"frndSttus\":\"1\",\"frndRqstSttus\":\"1\",\"frndRqstDt\":\"2023-06-22
-    00:00:00.0\",\"upDt\":\"2023-06-22 00:00:00.0\",\"regDt\":\"2023-06-22 00:00:00.0\"},{\"ncnm\":\"\uC6D0\uB354\uC6B0\uBA3C\",\"frndNo\":2,\"mbrNo\":1,\"frndMbrNo\":3,\"frndSttus\":\"0\",\"frndRqstSttus\":\"1\",\"frndRqstDt\":\"2023-06-21
-    00:00:00.0\",\"upDt\":\"2023-06-21 00:00:00.0\",\"regDt\":\"2023-06-21 00:00:00.0\"},{\"ncnm\":\"\uD0A4\uB2E4\uB9AC\",\"frndNo\":3,\"mbrNo\":1,\"frndMbrNo\":4,\"frndSttus\":\"0\",\"frndRqstSttus\":\"0\",\"frndRqstDt\":\"2023-06-21
-    00:00:00.0\",\"upDt\":\"2023-06-21 00:00:00.0\",\"regDt\":\"2023-06-21 00:00:00.0\"},{\"ncnm\":\"\uBC43\uC0B4\",\"frndNo\":4,\"mbrNo\":1,\"frndMbrNo\":5,\"frndSttus\":\"0\",\"frndRqstSttus\":\"0\",\"frndRqstDt\":\"2023-07-17
-    14:44:51.0\"},{\"ncnm\":\"\uC218\uC5FC\",\"frndNo\":8,\"mbrNo\":1,\"frndMbrNo\":6,\"frndSttus\":\"0\",\"frndRqstSttus\":\"1\",\"frndRqstDt\":\"2023-07-17
-    16:12:26.0\",\"regDt\":\"2023-07-17 16:13:07.0\"}]}"
   TEST_requesetKey: 
   TEST_tryLogin: 
   TEST_friendList: http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do
@@ -17269,7 +17257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f2b27d97986c71449c267449c067459, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTEST: 0
+  isTEST_Login: 0
   isUsingFolderDialog: 0
   isTEST_Contents: 1
   isTEST_Server: 1
