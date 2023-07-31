@@ -332,28 +332,29 @@ public class FriendListManager : MonoBehaviour
         }
     }
 
+    //// compare to seache user and my friend list
+    //private bool Old_CheckFriendList(string _searchUserNickName)
+    //{
+    //    bool isExistInList = false;
+
+    //    List<SaveData.friendList> friendListValuse = GameManager.instance.jsonData.friendListValues;
+
+    //    for (int i = 0; i < friendListValuse.Count; i++)
+    //    {
+    //        if (friendListValuse[i].ncnm == _searchUserNickName)
+    //        {
+    //            isExistInList = true;
+    //            break;
+    //        }
+    //        else
+    //        {
+    //            isExistInList = false;
+    //        }
+    //    }
+    //    return isExistInList;
+    //}
+
     // compare to seache user and my friend list
-    private bool Old_CheckFriendList(string _searchUserNickName)
-    {
-        bool isExistInList = false;
-
-        List<SaveData.friendList> friendListValuse = GameManager.instance.jsonData.friendListValues;
-
-        for (int i = 0; i < friendListValuse.Count; i++)
-        {
-            if (friendListValuse[i].ncnm == _searchUserNickName)
-            {
-                isExistInList = true;
-                break;
-            }
-            else
-            {
-                isExistInList = false;
-            }
-        }
-        return isExistInList;
-    }
-
     private int CheckFriendList(string _searchUserNickName)
     {
         int isExistInList = 0; // 0: not exist friend, 1:exist friend, 2: exist request user
