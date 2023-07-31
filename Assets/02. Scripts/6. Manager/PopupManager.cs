@@ -16,7 +16,8 @@ public enum PopupType
     NotSelectedFriend,
     RequestFriendList,
     BlackList,
-    InvalidPID
+    InvalidPID,
+    AlreadyExistRequestUserPopup
 }
 
 public class PopupManager : MonoBehaviour
@@ -139,6 +140,12 @@ public class PopupManager : MonoBehaviour
     public void BTN_CloseAlreadyFriend()
     {
         popups[(int)PopupType.AlreadyExistFriend].SetActive(false);
+    }
+
+    // close already request user popup
+    public void BTN_CloseAlreadyRequestUser()
+    {
+        popups[(int)PopupType.AlreadyExistRequestUserPopup].SetActive(false);
     }
     #endregion
 

@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Org.BouncyCastle.Crypto.Signers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -273,23 +274,49 @@ public class FriendListManager : MonoBehaviour
                 {
                     Debug.Log("Success find user : " + searchUserNickName.text);
 
-                    bool isCompareResult = CheckFriendList(searchUserNickName.text);
+                    //bool isCompareResult_Old = Old_CheckFriendList(searchUserNickName.text);
 
-                    // Todo : 친구 검색 및 요청에 대한 수정 필요
-                    if (!isCompareResult)
-                    {
-                        // 아직 내 친구가 아닐때
-                        GameManager.instance.popupManager.SetContents(1, searchUserNickName.text); // set nick name in popup
-                        GameManager.instance.popupManager.popups[(int)PopupType.RequestFriend].SetActive(true); // open popup
+                    //// Todo : 친구 검색 및 요청에 대한 수정 필요
+                    //if (!isCompareResult_Old)
+                    //{
+                    //    // 아직 내 친구가 아닐때
+                    //    GameManager.instance.popupManager.SetContents(1, searchUserNickName.text); // set nick name in popup
+                    //    GameManager.instance.popupManager.popups[(int)PopupType.RequestFriend].SetActive(true); // open popup
                         
-                        // 친구 요청
-                        Debug.Log("친구 요청");
-                    }
-                    else
+                    //    // 친구 요청
+                    //    Debug.Log("친구 요청");
+                    //}
+                    //else
+                    //{
+                    //    // 내 친구일때
+                    //    GameManager.instance.popupManager.popups[(int)PopupType.AlreadyExistFriend].SetActive(true); // open popup
+                    //    ResetSearchUserNickName();
+                    //}
+
+                    int isCompareResult = CheckFriendList(searchUserNickName.text);
+
+                    //GameManager.instance.popupManager.SetContents(1, searchUserNickName.text); // set nick name in popup
+                    //GameManager.instance.popupManager.popups[(int)PopupType.RequestFriend].SetActive(true); // open popup
+
+                    switch (isCompareResult)
                     {
-                        // 내 친구일때
-                        GameManager.instance.popupManager.popups[(int)PopupType.AlreadyExistFriend].SetActive(true); // open popup
-                        ResetSearchUserNickName();
+                        case 0:
+                            // not exist friend
+                            Debug.Log("addable user");
+                            GameManager.instance.popupManager.SetContents(1, searchUserNickName.text); // set nick name in popup
+                            GameManager.instance.popupManager.popups[(int)PopupType.RequestFriend].SetActive(true); // open popup
+                            break;
+                        case 1:
+                            // exist friend
+                            Debug.Log("my friend");
+                            GameManager.instance.popupManager.popups[(int)PopupType.AlreadyExistFriend].SetActive(true); // open popup
+                            //ResetSearchUserNickName();
+                            break;
+                        case 2:
+                            // exist request user
+                            Debug.Log("request list user");
+                            GameManager.instance.popupManager.popups[(int)PopupType.AlreadyExistRequestUserPopup].SetActive(true); // open popup
+                            break;
                     }
                 }
                 else
@@ -306,7 +333,7 @@ public class FriendListManager : MonoBehaviour
     }
 
     // compare to seache user and my friend list
-    private bool CheckFriendList(string _searchUserNickName)
+    private bool Old_CheckFriendList(string _searchUserNickName)
     {
         bool isExistInList = false;
 
@@ -324,6 +351,48 @@ public class FriendListManager : MonoBehaviour
                 isExistInList = false;
             }
         }
+        return isExistInList;
+    }
+
+    private int CheckFriendList(string _searchUserNickName)
+    {
+        int isExistInList = 0; // 0: not exist friend, 1:exist friend, 2: exist request user
+
+        List<SaveData.friendList> friendListValuse = GameManager.instance.jsonData.friendListValues;
+        
+        for (int i = 0; i < friendListValuse.Count; i++)
+        {
+            if (friendListValuse[i].ncnm == _searchUserNickName)
+            {
+                isExistInList = 1;
+                Debug.Log("[SY] 해당 친구 있음");
+                break;
+            }
+            else
+            {
+                isExistInList = 0;
+            }
+        }
+
+        if (isExistInList == 0)
+        {
+            List<SaveData.friendList> requestListValuse = GameManager.instance.jsonData.requestFriendListValues;
+            
+            for (int i = 0; i < requestListValuse.Count; i++)
+            {
+                if (requestListValuse[i].ncnm == _searchUserNickName)
+                {
+                    isExistInList = 2;
+                    Debug.Log("[SY] 해당 요청 유저 있음");
+                    break;
+                }
+                else
+                {
+                    isExistInList = 0;
+                }
+            }
+        }
+
         return isExistInList;
     }
     #endregion
