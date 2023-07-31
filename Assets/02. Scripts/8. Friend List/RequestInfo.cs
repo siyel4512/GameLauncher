@@ -51,29 +51,29 @@ public class RequestInfo : MonoBehaviour
         Debug.Log("요청 수락 / 친구 리스트에 추가 요청");
         isRequestComplate = true;
 
-        GameManager.instance.requestFriendManager.RequestAddList();
+        //GameManager.instance.requestFriendManager.RequestAddList();
 
         // 친구 리스트 추가 요청
         await GameManager.instance.api.Request_Accept(mbrNo, frndMbrNo);
 
         // 요청 리스트 갱신
-        //GameManager.instance.api.Request_RequestFriendList().Forget();
+        GameManager.instance.api.Request_RequestFriendList().Forget();
 
         // 친구 리스트 갱신
         GameManager.instance.api.Request_FriendList().Forget();
     }
 
-    public void BTN_Refuse()
+    public async void BTN_Refuse()
     {
         Debug.Log("요청 거절");
         isRequestComplate = true;
 
-        GameManager.instance.requestFriendManager.DeleteList();
+        //GameManager.instance.requestFriendManager.DeleteList();
 
         // 요청 삭제 요청
-        //GameManager.instance.api.Request_RefuseNDelete(mbrNo, frndMbrNo).Forget();
+        await GameManager.instance.api.Request_RefuseNDelete(mbrNo, frndMbrNo);
 
         // 요청 리스트 갱신
-        //GameManager.instance.api.Request_RequestFriendList().Forget();
+        GameManager.instance.api.Request_RequestFriendList().Forget();
     }
 }

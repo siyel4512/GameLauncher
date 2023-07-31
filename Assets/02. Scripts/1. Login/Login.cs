@@ -202,7 +202,7 @@ public class Login : MonoBehaviour
         if (response.IsSuccessStatusCode)
         {
             PID = requestResult;
-            //Debug.Log("PID : " + PID);
+            Debug.Log("PID : " + PID);
 
             SetLogin();
         }
@@ -281,6 +281,8 @@ public class Login : MonoBehaviour
         GameManager.instance.bannerNoticeManager.noticeUIs[1].DeleteContents();
 
         //GameManager.instance.ResetBuildFilePath();
+
+        GameManager.instance.jsonData.ResetFriendListJsonData();
 
         // stop TCP server
         tcp_Server.StopServer();

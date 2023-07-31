@@ -118,7 +118,7 @@ public class FriendListManager : MonoBehaviour
             friendList.Add(info);
         }
 
-        // Avoid duplicate creation
+        // avoid duplicate creation
         if (friendList.Count != GameManager.instance.jsonData.friendListValues.Count)
         {
             DeleteList();
@@ -276,7 +276,7 @@ public class FriendListManager : MonoBehaviour
                     bool isCompareResult = CheckFriendList(searchUserNickName.text);
 
                     // Todo : 친구 검색 및 요청에 대한 수정 필요
-                    //if (!isCompareResult)
+                    if (!isCompareResult)
                     {
                         // 아직 내 친구가 아닐때
                         GameManager.instance.popupManager.SetContents(1, searchUserNickName.text); // set nick name in popup
@@ -285,12 +285,12 @@ public class FriendListManager : MonoBehaviour
                         // 친구 요청
                         Debug.Log("친구 요청");
                     }
-                    //else
-                    //{
-                    //    // 내 친구일때
-                    //    GameManager.instance.popupManager.popups[(int)PopupType.AlreadyExistFriend].SetActive(true); // open popup
-                    //    ResetSearchUserNickName();
-                    //}
+                    else
+                    {
+                        // 내 친구일때
+                        GameManager.instance.popupManager.popups[(int)PopupType.AlreadyExistFriend].SetActive(true); // open popup
+                        ResetSearchUserNickName();
+                    }
                 }
                 else
                 {

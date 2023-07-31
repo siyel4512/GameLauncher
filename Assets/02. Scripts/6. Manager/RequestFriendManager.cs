@@ -60,6 +60,35 @@ public class RequestFriendManager : MonoBehaviour
             requestList.Add(clone.GetComponent<RequestInfo>());
         }
 
+        // avoid duplicate creation
+        if (requestList.Count != GameManager.instance.jsonData.requestFriendListValues.Count)
+        {
+            DeleteRequestList();
+
+            for (int i = 0; i < requestfriendCount; i++)
+            {
+                List<SaveData.friendList> friendListValues = GameManager.instance.jsonData.friendListValues;
+
+                GameObject clone = Instantiate(requestSlot);
+                clone.transform.SetParent(requestContent.transform, false);
+
+                // set request info
+                RequestInfo info = clone.GetComponent<RequestInfo>();
+                info.ncnm = GameManager.instance.jsonData.requestFriendListValues[i].ncnm;
+                info.frndNo = GameManager.instance.jsonData.requestFriendListValues[i].frndNo;
+                info.mbrNo = GameManager.instance.jsonData.requestFriendListValues[i].mbrNo;
+                info.frndMbrNo = GameManager.instance.jsonData.requestFriendListValues[i].frndMbrNo;
+                info.frndSttus = GameManager.instance.jsonData.requestFriendListValues[i].frndSttus;
+                info.frndRqstSttus = GameManager.instance.jsonData.requestFriendListValues[i].frndRqstSttus;
+                info.frndRqstDt = GameManager.instance.jsonData.requestFriendListValues[i].frndRqstDt;
+                info.upDt = GameManager.instance.jsonData.requestFriendListValues[i].upDt;
+                info.regDt = GameManager.instance.jsonData.requestFriendListValues[i].regDt;
+                info.SetSlotValue();
+
+                requestList.Add(clone.GetComponent<RequestInfo>());
+            }
+        }
+
         requestScrollPos.anchoredPosition = new Vector2(0, 0);
 
         // Alarm Icon

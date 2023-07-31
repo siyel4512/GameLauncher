@@ -391,9 +391,10 @@ public class API : URL
 
     #region player state
     // upudate player state
-    public async UniTaskVoid Update_PlayerState(int status, string token) 
+    //public async UniTaskVoid Update_PlayerState(int status, string token) 
+    public async UniTask Update_PlayerState(int status, string token) 
     {
-        await UniTask.SwitchToThreadPool();
+        //await UniTask.SwitchToThreadPool();
         Debug.Log("Update_PlayerState() start()");
 
         var param = new Dictionary<string, string>
@@ -423,8 +424,8 @@ public class API : URL
             GameManager.instance.popupManager.popups[(int)PopupType.InvalidPID].SetActive(true);
         }
 
-        await UniTask.SwitchToMainThread();
-
+        //await UniTask.SwitchToMainThread();
+        
         Debug.Log($"{status}번으로 상태 변경 요청 완료!!!");
     }
     #endregion

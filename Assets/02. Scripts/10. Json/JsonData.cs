@@ -33,13 +33,13 @@ public class JsonData : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            //temp_friendListValue.Clear();
-            //temp_friendListValue = null;
+        //if (Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    //temp_friendListValue.Clear();
+        //    //temp_friendListValue = null;
 
-            CompareToFriendList(frndInfoList1, frndInfoList2);
-        }
+        //    CompareToFriendList(frndInfoList1, frndInfoList2);
+        //}
     }
 
     #region Test
@@ -162,5 +162,18 @@ public class JsonData : MonoBehaviour
 
         return isSame;
     }
-    #endregion 
+    #endregion
+
+    #region reset
+    public void ResetFriendListJsonData()
+    {
+        temp_friendListValue = new List<SaveData.friendList>();
+        friendListValues = new List<SaveData.friendList>();
+
+        searchFriend = new SaveData.friendList();
+
+        temp_requestFriendListValues = new List<SaveData.friendList>();
+        requestFriendListValues = new List<SaveData.friendList>();
+    }
+    #endregion
 }
