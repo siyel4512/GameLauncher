@@ -47,9 +47,9 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         StateButton.onClick.AddListener(UsingSettingMenu);
-        onlineButton.onClick.AddListener(() => SetPlayerState(0));
-        takeABreakButton.onClick.AddListener(() => SetPlayerState(1));
-        otherWorkButton.onClick.AddListener(() => SetPlayerState(2));
+        onlineButton.onClick.AddListener(() => SetPlayerState(1));
+        takeABreakButton.onClick.AddListener(() => SetPlayerState(2));
+        otherWorkButton.onClick.AddListener(() => SetPlayerState(3));
         logoutButton.onClick.AddListener(ShowLogoutPopup);
 
         sw = new Stopwatch();
@@ -83,9 +83,9 @@ public class PlayerManager : MonoBehaviour
                 currentTimeCount = limitTime;
                 sw.Restart();
 
-                if (currentState != 1)
+                if (currentState != 2)
                 {
-                    currentState = 1;
+                    currentState = 2;
                     stateName.text = "자리 비움";
                     icon.color = Color.yellow;
                     RequestPlayerStateUpdate(currentState);
@@ -120,25 +120,25 @@ public class PlayerManager : MonoBehaviour
 
         switch (i)
         {
-            // online
+            // offline
             case 0:
+                stateName.text = "오프라인";
+                icon.color = Color.gray;
+                break;
+            // online
+            case 1:
                 stateName.text = "온라인";
                 icon.color = Color.green;
                 break;
             // take a break
-            case 1:
+            case 2:
                 stateName.text = "자리 비움";
                 icon.color = Color.yellow;
                 break;
             // other work
-            case 2:
+            case 3:
                 stateName.text = "다른 용무 중";
                 icon.color = Color.red;
-                break;
-            // logout
-            case 3:
-                stateName.text = "오프라인";
-                icon.color = Color.gray;
                 break;
         }
 

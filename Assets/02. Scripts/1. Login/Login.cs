@@ -240,7 +240,7 @@ public class Login : MonoBehaviour
         GameManager.instance.playerManager.nickname.text = "Player Nick Name1";
 
         GameManager.instance.isLogin = true; // login
-        GameManager.instance.playerManager.SetPlayerState(0); // set player state
+        GameManager.instance.playerManager.SetPlayerState(1); // set player state
         //GameManager.instance.pages[1].SetActive(true); // set main page
         GameManager.instance.SetPage(1);
         GameManager.instance.SetSelectButton(0); // set file download button

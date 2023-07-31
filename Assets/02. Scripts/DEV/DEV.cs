@@ -19,6 +19,8 @@ public class DEV : MonoBehaviour
     public bool isTEST_Contents;
     public bool isTEST_Server;
 
+    public bool isScienceMuseum;
+
     public FilePath filePath;
     public string[] rootPaths; // div 용
 
@@ -28,6 +30,8 @@ public class DEV : MonoBehaviour
     public DefaultSettings defaultSettings;
 
     public WindowSizeInitializer windowSizeInitializer;
+
+    public PCPowerManager pcPowerManager;
 
     // Start is called before the first frame update
     void Awake()
@@ -74,15 +78,20 @@ public class DEV : MonoBehaviour
     //#endif
     //    }
 
-    //private void Start()
-    //{
-    //    //if (LoadSettingValues().isFirstDownload)
-    //    {
-    //        PlayerPrefs.DeleteAll();
-    //        SetSettingValue(false);
-    //        //ResetSettingValue();
-    //    }
-    //}
+    private void Start()
+    {
+        ////if (LoadSettingValues().isFirstDownload)
+        //{
+        //    PlayerPrefs.DeleteAll();
+        //    SetSettingValue(false);
+        //    //ResetSettingValue();
+        //}
+
+        if (isScienceMuseum)
+        {
+            pcPowerManager.gameObject.SetActive(true);
+        }
+    }
 
     public async void Update()
     {

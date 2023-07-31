@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour
     #region set logout
     public void ResetLauncher()
     {
-        playerManager.SetPlayerState(3);
+        playerManager.SetPlayerState(0);
         login.SetLogOut();
 
         SetPage(0);

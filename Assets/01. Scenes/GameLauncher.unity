@@ -17263,11 +17263,13 @@ MonoBehaviour:
   isUsingFolderDialog: 0
   isTEST_Contents: 1
   isTEST_Server: 1
+  isScienceMuseum: 0
   filePath: {fileID: 288331700}
   rootPaths: []
   selectServer: {fileID: 1420501882}
   selectedServerNum: 0
   windowSizeInitializer: {fileID: 0}
+  pcPowerManager: {fileID: 721861403}
 --- !u!114 &1420501881
 MonoBehaviour:
   m_ObjectHideFlags: 0
