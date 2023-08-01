@@ -14,19 +14,20 @@ internal class RSAPasswordEncrypt
     {
         // 0 : Modulus
         // 1 : Exponent
-        string[] temp = pubKeyStr.Split("||");
+
+        ShiftCryptography shift = new ShiftCryptography();
+        string[] temp = shift.GetNumber(pubKeyStr).Split("||");
         
         return RSAEncrypt(temp[0], temp[1], id, password);
     }
 
     private string RSAEncrypt(string modulus, string exponent, string id, string plainText)
     {
-        RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-        ShiftCryptography shift = new ShiftCryptography();
+        RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();        
         RSAParameters pubKey = new RSAParameters();
 
-        pubKey.Modulus = Convert.FromBase64String(shift.GetNumber(modulus));
-        pubKey.Exponent = Convert.FromBase64String(shift.GetNumber(exponent));
+        pubKey.Modulus = Convert.FromBase64String(modulus);
+        pubKey.Exponent = Convert.FromBase64String(exponent);
 
         rsa.ImportParameters(pubKey);
 

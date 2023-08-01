@@ -9,6 +9,7 @@ using Cysharp.Threading.Tasks;
 using System.Windows.Forms;
 
 using Application = UnityEngine.Application;
+using Org.BouncyCastle.Crypto.Modes;
 
 public class FilePath : LoadFile
 {
@@ -20,6 +21,9 @@ public class FilePath : LoadFile
 
     public string[] buildFileUrls = new string[4];
     public string[] jsonFileUrls = new string[4];
+
+    public string[] temp_buildFileUrls = new string[4];
+    public string[] temp_jsonFileUrls = new string[4];
 
     private string[] exeFolderPaths = new string[4];
     private string[] exeZipFilePaths = new string[4];
@@ -280,6 +284,17 @@ public class FilePath : LoadFile
         }
 
         SetFilePath();
+    }
+
+    public void CompareToFileDownloadURL()
+    {
+        for (int i = 0; i < buildFileUrls.Length; i++)
+        {
+            if (buildFileUrls[i] !=  null)
+            {
+
+            }
+        }
     }
 
     private void SetFilePath()

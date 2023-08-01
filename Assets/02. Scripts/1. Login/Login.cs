@@ -236,6 +236,8 @@ public class Login : MonoBehaviour
     // Success login
     public void SetLogin()
     {
+        FilePath.Instance.Test_SetDownloadURL2(GameManager.instance.selectedServerNum);
+
         // set nick name
         GameManager.instance.playerManager.nickname.text = "Player Nick Name1";
 
