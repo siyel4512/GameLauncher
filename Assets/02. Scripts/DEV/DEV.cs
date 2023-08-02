@@ -2,9 +2,12 @@ using Org.BouncyCastle.Bcpg.OpenPgp;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+
+using Debug = UnityEngine.Debug;
 
 //#if UNITY_EDITOR
 //using UnityEditor.Callbacks;
@@ -15,10 +18,13 @@ public class DEV : MonoBehaviour
     public static DEV instance;
 
     public bool isTEST_Login;
+    public bool isTEST_UpdatePlayerState;
     public bool isUsingFolderDialog;
     public bool isTEST_Contents;
     public bool isTEST_Server;
 
+    public bool isProtectFileDownload;
+    public bool isFileDownload;
     public bool isScienceMuseum;
 
     public FilePath filePath;
@@ -33,6 +39,10 @@ public class DEV : MonoBehaviour
 
     public PCPowerManager pcPowerManager;
 
+    public GameObject downloadProtectGaurd;
+
+    public Process process;
+         
     // Start is called before the first frame update
     void Awake()
     {
@@ -93,13 +103,15 @@ public class DEV : MonoBehaviour
         }
     }
 
-    public async void Update()
+    public /*async*/ void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("다운로드 경로 테스트");
+            Debug.Log("[SY]실행 파일 실행 유무 확인");
             //await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev.ToString(), FileType.pc.ToString());
-            await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.pc);
+            //await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.pc);
+
+            Test_CheckProcessState();
         }
     }
 
@@ -118,6 +130,21 @@ public class DEV : MonoBehaviour
         Debug.Log($"windowsPath : {windowsPath}");
         Debug.Log($"systemPath : {systemPath}");
         Debug.Log($"downloadsPath : {downloadsPath}");
+    }
+
+    public void Test_CheckProcessState()
+    {
+        if (process == null)
+            return;
+
+        if (process.HasExited)
+        {
+            Debug.Log("실행파일은 종료됨");
+        }
+        else
+        {
+            Debug.Log("아직 실행파일 실행중...");
+        }
     }
 
 

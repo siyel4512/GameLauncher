@@ -53,6 +53,13 @@ public class SelectServer : MonoBehaviour
 
     public void OnChangedValue(TMP_Dropdown change)
     {
+        if (FilePath.Instance.CheckRunningFiles())
+        {
+            Debug.Log("[SY] 실행 중인 파일 존재 & drapdown 원래대로 변경");
+            selectServer.value = selectServerNum;
+            return;
+        }
+
         if (selectServerNum != change.value)
         {
             //FilePath.Instance.FilePathCheck();

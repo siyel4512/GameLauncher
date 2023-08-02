@@ -90,9 +90,18 @@ public class FileDownload : MonoBehaviour
     #region File Check
     public async UniTaskVoid CheckForUpdates()
     {
+        Debug.Log("[SY] " + FilePath.Instance.ExeFolderPaths[buttonNum]);
+
+        //excuteButton_txt.text = "-";
+        excuteButton_txt.text = FilePath.Instance.fileCheckText;
+
+        // Todo : file check
+        excuteButton.interactable = false;
+
         // file check
         if (Directory.Exists(FilePath.Instance.ExeFolderPaths[buttonNum]))
         {
+            Debug.Log(FilePath.Instance.ExeFolderPaths[buttonNum] + " [SY] 경로에 파일 있음");
             try
             {
                 await CheckData();
@@ -103,9 +112,19 @@ public class FileDownload : MonoBehaviour
                 Debug.LogError($"Error checking for game updates: {ex}");
             }
         }
+        else if (FilePath.Instance.ExeFolderPaths[buttonNum] == null)
+        {
+            Debug.Log("[SY] 초반 세팅");
+            //excuteButton_txt.text = "-";
+            excuteButton_txt.text = FilePath.Instance.fileCheckText;
+        }
         else
         {
+            Debug.Log("[SY] 다운로드 준비");
             Status = LauncherStatus.downloadGame;
+
+            // Todo : file check
+            excuteButton.interactable = true;
         }
     }
 
@@ -128,6 +147,9 @@ public class FileDownload : MonoBehaviour
         {
             Status = LauncherStatus.downloadUpdate;
         }
+
+        // Todo : file check
+        excuteButton.interactable = true;
     }
     #endregion
 
@@ -147,6 +169,14 @@ public class FileDownload : MonoBehaviour
 
     private async UniTask DownloadFile(bool _isUpdate)
     {
+        DEV.instance.isFileDownload = true;
+
+        if (DEV.instance.isProtectFileDownload)
+        {
+            // enble protect guard
+            DEV.instance.downloadProtectGaurd.SetActive(DEV.instance.isFileDownload);
+        }
+
         excuteButton.interactable = false;
         prograss.gameObject.SetActive(true);
 
@@ -209,6 +239,14 @@ public class FileDownload : MonoBehaviour
                 downloadFailedPopup_2.SetActive(true);
             }
         }
+
+        DEV.instance.isFileDownload = false;
+
+        if (DEV.instance.isProtectFileDownload)
+        {
+            // disable protect guard
+            DEV.instance.downloadProtectGaurd.SetActive(DEV.instance.isFileDownload);
+        }
     }
 
     private void CheckBuidDirectory()
@@ -235,7 +273,7 @@ public class FileDownload : MonoBehaviour
     #region File Execute
     public void Execute()
     {
-        //Debug.Log($"[SY] : {gameExcutePath}");
+        Debug.Log($"[SY] : {gameExcutePath}");
         //Debug.Log($"[SY] Execute result : {File.Exists(gameExcutePath)} / {Status}");
         //Debug.Log($"[SY] : {FilePath.Instance.defaultDataPath}");
         // create folder
@@ -254,7 +292,20 @@ public class FileDownload : MonoBehaviour
         {
             ProcessStartInfo startInfo = new ProcessStartInfo(gameExcutePath);
             startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPaths[buttonNum], FilePath.Instance.ExeFolderNames[buttonNum]);
-            Process.Start(startInfo);
+            //Process.Start(startInfo);
+
+            // Todo : process Test
+            //DEV.instance.process = Process.Start(startInfo);
+
+            Process[] _runningFiles = GameManager.instance.runningFiles;
+            
+            if (_runningFiles[buttonNum] != null && !_runningFiles[buttonNum].HasExited)
+            {
+                Debug.Log("[SY] 파일 강제 종료");
+                _runningFiles[buttonNum].Kill();
+            }
+
+            _runningFiles[buttonNum] = Process.Start(startInfo);
         }
         // update
         else if (File.Exists(gameExcutePath) && Status == LauncherStatus.downloadUpdate)

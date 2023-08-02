@@ -9,7 +9,10 @@ using Cysharp.Threading.Tasks;
 using System.Windows.Forms;
 
 using Application = UnityEngine.Application;
-using Org.BouncyCastle.Crypto.Modes;
+using Ookii.Dialogs;
+using System.Diagnostics;
+
+using Debug = UnityEngine.Debug;
 
 public class FilePath : LoadFile
 {
@@ -22,8 +25,8 @@ public class FilePath : LoadFile
     public string[] buildFileUrls = new string[4];
     public string[] jsonFileUrls = new string[4];
 
-    public string[] temp_buildFileUrls = new string[4];
-    public string[] temp_jsonFileUrls = new string[4];
+    //public string[] temp_buildFileUrls = new string[4];
+    //public string[] temp_jsonFileUrls = new string[4];
 
     private string[] exeFolderPaths = new string[4];
     private string[] exeZipFilePaths = new string[4];
@@ -48,6 +51,9 @@ public class FilePath : LoadFile
     //---------------------------------//
 
     //public DownloadInfoData exeFilePath;
+    public DownloadURL downloadURL;
+
+    public string fileCheckText = "File Check";
 
     private void Awake()
     {
@@ -244,7 +250,8 @@ public class FilePath : LoadFile
 
     public async void Test_SetDownloadURL2(int serverNum)
     {
-        string[] parsingData = ParsingData();
+        if (CheckRunningFiles())
+            return;
 
         //switch (GameManager.instance.selectedServerNum)
         switch (serverNum)
@@ -283,18 +290,92 @@ public class FilePath : LoadFile
                 break;
         }
 
+        CompareToFileDownloadURL();
+
         SetFilePath();
     }
 
     public void CompareToFileDownloadURL()
     {
+        Debug.Log("[SY] 비교 시작");
+        DownloadURL temp_downloadURL = LoadDownloadURL();
+
         for (int i = 0; i < buildFileUrls.Length; i++)
         {
-            if (buildFileUrls[i] !=  null)
+            //if (BuildFileUrls[i] == "")
+            if (temp_downloadURL.downloadURLs[i] == "")
             {
+                Debug.Log("[SY] 공백 초기화");
+                buildFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path;
+                jsonFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].json_path;
 
+                SetDownloadURL(i, buildFileUrls[i]);
+            }
+            //else if (buildFileUrls[i] != GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path)
+            else if (temp_downloadURL.downloadURLs[i] != GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path)
+            {
+                Debug.Log("[SY] 경로 변경됨");
+
+                // 파일 삭제
+                if (Directory.Exists(exeFolderPaths[i]))
+                {
+                    try
+                    {
+                        Debug.Log("[SY] 파일 존재 " + exeFolderPaths[i]);
+                        Debug.Log("이름 변경 시작");
+                        //Directory.Delete(exeFolderPaths[i], true);
+                        Directory.Move(exeFolderPaths[i], exeFolderPaths[i] + "_temp");
+                        Debug.Log("이름 변경 완료");
+                        DeleteOldFile(exeFolderPaths[i] + "_temp").Forget();
+                        //exeFolderPaths[i] = "";
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError(e);
+                    }
+                    
+                }
+
+                // 경로 갱신
+                buildFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path;
+                jsonFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].json_path;
+
+                SetDownloadURL(i, buildFileUrls[i]);
+            }
+            else if (temp_downloadURL.downloadURLs[i] == GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path)
+            {
+                buildFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path;
+                jsonFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].json_path;
+
+                SetDownloadURL(i, buildFileUrls[i]);
             }
         }
+        Debug.Log("[SY] 비교 완료");
+        GameManager.instance.SetSelectButton(0);
+    }
+
+    public bool CheckRunningFiles()
+    {
+        Process[] _runningFiles = GameManager.instance.runningFiles;
+        bool isRunning = false;
+
+        for (int i = 0; i < _runningFiles.Length; i++)
+        {
+            if (_runningFiles[i] != null)
+            {
+                if (!_runningFiles[i].HasExited)
+                {
+                    isRunning = true;
+                    break;
+                }
+                else
+                {
+                    isRunning = false;
+                }
+            }
+        }
+        Debug.Log("[SY] 실행파일 상태 확인 결과 : " + isRunning);
+        return isRunning;
     }
 
     private void SetFilePath()
@@ -308,6 +389,15 @@ public class FilePath : LoadFile
             exeFolderPaths[i] = Path.Combine(rootPaths[i], exeFolderName[0]);
             exeZipFilePaths[i] = Path.Combine(rootPaths[i], exeFolderPaths[i] + ".zip");
         }
+    }
+
+    private async UniTaskVoid DeleteOldFile(string deleteFilePath)
+    {
+        await UniTask.SwitchToThreadPool();
+        Debug.Log("삭제 시작");
+        Directory.Delete(deleteFilePath, true);
+        Debug.Log("삭제 완료");
+        await UniTask.SwitchToMainThread();
     }
 
     //---------------------------------------------//
@@ -433,6 +523,36 @@ public class FilePath : LoadFile
     //    File.WriteAllText(path, jsonData);
     //}
     //#endregion
+
+    public void SetDownloadURL(int i, string newDonwloadURL)
+    {
+        downloadURL.downloadURLs[i] = newDonwloadURL;
+
+        string jsonData = JsonUtility.ToJson(downloadURL, true);
+        string path = Path.Combine(Application.streamingAssetsPath + "/Data Path", "downloadURL.json");
+        File.WriteAllText(path, jsonData);
+    }
+
+    public DownloadURL LoadDownloadURL()
+    {
+        string path = Path.Combine(Application.streamingAssetsPath + "/Data Path", "downloadURL.json");
+        string jsonData = File.ReadAllText(path);
+        downloadURL = JsonUtility.FromJson<DownloadURL>(jsonData);
+
+        return downloadURL;
+    }
+
+    public void ResetDownloadURL()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            downloadURL.downloadURLs[i] = null;
+        }
+
+        string jsonData = JsonUtility.ToJson(downloadURL, true);
+        string path = Path.Combine(Application.streamingAssetsPath + "/Data Path", "downloadURL.json");
+        File.WriteAllText(path, jsonData);
+    }
 }
 
 [System.Serializable]
@@ -450,3 +570,9 @@ public class DataPath
 //    public string[] downloadURL = new string[4];
 //    public string[] exeFolderPaths = new string[4];
 //}
+
+[System.Serializable]
+public class DownloadURL
+{
+    public string[] downloadURLs = new string[4];
+}

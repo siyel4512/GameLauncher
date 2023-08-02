@@ -236,24 +236,29 @@ public class Login : MonoBehaviour
     // Success login
     public void SetLogin()
     {
-        FilePath.Instance.Test_SetDownloadURL2(GameManager.instance.selectedServerNum);
+        GameManager gameManager = GameManager.instance;
 
+        Debug.Log("[SY] set login start");
+        FilePath.Instance.Test_SetDownloadURL2(gameManager.selectedServerNum);
+        Debug.Log("[SY] 1");
         // set nick name
-        GameManager.instance.playerManager.nickname.text = "Player Nick Name1";
+        gameManager.playerManager.nickname.text = "Player Nick Name1";
+        Debug.Log("[SY] 2");
 
-        GameManager.instance.isLogin = true; // login
-        GameManager.instance.playerManager.SetPlayerState(1); // set player state
+        gameManager.isLogin = true; // login
+        gameManager.playerManager.SetPlayerState(1); // set player state
         //GameManager.instance.pages[1].SetActive(true); // set main page
-        GameManager.instance.SetPage(1);
-        GameManager.instance.SetSelectButton(0); // set file download button
+        gameManager.SetPage(1);
+        //GameManager.instance.SetSelectButton(0); // set file download button
+        Debug.Log("[SY] 3");
 
         //GameManager.instance.friendListManager.CreateList(); // create friedn list
         //GameManager.instance.requestFriendManager.CreateRequestList(); // create request friend list
-        GameManager.instance.api.Request_FriendList().Forget();// create friedn list
-        GameManager.instance.api.Request_RequestFriendList().Forget(); // create request friend list
+        gameManager.api.Request_FriendList().Forget();// create friedn list
+        gameManager.api.Request_RequestFriendList().Forget(); // create request friend list
 
-        GameManager.instance.bannerNoticeManager.CreateAllContents();
-        GameManager.instance.bannerNoticeManager.SetGuideDownloadLink();
+        gameManager.bannerNoticeManager.CreateAllContents();
+        gameManager.bannerNoticeManager.SetGuideDownloadLink();
 
         //GameManager.instance.filePath.Test_SetDownloadURL();
         
@@ -270,21 +275,25 @@ public class Login : MonoBehaviour
     // Success logout
     public void SetLogOut()
     {
-        // delete nick name
-        GameManager.instance.playerManager.nickname.text = "";
+        GameManager gameManager = GameManager.instance;
 
-        GameManager.instance.isLogin = false; // logout
-        GameManager.instance.friendListManager.isSelectedSlot = false; // selected friend slot reset
-        GameManager.instance.friendListManager.DeleteList(); // delete friend list
-        GameManager.instance.requestFriendManager.DeleteRequestList(); // delete request friend list
-        GameManager.instance.playerManager.StopTimer(); // player state change timer reset
-        GameManager.instance.bannerNoticeManager.bannerUI.DeleteContents();
-        GameManager.instance.bannerNoticeManager.noticeUIs[0].DeleteContents();
-        GameManager.instance.bannerNoticeManager.noticeUIs[1].DeleteContents();
+        // delete nick name
+        gameManager.playerManager.nickname.text = "";
+
+        gameManager.isLogin = false; // logout
+        gameManager.friendListManager.isSelectedSlot = false; // selected friend slot reset
+        gameManager.friendListManager.DeleteList(); // delete friend list
+        gameManager.requestFriendManager.DeleteRequestList(); // delete request friend list
+        gameManager.playerManager.StopTimer(); // player state change timer reset
+        gameManager.bannerNoticeManager.bannerUI.DeleteContents();
+        gameManager.bannerNoticeManager.noticeUIs[0].DeleteContents();
+        gameManager.bannerNoticeManager.noticeUIs[1].DeleteContents();
 
         //GameManager.instance.ResetBuildFilePath();
 
-        GameManager.instance.jsonData.ResetFriendListJsonData();
+        gameManager.jsonData.ResetFriendListJsonData();
+
+        gameManager.ForceQuit();
 
         // stop TCP server
         tcp_Server.StopServer();

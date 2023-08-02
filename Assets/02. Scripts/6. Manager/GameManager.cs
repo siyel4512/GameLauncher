@@ -63,6 +63,10 @@ public class GameManager : MonoBehaviour
     [Header("[ PC Power Setting ]")]
     public int turnOffLimitTime;
 
+    [Space(10)]
+    [Header("[ Running Files ]")]
+    public Process[] runningFiles = new Process[4];
+
     private void Awake()
     {
         if (instance == null)
@@ -116,12 +120,16 @@ public class GameManager : MonoBehaviour
     public void SetSelectButton(int buttonNum)
     {
         HideSelectButtons();
-
-        SelectButtons[buttonNum].isSelected = true;
-        SelectButtons[buttonNum].selectImage.SetActive(true);
+        
         UniTask.SwitchToThreadPool();
         SelectButtons[buttonNum].CheckForUpdates().Forget();
         UniTask.SwitchToMainThread();
+
+        SelectButtons[buttonNum].isSelected = true;
+        SelectButtons[buttonNum].selectImage.SetActive(true);
+        //UniTask.SwitchToThreadPool();
+        //SelectButtons[buttonNum].CheckForUpdates().Forget();
+        //UniTask.SwitchToMainThread();
         SelectButtons[buttonNum].excuteButton.gameObject.SetActive(true);
     }
 
@@ -233,4 +241,21 @@ public class GameManager : MonoBehaviour
     //    }
     //}
     #endregion
+
+    public void ForceQuit()
+    {
+        Debug.Log("[SY] File 강제 종료");
+        for (int i = 0; i < runningFiles.Length; i++)
+        {
+            if (runningFiles[i] != null && !runningFiles[i].HasExited)
+            {
+                runningFiles[i].Kill();
+            }
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        ForceQuit();
+    }
 }

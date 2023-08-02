@@ -152,7 +152,14 @@ public class PlayerManager : MonoBehaviour
     {
         // Todo : Request player state update
         //GameManager.instance.api.Update_PlayerState(i, Login.PID).Forget();
-        await GameManager.instance.api.Update_PlayerState(i, Login.PID);
+        if (!DEV.instance.isTEST_UpdatePlayerState)
+        {
+            await GameManager.instance.api.Update_PlayerState(i, Login.PID);
+        }
+        else
+        {
+            Debug.Log($"{i}번으로 상태 변경 요청 완료!!!");
+        }
     }
 
     private void ShowLogoutPopup()

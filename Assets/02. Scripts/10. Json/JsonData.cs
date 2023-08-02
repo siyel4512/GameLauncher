@@ -22,6 +22,8 @@ public class JsonData : MonoBehaviour
     public SaveData.downloadUrlList temp_donwloadUrl;
     public SaveData.downloadUrlList donwloadUrl;
 
+    public List<SaveData.downloadUrlList> temp_donwloadUrlList;
+
     // Start is called before the first frame update
     void Start()
     {

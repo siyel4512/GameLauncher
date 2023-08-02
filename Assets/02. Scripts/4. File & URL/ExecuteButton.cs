@@ -11,6 +11,8 @@ public class ExecuteButton : MonoBehaviour
     public void OnDisable()
     {
         // reset button text
-        buttonText.text = "-";
+        //Debug.Log($"[SY] {fileDownload.buttonNum} 버튼 세팅");
+        //buttonText.text = "-";
+        buttonText.text = FilePath.Instance.fileCheckText;
     }
 }
