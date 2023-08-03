@@ -9,10 +9,9 @@ using Cysharp.Threading.Tasks;
 using System.Windows.Forms;
 
 using Application = UnityEngine.Application;
+using Debug = UnityEngine.Debug;
 using Ookii.Dialogs;
 using System.Diagnostics;
-
-using Debug = UnityEngine.Debug;
 
 public class FilePath : LoadFile
 {
@@ -258,7 +257,7 @@ public class FilePath : LoadFile
         {
             case 0:
                 // dev server
-                Debug.Log("dev server");
+                Debug.Log("[SY] dev server");
                 await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.pc);
                 await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.vr);
                 await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.prod);
@@ -266,7 +265,7 @@ public class FilePath : LoadFile
                 break;
             case 1:
                 // test server
-                Debug.Log("test server");
+                Debug.Log("[SY] test server");
                 await GameManager.instance.api.Request_FileDownloadURL(ServerType.test, FileType.pc);
                 await GameManager.instance.api.Request_FileDownloadURL(ServerType.test, FileType.vr);
                 await GameManager.instance.api.Request_FileDownloadURL(ServerType.test, FileType.prod);
@@ -274,7 +273,7 @@ public class FilePath : LoadFile
                 break;
             case 2:
                 // staging server
-                Debug.Log("staging server");
+                Debug.Log("[SY] staging server");
                 await GameManager.instance.api.Request_FileDownloadURL(ServerType.stage, FileType.pc);
                 await GameManager.instance.api.Request_FileDownloadURL(ServerType.stage, FileType.vr);
                 await GameManager.instance.api.Request_FileDownloadURL(ServerType.stage, FileType.prod);
@@ -282,7 +281,7 @@ public class FilePath : LoadFile
                 break;
             case 3:
                 // live server
-                Debug.Log("live server");
+                Debug.Log("[SY] live server");
                 await GameManager.instance.api.Request_FileDownloadURL_live(FileType.pc);
                 await GameManager.instance.api.Request_FileDownloadURL_live(FileType.vr);
                 await GameManager.instance.api.Request_FileDownloadURL_live(FileType.prod);
@@ -305,11 +304,11 @@ public class FilePath : LoadFile
             //if (BuildFileUrls[i] == "")
             if (temp_downloadURL.downloadURLs[i] == "")
             {
-                Debug.Log("[SY] 공백 초기화");
+                Debug.Log($"[SY] {i}번 공백 초기화");
                 buildFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path;
                 jsonFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].json_path;
 
-                SetDownloadURL(i, buildFileUrls[i]);
+                SaveDownloadURL(i, buildFileUrls[i]);
             }
             //else if (buildFileUrls[i] != GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path)
             else if (temp_downloadURL.downloadURLs[i] != GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path)
@@ -340,14 +339,14 @@ public class FilePath : LoadFile
                 buildFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path;
                 jsonFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].json_path;
 
-                SetDownloadURL(i, buildFileUrls[i]);
+                SaveDownloadURL(i, buildFileUrls[i]);
             }
             else if (temp_downloadURL.downloadURLs[i] == GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path)
             {
                 buildFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path;
                 jsonFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].json_path;
 
-                SetDownloadURL(i, buildFileUrls[i]);
+                SaveDownloadURL(i, buildFileUrls[i]);
             }
         }
         Debug.Log("[SY] 비교 완료");
@@ -524,7 +523,7 @@ public class FilePath : LoadFile
     //}
     //#endregion
 
-    public void SetDownloadURL(int i, string newDonwloadURL)
+    public void SaveDownloadURL(int i, string newDonwloadURL)
     {
         downloadURL.downloadURLs[i] = newDonwloadURL;
 

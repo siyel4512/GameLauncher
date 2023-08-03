@@ -58,10 +58,12 @@ public class BannerNoticeManager : MonoBehaviour
         if (DEV.instance.isTEST_Contents)
         {
             // curiverse using guide download
-            guideInfo[0].SetLinkURL("https://www.google.com/");
+            //guideInfo[0].SetLinkURL("https://www.google.com/");
+            guideInfo[0].SetLinkURL("https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Test+PDF.pdf");
 
             // make/batch editor guide download
-            guideInfo[1].SetLinkURL("https://www.google.com/");
+            //guideInfo[1].SetLinkURL("https://www.google.com/");
+            guideInfo[1].SetLinkURL("https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Test+PDF.pdf");
         }
         else
         {

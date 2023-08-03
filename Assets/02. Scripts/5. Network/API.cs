@@ -514,8 +514,11 @@ public class API : URL
             jsonData.temp_donwloadUrl.zip_path = temp_zipPath; // temp data save
             jsonData.temp_donwloadUrl.json_path = temp_jsonPath; // temp data save
 
-            GameManager.instance.filePath.buildFileUrls[(int)_folderFlag] = temp_zipPath;
-            GameManager.instance.filePath.jsonFileUrls[(int)_folderFlag] = temp_jsonPath;
+            jsonData.temp_donwloadUrlList[(int)_folderFlag].zip_path = temp_zipPath;
+            jsonData.temp_donwloadUrlList[(int)_folderFlag].json_path = temp_jsonPath;
+
+            //GameManager.instance.filePath.buildFileUrls[(int)_folderFlag] = temp_zipPath;
+            //GameManager.instance.filePath.jsonFileUrls[(int)_folderFlag] = temp_jsonPath;
         }
         else
         {

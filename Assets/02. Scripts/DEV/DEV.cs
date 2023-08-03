@@ -42,7 +42,9 @@ public class DEV : MonoBehaviour
     public GameObject downloadProtectGaurd;
 
     public Process process;
-         
+
+    public VersionManager versionManager;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -103,7 +105,7 @@ public class DEV : MonoBehaviour
         }
     }
 
-    public /*async*/ void Update()
+    public async void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -111,7 +113,12 @@ public class DEV : MonoBehaviour
             //await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev.ToString(), FileType.pc.ToString());
             //await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.pc);
 
-            Test_CheckProcessState();
+            //await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.pc);
+            await GameManager.instance.api.Request_FileDownloadURL_live(FileType.pc);
+            await GameManager.instance.api.Request_FileDownloadURL_live(FileType.vr);
+            await GameManager.instance.api.Request_FileDownloadURL_live(FileType.prod);
+            await GameManager.instance.api.Request_FileDownloadURL_live(FileType.colca);
+            //Test_CheckProcessState();
         }
     }
 
