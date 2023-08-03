@@ -252,40 +252,42 @@ public class FilePath : LoadFile
         if (CheckRunningFiles())
             return;
 
+        API api = GameManager.instance.api;
+
         //switch (GameManager.instance.selectedServerNum)
         switch (serverNum)
         {
             case 0:
                 // dev server
                 Debug.Log("[SY] dev server");
-                await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.pc);
-                await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.vr);
-                await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.prod);
-                await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.colca);
+                await api.Request_FileDownloadURL(ServerType.dev, FileType.pc);
+                await api.Request_FileDownloadURL(ServerType.dev, FileType.vr);
+                await api.Request_FileDownloadURL(ServerType.dev, FileType.prod);
+                await api.Request_FileDownloadURL(ServerType.dev, FileType.colca);
                 break;
             case 1:
                 // test server
                 Debug.Log("[SY] test server");
-                await GameManager.instance.api.Request_FileDownloadURL(ServerType.test, FileType.pc);
-                await GameManager.instance.api.Request_FileDownloadURL(ServerType.test, FileType.vr);
-                await GameManager.instance.api.Request_FileDownloadURL(ServerType.test, FileType.prod);
-                await GameManager.instance.api.Request_FileDownloadURL(ServerType.test, FileType.colca);
+                await api.Request_FileDownloadURL(ServerType.test, FileType.pc);
+                await api.Request_FileDownloadURL(ServerType.test, FileType.vr);
+                await api.Request_FileDownloadURL(ServerType.test, FileType.prod);
+                await api.Request_FileDownloadURL(ServerType.test, FileType.colca);
                 break;
             case 2:
                 // staging server
                 Debug.Log("[SY] staging server");
-                await GameManager.instance.api.Request_FileDownloadURL(ServerType.stage, FileType.pc);
-                await GameManager.instance.api.Request_FileDownloadURL(ServerType.stage, FileType.vr);
-                await GameManager.instance.api.Request_FileDownloadURL(ServerType.stage, FileType.prod);
-                await GameManager.instance.api.Request_FileDownloadURL(ServerType.stage, FileType.colca);
+                await api.Request_FileDownloadURL(ServerType.stage, FileType.pc);
+                await api.Request_FileDownloadURL(ServerType.stage, FileType.vr);
+                await api.Request_FileDownloadURL(ServerType.stage, FileType.prod);
+                await api.Request_FileDownloadURL(ServerType.stage, FileType.colca);
                 break;
             case 3:
                 // live server
                 Debug.Log("[SY] live server");
-                await GameManager.instance.api.Request_FileDownloadURL_live(FileType.pc);
-                await GameManager.instance.api.Request_FileDownloadURL_live(FileType.vr);
-                await GameManager.instance.api.Request_FileDownloadURL_live(FileType.prod);
-                await GameManager.instance.api.Request_FileDownloadURL_live(FileType.colca);
+                await api.Request_FileDownloadURL_live(FileType.pc);
+                await api.Request_FileDownloadURL_live(FileType.vr);
+                await api.Request_FileDownloadURL_live(FileType.prod);
+                await api.Request_FileDownloadURL_live(FileType.colca);
                 break;
         }
 
@@ -318,29 +320,18 @@ public class FilePath : LoadFile
                 // 파일 삭제
                 if (Directory.Exists(exeFolderPaths[i]))
                 {
-                    try
-                    {
-                        Debug.Log("[SY] 파일 존재 " + exeFolderPaths[i]);
-                        Debug.Log("이름 변경 시작");
-                        //Directory.Delete(exeFolderPaths[i], true);
-                        Directory.Move(exeFolderPaths[i], exeFolderPaths[i] + "_temp");
-                        Debug.Log("이름 변경 완료");
-                        DeleteOldFile(exeFolderPaths[i] + "_temp").Forget();
-                        //exeFolderPaths[i] = "";
-                        GameManager.instance.SelectButtons[i].isNeedDownload = true;
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.LogError(e);
-                    }
-                    
+                    Debug.Log("[SY] 파일 존재 " + exeFolderPaths[i]);
+                    GameManager.instance.SelectButtons[i].isNeedDownload = true;
+
+                }
+                else
+                {
+                    Debug.Log("파일 없음");
+                    GameManager.instance.SelectButtons[i].isNeedDownload = false;
                 }
 
-                // 경로 갱신
-                buildFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path;
-                jsonFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].json_path;
-
-                SaveDownloadURL(i, buildFileUrls[i]);
+                // 임시 저장
+                buildFileUrls[i] = temp_downloadURL.downloadURLs[i];
             }
             else if (temp_downloadURL.downloadURLs[i] == GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path)
             {
@@ -391,13 +382,37 @@ public class FilePath : LoadFile
         }
     }
 
-    private async UniTaskVoid DeleteOldFile(string deleteFilePath)
+    public string ChangeDeleteFileName(int buttonNum)
+    {
+        Debug.Log("[SY] 이름 변경 시작");
+        Directory.Move(exeFolderPaths[buttonNum], exeFolderPaths[buttonNum] + "_temp");
+        Debug.Log("[SY] 이름 변경 완료");
+
+        return exeFolderPaths[buttonNum] + "_temp";
+    }
+
+    public void SetNewPaht(int buttonNum)
+    {
+        Debug.Log("[SY] 갱신 시작");
+        // 경로 갱신
+        buildFileUrls[buttonNum] = GameManager.instance.jsonData.temp_donwloadUrlList[buttonNum].zip_path;
+        jsonFileUrls[buttonNum] = GameManager.instance.jsonData.temp_donwloadUrlList[buttonNum].json_path;
+        SaveDownloadURL(buttonNum, buildFileUrls[buttonNum]);
+        Debug.Log("[SY] 갱신 완료");
+
+        SetFilePath();
+        Debug.Log("[SY] 세팅 완료");
+    }
+
+    public async UniTaskVoid DeleteOldFile(string deleteFilePath)
     {
         await UniTask.SwitchToThreadPool();
-        Debug.Log("삭제 시작");
+        Debug.Log("[SY] 삭제 시작");
         Directory.Delete(deleteFilePath, true);
-        Debug.Log("삭제 완료");
+        Debug.Log("[SY] 삭제 완료");
         await UniTask.SwitchToMainThread();
+
+        
     }
 
     //---------------------------------------------//

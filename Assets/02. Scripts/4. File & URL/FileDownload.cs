@@ -199,7 +199,7 @@ public class FileDownload : MonoBehaviour
         {
             Status = LauncherStatus.downloadGame;
         }
-
+        Debug.Log("[SY] 다운로드 시작");
         webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback);
         webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadGameCompletedCallback);
         webClient.DownloadFileAsync(new Uri(FilePath.Instance.BuildFileUrls[buttonNum]), FilePath.Instance.ExeZipFilePaths[buttonNum]); // download build file
@@ -348,6 +348,10 @@ public class FileDownload : MonoBehaviour
         else
         {
             isNeedDownload = false;
+
+            string deleteFilePaht = FilePath.Instance.ChangeDeleteFileName(buttonNum);
+            FilePath.Instance.SetNewPaht(buttonNum);
+            FilePath.Instance.DeleteOldFile(deleteFilePaht).Forget();
 
             UniTask.SwitchToThreadPool();
             InstallGameFiles(true).Forget();
