@@ -327,6 +327,7 @@ public class FilePath : LoadFile
                         Debug.Log("이름 변경 완료");
                         DeleteOldFile(exeFolderPaths[i] + "_temp").Forget();
                         //exeFolderPaths[i] = "";
+                        GameManager.instance.SelectButtons[i].isNeedDownload = true;
                     }
                     catch (Exception e)
                     {

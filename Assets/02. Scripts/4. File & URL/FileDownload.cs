@@ -72,6 +72,8 @@ public class FileDownload : MonoBehaviour
     public GameObject downloadFailedPopup_1;
     public GameObject downloadFailedPopup_2;
 
+    public bool isNeedDownload;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -97,6 +99,13 @@ public class FileDownload : MonoBehaviour
 
         // Todo : file check
         excuteButton.interactable = false;
+
+        if (isNeedDownload)
+        {
+            Status = LauncherStatus.downloadUpdate;
+            excuteButton.interactable = true;
+            return;
+        }
 
         // file check
         if (Directory.Exists(FilePath.Instance.ExeFolderPaths[buttonNum]))
@@ -276,62 +285,75 @@ public class FileDownload : MonoBehaviour
         Debug.Log($"[SY] : {gameExcutePath}");
         //Debug.Log($"[SY] Execute result : {File.Exists(gameExcutePath)} / {Status}");
         //Debug.Log($"[SY] : {FilePath.Instance.defaultDataPath}");
-        // create folder
-        if (Directory.Exists(FilePath.Instance.defaultDataPath))
+
+        if (!isNeedDownload)
         {
-            Debug.Log("exist directory");
+            // create folder
+            if (Directory.Exists(FilePath.Instance.defaultDataPath))
+            {
+                Debug.Log("exist directory");
+            }
+            else
+            {
+                Debug.Log("not exist directory and create directory");
+                Directory.CreateDirectory(FilePath.Instance.defaultDataPath);
+            }
+
+            // execute
+            if (File.Exists(gameExcutePath) && Status == LauncherStatus.ready)
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo(gameExcutePath);
+                startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPaths[buttonNum], FilePath.Instance.ExeFolderNames[buttonNum]);
+                //Process.Start(startInfo);
+
+                // Todo : process Test
+                //DEV.instance.process = Process.Start(startInfo);
+
+                Process[] _runningFiles = GameManager.instance.runningFiles;
+
+                if (_runningFiles[buttonNum] != null && !_runningFiles[buttonNum].HasExited)
+                {
+                    Debug.Log("[SY] 파일 강제 종료");
+                    _runningFiles[buttonNum].Kill();
+                }
+
+                _runningFiles[buttonNum] = Process.Start(startInfo);
+            }
+            // update
+            else if (File.Exists(gameExcutePath) && Status == LauncherStatus.downloadUpdate)
+            {
+                UniTask.SwitchToThreadPool();
+                InstallGameFiles(true).Forget();
+                UniTask.SwitchToMainThread();
+            }
+            // download
+            else if (!File.Exists(gameExcutePath) && Status == LauncherStatus.downloadGame)
+            {
+                if (DEV.instance.isUsingFolderDialog)
+                {
+                    folderDialog.SetActive(true);
+                }
+                else
+                {
+                    InstallFile();
+                }
+            }
+            else if (Status == LauncherStatus.failed)
+            {
+                UniTask.SwitchToThreadPool();
+                CheckForUpdates().Forget();
+                UniTask.SwitchToMainThread();
+            }
         }
         else
         {
-            Debug.Log("not exist directory and create directory");
-            Directory.CreateDirectory(FilePath.Instance.defaultDataPath);
-        }
+            isNeedDownload = false;
 
-        // execute
-        if (File.Exists(gameExcutePath) && Status == LauncherStatus.ready)
-        {
-            ProcessStartInfo startInfo = new ProcessStartInfo(gameExcutePath);
-            startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPaths[buttonNum], FilePath.Instance.ExeFolderNames[buttonNum]);
-            //Process.Start(startInfo);
-
-            // Todo : process Test
-            //DEV.instance.process = Process.Start(startInfo);
-
-            Process[] _runningFiles = GameManager.instance.runningFiles;
-            
-            if (_runningFiles[buttonNum] != null && !_runningFiles[buttonNum].HasExited)
-            {
-                Debug.Log("[SY] 파일 강제 종료");
-                _runningFiles[buttonNum].Kill();
-            }
-
-            _runningFiles[buttonNum] = Process.Start(startInfo);
-        }
-        // update
-        else if (File.Exists(gameExcutePath) && Status == LauncherStatus.downloadUpdate)
-        {
             UniTask.SwitchToThreadPool();
             InstallGameFiles(true).Forget();
             UniTask.SwitchToMainThread();
         }
-        // download
-        else if (!File.Exists(gameExcutePath) && Status == LauncherStatus.downloadGame)
-        {
-            if (DEV.instance.isUsingFolderDialog)
-            {
-                folderDialog.SetActive(true);
-            }
-            else
-            {
-                InstallFile();
-            }
-        }
-        else if (Status == LauncherStatus.failed)
-        {
-            UniTask.SwitchToThreadPool();
-            CheckForUpdates().Forget();
-            UniTask.SwitchToMainThread();
-        }
+        
     }
 
     public void InstallFile()
