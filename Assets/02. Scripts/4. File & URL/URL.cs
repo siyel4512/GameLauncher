@@ -24,6 +24,7 @@ public class URL : LoadFile
     protected string addFriendURL;
     protected string requestAcceptURL;
     protected string requestRefuseNDeleteURL;
+    protected string searchUserWithNicknameURL;
 
     // file download
     protected string fileDownloadURL;
@@ -50,6 +51,7 @@ public class URL : LoadFile
     private string addFriend_URL = "onlineScienceMuseumAPI/insertFrndInfo.do";
     private string requestAccept_URL = "onlineScienceMuseumAPI/updateFrndReqAccept.do";
     private string requestRefuseNDelete_URL = "onlineScienceMuseumAPI/deleteFrndReq.do";
+    private string searchUserWithNickname_URL = "onlineScienceMuseumAPI/searchUserWithNickname.do";
 
     // file download
     private string fileDownload_URL = "onlineScienceMuseumAPI/downloadBuildFile.do";
@@ -76,6 +78,7 @@ public class URL : LoadFile
             addFriendURL = testServer + addFriend_URL;
             requestAcceptURL = testServer + requestAccept_URL;
             requestRefuseNDeleteURL = testServer + requestRefuseNDelete_URL;
+            searchUserWithNicknameURL = testServer + searchUserWithNickname_URL;
 
             // file download
             fileDownloadURL = testServer + fileDownload_URL;
@@ -99,6 +102,7 @@ public class URL : LoadFile
             addFriendURL = liveServer + addFriend_URL;
             requestAcceptURL = liveServer + requestAccept_URL;
             requestRefuseNDeleteURL = liveServer + requestRefuseNDelete_URL;
+            searchUserWithNicknameURL = liveServer + searchUserWithNickname_URL;
 
             // file download
             fileDownloadURL = liveServer + fileDownload_URL;

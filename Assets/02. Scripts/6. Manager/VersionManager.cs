@@ -27,24 +27,24 @@ public class VersionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Test version Value
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            SaveVersion(VersionUpdateType.Major);
-            SetVersion(LoadVersion());
-        }
+        //// Test version Value
+        //if (Input.GetKeyDown(KeyCode.Q))
+        //{
+        //    SaveVersion(VersionUpdateType.Major);
+        //    SetVersion(LoadVersion());
+        //}
 
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            SaveVersion(VersionUpdateType.Minor);
-            SetVersion(LoadVersion());
-        }
+        //if (Input.GetKeyDown(KeyCode.W))
+        //{
+        //    SaveVersion(VersionUpdateType.Minor);
+        //    SetVersion(LoadVersion());
+        //}
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            SaveVersion(VersionUpdateType.Patch);
-            SetVersion(LoadVersion());
-        }
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    SaveVersion(VersionUpdateType.Patch);
+        //    SetVersion(LoadVersion());
+        //}
     }
 
     // show version value

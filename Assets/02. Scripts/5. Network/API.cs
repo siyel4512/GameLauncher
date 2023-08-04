@@ -135,21 +135,20 @@ public class API : URL
     {
         bool isSuccessSearch = false;
 
-        Debug.Log("Request_FriendList() start()");
+        Debug.Log("Request_SearchFriend() start()");
         JsonData jsonData = GameManager.instance.jsonData;
         FriendListManager friendListManager = GameManager.instance.friendListManager;
 
         var param = new Dictionary<string, string>
         {
-            { "token", Login.PID },
-            { "ncnm", _nickName }
+            { "nickname", _nickName }
         };
 
         var content = new FormUrlEncodedContent(param);
 
         HttpClient client = new HttpClient();
         //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do", content);
-        var response = await client.PostAsync(friendListURL, content);
+        var response = await client.PostAsync(searchUserWithNicknameURL, content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
         if (response.IsSuccessStatusCode)
@@ -157,17 +156,30 @@ public class API : URL
             Debug.Log("응답 성공");
             Debug.Log("친구 검색 결과 : " + requestResult);
             
-            if (JsonUtility.FromJson<SaveData>(requestResult).frndInfoList.Count <= 0)
+            if (requestResult == "no nick")
             {
-                Debug.Log("해당 유저 없음");
+                Debug.Log("[친구 검색] 해당 유저 없음");
+                jsonData.searchFriendNum = "";
                 isSuccessSearch = false;
             }
             else
             {
-                Debug.Log("해당 유저 존재");
-                jsonData.searchFriend = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList[0];
+                Debug.Log("[친구 검색] 해당 유저 존재 : " + requestResult);
+                jsonData.searchFriendNum = requestResult;
                 isSuccessSearch = true;
             }
+
+            //if (JsonUtility.FromJson<SaveData>(requestResult).frndInfoList.Count <= 0)
+            //{
+            //    Debug.Log("해당 유저 없음");
+            //    isSuccessSearch = false;
+            //}
+            //else
+            //{
+            //    Debug.Log("해당 유저 존재");
+            //    jsonData.searchFriend = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList[0];
+            //    isSuccessSearch = true;
+            //}
         }
         else
         {
@@ -175,14 +187,14 @@ public class API : URL
             isSuccessSearch = false;
         }
 
-        // set friend list count
-        friendListManager.friendCount = jsonData.temp_friendListValue.Count;
+        //// set friend list count
+        //friendListManager.friendCount = jsonData.temp_friendListValue.Count;
 
         return isSuccessSearch;
     }
 
     // add friend
-    public async UniTaskVoid Request_AddFriend(int frndMbrNo, int mbrNo)
+    public async UniTaskVoid Request_AddFriend(string token, string mbrNo)
     {
         await UniTask.SwitchToThreadPool();
         Debug.Log("Request_AddFriend() start()");
@@ -191,8 +203,11 @@ public class API : URL
 
         var param = new Dictionary<string, string>
         {
-            { "frndMbrNo", frndMbrNo.ToString() },
-            { "mbrNo", mbrNo.ToString() }
+            //{ "frndMbrNo", frndMbrNo.ToString() },
+            //{ "mbrNo", mbrNo.ToString() }
+            //{ "token", Login.PID },
+            { "token", token },
+            { "frndMbrNo", mbrNo }
         };
 
         var content = new FormUrlEncodedContent(param);

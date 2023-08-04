@@ -472,5 +472,6 @@ public class FriendListManager : MonoBehaviour
     {
         searchUserNickName.text = "";
         GameManager.instance.jsonData.searchFriend = null;
+        GameManager.instance.jsonData.searchFriendNum = "";
     }
 }

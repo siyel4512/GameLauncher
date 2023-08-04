@@ -17443,6 +17443,7 @@ MonoBehaviour:
     frndRqstDt: 
     upDt: 
     regDt: 
+  searchFriendNum: 
   temp_requestFriendListValues: []
   requestFriendListValues: []
   frndInfoList1:

@@ -9,6 +9,7 @@ public class JsonData : MonoBehaviour
     public List<SaveData.friendList> temp_friendListValue;
     public List<SaveData.friendList> friendListValues;
     public SaveData.friendList searchFriend = new SaveData.friendList();
+    public string searchFriendNum;
 
     // Todo : data type
     //public List<SaveData.requestFriendList> temp_requestFriendListValues;

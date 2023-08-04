@@ -83,9 +83,19 @@ public class PopupManager : MonoBehaviour
         popups[(int)PopupType.UserSearch].SetActive(false);
         popups[(int)PopupType.RequestFriend].SetActive(false);
 
-        // 친구 신청
-        Debug.Log("친구 요청 완료");
-        GameManager.instance.api.Request_AddFriend(GameManager.instance.jsonData.searchFriend.frndMbrNo, GameManager.instance.jsonData.searchFriend.mbrNo).Forget();
+        if (GameManager.instance.jsonData.searchFriendNum != null)
+        {
+            Debug.Log("[SY] searchFriendNum 값 : " + GameManager.instance.jsonData.searchFriendNum);
+
+            // 친구 신청
+            Debug.Log("[SY] 친구 요청 완료");
+            //GameManager.instance.api.Request_AddFriend(GameManager.instance.jsonData.searchFriend.frndMbrNo, GameManager.instance.jsonData.searchFriend.mbrNo).Forget();
+            GameManager.instance.api.Request_AddFriend(Login.PID, GameManager.instance.jsonData.searchFriendNum).Forget();
+        }
+        else
+        {
+            Debug.Log("[SY] searchFriendNum 값 없음");
+        }
     }
 
     // cancel request friend
