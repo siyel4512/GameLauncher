@@ -20,6 +20,7 @@ public class FriendListManager : MonoBehaviour
     [Header("[ Friend Searching ]")]
     public TMP_InputField searchFriendNickName;
     public TMP_InputField searchUserNickName;
+    public TMP_Text searchUserWaringText;
 
     // setting menu
     [Space(10)]
@@ -56,6 +57,8 @@ public class FriendListManager : MonoBehaviour
 
         listScrollPos.anchoredPosition = new Vector2(0, 0);
         requestListScrollPos.anchoredPosition = new Vector2(0, 0);
+
+        searchUserWaringText.text = "";
     }
 
     #region Set List
@@ -176,6 +179,13 @@ public class FriendListManager : MonoBehaviour
         listScrollPos.anchoredPosition = new Vector2(0, 0);
     }
 
+    // Todo : debuplication
+    // deduplication
+    public void DeduplicationFriendListSlot()
+    {
+
+    }
+
     public void DeleteList()
     {
         for (int i = 0; i < friendList.Count; i++)
@@ -220,7 +230,8 @@ public class FriendListManager : MonoBehaviour
         // blank
         if (searchFriendNickName.text == "")
         {
-            GameManager.instance.popupManager.popups[(int)PopupType.BlankError].SetActive(true);
+            //GameManager.instance.popupManager.popups[(int)PopupType.BlankError].SetActive(true);
+            searchUserWaringText.text = "추가할 유저 닉네임을 입력해 주세요.";
         }
     }
     #endregion
@@ -305,29 +316,39 @@ public class FriendListManager : MonoBehaviour
                             Debug.Log("addable user");
                             GameManager.instance.popupManager.SetContents(1, searchUserNickName.text); // set nick name in popup
                             GameManager.instance.popupManager.popups[(int)PopupType.RequestFriend].SetActive(true); // open popup
+
+                            searchUserWaringText.text = "";
                             break;
                         case 1:
                             // exist friend
                             Debug.Log("my friend");
-                            GameManager.instance.popupManager.popups[(int)PopupType.AlreadyExistFriend].SetActive(true); // open popup
-                            //ResetSearchUserNickName();
+                            //GameManager.instance.popupManager.popups[(int)PopupType.AlreadyExistFriend].SetActive(true); // open popup
+                                                                                                                         //ResetSearchUserNickName();
+
+                            searchUserWaringText.text = "이미 친구 추가된 유저입니다.";
                             break;
                         case 2:
                             // exist request user
                             Debug.Log("request list user");
-                            GameManager.instance.popupManager.popups[(int)PopupType.AlreadyExistRequestUserPopup].SetActive(true); // open popup
+                            //GameManager.instance.popupManager.popups[(int)PopupType.AlreadyExistRequestUserPopup].SetActive(true); // open popup
+
+                            searchUserWaringText.text = "친구 요청이 들어온 유저입니다.";
                             break;
                     }
                 }
                 else
                 {
                     Debug.Log("Failed find user : " + searchUserNickName.text);
-                    GameManager.instance.popupManager.popups[(int)PopupType.UserSearchFaild].SetActive(true);
+                    //GameManager.instance.popupManager.popups[(int)PopupType.UserSearchFaild].SetActive(true);
+
+                    searchUserWaringText.text = "해당 유저를 찾을 수 없습니다.";
                 }
             }
             else if (searchUserNickName.text == "")
             {
-                GameManager.instance.popupManager.popups[(int)PopupType.BlankError].SetActive(true);
+                //GameManager.instance.popupManager.popups[(int)PopupType.BlankError].SetActive(true);
+
+                searchUserWaringText.text = "추가할 유저 닉네임을 입력해 주세요.";
             }
         }
     }
@@ -473,5 +494,6 @@ public class FriendListManager : MonoBehaviour
         searchUserNickName.text = "";
         GameManager.instance.jsonData.searchFriend = null;
         GameManager.instance.jsonData.searchFriendNum = "";
+        searchUserWaringText.text = "";
     }
 }

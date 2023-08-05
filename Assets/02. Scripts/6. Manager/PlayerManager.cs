@@ -35,6 +35,7 @@ public class PlayerManager : MonoBehaviour
     [Header("[ Setting Menu ]")]
     public GameObject settingMenu;
     public bool isStateSettings;
+    public GameObject[] menuStateIcons;
 
     public Button StateButton;
     public Button onlineButton;
@@ -106,11 +107,15 @@ public class PlayerManager : MonoBehaviour
         {
             isStateSettings = true;
             settingMenu.SetActive(isStateSettings);
+            menuStateIcons[0].SetActive(false);
+            menuStateIcons[1].SetActive(true);
         }
         else
         {
             isStateSettings = false;
             settingMenu.SetActive(isStateSettings);
+            menuStateIcons[0].SetActive(true);
+            menuStateIcons[1].SetActive(false);
         }
     }
 

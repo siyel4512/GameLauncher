@@ -33,16 +33,19 @@ public class FileDownload : MonoBehaviour
             switch (_status)
             {
                 case LauncherStatus.ready:
-                    excuteButton_txt.text = "Play";
+                    //excuteButton_txt.text = "Play";
+                    excuteButton_txt.text = "Start";
                     break;
                 case LauncherStatus.failed:
                     excuteButton_txt.text = "Update Failed - Retry";
                     break;
                 case LauncherStatus.downloadGame:
-                    excuteButton_txt.text = "Download Game";
+                    //excuteButton_txt.text = "Download Game";
+                    excuteButton_txt.text = "Download";
                     break;
                 case LauncherStatus.downloadUpdate:
-                    excuteButton_txt.text = "Download Update";
+                    //excuteButton_txt.text = "Download Update";
+                    excuteButton_txt.text = "Update";
                     break;
                 default:
                     break;

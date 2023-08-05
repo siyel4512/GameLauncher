@@ -16,12 +16,12 @@ public class Prograss : MonoBehaviour
 
     public void SetPersent(int _persent)
     {
-        persent_txt.text = _persent.ToString();
+        persent_txt.text = _persent.ToString()+"%";
     }
 
     public void ResetState()
     {
         bar.fillAmount = 0;
-        persent_txt.text = "0";
+        persent_txt.text = "0%";
     }
 }

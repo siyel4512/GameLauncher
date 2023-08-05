@@ -50,8 +50,8 @@ public class VersionManager : MonoBehaviour
     // show version value
     public void SetVersion(Version _version)
     {
-        versionText_Login.text = $"{_version.major}.{_version.minor}.{_version.patch}";
-        versionText_MainPage.text = $"{_version.major}.{_version.minor}.{_version.patch}";
+        versionText_Login.text = $"v{_version.major}.{_version.minor}.{_version.patch}";
+        versionText_MainPage.text = $"v{_version.major}.{_version.minor}.{_version.patch}";
     }
 
     public void SaveVersion(VersionUpdateType updateType)
