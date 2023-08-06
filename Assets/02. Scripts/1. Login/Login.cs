@@ -286,8 +286,8 @@ public class Login : MonoBehaviour
         gameManager.requestFriendManager.DeleteRequestList(); // delete request friend list
         gameManager.playerManager.StopTimer(); // player state change timer reset
         gameManager.bannerNoticeManager.bannerUI.DeleteContents();
-        gameManager.bannerNoticeManager.noticeUIs[0].DeleteContents();
-        gameManager.bannerNoticeManager.noticeUIs[1].DeleteContents();
+        //gameManager.bannerNoticeManager.noticeUIs[0].DeleteContents();
+        gameManager.bannerNoticeManager.noticeUIs.DeleteContents();
 
         //GameManager.instance.ResetBuildFilePath();
 

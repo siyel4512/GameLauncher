@@ -5,12 +5,13 @@ using UnityEngine;
 public class BannerUI : SwipeUI
 {
     private List<BannerInfo> spawnedContents;
+    public GameObject warningText;
 
-    //// Start is called before the first frame update
-    //void Start()
-    //{
-        
-    //}
+    // Start is called before the first frame update
+    void Start()
+    {
+        warningText.SetActive(false);
+    }
 
     private void Update()
     {
@@ -22,6 +23,15 @@ public class BannerUI : SwipeUI
 
     public void TryAddContents(int contentCount)
     {
+        if (contentCount == 0)
+        {
+            warningText.SetActive(true);
+        }
+        else
+        {
+            warningText.SetActive(false);
+        }
+
         StartCoroutine(AddContents(contentCount));
     }
 
@@ -93,6 +103,8 @@ public class BannerUI : SwipeUI
 
     public void DeleteContents()
     {
+        warningText.SetActive(false);
+
         sw.Stop();
         isUsingStepButtons = false;
         currentPage = 0;

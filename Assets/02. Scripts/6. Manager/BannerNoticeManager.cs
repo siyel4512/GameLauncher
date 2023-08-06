@@ -6,14 +6,15 @@ public class BannerNoticeManager : MonoBehaviour
 {
     [Header("[ UI ]")]
     public BannerUI bannerUI;
-    public NoticeUI[] noticeUIs;
+    public NoticeUI noticeUIs;
+    public ShortNotice shortNotice;
     public GuideInfo[] guideInfo;
 
     [Space(10)]
     [Header("[ Contents Count ]")]
     public int eventBannerCount;
-    public int noticeCount;
-    public int curiverseNoticeCount;
+    public int shortNoticeCount;
+    public int eventNewsCount;
 
     // Start is called before the first frame update
     void Start()
@@ -35,10 +36,11 @@ public class BannerNoticeManager : MonoBehaviour
             bannerUI.TryAddContents(eventBannerCount);
 
             // Create Notice
-            noticeUIs[0].TryAddContents(noticeCount);
+            //noticeUIs[0].TryAddContents(noticeCount);
+            shortNotice.SetContents(shortNoticeCount);
 
-            // Create Curiverse Notice
-            noticeUIs[1].TryAddContents(curiverseNoticeCount);
+            // Create Event News
+            noticeUIs.TryAddContents(eventNewsCount);
         }
         else
         {
@@ -49,7 +51,7 @@ public class BannerNoticeManager : MonoBehaviour
             GameManager.instance.api.Request_Notice().Forget();
 
             // Create Curiverse Notice
-            GameManager.instance.api.Request_CuriverseNotice().Forget();
+            GameManager.instance.api.Request_EventNews().Forget();
         }
     }
 

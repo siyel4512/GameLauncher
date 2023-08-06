@@ -562,18 +562,18 @@ public class API : URL
         await UniTask.SwitchToMainThread();
 
         BannerNoticeManager bannerNoticeManager = GameManager.instance.bannerNoticeManager;
-        bannerNoticeManager.noticeUIs[0].TryAddContents(bannerNoticeManager.noticeCount);
+        bannerNoticeManager.shortNotice.SetContents(bannerNoticeManager.shortNoticeCount);
     }
 
-    // curiverse notice
-    public async UniTaskVoid Request_CuriverseNotice()
+    // Event News
+    public async UniTaskVoid Request_EventNews()
     {
         await UniTask.SwitchToThreadPool();
         Debug.Log("Request_CuriverseNotice() start()");
         await UniTask.SwitchToMainThread();
 
         BannerNoticeManager bannerNoticeManager = GameManager.instance.bannerNoticeManager;
-        bannerNoticeManager.noticeUIs[1].TryAddContents(bannerNoticeManager.curiverseNoticeCount);
+        bannerNoticeManager.noticeUIs.TryAddContents(bannerNoticeManager.eventNewsCount);
     }
 
     public async UniTaskVoid Request_GuideDownload1()

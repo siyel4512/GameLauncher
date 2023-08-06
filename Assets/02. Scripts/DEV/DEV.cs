@@ -38,12 +38,10 @@ public class DEV : MonoBehaviour
     public WindowSizeInitializer windowSizeInitializer;
 
     public PCPowerManager pcPowerManager;
-
-    public GameObject downloadProtectGaurd;
-
+    public VersionManager versionManager;
     public Process process;
 
-    public VersionManager versionManager;
+    public GameObject downloadProtectGaurd;
 
     // Start is called before the first frame update
     void Awake()

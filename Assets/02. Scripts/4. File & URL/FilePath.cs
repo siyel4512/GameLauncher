@@ -69,14 +69,7 @@ public class FilePath : LoadFile
     // Start is called before the first frame update
     void Start()
     {
-        //FilePathCheck(0);
-
         InitDataPath();
-
-        //SetDownloadURL();
-        //Test_SetDownloadURL();
-
-        //FilePathCheck();
     }
 
     private void Update()
@@ -147,12 +140,6 @@ public class FilePath : LoadFile
         File.WriteAllText(path, jsonData);
 
         SetFilePath();
-
-        //for (int i = 0; i < 4; i++)
-        //{
-        //    SaveDownloadURL(i, buildFileUrls[i]);
-        //    SaveDownloadFolderPath(i, exeFolderPaths[i]); // Todo : maybe delete
-        //}
     }
 
     // load path data

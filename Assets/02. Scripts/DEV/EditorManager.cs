@@ -19,7 +19,9 @@ public class EditorManager : Editor
         {
             Debug.Log("Reset Data!!!");
             dev.filePath.ResetDataPath();
+
             dev.versionManager.ResetVersion();
+            PlayerSettings.bundleVersion = "0.0.0";
             //dev.filePath.ResetDownloadInfoData();
             //dev.selectServer.ResetSelectedServer();
             //dev.ResetSettingValue();
