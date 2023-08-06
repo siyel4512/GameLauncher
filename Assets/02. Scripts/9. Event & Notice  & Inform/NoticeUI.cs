@@ -2,7 +2,6 @@ using Org.BouncyCastle.Asn1.BC;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static SaveData;
 
 public class NoticeUI : SwipeUI
 {

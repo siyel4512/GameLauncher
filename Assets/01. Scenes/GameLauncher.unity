@@ -18243,6 +18243,8 @@ MonoBehaviour:
   limitTime: 5
   isReadyForStopwatch: 0
   warningText: {fileID: 0}
+  apiUrl: https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/snowFieldLoadingBackGround_2.jpg
+  compressedWidth: 512
 --- !u!114 &1278242268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32839,7 +32841,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4591189120526203007, guid: d043f8e1f2aec88458cca0b533e56782, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -35
       objectReference: {fileID: 0}
     - target: {fileID: 4591189120526203007, guid: d043f8e1f2aec88458cca0b533e56782, type: 3}
       propertyPath: m_SizeDelta.y
@@ -32875,7 +32877,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4591189120526203007, guid: d043f8e1f2aec88458cca0b533e56782, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 4591189120526203007, guid: d043f8e1f2aec88458cca0b533e56782, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -32916,6 +32918,10 @@ PrefabInstance:
     - target: {fileID: 4591189121502630752, guid: d043f8e1f2aec88458cca0b533e56782, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4591189122083243630, guid: d043f8e1f2aec88458cca0b533e56782, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4591189122083243630, guid: d043f8e1f2aec88458cca0b533e56782, type: 3}
       propertyPath: m_AnchoredPosition.x
