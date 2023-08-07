@@ -37,7 +37,8 @@ public class FileDownload : MonoBehaviour
                     excuteButton_txt.text = "Start";
                     break;
                 case LauncherStatus.failed:
-                    excuteButton_txt.text = "Update Failed - Retry";
+                    //excuteButton_txt.text = "Update Failed - Retry";
+                    excuteButton_txt.text = "Update Failed";
                     break;
                 case LauncherStatus.downloadGame:
                     //excuteButton_txt.text = "Download Game";

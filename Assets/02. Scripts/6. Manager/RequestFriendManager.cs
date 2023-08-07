@@ -105,6 +105,35 @@ public class RequestFriendManager : MonoBehaviour
                 AlarmIcons[1].SetActive(false);
             }
         }
+
+        DeduplicationFriendListSlot(requestList);
+    }
+
+    // deduplication
+    public void DeduplicationFriendListSlot(List<RequestInfo> _friendList)
+    {
+        // find duplicates by grouping (using ncnm, frndMbrNo)
+        var groupsByCombinedKey = _friendList
+            .GroupBy(info => (info.ncnm, info.frndMbrNo))
+            .Where(group => group.Count() > 1);
+
+        // duplicate element output
+        foreach (var group in groupsByCombinedKey)
+        {
+            //Debug.Log("중복된 요소: ncnm=" + group.Key.ncnm + ", frndMbrNo=" + group.Key.frndMbrNo);
+
+            // 그룹 내의 요소들의 인덱스 출력
+            int index = 0;
+            foreach (var duplicate in group)
+            {
+                if (index > 0)
+                {
+                    // 첫 번째 요소 이외의 나머지 요소를 비활성화
+                    duplicate.gameObject.SetActive(false);
+                }
+                index++;
+            }
+        }
     }
 
     public void DeleteRequestList()

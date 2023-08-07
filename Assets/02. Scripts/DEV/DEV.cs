@@ -103,22 +103,22 @@ public class DEV : MonoBehaviour
         }
     }
 
-    public async void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("[SY]실행 파일 실행 유무 확인");
-            //await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev.ToString(), FileType.pc.ToString());
-            //await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.pc);
+    //public async void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        Debug.Log("[SY]실행 파일 실행 유무 확인");
+    //        //await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev.ToString(), FileType.pc.ToString());
+    //        //await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.pc);
 
-            //await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.pc);
-            await GameManager.instance.api.Request_FileDownloadURL_live(FileType.pc);
-            await GameManager.instance.api.Request_FileDownloadURL_live(FileType.vr);
-            await GameManager.instance.api.Request_FileDownloadURL_live(FileType.prod);
-            await GameManager.instance.api.Request_FileDownloadURL_live(FileType.colca);
-            //Test_CheckProcessState();
-        }
-    }
+    //        //await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.pc);
+    //        await GameManager.instance.api.Request_FileDownloadURL_live(FileType.pc);
+    //        await GameManager.instance.api.Request_FileDownloadURL_live(FileType.vr);
+    //        await GameManager.instance.api.Request_FileDownloadURL_live(FileType.prod);
+    //        await GameManager.instance.api.Request_FileDownloadURL_live(FileType.colca);
+    //        //Test_CheckProcessState();
+    //    }
+    //}
 
     public void Test()
     {

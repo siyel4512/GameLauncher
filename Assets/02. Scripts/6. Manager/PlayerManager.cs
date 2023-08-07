@@ -28,6 +28,7 @@ public class PlayerManager : MonoBehaviour
     public TMP_Text nickname;
     public TMP_Text stateName;
     public Image icon; // state icon
+    public GameObject[] stateIcons;
     public int currentState;
 
     // setting menu buttons
@@ -89,6 +90,7 @@ public class PlayerManager : MonoBehaviour
                     currentState = 2;
                     stateName.text = "자리 비움";
                     icon.color = Color.yellow;
+                    SelectStateIcon(1);
                     RequestPlayerStateUpdate(currentState);
                 }
             }
@@ -128,22 +130,26 @@ public class PlayerManager : MonoBehaviour
             // offline
             case 0:
                 stateName.text = "오프라인";
-                icon.color = Color.gray;
+                //icon.color = Color.gray;
+                SelectStateIcon(3);
                 break;
             // online
             case 1:
                 stateName.text = "온라인";
-                icon.color = Color.green;
+                //icon.color = Color.green;
+                SelectStateIcon(0);
                 break;
             // take a break
             case 2:
                 stateName.text = "자리 비움";
-                icon.color = Color.yellow;
+                //icon.color = Color.yellow;
+                SelectStateIcon(1);
                 break;
             // other work
             case 3:
                 stateName.text = "다른 용무 중";
-                icon.color = Color.red;
+                //icon.color = Color.red;
+                SelectStateIcon(2);
                 break;
         }
 
@@ -173,5 +179,15 @@ public class PlayerManager : MonoBehaviour
         settingMenu.SetActive(isStateSettings);
         //GameManager.instance.popupManager.popups[(int)PopupType.logout].SetActive(!isStateSettings);
         GameManager.instance.popupManager.ShowLogoutPage();
+    }
+
+    private void SelectStateIcon(int iconNum)
+    {
+        for (int i = 0; i < stateIcons.Length; i++)
+        {
+            stateIcons[i].SetActive(false);
+        }
+
+        stateIcons[iconNum].SetActive(true);
     }
 }

@@ -6,6 +6,8 @@ using System.Net.Http;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
+
 //using System.Threading.Tasks;
 
 public class FriendListManager : MonoBehaviour
@@ -60,6 +62,14 @@ public class FriendListManager : MonoBehaviour
 
         searchUserWaringText.text = "";
     }
+
+    //public void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        DeduplicationFriendListSlot(friendList);
+    //    }
+    //}
 
     #region Set List
     public void ResetSelect()
@@ -177,13 +187,35 @@ public class FriendListManager : MonoBehaviour
         }
 
         listScrollPos.anchoredPosition = new Vector2(0, 0);
+
+        DeduplicationFriendListSlot(friendList);
     }
 
-    // Todo : debuplication
     // deduplication
-    public void DeduplicationFriendListSlot()
+    public void DeduplicationFriendListSlot(List<FriendInfo> _friendList)
     {
+        // find duplicates by grouping (using ncnm, frndMbrNo)
+        var groupsByCombinedKey = _friendList
+            .GroupBy(info => (info.ncnm, info.frndMbrNo))
+            .Where(group => group.Count() > 1);
 
+        // duplicate element output
+        foreach (var group in groupsByCombinedKey)
+        {
+            //Debug.Log("중복된 요소: ncnm=" + group.Key.ncnm + ", frndMbrNo=" + group.Key.frndMbrNo);
+
+            // 그룹 내의 요소들의 인덱스 출력
+            int index = 0;
+            foreach (var duplicate in group)
+            {
+                if (index > 0)
+                {
+                    // 첫 번째 요소 이외의 나머지 요소를 비활성화
+                    duplicate.gameObject.SetActive(false);
+                }
+                index++;
+            }
+        }
     }
 
     public void DeleteList()
@@ -221,6 +253,8 @@ public class FriendListManager : MonoBehaviour
                 friendList[i].gameObject.SetActive(false);
             }
         }
+
+        DeduplicationFriendListSlot(friendList);
     }
 
     private void InputEnter(string text)
@@ -240,6 +274,7 @@ public class FriendListManager : MonoBehaviour
     public void TryAddFriend()
     {
         Debug.Log("친구 추가 시도");
+        searchUserWaringText.text = "";
         ResetSelect();
         GameManager.instance.popupManager.popups[(int)PopupType.UserSearch].SetActive(true);
     }
