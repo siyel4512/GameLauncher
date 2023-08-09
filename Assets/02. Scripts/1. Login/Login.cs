@@ -21,8 +21,11 @@ public class Login : MonoBehaviour
     public Button loginButton;
 
     public static string PID;
+    public static string nickname;
+    public static string playerNum;
 
     private TCP_Server tcp_Server = new TCP_Server();
+
 
     // Start is called before the first frame update
     void Start()
@@ -146,8 +149,16 @@ public class Login : MonoBehaviour
 
         if (response.IsSuccessStatusCode)
         {
-            PID = requestResult;
-            Debug.Log("PID : " + PID);
+            //PID = requestResult;
+            //Debug.Log("PID : " + PID);
+
+            Debug.Log("로그인 결과 : " + requestResult);
+
+            PID = requestResult.Split(":")[1].Split(",")[0];
+            nickname = requestResult.Split(":")[2].Split(",")[0];
+            playerNum = requestResult.Split(":")[3].Split("}")[0];
+
+            Debug.Log($"requestResult : {PID} / {nickname} / {playerNum}");
 
             SetLogin();
         }
@@ -190,7 +201,7 @@ public class Login : MonoBehaviour
         };
 
         var content = new FormUrlEncodedContent(loginValues);
-
+        Debug.Log("rsaPassword " + rsaPassword);
         //Debug.Log("content 인코딩 완료");
 
         HttpClient client = new HttpClient();
@@ -201,8 +212,16 @@ public class Login : MonoBehaviour
 
         if (response.IsSuccessStatusCode)
         {
-            PID = requestResult;
-            Debug.Log("PID : " + PID);
+            //PID = requestResult;
+            //Debug.Log("PID : " + PID);
+
+            Debug.Log("로그인 결과 : " + requestResult);
+
+            PID = requestResult.Split(":")[1].Split(",")[0];
+            nickname = requestResult.Split(":")[2].Split(",")[0];
+            playerNum = requestResult.Split(":")[3].Split("}")[0];
+
+            Debug.Log($"requestResult : {PID} / {nickname} / {playerNum}");
 
             SetLogin();
         }
@@ -238,19 +257,15 @@ public class Login : MonoBehaviour
     {
         GameManager gameManager = GameManager.instance;
 
-        Debug.Log("[SY] set login start");
         FilePath.Instance.Test_SetDownloadURL2(gameManager.selectedServerNum);
-        Debug.Log("[SY] 1");
         // set nick name
-        gameManager.playerManager.nickname.text = "Player Nick Name1";
-        Debug.Log("[SY] 2");
+        gameManager.playerManager.nickname.text = nickname;
 
         gameManager.isLogin = true; // login
         gameManager.playerManager.SetPlayerState(1); // set player state
         //GameManager.instance.pages[1].SetActive(true); // set main page
         gameManager.SetPage(1);
         //GameManager.instance.SetSelectButton(0); // set file download button
-        Debug.Log("[SY] 3");
 
         //GameManager.instance.friendListManager.CreateList(); // create friedn list
         //GameManager.instance.requestFriendManager.CreateRequestList(); // create request friend list
@@ -258,7 +273,7 @@ public class Login : MonoBehaviour
         gameManager.api.Request_RequestFriendList().Forget(); // create request friend list
 
         gameManager.bannerNoticeManager.CreateAllContents();
-        gameManager.bannerNoticeManager.SetGuideDownloadLink();
+        //gameManager.bannerNoticeManager.Test_SetGuideDownloadLink();
 
         //GameManager.instance.filePath.Test_SetDownloadURL();
         
@@ -276,18 +291,24 @@ public class Login : MonoBehaviour
     public void SetLogOut()
     {
         GameManager gameManager = GameManager.instance;
+        gameManager.isLogin = false; // logout
 
+        gameManager.playerManager.RequestPlayerStateUpdate(0);
         // delete nick name
         gameManager.playerManager.nickname.text = "";
 
-        gameManager.isLogin = false; // logout
         gameManager.friendListManager.isSelectedSlot = false; // selected friend slot reset
         gameManager.friendListManager.DeleteList(); // delete friend list
         gameManager.requestFriendManager.DeleteRequestList(); // delete request friend list
         gameManager.playerManager.StopTimer(); // player state change timer reset
+        
+        // event banner & notice & news delete
         gameManager.bannerNoticeManager.bannerUI.DeleteContents();
+        gameManager.bannerNoticeManager.shortNotice.ResetShortNoticeInfo();
         //gameManager.bannerNoticeManager.noticeUIs[0].DeleteContents();
-        gameManager.bannerNoticeManager.noticeUIs.DeleteContents();
+        gameManager.bannerNoticeManager.noticeUI.DeleteContents();
+        gameManager.bannerNoticeManager.guideInfo[0].ResetLinkURL();
+        gameManager.bannerNoticeManager.guideInfo[1].ResetLinkURL();
 
         //GameManager.instance.ResetBuildFilePath();
 

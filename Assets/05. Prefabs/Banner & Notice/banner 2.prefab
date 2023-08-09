@@ -226,7 +226,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de130f569b67f924b9e95ece68a42c70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boardNum: 0
+  writer: 
   title: 
+  content: 
+  webImg: 
+  lnchrImg: 
+  boardType: 
+  openYn: 
+  exprPeriod: 
+  regDt: 
+  upDt: 
   linkURL: 
   bannerUI: {fileID: 0}
   title_text: {fileID: 7301929711136122074}

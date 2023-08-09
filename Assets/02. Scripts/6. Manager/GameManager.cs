@@ -185,12 +185,15 @@ public class GameManager : MonoBehaviour
     }
 
     // request json data
-    public void RefreshAllData()
+    public async void RefreshAllData()
     {
         //// Toto : delete all data
         //bannerNoticeManager.bannerUI.DeleteContents();
         //bannerNoticeManager.noticeUIs[0].DeleteContents();
         //bannerNoticeManager.noticeUIs[1].DeleteContents();
+
+        // update player state
+        await api.Update_PlayerState(playerManager.currentState, Login.PID);
 
         // friend list
         api.Request_FriendList().Forget();// create friedn list
@@ -215,8 +218,8 @@ public class GameManager : MonoBehaviour
         //        break;
         //}
 
-        // event banner
-        //api.Request_EventBanner().Forget();
+        // event banner && notice && news
+        bannerNoticeManager.CreateAllContents();
 
         // notice
         //api.Request_Notice().Forget();
@@ -225,8 +228,8 @@ public class GameManager : MonoBehaviour
         //api.Request_CuriverseNotice().Forget();
 
         // guide download
-        api.Request_GuideDownload1().Forget();
-        api.Request_GuideDownload2().Forget();
+        //api.Request_GuideDownload1().Forget();
+        //api.Request_GuideDownload2().Forget();
 
         Debug.Log("Request Data");
     }

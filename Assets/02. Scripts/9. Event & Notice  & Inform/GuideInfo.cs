@@ -26,4 +26,9 @@ public class GuideInfo : MonoBehaviour
     {
         downloadLinkURL = linkURL;
     }
+
+    public void ResetLinkURL()
+    {
+        downloadLinkURL = null;
+    }
 }

@@ -23,9 +23,10 @@ public class DEV : MonoBehaviour
     public bool isTEST_Contents;
     public bool isTEST_Server;
 
-    public bool isProtectFileDownload;
-    public bool isFileDownload;
+    public bool isProtectFileDownload; // 다운로드 중 버튼 누름 방지
+    public bool isFileDownload; // 파일 다운로드 중
     public bool isScienceMuseum;
+    public bool isUsingTokenForFriendList; // 친구 리스트 요청시 token값 사용
 
     public FilePath filePath;
     public string[] rootPaths; // div 용
@@ -103,7 +104,7 @@ public class DEV : MonoBehaviour
         }
     }
 
-    //public async void Update()
+    //public /*async*/ void Update()
     //{
     //    if (Input.GetKeyDown(KeyCode.Space))
     //    {
@@ -112,11 +113,16 @@ public class DEV : MonoBehaviour
     //        //await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.pc);
 
     //        //await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.pc);
-    //        await GameManager.instance.api.Request_FileDownloadURL_live(FileType.pc);
-    //        await GameManager.instance.api.Request_FileDownloadURL_live(FileType.vr);
-    //        await GameManager.instance.api.Request_FileDownloadURL_live(FileType.prod);
-    //        await GameManager.instance.api.Request_FileDownloadURL_live(FileType.colca);
+    //        //await GameManager.instance.api.Request_FileDownloadURL_live(FileType.pc);
+    //        //await GameManager.instance.api.Request_FileDownloadURL_live(FileType.vr);
+    //        //await GameManager.instance.api.Request_FileDownloadURL_live(FileType.prod);
+    //        //await GameManager.instance.api.Request_FileDownloadURL_live(FileType.colca);
     //        //Test_CheckProcessState();
+
+    //        GameManager.instance.api.Request_MainBoard(0).Forget();
+    //        GameManager.instance.api.Request_MainBoard(1).Forget();
+    //        GameManager.instance.api.Request_MainBoard(2).Forget();
+    //        GameManager.instance.api.Request_MainBoard(3).Forget();
     //    }
     //}
 

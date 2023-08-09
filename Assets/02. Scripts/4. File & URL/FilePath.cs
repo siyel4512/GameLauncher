@@ -285,6 +285,11 @@ public class FilePath : LoadFile
 
     public void CompareToFileDownloadURL()
     {
+        if (GameManager.instance.jsonData.temp_donwloadUrlList.Count <= 0)
+        {
+            return;
+        }
+
         Debug.Log("[SY] 비교 시작");
         DownloadURL temp_downloadURL = LoadDownloadURL();
 

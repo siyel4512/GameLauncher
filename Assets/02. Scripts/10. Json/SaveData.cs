@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 
 //[System.Serializable]
 public class SaveData
@@ -32,8 +33,24 @@ public class SaveData
         public string upDt;
         public string regDt;
     }
-
     public List<requestFriendList> requestFriend_List;
+
+    [Serializable]
+    public class mainBoard
+    {
+        public int boardNum;
+        public string writer;
+        public string title;
+        public string content;
+        public string webImg;
+        public string lnchrImg;
+        public string boardType;
+        public string openYn;
+        public string exprPeriod;
+        public string regDt;
+        public string upDt;
+    }
+    public List<mainBoard> mainboardlist;
 
     [Serializable]
     public class downloadUrlList
@@ -41,6 +58,5 @@ public class SaveData
         public string zip_path;
         public string json_path;
     }
-
     public downloadUrlList downloadUrl;
 }

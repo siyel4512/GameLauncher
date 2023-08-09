@@ -53,6 +53,9 @@ public class RequestInfo : MonoBehaviour
 
         //GameManager.instance.requestFriendManager.RequestAddList();
 
+        //// 내 상태 업데이트
+        //await GameManager.instance.api.Update_PlayerState(GameManager.instance.playerManager.currentState, Login.PID);
+
         // 친구 리스트 추가 요청
         await GameManager.instance.api.Request_Accept(mbrNo, frndMbrNo);
 
@@ -60,7 +63,7 @@ public class RequestInfo : MonoBehaviour
         GameManager.instance.api.Request_RequestFriendList().Forget();
 
         // 친구 리스트 갱신
-        GameManager.instance.api.Request_FriendList().Forget();
+        GameManager.instance.api.Request_FriendList(true).Forget();
     }
 
     public async void BTN_Refuse()

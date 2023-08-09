@@ -47,6 +47,8 @@ public class NoticeUI : SwipeUI
         spawnedContents = new List<NoticeInfo>();
         spawnedStepButton = new List<StepButton>();
 
+        List<SaveData.mainBoard> eventNewsInfoValue = GameManager.instance.jsonData.news_List;
+
         // create contents & step buttons
         for (int i = 0; i < contentCount; i++)
         {
@@ -54,15 +56,29 @@ public class NoticeUI : SwipeUI
             GameObject content = Instantiate(conents_prefab);
             content.transform.SetParent(spawnContentsPos, false);
             NoticeInfo noticeInfo = content.GetComponent<NoticeInfo>();
-            
-            // Todo : API 추가시 삭제
-            string tempContent = "";
-            for (int j = 0; j < 50; j++)
-            {
-                tempContent += "Content ";
-            }
-            
-            noticeInfo.SetContents("Title_" + (i + 1), tempContent, "https://www.youtube.com/");
+
+            //// Todo : API 추가시 삭제
+            //string tempContent = "";
+            //for (int j = 0; j < 50; j++)
+            //{
+            //    tempContent += "Content ";
+            //}
+
+            //noticeInfo.SetContents("Title_" + (i + 1), tempContent, "https://www.youtube.com/");
+
+            noticeInfo.boardNum = eventNewsInfoValue[i].boardNum;
+            noticeInfo.writer = eventNewsInfoValue[i].writer;
+            noticeInfo.title = eventNewsInfoValue[i].title;
+            noticeInfo.content = eventNewsInfoValue[i].content;
+            noticeInfo.webImg = eventNewsInfoValue[i].webImg;
+            noticeInfo.lnchrImg = eventNewsInfoValue[i].lnchrImg;
+            noticeInfo.boardType = eventNewsInfoValue[i].boardType;
+            noticeInfo.openYn = eventNewsInfoValue[i].openYn;
+            noticeInfo.exprPeriod = eventNewsInfoValue[i].exprPeriod;
+            noticeInfo.regDt = eventNewsInfoValue[i].regDt;
+            noticeInfo.upDt = eventNewsInfoValue[i].upDt;
+            noticeInfo.linkURL = "https://www.naver.com/";
+
             noticeInfo.noticeUI = this;
             spawnedContents.Add(noticeInfo);
 
@@ -73,7 +89,10 @@ public class NoticeUI : SwipeUI
             _stepButton.indexNum = i;
             _stepButton.swipeUI = this;
             spawnedStepButton.Add(_stepButton);
+
+            noticeInfo.SetContents();
         }
+
 
         // using side buttons
         if (spawnedContents.Count > 1)

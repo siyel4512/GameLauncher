@@ -46,6 +46,8 @@ public class FriendListManager : MonoBehaviour
     [Header("[ Request List ]")]
     public RectTransform requestListScrollPos;
 
+    public GameObject warningText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -89,14 +91,11 @@ public class FriendListManager : MonoBehaviour
         //yield return null;
         for (int i = 0; i < friendCount; i++)
         {
-            List<SaveData.friendList> friendListValues = GameManager.instance.jsonData.friendListValues;
+            List<SaveData.friendList> friendListValues = GameManager.instance.jsonData.friendList_List;
 
             // create & set temp friend info
             temp_friendList.Add(new FriendInfo()
             {
-                //nickname = $"Test_" + i,
-                //state = "온라인",
-
                 ncnm = friendListValues[i].ncnm,
                 frndNo = friendListValues[i].frndNo,
                 mbrNo = friendListValues[i].mbrNo,
@@ -115,9 +114,6 @@ public class FriendListManager : MonoBehaviour
             // set friend info
             FriendInfo info = clone.GetComponent<FriendInfo>();
 
-            //info.nickname = temp_friendList[i].nickname;
-            //info.state = temp_friendList[i].state;
-
             info.ncnm = friendListValues[i].ncnm;
             info.frndNo = friendListValues[i].frndNo;
             info.mbrNo = friendListValues[i].mbrNo;
@@ -133,62 +129,58 @@ public class FriendListManager : MonoBehaviour
         }
 
         // avoid duplicate creation
-        if (friendList.Count != GameManager.instance.jsonData.friendListValues.Count)
-        {
-            DeleteList();
+        //if (friendList.Count != GameManager.instance.jsonData.friendList_List.Count)
+        //{
+        //    DeleteList();
 
-            for (int i = 0; i < friendCount; i++)
-            {
-                List<SaveData.friendList> friendListValues = GameManager.instance.jsonData.friendListValues;
+        //    for (int i = 0; i < friendCount; i++)
+        //    {
+        //        List<SaveData.friendList> friendListValues = GameManager.instance.jsonData.friendList_List;
 
-                if (friendListValues[i].frndRqstSttus == "1")
-                {
-                    // create & set temp friend info
-                    temp_friendList.Add(new FriendInfo()
-                    {
-                        //nickname = $"Test_" + i,
-                        //state = "온라인",
+        //        if (friendListValues[i].frndRqstSttus == "1")
+        //        {
+        //            // create & set temp friend info
+        //            temp_friendList.Add(new FriendInfo()
+        //            {
+        //                ncnm = friendListValues[i].ncnm,
+        //                frndNo = friendListValues[i].frndNo,
+        //                mbrNo = friendListValues[i].mbrNo,
+        //                frndMbrNo = friendListValues[i].frndMbrNo,
+        //                frndSttus = friendListValues[i].frndSttus,
+        //                frndRqstSttus = friendListValues[i].frndRqstSttus,
+        //                frndRqstDt = friendListValues[i].frndRqstDt,
+        //                upDt = friendListValues[i].upDt,
+        //                regDt = friendListValues[i].regDt
+        //            });
 
-                        ncnm = friendListValues[i].ncnm,
-                        frndNo = friendListValues[i].frndNo,
-                        mbrNo = friendListValues[i].mbrNo,
-                        frndMbrNo = friendListValues[i].frndMbrNo,
-                        frndSttus = friendListValues[i].frndSttus,
-                        frndRqstSttus = friendListValues[i].frndRqstSttus,
-                        frndRqstDt = friendListValues[i].frndRqstDt,
-                        upDt = friendListValues[i].upDt,
-                        regDt = friendListValues[i].regDt
-                    });
+        //            // create friend list
+        //            GameObject clone = Instantiate(listSlot);
+        //            clone.transform.SetParent(listContent.transform, false);
 
-                    // create friend list
-                    GameObject clone = Instantiate(listSlot);
-                    clone.transform.SetParent(listContent.transform, false);
+        //            // set friend info
+        //            FriendInfo info = clone.GetComponent<FriendInfo>();
 
-                    // set friend info
-                    FriendInfo info = clone.GetComponent<FriendInfo>();
+        //            info.ncnm = friendListValues[i].ncnm;
+        //            info.frndNo = friendListValues[i].frndNo;
+        //            info.mbrNo = friendListValues[i].mbrNo;
+        //            info.frndMbrNo = friendListValues[i].frndMbrNo;
+        //            info.frndSttus = friendListValues[i].frndSttus;
+        //            info.frndRqstSttus = friendListValues[i].frndRqstSttus;
+        //            info.frndRqstDt = friendListValues[i].frndRqstDt;
+        //            info.upDt = friendListValues[i].upDt;
+        //            info.regDt = friendListValues[i].regDt;
+        //            info.SetSlotValues();
 
-                    //info.nickname = temp_friendList[i].nickname;
-                    //info.state = temp_friendList[i].state;
-
-                    info.ncnm = friendListValues[i].ncnm;
-                    info.frndNo = friendListValues[i].frndNo;
-                    info.mbrNo = friendListValues[i].mbrNo;
-                    info.frndMbrNo = friendListValues[i].frndMbrNo;
-                    info.frndSttus = friendListValues[i].frndSttus;
-                    info.frndRqstSttus = friendListValues[i].frndRqstSttus;
-                    info.frndRqstDt = friendListValues[i].frndRqstDt;
-                    info.upDt = friendListValues[i].upDt;
-                    info.regDt = friendListValues[i].regDt;
-                    info.SetSlotValues();
-
-                    friendList.Add(info);
-                }
-            }
-        }
+        //            friendList.Add(info);
+        //        }
+        //    }
+        //}
 
         listScrollPos.anchoredPosition = new Vector2(0, 0);
 
         DeduplicationFriendListSlot(friendList);
+
+        CheckActiveSlot(friendList);
     }
 
     // deduplication
@@ -227,6 +219,28 @@ public class FriendListManager : MonoBehaviour
 
         friendList.Clear();
         temp_friendList.Clear();
+    }
+
+    public void CheckActiveSlot(List<FriendInfo> _friendList)
+    {
+        if (_friendList.Count <= 0)
+        {
+            warningText.SetActive(true);
+            return;
+        }
+
+        for (int i = 0; i < _friendList.Count; i++)
+        {
+            if (_friendList[i].gameObject.activeSelf)
+            {
+                warningText.SetActive(false);
+                break;
+            }
+            else
+            {
+                warningText.SetActive(true);
+            }
+        }
     }
     #endregion
 
@@ -320,29 +334,7 @@ public class FriendListManager : MonoBehaviour
                 {
                     Debug.Log("Success find user : " + searchUserNickName.text);
 
-                    //bool isCompareResult_Old = Old_CheckFriendList(searchUserNickName.text);
-
-                    //// Todo : 친구 검색 및 요청에 대한 수정 필요
-                    //if (!isCompareResult_Old)
-                    //{
-                    //    // 아직 내 친구가 아닐때
-                    //    GameManager.instance.popupManager.SetContents(1, searchUserNickName.text); // set nick name in popup
-                    //    GameManager.instance.popupManager.popups[(int)PopupType.RequestFriend].SetActive(true); // open popup
-                        
-                    //    // 친구 요청
-                    //    Debug.Log("친구 요청");
-                    //}
-                    //else
-                    //{
-                    //    // 내 친구일때
-                    //    GameManager.instance.popupManager.popups[(int)PopupType.AlreadyExistFriend].SetActive(true); // open popup
-                    //    ResetSearchUserNickName();
-                    //}
-
                     int isCompareResult = CheckFriendList(searchUserNickName.text);
-
-                    //GameManager.instance.popupManager.SetContents(1, searchUserNickName.text); // set nick name in popup
-                    //GameManager.instance.popupManager.popups[(int)PopupType.RequestFriend].SetActive(true); // open popup
 
                     switch (isCompareResult)
                     {
@@ -358,16 +350,17 @@ public class FriendListManager : MonoBehaviour
                             // exist friend
                             Debug.Log("my friend");
                             //GameManager.instance.popupManager.popups[(int)PopupType.AlreadyExistFriend].SetActive(true); // open popup
-                                                                                                                         //ResetSearchUserNickName();
-
                             searchUserWaringText.text = "이미 친구 추가된 유저입니다.";
                             break;
                         case 2:
                             // exist request user
                             Debug.Log("request list user");
                             //GameManager.instance.popupManager.popups[(int)PopupType.AlreadyExistRequestUserPopup].SetActive(true); // open popup
-
                             searchUserWaringText.text = "친구 요청이 들어온 유저입니다.";
+                            break;
+                        case 3:
+                            Debug.Log("my nick name");
+                            searchUserWaringText.text = "요청할 수 없는 유저입니다.";
                             break;
                     }
                 }
@@ -388,35 +381,14 @@ public class FriendListManager : MonoBehaviour
         }
     }
 
-    //// compare to seache user and my friend list
-    //private bool Old_CheckFriendList(string _searchUserNickName)
-    //{
-    //    bool isExistInList = false;
-
-    //    List<SaveData.friendList> friendListValuse = GameManager.instance.jsonData.friendListValues;
-
-    //    for (int i = 0; i < friendListValuse.Count; i++)
-    //    {
-    //        if (friendListValuse[i].ncnm == _searchUserNickName)
-    //        {
-    //            isExistInList = true;
-    //            break;
-    //        }
-    //        else
-    //        {
-    //            isExistInList = false;
-    //        }
-    //    }
-    //    return isExistInList;
-    //}
-
     // compare to seache user and my friend list
     private int CheckFriendList(string _searchUserNickName)
     {
-        int isExistInList = 0; // 0: not exist friend, 1:exist friend, 2: exist request user
+        int isExistInList = 0; // 0: not exist friend, 1:exist friend, 2: exist request user, 3: my nick name
 
-        List<SaveData.friendList> friendListValuse = GameManager.instance.jsonData.friendListValues;
+        List<SaveData.friendList> friendListValuse = GameManager.instance.jsonData.friendList_List;
         
+        // check my friend list
         for (int i = 0; i < friendListValuse.Count; i++)
         {
             if (friendListValuse[i].ncnm == _searchUserNickName)
@@ -431,6 +403,7 @@ public class FriendListManager : MonoBehaviour
             }
         }
 
+        // check request list
         if (isExistInList == 0)
         {
             List<SaveData.friendList> requestListValuse = GameManager.instance.jsonData.requestFriendListValues;
@@ -447,6 +420,19 @@ public class FriendListManager : MonoBehaviour
                 {
                     isExistInList = 0;
                 }
+            }
+        }
+
+        // check my nick name
+        if (isExistInList == 0)
+        {
+            if (Login.nickname  == _searchUserNickName)
+            {
+                isExistInList = 3;
+            }
+            else
+            {
+                isExistInList = 0;
             }
         }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using System;
+using static SaveData;
 
 public class RequestFriendManager : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class RequestFriendManager : MonoBehaviour
 
     public bool isUsingAlarmIcon;
     public GameObject[] AlarmIcons;
+
+    public GameObject warningText;
 
     // Start is called before the first frame update
     void Start()
@@ -39,7 +42,7 @@ public class RequestFriendManager : MonoBehaviour
 
         for (int i = 0; i < requestfriendCount; i++)
         {
-            List<SaveData.friendList> friendListValues = GameManager.instance.jsonData.friendListValues;
+            List<SaveData.friendList> friendListValues = GameManager.instance.jsonData.friendList_List;
             
             GameObject clone = Instantiate(requestSlot);
             clone.transform.SetParent(requestContent.transform, false);
@@ -60,34 +63,34 @@ public class RequestFriendManager : MonoBehaviour
             requestList.Add(clone.GetComponent<RequestInfo>());
         }
 
-        // avoid duplicate creation
-        if (requestList.Count != GameManager.instance.jsonData.requestFriendListValues.Count)
-        {
-            DeleteRequestList();
+        //// avoid duplicate creation
+        //if (requestList.Count != GameManager.instance.jsonData.requestFriendListValues.Count)
+        //{
+        //    DeleteRequestList();
 
-            for (int i = 0; i < requestfriendCount; i++)
-            {
-                List<SaveData.friendList> friendListValues = GameManager.instance.jsonData.friendListValues;
+        //    for (int i = 0; i < requestfriendCount; i++)
+        //    {
+        //        List<SaveData.friendList> friendListValues = GameManager.instance.jsonData.friendList_List;
 
-                GameObject clone = Instantiate(requestSlot);
-                clone.transform.SetParent(requestContent.transform, false);
+        //        GameObject clone = Instantiate(requestSlot);
+        //        clone.transform.SetParent(requestContent.transform, false);
 
-                // set request info
-                RequestInfo info = clone.GetComponent<RequestInfo>();
-                info.ncnm = GameManager.instance.jsonData.requestFriendListValues[i].ncnm;
-                info.frndNo = GameManager.instance.jsonData.requestFriendListValues[i].frndNo;
-                info.mbrNo = GameManager.instance.jsonData.requestFriendListValues[i].mbrNo;
-                info.frndMbrNo = GameManager.instance.jsonData.requestFriendListValues[i].frndMbrNo;
-                info.frndSttus = GameManager.instance.jsonData.requestFriendListValues[i].frndSttus;
-                info.frndRqstSttus = GameManager.instance.jsonData.requestFriendListValues[i].frndRqstSttus;
-                info.frndRqstDt = GameManager.instance.jsonData.requestFriendListValues[i].frndRqstDt;
-                info.upDt = GameManager.instance.jsonData.requestFriendListValues[i].upDt;
-                info.regDt = GameManager.instance.jsonData.requestFriendListValues[i].regDt;
-                info.SetSlotValue();
+        //        // set request info
+        //        RequestInfo info = clone.GetComponent<RequestInfo>();
+        //        info.ncnm = GameManager.instance.jsonData.requestFriendListValues[i].ncnm;
+        //        info.frndNo = GameManager.instance.jsonData.requestFriendListValues[i].frndNo;
+        //        info.mbrNo = GameManager.instance.jsonData.requestFriendListValues[i].mbrNo;
+        //        info.frndMbrNo = GameManager.instance.jsonData.requestFriendListValues[i].frndMbrNo;
+        //        info.frndSttus = GameManager.instance.jsonData.requestFriendListValues[i].frndSttus;
+        //        info.frndRqstSttus = GameManager.instance.jsonData.requestFriendListValues[i].frndRqstSttus;
+        //        info.frndRqstDt = GameManager.instance.jsonData.requestFriendListValues[i].frndRqstDt;
+        //        info.upDt = GameManager.instance.jsonData.requestFriendListValues[i].upDt;
+        //        info.regDt = GameManager.instance.jsonData.requestFriendListValues[i].regDt;
+        //        info.SetSlotValue();
 
-                requestList.Add(clone.GetComponent<RequestInfo>());
-            }
-        }
+        //        requestList.Add(clone.GetComponent<RequestInfo>());
+        //    }
+        //}
 
         requestScrollPos.anchoredPosition = new Vector2(0, 0);
 
@@ -107,13 +110,15 @@ public class RequestFriendManager : MonoBehaviour
         }
 
         DeduplicationFriendListSlot(requestList);
+
+        CheckActiveSlot(requestList);
     }
 
     // deduplication
-    public void DeduplicationFriendListSlot(List<RequestInfo> _friendList)
+    public void DeduplicationFriendListSlot(List<RequestInfo> _requestList)
     {
         // find duplicates by grouping (using ncnm, frndMbrNo)
-        var groupsByCombinedKey = _friendList
+        var groupsByCombinedKey = _requestList
             .GroupBy(info => (info.ncnm, info.frndMbrNo))
             .Where(group => group.Count() > 1);
 
@@ -249,4 +254,26 @@ public class RequestFriendManager : MonoBehaviour
         }
     }
     #endregion
+
+    public void CheckActiveSlot(List<RequestInfo> _requestList)
+    {
+        if (_requestList.Count <= 0)
+        {
+            warningText.SetActive(true);
+            return;
+        }
+
+        for (int i = 0; i < _requestList.Count; i++)
+        {
+            if (_requestList[i].gameObject.activeSelf)
+            {
+                warningText.SetActive(false);
+                break;
+            }
+            else
+            {
+                warningText.SetActive(true);
+            }
+        }
+    }
 }

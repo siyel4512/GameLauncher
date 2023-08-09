@@ -6,11 +6,22 @@ using UnityEngine.EventSystems;
 
 public class BannerInfo : MonoBehaviour
 {
-    [Header("[ Info Values ]")]
-    public string title;
-    public string linkURL;
-
     // banner info value save
+    [Header("[ Info Values ]")]
+    //public string title;
+    public int boardNum;
+    public string writer;
+    public string title;
+    public string content;
+    public string webImg;
+    public string lnchrImg;
+    public string boardType;
+    public string openYn;
+    public string exprPeriod;
+    public string regDt;
+    public string upDt;
+
+    public string linkURL;
 
     [Space(10)]
     [Header("[ UI ]")]
@@ -20,6 +31,8 @@ public class BannerInfo : MonoBehaviour
     [Space(10)]
     [Header("[ Event ]")]
     public EventTrigger.Entry clickEvent;
+
+    public GameObject downloadErrorText;
 
     // Start is called before the first frame update
     void Start()

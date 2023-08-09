@@ -6,11 +6,22 @@ using TMPro;
 public class NoticeInfo : MonoBehaviour
 {
     [Header("[ Info Values ]")]
+    public int boardNum;
+    public string writer;
     public string title;
     public string content;
-    public string linkURL;
-    private List<NoticeInfo> spawnedContents;
+    public string webImg;
+    public string lnchrImg;
+    public string boardType;
+    public string openYn;
+    public string exprPeriod;
+    public string regDt;
+    public string upDt;
 
+    public string linkURL;
+        
+    private List<NoticeInfo> spawnedContents;
+    
     [Space(10)]
     [Header("[ UI ]")]
     public NoticeUI noticeUI;
@@ -28,11 +39,11 @@ public class NoticeInfo : MonoBehaviour
     }
 
     // set contents
-    public void SetContents(string _title, string _content, string _linkURL)
+    public void SetContents()
     {
-        title = _title;
-        content = _content;
-        linkURL = _linkURL;
+        //title = _title;
+        //content = _content;
+        //linkURL = _linkURL;
 
         title_text.text = title;
         content_text.text = content;

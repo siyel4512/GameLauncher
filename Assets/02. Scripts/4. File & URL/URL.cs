@@ -26,6 +26,8 @@ public class URL : LoadFile
     protected string requestRefuseNDeleteURL;
     protected string searchUserWithNicknameURL;
 
+    protected string mainBoardURP;
+
     // file download
     protected string fileDownloadURL;
     protected string fileDownloadURL_Live;
@@ -43,6 +45,7 @@ public class URL : LoadFile
     private string playerStateUpdate_URL = "onlineScienceMuseumAPI/changeMyStatus.do";
 
     // event banner & notice
+    private string mainBoard_URP = "onlineScienceMuseumAPI/mainBoard.do";
 
     // guide download
 
@@ -80,6 +83,9 @@ public class URL : LoadFile
             requestRefuseNDeleteURL = testServer + requestRefuseNDelete_URL;
             searchUserWithNicknameURL = testServer + searchUserWithNickname_URL;
 
+            // main board
+            mainBoardURP = testServer + mainBoard_URP;
+
             // file download
             fileDownloadURL = testServer + fileDownload_URL;
             fileDownloadURL_Live = liveServer + fileDownload_URL;
@@ -103,6 +109,9 @@ public class URL : LoadFile
             requestAcceptURL = liveServer + requestAccept_URL;
             requestRefuseNDeleteURL = liveServer + requestRefuseNDelete_URL;
             searchUserWithNicknameURL = liveServer + searchUserWithNickname_URL;
+
+            // main board
+            mainBoardURP = liveServer + mainBoard_URP;
 
             // file download
             fileDownloadURL = liveServer + fileDownload_URL;

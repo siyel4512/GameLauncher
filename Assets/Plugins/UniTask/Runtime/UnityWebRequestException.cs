@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine.Networking;
 
 namespace Cysharp.Threading.Tasks
@@ -61,6 +62,8 @@ namespace Cysharp.Threading.Tasks
                 return msg;
             }
         }
+
+        public HttpStatusCode StatusCode { get; set; }
     }
 }
 

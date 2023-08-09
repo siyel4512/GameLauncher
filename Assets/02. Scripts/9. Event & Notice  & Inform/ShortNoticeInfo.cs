@@ -7,8 +7,18 @@ using UnityEngine.UI;
 public class ShortNoticeInfo : MonoBehaviour
 {
     [Header("[ Info Values ]")]
+    public int boardNum;
+    public string writer;
     public string title;
     public string content;
+    public string webImg;
+    public string lnchrImg;
+    public string boardType;
+    public string openYn;
+    public string exprPeriod;
+    public string regDt;
+    public string upDt;
+    
     public string linkURL;
 
     public string Day;
@@ -38,44 +48,41 @@ public class ShortNoticeInfo : MonoBehaviour
     }
 
     // set contents
-    public void SetContents(int _noticeNumm, string _title, string _content, string _linkURL)
+    //public void SetContents(int _noticeNumm, string _title, string _content, string _linkURL)
+    public void SetContents(int _noticeNumm)
     {
         switch (_noticeNumm)
         {
+            // mian notice
             case 0:
-                // mian notice
-                // save values
-                title = _title;
-                content = _content;
-                linkURL = _linkURL;
-
                 // set values
                 title_text.text = title;
                 content_text.text = content;
-                Day_text.text = "20";
-                Year_Month_text.text = "23.08";
+
+                // split date
+                string[] temp_main_date1 = upDt.Split(" ");
+                string[] temp_main_date2 = temp_main_date1[0].Split("-");
+
+                Day_text.text = temp_main_date2[2];
+                Year_Month_text.text = $"{temp_main_date2[0].Substring(2,2)}.{temp_main_date2[1]}";
                 break;
+            // sub notice 1
             case 1:
-                // sub notice 1
-                // save values
-                title = _title;
-                content = _content;
-                linkURL = _linkURL;
-
                 // set values
                 title_text.text = title;
-                Year_Month_Day_text.text = "2023-08-10";
+
+                // split date
+                string[] temp_sub1_date = upDt.Split(" ");
+                Year_Month_Day_text.text = temp_sub1_date[0];
                 break;
+            // sub notice 2
             case 2:
-                // sub notice 2
-                // save values
-                title = _title;
-                content = _content;
-                linkURL = _linkURL;
-
                 // set values
                 title_text.text = title;
-                Year_Month_Day_text.text = "2023-08-01";
+
+                // split date
+                string[] temp_sub2_date = upDt.Split(" ");
+                Year_Month_Day_text.text = temp_sub2_date[0];
                 break;
         }
     }
@@ -84,8 +91,8 @@ public class ShortNoticeInfo : MonoBehaviour
     {
         switch (_noticeNumm)
         {
+            // mian notice
             case 0:
-                // mian notice
                 // save values
                 title = "";
                 content = "";
@@ -93,12 +100,12 @@ public class ShortNoticeInfo : MonoBehaviour
 
                 // set values
                 title_text.text = title;
-                Year_Month_Day_text.text = content;
+                content_text.text = content;
                 Day_text.text = "";
                 Year_Month_text.text = "";
                 break;
+            // sub notice 1
             case 1:
-                // sub notice 1
                 // save values
                 title = "";
                 content = "";
@@ -108,8 +115,8 @@ public class ShortNoticeInfo : MonoBehaviour
                 title_text.text = title;
                 Year_Month_Day_text.text = "";
                 break;
+            // sub notice 2
             case 2:
-                // sub notice 2
                 // save values
                 title = "";
                 content = "";

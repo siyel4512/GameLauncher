@@ -89,7 +89,7 @@ public class PlayerManager : MonoBehaviour
                 {
                     currentState = 2;
                     stateName.text = "자리 비움";
-                    icon.color = Color.yellow;
+                    //icon.color = Color.yellow;
                     SelectStateIcon(1);
                     RequestPlayerStateUpdate(currentState);
                 }
@@ -159,7 +159,7 @@ public class PlayerManager : MonoBehaviour
         RequestPlayerStateUpdate(i);
     }
 
-    private async void RequestPlayerStateUpdate(int i)
+    public async void RequestPlayerStateUpdate(int i)
     {
         // Todo : Request player state update
         //GameManager.instance.api.Update_PlayerState(i, Login.PID).Forget();
@@ -189,5 +189,11 @@ public class PlayerManager : MonoBehaviour
         }
 
         stateIcons[iconNum].SetActive(true);
+    }
+
+    private void OnApplicationQuit()
+    {
+        Debug.Log("종료 시작");
+        RequestPlayerStateUpdate(0);
     }
 }

@@ -1,9 +1,11 @@
 using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+//using static SaveData;
 
 public class BannerUI : SwipeUI
 {
@@ -35,7 +37,7 @@ public class BannerUI : SwipeUI
             warningText.SetActive(false);
         }
 
-        await PreloadImages(apiUrl, contentCount);
+        await PreloadImages(contentCount);
 
         StartCoroutine(AddContents(contentCount));
     }
@@ -51,6 +53,8 @@ public class BannerUI : SwipeUI
         spawnedContents = new List<BannerInfo>();
         spawnedStepButton = new List<StepButton>();
 
+        List<SaveData.mainBoard> eventBannerInfoValue = GameManager.instance.jsonData.event_List;
+
         // create contents & step buttons
         for (int i = 0; i < contentCount; i++)
         {
@@ -60,10 +64,26 @@ public class BannerUI : SwipeUI
 
             // set banner image
             content.GetComponent<RawImage>().texture = imageCache[i];
+            
+            
 
             BannerInfo bannerInfo = content.GetComponent<BannerInfo>();
 
-            bannerInfo.SetContents("Banner Image_" + (i + 1), "https://www.naver.com/");
+            //bannerInfo.SetContents("Banner Image_" + (i + 1), "https://www.naver.com/");
+
+            bannerInfo.boardNum = eventBannerInfoValue[i].boardNum;
+            bannerInfo.writer = eventBannerInfoValue[i].writer;
+            bannerInfo.title = eventBannerInfoValue[i].title;
+            bannerInfo.content = eventBannerInfoValue[i].content;
+            bannerInfo.webImg = eventBannerInfoValue[i].webImg;
+            bannerInfo.lnchrImg = eventBannerInfoValue[i].lnchrImg;
+            bannerInfo.boardType = eventBannerInfoValue[i].boardType;
+            bannerInfo.openYn = eventBannerInfoValue[i].openYn;
+            bannerInfo.exprPeriod = eventBannerInfoValue[i].exprPeriod;
+            bannerInfo.regDt = eventBannerInfoValue[i].regDt;
+            bannerInfo.upDt = eventBannerInfoValue[i].upDt;
+            bannerInfo.linkURL = "https://www.naver.com/";
+
             bannerInfo.bannerUI = this;
             spawnedContents.Add(bannerInfo);
 
@@ -108,6 +128,9 @@ public class BannerUI : SwipeUI
         {
             SetStopwatch();
         }
+
+        // 다운로드 에러 체크
+        CheckDownloadError();
     }
 
     public void DeleteContents()
@@ -125,38 +148,101 @@ public class BannerUI : SwipeUI
         }
 
         imageCache = new List<Texture2D>();
+        downloadErrorImageIndexNum = new List<bool>();
         spawnedContents.Clear();
         spawnedStepButton.Clear();
     }
     #endregion
 
     #region Banner Image Load
-    public string apiUrl = "https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/snowFieldLoadingBackGround_2.jpg"; // 서버 API URL
+    //public string apiUrl = "https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/snowFieldLoadingBackGround_2.jpg"; // 서버 API URL
     public int compressedWidth = 512; // 압축된 이미지 너비
     //public int numberOfImages = 10; // 생성할 이미지 개수
 
     private List<Texture2D> imageCache = new List<Texture2D>();
+    private List<bool> downloadErrorImageIndexNum = new List<bool>();
 
-    private async UniTask PreloadImages(string url, int count)
+    //private async UniTask PreloadImages(string url, int count)
+    private async UniTask PreloadImages(int count)
     {
+        List<SaveData.mainBoard> eventBannerInfoValue = GameManager.instance.jsonData.event_List;
+
         for (int i = 0; i < count; i++)
         {
-            using (var www = UnityWebRequestTexture.GetTexture(url))
-            {
-                await www.SendWebRequest();
+            //// 정상적인 URL 인지 확인하기
+            //using (var www = UnityWebRequestTexture.GetTexture(eventBannerInfoValue[i].lnchrImg))
+            //{
+            //    await www.SendWebRequest();
 
-                if (www.result == UnityWebRequest.Result.Success)
+            //    if (www.result == UnityWebRequest.Result.Success)
+            //    {
+            //        Texture2D texture = DownloadHandlerTexture.GetContent(www);
+            //        if (texture != null)
+            //        {
+            //            imageCache.Add(texture);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        Debug.Log("Image download failed: " + www.error);
+            //    }
+            //}
+
+            try
+            {
+                Uri uri;
+                if (Uri.TryCreate(eventBannerInfoValue[i].lnchrImg, UriKind.Absolute, out uri))
                 {
-                    Texture2D texture = DownloadHandlerTexture.GetContent(www);
-                    if (texture != null)
+                    using (var www = UnityWebRequestTexture.GetTexture(uri))
                     {
-                        imageCache.Add(texture);
+                        await www.SendWebRequest();
+
+                        if (www.result == UnityWebRequest.Result.Success)
+                        {
+                            Texture2D texture = DownloadHandlerTexture.GetContent(www);
+                            if (texture != null)
+                            {
+                                imageCache.Add(texture);
+                                downloadErrorImageIndexNum.Add(true);
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("[에러]Image download failed: " + www.error);
+                        }
                     }
                 }
                 else
                 {
-                    Debug.Log("Image download failed: " + www.error);
+                    Debug.Log("[에러]Invalid URL: " + eventBannerInfoValue[i].lnchrImg);
+                    //imageCache.Add(new Texture2D(512, 512));
+                    imageCache.Add(new Texture2D(2, 2));
+                    downloadErrorImageIndexNum.Add(false);
                 }
+            }
+            catch (UnityWebRequestException ex)
+            {
+                if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    Debug.LogWarning("[에러]Image not found: " + eventBannerInfoValue[i].lnchrImg);
+                    // 이미지를 찾을 수 없을 때의 처리
+                    imageCache.Add(new Texture2D(2, 2));
+                    downloadErrorImageIndexNum.Add(false);
+                }
+                else
+                {
+                    Debug.LogError("[에러]UnityWebRequestException: " + ex.Message);
+                    // 다른 UnityWebRequestException 처리
+                    imageCache.Add(new Texture2D(2, 2));
+                    downloadErrorImageIndexNum.Add(false);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("[에러] : " + e);
+                // 기타 예외 처리
+                imageCache.Add(new Texture2D(2, 2));
+                downloadErrorImageIndexNum.Add(false);
             }
         }
     }
@@ -184,6 +270,18 @@ public class BannerUI : SwipeUI
         compressedTexture.Apply();
 
         return compressedTexture;
+    }
+
+    private void CheckDownloadError()
+    {
+        for (int i = 0; i < spawnedContents.Count; i++)
+        {
+            if (!downloadErrorImageIndexNum[i])
+            {
+                spawnedContents[i].GetComponent<RawImage>().enabled = false;
+                spawnedContents[i].downloadErrorText.SetActive(true);
+            }
+        }
     }
     #endregion
 }

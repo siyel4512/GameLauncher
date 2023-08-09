@@ -78,7 +78,7 @@ public class PopupManager : MonoBehaviour
     }
 
     // confirm request friend
-    public void BTN_ConfirmRequestFriend()
+    public async void BTN_ConfirmRequestFriend()
     {
         popups[(int)PopupType.UserSearch].SetActive(false);
         popups[(int)PopupType.RequestFriend].SetActive(false);
@@ -89,8 +89,18 @@ public class PopupManager : MonoBehaviour
 
             // 친구 신청
             Debug.Log("[SY] 친구 요청 완료");
-            //GameManager.instance.api.Request_AddFriend(GameManager.instance.jsonData.searchFriend.frndMbrNo, GameManager.instance.jsonData.searchFriend.mbrNo).Forget();
-            GameManager.instance.api.Request_AddFriend(Login.PID, GameManager.instance.jsonData.searchFriendNum).Forget();
+
+            // 내 상태 업데이트
+            await GameManager.instance.api.Update_PlayerState(GameManager.instance.playerManager.currentState, Login.PID);
+
+            if (DEV.instance.isUsingTokenForFriendList)
+            {
+                GameManager.instance.api.Request_AddFriend(Login.PID, GameManager.instance.jsonData.searchFriendNum).Forget();
+            }
+            else
+            {
+                GameManager.instance.api.Temp_Request_AddFriend(Login.playerNum, GameManager.instance.jsonData.searchFriendNum).Forget();
+            }
         }
         else
         {

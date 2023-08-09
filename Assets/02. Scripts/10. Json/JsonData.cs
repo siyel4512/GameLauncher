@@ -5,25 +5,31 @@ using UnityEngine;
 
 public class JsonData : MonoBehaviour
 {
-    //public API testApi;
-    public List<SaveData.friendList> temp_friendListValue;
-    public List<SaveData.friendList> friendListValues;
+    public List<SaveData.friendList> temp_friendList_List;
+    public List<SaveData.friendList> friendList_List;
+
     public SaveData.friendList searchFriend = new SaveData.friendList();
     public string searchFriendNum;
 
-    // Todo : data type
-    //public List<SaveData.requestFriendList> temp_requestFriendListValues;
-    //public List<SaveData.requestFriendList> requestFriendListValues;
     public List<SaveData.friendList> temp_requestFriendListValues;
     public List<SaveData.friendList> requestFriendListValues;
-
-    public List<SaveData.friendList> frndInfoList1;
-    public List<SaveData.friendList> frndInfoList2;
 
     public SaveData.downloadUrlList temp_donwloadUrl;
     public SaveData.downloadUrlList donwloadUrl;
 
     public List<SaveData.downloadUrlList> temp_donwloadUrlList;
+
+    public List<SaveData.mainBoard> temp_event_List;
+    public List<SaveData.mainBoard> event_List;
+
+    public List<SaveData.mainBoard> temp_shortNotice_List;
+    public List<SaveData.mainBoard> shortNotice_List;
+
+    public List<SaveData.mainBoard> temp_news_List;
+    public List<SaveData.mainBoard> news_List;
+
+    public List<SaveData.mainBoard> temp_guide_List;
+    public List<SaveData.mainBoard> guide_List;
 
     // Start is called before the first frame update
     void Start()
@@ -45,74 +51,7 @@ public class JsonData : MonoBehaviour
         //}
     }
 
-    #region Test
-    // Todo : 삭제 예정
-    public void Test_SetJsonData()
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            frndInfoList1[i].ncnm = "배트맨";
-            frndInfoList1[i].frndNo = 1;
-            frndInfoList1[i].mbrNo = 1;
-            frndInfoList1[i].frndMbrNo = 1;
-            frndInfoList1[i].frndSttus = "1";
-            frndInfoList1[i].frndRqstSttus = "2";
-            frndInfoList1[i].frndRqstDt = "2023-06-22 00:00:00.0";
-            frndInfoList1[i].upDt = "2023-06-22 00:00:00.0";
-            frndInfoList1[i].regDt = "2023-06-22 00:00:00.0";
-        }
-
-        for (int i = 0; i < 3; i++)
-        {
-            frndInfoList2[i].ncnm = "슈퍼맨";
-            frndInfoList2[i].frndNo = 1;
-            frndInfoList2[i].mbrNo = 1;
-            frndInfoList2[i].frndMbrNo = 1;
-            frndInfoList2[i].frndSttus = "1";
-            frndInfoList2[i].frndRqstSttus = "2";
-            frndInfoList2[i].frndRqstDt = "2023-06-22 00:00:00.0";
-            frndInfoList2[i].upDt = "2023-06-22 00:00:00.0";
-            frndInfoList2[i].regDt = "2023-06-22 00:00:00.0";
-        }
-    }
-
-    public void Test_CompareToFriendList()
-    {
-        bool isSame = true;
-
-        if (frndInfoList1.Count == frndInfoList2.Count)
-        {
-            for (int i = 0; i < frndInfoList1.Count; i++)
-            {
-                SaveData.friendList friend1 = frndInfoList1[i];
-                SaveData.friendList friend2 = frndInfoList2[i];
-
-                // 각 필드 값을 비교합니다.
-                if (friend1.ncnm != friend2.ncnm
-                    || friend1.frndNo != friend2.frndNo
-                    || friend1.mbrNo != friend2.mbrNo
-                    || friend1.frndMbrNo != friend2.frndMbrNo
-                    || friend1.frndSttus != friend2.frndSttus
-                    || friend1.frndRqstSttus != friend2.frndRqstSttus
-                    || friend1.frndRqstDt != friend2.frndRqstDt
-                    || friend1.upDt != friend2.upDt
-                    || friend1.regDt != friend2.regDt)
-                {
-                    isSame = false;
-                    break;
-                }
-            }
-        }
-        else
-        {
-            isSame = false;
-        }
-
-        Debug.Log("[SY] : " + isSame);
-    }
-    #endregion
-
-    #region compare to json data
+    #region compare to json data (friend list)
     // compare to friend & request list
     public bool CompareToFriendList(List<SaveData.friendList> _list, List<SaveData.friendList> _temp_list)
     {
@@ -167,16 +106,92 @@ public class JsonData : MonoBehaviour
     }
     #endregion
 
+    #region compare to json data (mainboard)
+    public bool CompareToMainBoard(List<SaveData.mainBoard> _list, List<SaveData.mainBoard> _temp_list)
+    {
+        bool isSame = true;
+
+        // compare to values
+        if (_list.Count == _temp_list.Count)
+        {
+            for (int i = 0; i < _list.Count; i++)
+            {
+                SaveData.mainBoard list = _list[i];
+                SaveData.mainBoard temp_list = _temp_list[i];
+
+                if (list.boardNum != temp_list.boardNum
+                    || list.writer != temp_list.writer
+                    || list.title != temp_list.title
+                    || list.content != temp_list.content
+                    || list.webImg != temp_list.webImg
+                    || list.lnchrImg != temp_list.lnchrImg
+                    || list.boardType != temp_list.boardType
+                    || list.openYn != temp_list.openYn
+                    || list.exprPeriod != temp_list.exprPeriod
+                    || list.upDt != temp_list.upDt
+                    || list.regDt != temp_list.regDt)
+                {
+                    isSame = false;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            isSame = false;
+        }
+
+        // set current value
+        if (!isSame)
+        {
+            for (int i = 0; i < _temp_list.Count; i++)
+            {
+                _list[i].boardNum = _temp_list[i].boardNum;
+                _list[i].writer = _temp_list[i].writer;
+                _list[i].title = _temp_list[i].title;
+                _list[i].content = _temp_list[i].content;
+                _list[i].webImg = _temp_list[i].webImg;
+                _list[i].lnchrImg = _temp_list[i].lnchrImg;
+                _list[i].boardType = _temp_list[i].boardType;
+                _list[i].openYn = _temp_list[i].openYn;
+                _list[i].exprPeriod = _temp_list[i].exprPeriod;
+                _list[i].upDt = _temp_list[i].upDt;
+                _list[i].regDt = _temp_list[i].regDt;
+            }
+        }
+
+        return isSame;
+    }
+    #endregion
+
     #region reset
     public void ResetFriendListJsonData()
     {
-        temp_friendListValue = new List<SaveData.friendList>();
-        friendListValues = new List<SaveData.friendList>();
+        temp_friendList_List = new List<SaveData.friendList>();
+        friendList_List = new List<SaveData.friendList>();
 
         searchFriend = new SaveData.friendList();
+        searchFriendNum = "";
 
         temp_requestFriendListValues = new List<SaveData.friendList>();
         requestFriendListValues = new List<SaveData.friendList>();
-    }
+
+        //temp_donwloadUrl = new SaveData.downloadUrlList();
+        //donwloadUrl = new SaveData.downloadUrlList();
+
+        temp_donwloadUrlList = new List<SaveData.downloadUrlList>();
+
+        temp_event_List = new List<SaveData.mainBoard>();
+        event_List = new List<SaveData.mainBoard>();
+
+        temp_shortNotice_List = new List<SaveData.mainBoard>();
+        shortNotice_List = new List<SaveData.mainBoard>();
+
+        temp_news_List = new List<SaveData.mainBoard>();
+        news_List = new List<SaveData.mainBoard>();
+
+        temp_guide_List = new List<SaveData.mainBoard>();
+        guide_List = new List<SaveData.mainBoard>();
+}
     #endregion
 }

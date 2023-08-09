@@ -51,22 +51,22 @@ public class FriendInfo : MonoBehaviour
         {
             case "0":
                 state_text.text = "오프라인";
-                stateIcon.color = Color.gray;
+                //stateIcon.color = Color.gray;
                 SetStateIcon(3);
                 break;
             case "1":
                 state_text.text = "온라인";
-                stateIcon.color = Color.green;
+                //stateIcon.color = Color.green;
                 SetStateIcon(0);
                 break;
             case "2":
                 state_text.text = "자리 비움";
-                stateIcon.color = Color.yellow;
+                //stateIcon.color = Color.yellow;
                 SetStateIcon(1);
                 break;
             case "3":
                 state_text.text = "다른 용무 중";
-                stateIcon.color = Color.red;
+                //stateIcon.color = Color.red;
                 SetStateIcon(2);
                 break;
         }

@@ -1,8 +1,11 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.RegularExpressions;
 using UnityEngine;
-using static System.Net.WebRequestMethods;
 
 public class API : URL
 {
@@ -34,8 +37,13 @@ public class API : URL
 
     #region Friend List
     // friend list
-    public async UniTaskVoid Request_FriendList()
+    public async UniTaskVoid Request_FriendList(bool isUsingPlayerUpdate = false)
     {
+        if (isUsingPlayerUpdate)
+        {
+            await GameManager.instance.api.Update_PlayerState(GameManager.instance.playerManager.currentState, Login.PID);
+        }
+
         await UniTask.SwitchToThreadPool();
 
         Debug.Log("Request_FriendList() start()");
@@ -66,13 +74,13 @@ public class API : URL
 
             List<SaveData.friendList> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
             //jsonData.temp_friendListValue = null;
-            jsonData.temp_friendListValue = new List<SaveData.friendList>();
+            jsonData.temp_friendList_List = new List<SaveData.friendList>();
             
             for (int i = 0; tempSaveData.Count > i; i++)
             {
                 if (tempSaveData[i].frndRqstSttus == "1")
                 {
-                    jsonData.temp_friendListValue.Add(tempSaveData[i]);
+                    jsonData.temp_friendList_List.Add(tempSaveData[i]);
                 }
             }
         }
@@ -84,29 +92,30 @@ public class API : URL
         await UniTask.SwitchToMainThread();
 
         // set friend list count
-        friendListManager.friendCount = jsonData.temp_friendListValue.Count;
+        friendListManager.friendCount = jsonData.temp_friendList_List.Count;
 
         // frist time setting
-        if (jsonData.friendListValues.Count == 0 || (jsonData.friendListValues.Count != jsonData.temp_friendListValue.Count))
+        if (jsonData.friendList_List.Count == 0 || (jsonData.friendList_List.Count != jsonData.temp_friendList_List.Count))
         {
             //Debug.Log("값 없음");
-            //jsonData.friendListValues = null;
-            //jsonData.friendListValues = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
-            //jsonData.friendListValues = jsonData.temp_friendListValue;
+            //jsonData.friendList_List = new List<SaveData.friendList>();
 
-            jsonData.friendListValues = new List<SaveData.friendList>();
+            if (jsonData.friendList_List.Count != 0)
+            {
+                // delete data
+                friendListManager.DeleteList();
+            }
+
             List<SaveData.friendList> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
-            jsonData.friendListValues = new List<SaveData.friendList>();
+            jsonData.friendList_List = new List<SaveData.friendList>();
 
             for (int i = 0; tempSaveData.Count > i; i++)
             {
                 if (tempSaveData[i].frndRqstSttus == "1")
                 {
-                    jsonData.friendListValues.Add(tempSaveData[i]);
+                    jsonData.friendList_List.Add(tempSaveData[i]);
                 }
             }
-
-            //Debug.Log("[SY] "+jsonData.friendListValues.Count);
 
             // create data
             //StartCoroutine(friendListManager.CreateList());
@@ -115,12 +124,12 @@ public class API : URL
         else
         {
             // compare to json data
-            bool isCompareResult = jsonData.CompareToFriendList(jsonData.friendListValues, jsonData.temp_friendListValue);
+            bool isCompareResult = jsonData.CompareToFriendList(jsonData.friendList_List, jsonData.temp_friendList_List);
             //Debug.Log("[SY] : " + isCompareResult);
 
             if (!isCompareResult)
             {
-                // delete date
+                // delete data
                 friendListManager.DeleteList();
 
                 // create data
@@ -168,18 +177,6 @@ public class API : URL
                 jsonData.searchFriendNum = requestResult;
                 isSuccessSearch = true;
             }
-
-            //if (JsonUtility.FromJson<SaveData>(requestResult).frndInfoList.Count <= 0)
-            //{
-            //    Debug.Log("해당 유저 없음");
-            //    isSuccessSearch = false;
-            //}
-            //else
-            //{
-            //    Debug.Log("해당 유저 존재");
-            //    jsonData.searchFriend = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList[0];
-            //    isSuccessSearch = true;
-            //}
         }
         else
         {
@@ -194,7 +191,7 @@ public class API : URL
     }
 
     // add friend
-    public async UniTaskVoid Request_AddFriend(string token, string mbrNo)
+    public async UniTaskVoid Temp_Request_AddFriend(string myNo, string mbrNo)
     {
         await UniTask.SwitchToThreadPool();
         Debug.Log("Request_AddFriend() start()");
@@ -203,11 +200,10 @@ public class API : URL
 
         var param = new Dictionary<string, string>
         {
-            //{ "frndMbrNo", frndMbrNo.ToString() },
-            //{ "mbrNo", mbrNo.ToString() }
-            //{ "token", Login.PID },
-            { "token", token },
-            { "frndMbrNo", mbrNo }
+            //{ "mbrNo", myNo },
+            //{ "frndMbrNo", mbrNo }
+            { "mbrNo", mbrNo },
+            { "frndMbrNo", myNo }
         };
 
         var content = new FormUrlEncodedContent(param);
@@ -230,6 +226,42 @@ public class API : URL
         }
         await UniTask.SwitchToMainThread();
         
+        GameManager.instance.friendListManager.ResetSearchUserNickName();
+    }
+
+    public async UniTaskVoid Request_AddFriend(string token, string mbrNo)
+    {
+        await UniTask.SwitchToThreadPool();
+        Debug.Log("Request_AddFriend() start()");
+        JsonData jsonData = GameManager.instance.jsonData;
+        FriendListManager friendListManager = GameManager.instance.friendListManager;
+
+        var param = new Dictionary<string, string>
+        {
+            { "token", token }, // Todo : 추후 변경 예정
+            { "frndMbrNo", mbrNo }
+        };
+
+        var content = new FormUrlEncodedContent(param);
+
+        //HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
+
+        HttpClient client = new HttpClient();
+        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/insertFrndInfo.do", content);
+        var response = await client.PostAsync(addFriendURL, content);
+        string requestResult = await response.Content.ReadAsStringAsync();
+
+        if (response.IsSuccessStatusCode)
+        {
+            Debug.Log("응답 성공");
+            Debug.Log("친구 신청 결과 : " + requestResult);
+        }
+        else
+        {
+            Debug.Log("응답 실패 (친구 신청 결과) : " + requestResult);
+        }
+        await UniTask.SwitchToMainThread();
+
         GameManager.instance.friendListManager.ResetSearchUserNickName();
     }
     #endregion
@@ -293,11 +325,13 @@ public class API : URL
         if (jsonData.requestFriendListValues.Count == 0 || (jsonData.requestFriendListValues.Count != jsonData.temp_requestFriendListValues.Count))
         {
             //Debug.Log("값 없음");
-            //jsonData.requestFriendListValues = null;
-            //jsonData.requestFriendListValues = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
-            //jsonData.requestFriendListValues = jsonData.temp_requestFriendListValues;
+            //jsonData.requestFriendListValues = new List<SaveData.friendList>();
 
-            jsonData.requestFriendListValues = new List<SaveData.friendList>();
+            if (jsonData.requestFriendListValues.Count != 0)
+            {
+                // delete data
+                requestFriendManager.DeleteRequestList();
+            }
 
             List<SaveData.friendList> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
             jsonData.requestFriendListValues = new List<SaveData.friendList>();
@@ -310,8 +344,6 @@ public class API : URL
                 }
             }
 
-            //Debug.Log($"[SY] {jsonData.requestFriendListValues.Count}");
-
             // create data
             StartCoroutine(requestFriendManager.CreateRequestList());
         }
@@ -323,7 +355,7 @@ public class API : URL
 
             if (!isCompareResult)
             {
-                // delete date
+                // delete data
                 requestFriendManager.DeleteRequestList();
 
                 // create data
@@ -335,12 +367,7 @@ public class API : URL
     // request accept
     public async UniTask Request_Accept(int _mbrNo, int _frndMbrNo)
     {
-        //await UniTask.SwitchToThreadPool();
-
         Debug.Log("Request_Accept() start()");
-
-        //JsonData jsonData = GameManager.instance.jsonData;
-        //RequestFriendManager requestFriendManager = GameManager.instance.requestFriendManager;
 
         var param = new Dictionary<string, string>
         {
@@ -364,17 +391,12 @@ public class API : URL
         {
             Debug.Log("응답 실패 (친구 요청 승락 결과 ) : " + requestResult);
         }
-
-        //await UniTask.SwitchToMainThread();
     }
 
     // request refuse & delete
     public async UniTask Request_RefuseNDelete(int _mbrNo, int _frndMbrNo)
     {
         Debug.Log("Request_RefuseNDelete() start()");
-
-        //JsonData jsonData = GameManager.instance.jsonData;
-        //RequestFriendManager requestFriendManager = GameManager.instance.requestFriendManager;
 
         var param = new Dictionary<string, string>
         {
@@ -395,7 +417,6 @@ public class API : URL
         {
             Debug.Log("응답 성공");
             Debug.Log("거절 및 삭제 결과 : " + requestResult);
-            //jsonData.temp_requestFriendListValues = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList; // temp data save
         }
         else
         {
@@ -406,10 +427,8 @@ public class API : URL
 
     #region player state
     // upudate player state
-    //public async UniTaskVoid Update_PlayerState(int status, string token) 
     public async UniTask Update_PlayerState(int status, string token) 
     {
-        //await UniTask.SwitchToThreadPool();
         Debug.Log("Update_PlayerState() start()");
 
         var param = new Dictionary<string, string>
@@ -439,8 +458,6 @@ public class API : URL
             GameManager.instance.popupManager.popups[(int)PopupType.InvalidPID].SetActive(true);
         }
 
-        //await UniTask.SwitchToMainThread();
-        
         Debug.Log($"{status}번으로 상태 변경 요청 완료!!!");
     }
     #endregion
@@ -543,37 +560,268 @@ public class API : URL
     #endregion
 
     #region event banner & notice
-    // event banner
-    public async UniTaskVoid Request_EventBanner()
+    public async UniTaskVoid Request_MainBoard(int boardType)
     {
         await UniTask.SwitchToThreadPool();
-        Debug.Log("Request_EventBanner() start()");
+
+        Debug.Log("[Request_MainBoard] Request_MainBoard() start()");
+
+        JsonData jsonData = GameManager.instance.jsonData;
+        BannerNoticeManager bannerNoticeManager = GameManager.instance.bannerNoticeManager;
+
+        int _boardType;
+
+        if (boardType == 2)
+        {
+            _boardType = 0;
+        }
+        else
+        {
+            _boardType = boardType;
+        }
+
+        var param = new Dictionary<string, string>
+        {
+            { "boardType", _boardType.ToString() }
+        };
+
+        var content = new FormUrlEncodedContent(param);
+
+        HttpClient client = new HttpClient();
+        var response = await client.PostAsync(mainBoardURP, content);
+        string requestResult = await response.Content.ReadAsStringAsync();
+
+        if (response.IsSuccessStatusCode)
+        {
+            Debug.Log("[Request_MainBoard] 응답 성공");
+            Debug.Log("[Request_MainBoard] 게시글 요청 결과 : " + requestResult);
+
+            List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).mainboardlist;
+
+            switch (boardType)
+            {
+                case 0:
+                    // 이벤트
+                    jsonData.temp_event_List = new List<SaveData.mainBoard>();
+                    //jsonData.temp_event_List = tempSaveData;
+                    jsonData.temp_event_List = OrderSort(tempSaveData, false);
+                    break;
+                case 1:
+                    // 공지사항
+                    jsonData.temp_shortNotice_List = new List<SaveData.mainBoard>();
+                    //jsonData.temp_shortNotice_List = tempSaveData;
+                    jsonData.temp_shortNotice_List = OrderSort(tempSaveData, false);
+                    break;
+                case 2:
+                    // 소식
+                    jsonData.temp_news_List = new List<SaveData.mainBoard>();
+                    //jsonData.temp_news_List = tempSaveData;
+                    jsonData.temp_news_List = OrderSort(tempSaveData, false);
+                    break;
+                case 3:
+                    // 가이드
+                    Debug.Log("가이드 : " + requestResult);
+                    jsonData.temp_guide_List = new List<SaveData.mainBoard>();
+                    //jsonData.temp_guide_List = tempSaveData;
+                    jsonData.temp_guide_List = OrderSort(tempSaveData, true);
+                    break;
+            }
+        }
+        else
+        {
+            Debug.Log("[Request_MainBoard] 응답 실패 (게시글 요청 결과) : " + requestResult);
+        }
+
         await UniTask.SwitchToMainThread();
 
-        BannerNoticeManager bannerNoticeManager = GameManager.instance.bannerNoticeManager;
-        bannerNoticeManager.bannerUI.TryAddContents(bannerNoticeManager.eventBannerCount);
+        // set conents list count
+        SetMainBoardData(boardType, requestResult);
     }
 
-    // notice
-    public async UniTaskVoid Request_Notice()
+    private void SetMainBoardData(int boardType, string requestResult)
     {
-        await UniTask.SwitchToThreadPool();
-        Debug.Log("Request_Notice() start()");
-        await UniTask.SwitchToMainThread();
-
+        Debug.Log("[Request_MainBoard] SetMainBoardData() Start");
         BannerNoticeManager bannerNoticeManager = GameManager.instance.bannerNoticeManager;
-        bannerNoticeManager.shortNotice.SetContents(bannerNoticeManager.shortNoticeCount);
+        JsonData jsonData = GameManager.instance.jsonData;
+
+        switch (boardType)
+        {
+            // event banner
+            case 0:
+                // set event count
+                bannerNoticeManager.eventBannerCount = jsonData.temp_event_List.Count;
+
+                // frist time setting
+                if (jsonData.event_List.Count == 0 || (jsonData.event_List.Count != jsonData.temp_event_List.Count))
+                {
+                    if (jsonData.event_List.Count != 0)
+                    {
+                        // delete data
+                        bannerNoticeManager.bannerUI.DeleteContents();
+                    }
+
+                    jsonData.event_List = new List<SaveData.mainBoard>();
+                    List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).mainboardlist;
+                    //jsonData.event_List = tempSaveData;
+                    jsonData.event_List = OrderSort(tempSaveData, false);
+
+                    // create data
+                    bannerNoticeManager.CreateEventBanner();
+                }
+                else
+                {
+                    // compare to json data
+                    bool isCompareResult = jsonData.CompareToMainBoard(jsonData.event_List, jsonData.temp_event_List);
+
+                    if (!isCompareResult)
+                    {
+                        // delete data
+                        bannerNoticeManager.bannerUI.DeleteContents();
+
+                        // create data
+                        bannerNoticeManager.CreateEventBanner();
+                    }
+                }
+                break;
+            // short notice
+            case 1:
+                // set short notice count
+                bannerNoticeManager.shortNoticeCount = jsonData.temp_shortNotice_List.Count;
+
+                // frist time setting
+                if (jsonData.shortNotice_List.Count == 0 || (jsonData.shortNotice_List.Count != jsonData.temp_shortNotice_List.Count))
+                {
+                    if (jsonData.shortNotice_List.Count != 0)
+                    {
+                        // delete data
+                        bannerNoticeManager.shortNotice.ResetShortNoticeInfo();
+                    }
+
+                    jsonData.shortNotice_List = new List<SaveData.mainBoard>();
+                    List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).mainboardlist;
+                    //jsonData.shortNotice_List = tempSaveData;
+                    jsonData.shortNotice_List = OrderSort(tempSaveData, false);
+
+                    // create data
+                    bannerNoticeManager.SetNotice();
+                }
+                else
+                {
+                    // compare to json data
+                    bool isCompareResult = jsonData.CompareToMainBoard(jsonData.shortNotice_List, jsonData.temp_shortNotice_List);
+
+                    if (!isCompareResult)
+                    {
+                        // delete data
+                        bannerNoticeManager.shortNotice.ResetShortNoticeInfo();
+
+                        // create data
+                        bannerNoticeManager.SetNotice();
+                    }
+                }
+                break;
+            // event news
+            case 2:
+                // set event news count
+                bannerNoticeManager.eventNewsCount = jsonData.temp_news_List.Count;
+
+                // frist time setting
+                if (jsonData.news_List.Count == 0 || (jsonData.news_List.Count != jsonData.temp_news_List.Count))
+                {
+                    if (jsonData.news_List.Count != 0)
+                    {
+                        // delete data
+                        bannerNoticeManager.noticeUI.DeleteContents();
+                    }
+
+                    jsonData.news_List = new List<SaveData.mainBoard>();
+                    List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).mainboardlist;
+                    //jsonData.news_List = tempSaveData;
+                    jsonData.news_List = OrderSort(tempSaveData, false);
+
+                    // create data
+                    bannerNoticeManager.CreateNews();
+                }
+                else
+                {
+                    // compare to json data
+                    bool isCompareResult = jsonData.CompareToMainBoard(jsonData.news_List, jsonData.temp_news_List);
+
+                    if (!isCompareResult)
+                    {
+                        // delete data
+                        bannerNoticeManager.noticeUI.DeleteContents();
+
+                        // create data
+                        bannerNoticeManager.CreateNews();
+                    }
+                }
+                break;
+            // download guide
+            case 3:
+                // set download guide count
+                bannerNoticeManager.guideCount = jsonData.temp_guide_List.Count;
+
+                // frist time setting
+                if (jsonData.guide_List.Count == 0 || (jsonData.guide_List.Count != jsonData.temp_guide_List.Count))
+                {
+                    Debug.Log("[Reust_MainBoard] frist time settng");
+
+                    if (jsonData.guide_List.Count != 0)
+                    {
+                        // delete data
+                        bannerNoticeManager.guideInfo[0].ResetLinkURL();
+                        bannerNoticeManager.guideInfo[1].ResetLinkURL();
+                    }
+
+                    jsonData.guide_List = new List<SaveData.mainBoard>();
+                    List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).mainboardlist;
+                    //jsonData.guide_List = tempSaveData;
+                    jsonData.guide_List = OrderSort(tempSaveData, true);
+
+                    // create data
+                    bannerNoticeManager.SetGuideDowloadLink();
+                }
+                else
+                {
+                    Debug.Log("[Reust_MainBoard] compare to json data");
+                    // compare to json data
+                    bool isCompareResult = jsonData.CompareToMainBoard(jsonData.guide_List, jsonData.temp_guide_List);
+
+                    if (!isCompareResult)
+                    {
+                        Debug.Log("[Reust_MainBoard] compare to json data");
+                        // delete data
+                        bannerNoticeManager.guideInfo[0].ResetLinkURL();
+                        bannerNoticeManager.guideInfo[1].ResetLinkURL();
+
+                        // create data
+                        bannerNoticeManager.SetGuideDowloadLink();
+                    }
+                }
+                break;
+        }
     }
 
-    // Event News
-    public async UniTaskVoid Request_EventNews()
+    private List<SaveData.mainBoard> OrderSort(List<SaveData.mainBoard> _target, bool isAscending)
     {
-        await UniTask.SwitchToThreadPool();
-        Debug.Log("Request_CuriverseNotice() start()");
-        await UniTask.SwitchToMainThread();
+        List<SaveData.mainBoard> target = new List<SaveData.mainBoard>();
 
-        BannerNoticeManager bannerNoticeManager = GameManager.instance.bannerNoticeManager;
-        bannerNoticeManager.noticeUIs.TryAddContents(bannerNoticeManager.eventNewsCount);
+        if (isAscending)
+        {
+            target = _target.OrderBy(x => x.boardNum).ToList();
+        }
+        else
+        {
+            target = _target.OrderByDescending(x => x.boardNum).ToList();
+        }
+
+        //for (int i = 0; i < target.Count; i++)
+        //{
+        //    Debug.Log("[정렬] : " + target[i].boardNum);
+        //}
+
+        return target;
     }
 
     public async UniTaskVoid Request_GuideDownload1()
