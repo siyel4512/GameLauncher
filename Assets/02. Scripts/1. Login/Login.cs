@@ -310,6 +310,8 @@ public class Login : MonoBehaviour
         gameManager.bannerNoticeManager.guideInfo[0].ResetLinkURL();
         gameManager.bannerNoticeManager.guideInfo[1].ResetLinkURL();
 
+        gameManager.bannerNoticeManager.mainBoardScrollPos.anchoredPosition = new Vector2(0, 0);
+
         //GameManager.instance.ResetBuildFilePath();
 
         gameManager.jsonData.ResetFriendListJsonData();

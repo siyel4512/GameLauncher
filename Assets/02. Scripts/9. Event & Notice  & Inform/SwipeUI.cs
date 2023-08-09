@@ -73,7 +73,7 @@ public class SwipeUI : MonoBehaviour
     }
 
     // swipe effect play
-    private IEnumerator OnSwipeOneStep(int indexNum)
+    private IEnumerator OnSwipeOneStep(int indexNum, bool isUsingStepButton = false)
     {
         // swipe content
         float start = scrollBar.value;
@@ -81,15 +81,23 @@ public class SwipeUI : MonoBehaviour
         float percent = 0;
 
         isSwipeMode = true;
-
-        while (percent < 1)
+        
+        if (scrollPageValues[indexNum] == 0 && isUsingStepButton)
         {
-            current += Time.deltaTime;
-            percent = current / swipeTime;
+            scrollBar.value = 0;
+        }
+        else
+        {
+            while (percent < 1)
+            {
+                current += Time.deltaTime;
+                percent = current / swipeTime;
 
-            scrollBar.value = Mathf.Lerp(start, scrollPageValues[indexNum], percent);
+                scrollBar.value = Mathf.Lerp(start, scrollPageValues[indexNum], percent);
 
-            yield return null;
+                yield return null;
+            }
+
         }
 
         isSwipeMode = false;
@@ -242,7 +250,7 @@ public class SwipeUI : MonoBehaviour
 
     private void ChangeContent(object sender, ElapsedEventArgs e)
     {
-        Debug.Log("next content");
+        //Debug.Log("next content");
 
         currentPage++;
 
@@ -250,20 +258,20 @@ public class SwipeUI : MonoBehaviour
         {
             previousButton.interactable = true;
             nextButton.interactable = false;
-            Debug.Log("last");
+            //Debug.Log("last");
         }
         else if (currentPage > maxPage - 1)
         {
             currentPage = 0;
             previousButton.interactable = false;
             nextButton.interactable = true;
-            Debug.Log("reset");
+            //Debug.Log("reset");
         }
         else
         {
             previousButton.interactable = true;
             nextButton.interactable = true;
-            Debug.Log("yet");
+            //Debug.Log("yet");
         }
 
         StartCoroutine(OnSwipeOneStep(currentPage));
@@ -334,7 +342,7 @@ public class SwipeUI : MonoBehaviour
                 nextButton.interactable = true;
             }
 
-            StartCoroutine(OnSwipeOneStep(currentPage));
+            StartCoroutine(OnSwipeOneStep(currentPage, true));
         }
     }
 

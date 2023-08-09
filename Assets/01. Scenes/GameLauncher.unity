@@ -20898,6 +20898,7 @@ MonoBehaviour:
   shortNoticeCount: 3
   eventNewsCount: 10
   guideCount: 0
+  mainBoardScrollPos: {fileID: 773876714}
 --- !u!114 &1385737053
 MonoBehaviour:
   m_ObjectHideFlags: 0

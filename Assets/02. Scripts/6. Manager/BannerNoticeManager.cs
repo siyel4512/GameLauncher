@@ -17,17 +17,7 @@ public class BannerNoticeManager : MonoBehaviour
     public int eventNewsCount;
     public int guideCount;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    public RectTransform mainBoardScrollPos;
 
     public void CreateAllContents()
     {
