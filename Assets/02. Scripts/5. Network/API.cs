@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks.CompilerServices;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -68,8 +69,7 @@ public class API : URL
 
         if (response.IsSuccessStatusCode)
         {
-            Debug.Log("응답 성공");
-            Debug.Log("친구 리스트 결과 : " + requestResult);
+            Debug.Log("응답 성공 (친구 리스트 결과) : " + requestResult);
             //jsonData.temp_friendListValue = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList; // temp data save
 
             List<SaveData.friendList> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
@@ -162,8 +162,7 @@ public class API : URL
 
         if (response.IsSuccessStatusCode)
         {
-            Debug.Log("응답 성공");
-            Debug.Log("친구 검색 결과 : " + requestResult);
+            Debug.Log("응답 성공 (친구 검색 결과) : " + requestResult);
             
             if (requestResult == "no nick")
             {
@@ -217,8 +216,7 @@ public class API : URL
 
         if (response.IsSuccessStatusCode)
         {
-            Debug.Log("응답 성공");
-            Debug.Log("친구 신청 결과 : " + requestResult);
+            Debug.Log("응답 성공 (친구 신청 결과) : " + requestResult);
         }
         else
         {
@@ -253,8 +251,7 @@ public class API : URL
 
         if (response.IsSuccessStatusCode)
         {
-            Debug.Log("응답 성공");
-            Debug.Log("친구 신청 결과 : " + requestResult);
+            Debug.Log("응답 성공 (친구 신청 결과) : " + requestResult);
         }
         else
         {
@@ -294,12 +291,9 @@ public class API : URL
 
         if (response.IsSuccessStatusCode)
         {
-            Debug.Log("응답 성공");
-            Debug.Log("친구 요청 리스트 결과 : " + requestResult);
-            //jsonData.temp_requestFriendListValues = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList; // temp data save
+            Debug.Log("응답 성공 (친구 요청 리스트 결과) : " + requestResult);
             
             List<SaveData.friendList> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
-            //jsonData.temp_requestFriendListValues = null;
             jsonData.temp_requestFriendListValues = new List<SaveData.friendList>();
 
             for (int i = 0; tempSaveData.Count > i; i++)
@@ -384,12 +378,11 @@ public class API : URL
 
         if (response.IsSuccessStatusCode)
         {
-            Debug.Log("응답 성공");
-            Debug.Log("친구 요청 승락 결과 : " + requestResult);
+            Debug.Log("응답 성공 (친구 요청 승락 결과) : " + requestResult);
         }
         else
         {
-            Debug.Log("응답 실패 (친구 요청 승락 결과 ) : " + requestResult);
+            Debug.Log("응답 실패 (친구 요청 승락 결과) : " + requestResult);
         }
     }
 
@@ -415,8 +408,7 @@ public class API : URL
 
         if (response.IsSuccessStatusCode)
         {
-            Debug.Log("응답 성공");
-            Debug.Log("거절 및 삭제 결과 : " + requestResult);
+            Debug.Log("응답 성공 (거절 및 삭제 결과) : " + requestResult);
         }
         else
         {
@@ -446,8 +438,8 @@ public class API : URL
 
         if (response.IsSuccessStatusCode)
         {
-            Debug.Log("응답 성공");
-            Debug.Log("플레이어 상태 변경 결과 : " + requestResult);
+            Debug.Log("응답 성공 (플레이어 상태 변경 결과) : " + requestResult);
+            Debug.Log($"{status}번으로 상태 변경 요청 완료!!!");
         }
         else
         {
@@ -457,8 +449,6 @@ public class API : URL
             // pid값이 유효하지 않습니다.
             GameManager.instance.popupManager.popups[(int)PopupType.InvalidPID].SetActive(true);
         }
-
-        Debug.Log($"{status}번으로 상태 변경 요청 완료!!!");
     }
     #endregion
 
@@ -485,8 +475,7 @@ public class API : URL
 
         if (response.IsSuccessStatusCode)
         {
-            Debug.Log("응답 성공");
-            Debug.Log("다운로드 경로 결과 : " + requestResult);
+            Debug.Log("응답 성공 (다운로드 경로 결과) : " + requestResult);
 
             string zipPath = JsonUtility.FromJson<SaveData.downloadUrlList>(requestResult).zip_path;
             string jsonPath = JsonUtility.FromJson<SaveData.downloadUrlList>(requestResult).json_path;
@@ -494,6 +483,7 @@ public class API : URL
             jsonData.temp_donwloadUrl.zip_path = zipPath; // temp data save
             jsonData.temp_donwloadUrl.json_path = jsonPath; // temp data save
 
+            Debug.Log("[SY] 인덱스값 " + (int)_folderFlag);
             jsonData.temp_donwloadUrlList[(int)_folderFlag].zip_path = zipPath;
             jsonData.temp_donwloadUrlList[(int)_folderFlag].json_path = jsonPath;
 
@@ -527,8 +517,7 @@ public class API : URL
 
         if (response.IsSuccessStatusCode)
         {
-            Debug.Log("응답 성공");
-            Debug.Log("다운로드 경로 결과 : " + requestResult);
+            Debug.Log("응답 성공 (다운로드 경로 결과) : " + requestResult);
 
             string zipPath = JsonUtility.FromJson<SaveData.downloadUrlList>(requestResult).zip_path;
             string jsonPath = JsonUtility.FromJson<SaveData.downloadUrlList>(requestResult).json_path;
@@ -593,8 +582,7 @@ public class API : URL
 
         if (response.IsSuccessStatusCode)
         {
-            Debug.Log("[Request_MainBoard] 응답 성공");
-            Debug.Log("[Request_MainBoard] 게시글 요청 결과 : " + requestResult);
+            Debug.Log("응답 성공 (게시글 요청 결과) : " + requestResult);
 
             List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).mainboardlist;
 
@@ -629,21 +617,12 @@ public class API : URL
         }
         else
         {
-            Debug.Log("[Request_MainBoard] 응답 실패 (게시글 요청 결과) : " + requestResult);
+            Debug.Log("응답 실패 (게시글 요청 결과) : " + requestResult);
         }
 
         await UniTask.SwitchToMainThread();
 
         // set conents list count
-        SetMainBoardData(boardType, requestResult);
-    }
-
-    private void SetMainBoardData(int boardType, string requestResult)
-    {
-        Debug.Log("[Request_MainBoard] SetMainBoardData() Start");
-        BannerNoticeManager bannerNoticeManager = GameManager.instance.bannerNoticeManager;
-        JsonData jsonData = GameManager.instance.jsonData;
-
         switch (boardType)
         {
             // event banner
@@ -765,8 +744,6 @@ public class API : URL
                 // frist time setting
                 if (jsonData.guide_List.Count == 0 || (jsonData.guide_List.Count != jsonData.temp_guide_List.Count))
                 {
-                    Debug.Log("[Reust_MainBoard] frist time settng");
-
                     if (jsonData.guide_List.Count != 0)
                     {
                         // delete data
@@ -784,13 +761,11 @@ public class API : URL
                 }
                 else
                 {
-                    Debug.Log("[Reust_MainBoard] compare to json data");
                     // compare to json data
                     bool isCompareResult = jsonData.CompareToMainBoard(jsonData.guide_List, jsonData.temp_guide_List);
 
                     if (!isCompareResult)
                     {
-                        Debug.Log("[Reust_MainBoard] compare to json data");
                         // delete data
                         bannerNoticeManager.guideInfo[0].ResetLinkURL();
                         bannerNoticeManager.guideInfo[1].ResetLinkURL();
@@ -840,6 +815,34 @@ public class API : URL
         await UniTask.SwitchToMainThread();
 
         GameManager.instance.bannerNoticeManager.guideInfo[1].SetLinkURL("https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Test+PDF.pdf");
+    }
+
+    public async UniTaskVoid Request_GuideDownload(int guideType)
+    {
+        Debug.Log("Request_GuideDownload() start()");
+        await UniTask.SwitchToThreadPool();
+
+        var param = new Dictionary<string, string>
+        {
+            { "boardType", guideType.ToString() }
+        };
+
+        var content = new FormUrlEncodedContent(param);
+
+        HttpClient client = new HttpClient();
+        var response = await client.PostAsync(mainBoardURP, content);
+        string requestResult = await response.Content.ReadAsStringAsync();
+
+        if (response.IsSuccessStatusCode)
+        {
+            Debug.Log("응답 성공 (가이드 로드 경로 요청 결과) : " + requestResult);
+        }
+        else
+        {
+            Debug.Log("응답 실패 (가이드 로드 경로 요청 결과) : " + requestResult);
+        }
+
+        await UniTask.SwitchToMainThread();
     }
     #endregion
 

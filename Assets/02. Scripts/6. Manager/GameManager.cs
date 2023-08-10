@@ -38,10 +38,10 @@ public class GameManager : MonoBehaviour
     [Header("[ File Download Buttons ]")]
     public FileDownload[] SelectButtons;
 
-    [Space(10)]
-    [Header("[ Friend List Settings ]")]
-    public int friendCount; // 삭제 예정
-    public int requestFriendCount; // 삭제 예정
+    //[Space(10)]
+    //[Header("[ Friend List Settings ]")]
+    //public int friendCount; // 삭제 예정
+    //public int requestFriendCount; // 삭제 예정
 
     [Space(10)]
     [Header("[ Player State Settings ]")]
@@ -86,11 +86,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //jsonData.friendListValues = JsonUtility.FromJson<SaveData>(api.friendList).frndInfoList;
-        //jsonData.requestFriendListValues = JsonUtility.FromJson<SaveData>(api.requestFriendList).requestFriend_List;
-        //friendListManager.friendCount = jsonData.friendListValues.Count;
-        //requestFriendManager.requestfriendCount = jsonData.requestFriendListValues.Count;
-
         sw = new Stopwatch();
     }
 
@@ -187,11 +182,6 @@ public class GameManager : MonoBehaviour
     // request json data
     public async void RefreshAllData()
     {
-        //// Toto : delete all data
-        //bannerNoticeManager.bannerUI.DeleteContents();
-        //bannerNoticeManager.noticeUIs[0].DeleteContents();
-        //bannerNoticeManager.noticeUIs[1].DeleteContents();
-
         // update player state
         await api.Update_PlayerState(playerManager.currentState, Login.PID);
 
@@ -221,28 +211,12 @@ public class GameManager : MonoBehaviour
         // event banner && notice && news
         bannerNoticeManager.CreateAllContents();
 
-        // notice
-        //api.Request_Notice().Forget();
-
-        // curiverse notice
-        //api.Request_CuriverseNotice().Forget();
-
         // guide download
         //api.Request_GuideDownload1().Forget();
         //api.Request_GuideDownload2().Forget();
 
         Debug.Log("Request Data");
     }
-
-    //public void ResetBuildFilePath()
-    //{
-    //    Debug.Log("Reset all Build File Path");
-
-    //    for (int i = 0; i < SelectButtons.Length; i++)
-    //    {
-    //        SelectButtons[i].gameExcutePath = "";
-    //    }
-    //}
     #endregion
 
     public void ForceQuit()

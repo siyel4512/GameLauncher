@@ -64,7 +64,7 @@ public class URL : LoadFile
     public void SetURL()
     {
         // test server
-        if (DEV.instance.isTEST_Server)
+        if (DEV.instance.isUsingTestServer)
         {
             // server
             baseServer = testServer;

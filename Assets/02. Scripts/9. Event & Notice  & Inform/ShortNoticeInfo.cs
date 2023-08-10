@@ -138,12 +138,6 @@ public class ShortNoticeInfo : MonoBehaviour
     // click event to eventtrigger
     public void SetEvent()
     {
-        //clickEvent = new EventTrigger.Entry();
-        //clickEvent.eventID = EventTriggerType.PointerClick;
-        //clickEvent.callback.AddListener((eventData) => BTN_OpenURL());
-
-        //GetComponent<EventTrigger>().triggers.Add(clickEvent);
-
         clickEvent = GetComponent<Button>();
         clickEvent.onClick.AddListener(BTN_OpenURL);
     }

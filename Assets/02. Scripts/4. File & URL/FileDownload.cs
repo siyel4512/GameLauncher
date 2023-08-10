@@ -180,6 +180,7 @@ public class FileDownload : MonoBehaviour
         }
     }
 
+    // Todo : 파일 다운로드
     private async UniTask DownloadFile(bool _isUpdate)
     {
         DEV.instance.isFileDownload = true;

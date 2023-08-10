@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Timer = System.Timers.Timer;
-using Debug = UnityEngine.Debug;
+//using Debug = UnityEngine.Debug;
 
 public class SwipeUI : MonoBehaviour
 {

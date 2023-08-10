@@ -24,6 +24,10 @@ public class Login : MonoBehaviour
     public static string nickname;
     public static string playerNum;
 
+    public string temp_PID;
+    public string temp_nickname;
+    public string temp_playerNum;
+
     private TCP_Server tcp_Server = new TCP_Server();
 
 
@@ -258,13 +262,12 @@ public class Login : MonoBehaviour
         GameManager gameManager = GameManager.instance;
 
         FilePath.Instance.Test_SetDownloadURL2(gameManager.selectedServerNum);
-        // set nick name
-        gameManager.playerManager.nickname.text = nickname;
-
+        
         gameManager.isLogin = true; // login
+        gameManager.playerManager.nickname.text = nickname;// set nick name
+        
         gameManager.playerManager.SetPlayerState(1); // set player state
-        //GameManager.instance.pages[1].SetActive(true); // set main page
-        gameManager.SetPage(1);
+        gameManager.SetPage(1); // set main page
         //GameManager.instance.SetSelectButton(0); // set file download button
 
         //GameManager.instance.friendListManager.CreateList(); // create friedn list
@@ -293,10 +296,16 @@ public class Login : MonoBehaviour
         GameManager gameManager = GameManager.instance;
         gameManager.isLogin = false; // logout
 
+        gameManager.bannerNoticeManager.mainBoardScrollPos.anchoredPosition = new Vector2(0, 0); // scroll reset
+        GameManager.instance.SetSelectButton(0); // set file download button
+
+        // offline
         gameManager.playerManager.RequestPlayerStateUpdate(0);
+
         // delete nick name
         gameManager.playerManager.nickname.text = "";
 
+        // reset friend list & request list
         gameManager.friendListManager.isSelectedSlot = false; // selected friend slot reset
         gameManager.friendListManager.DeleteList(); // delete friend list
         gameManager.requestFriendManager.DeleteRequestList(); // delete request friend list
@@ -305,15 +314,15 @@ public class Login : MonoBehaviour
         // event banner & notice & news delete
         gameManager.bannerNoticeManager.bannerUI.DeleteContents();
         gameManager.bannerNoticeManager.shortNotice.ResetShortNoticeInfo();
-        //gameManager.bannerNoticeManager.noticeUIs[0].DeleteContents();
         gameManager.bannerNoticeManager.noticeUI.DeleteContents();
+
+        // user guide reset
         gameManager.bannerNoticeManager.guideInfo[0].ResetLinkURL();
         gameManager.bannerNoticeManager.guideInfo[1].ResetLinkURL();
 
-        gameManager.bannerNoticeManager.mainBoardScrollPos.anchoredPosition = new Vector2(0, 0);
-
         //GameManager.instance.ResetBuildFilePath();
 
+        // reset json data
         gameManager.jsonData.ResetFriendListJsonData();
 
         gameManager.ForceQuit();

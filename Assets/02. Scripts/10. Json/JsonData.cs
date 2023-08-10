@@ -176,11 +176,6 @@ public class JsonData : MonoBehaviour
         temp_requestFriendListValues = new List<SaveData.friendList>();
         requestFriendListValues = new List<SaveData.friendList>();
 
-        //temp_donwloadUrl = new SaveData.downloadUrlList();
-        //donwloadUrl = new SaveData.downloadUrlList();
-
-        temp_donwloadUrlList = new List<SaveData.downloadUrlList>();
-
         temp_event_List = new List<SaveData.mainBoard>();
         event_List = new List<SaveData.mainBoard>();
 

@@ -26,18 +26,6 @@ public class RequestInfo : MonoBehaviour
     [Header("[ UI ]")]
     public TMP_Text nickname_text;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void SetSlotValue()
     {
         nickname = ncnm;

@@ -32,6 +32,10 @@ public class BannerNoticeManager : MonoBehaviour
 
             // Create Event News
             noticeUI.TryAddContents(eventNewsCount);
+
+            // Set Guide URL
+            guideInfo[0].SetLinkURL("https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/2020+%EB%8C%80%EC%A0%84%EB%A7%88%EC%BC%80%ED%8C%85%EA%B3%B5%EC%82%AC+%ED%99%8D%EB%B3%B4%EC%9E%90%EB%A3%8C.pdf");
+            guideInfo[1].SetLinkURL("https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/2021%EB%85%84+%EB%8C%80%EC%A0%84%EB%A7%88%EC%BC%80%ED%8C%85%EA%B3%B5%EC%82%AC.pdf");
         }
         else
         {

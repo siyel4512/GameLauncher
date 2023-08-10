@@ -166,9 +166,6 @@ public class RequestFriendManager : MonoBehaviour
             {
                 friendListManager.temp_friendList.Add(new FriendInfo() 
                 { 
-                    //nickname = requestList[i].GetComponent<RequestInfo>().nickname, 
-                    //state = requestList[i].GetComponent<RequestInfo>().state,
-
                     ncnm = requestList[i].GetComponent<RequestInfo>().ncnm,
                     frndNo = requestList[i].GetComponent<RequestInfo>().frndNo,
                     mbrNo = requestList[i].GetComponent<RequestInfo>().mbrNo,

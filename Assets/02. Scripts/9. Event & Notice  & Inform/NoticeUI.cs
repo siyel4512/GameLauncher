@@ -56,16 +56,7 @@ public class NoticeUI : SwipeUI
             GameObject content = Instantiate(conents_prefab);
             content.transform.SetParent(spawnContentsPos, false);
             NoticeInfo noticeInfo = content.GetComponent<NoticeInfo>();
-
-            //// Todo : API 추가시 삭제
-            //string tempContent = "";
-            //for (int j = 0; j < 50; j++)
-            //{
-            //    tempContent += "Content ";
-            //}
-
-            //noticeInfo.SetContents("Title_" + (i + 1), tempContent, "https://www.youtube.com/");
-
+            
             noticeInfo.boardNum = eventNewsInfoValue[i].boardNum;
             noticeInfo.writer = eventNewsInfoValue[i].writer;
             noticeInfo.title = eventNewsInfoValue[i].title;

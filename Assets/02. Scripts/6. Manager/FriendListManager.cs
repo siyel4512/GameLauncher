@@ -21,7 +21,9 @@ public class FriendListManager : MonoBehaviour
     // input field
     [Header("[ Friend Searching ]")]
     public TMP_InputField searchFriendNickName;
+    public InputField searchFriendNickname;
     public TMP_InputField searchUserNickName;
+    public InputField searchUserNickname;
     public TMP_Text searchUserWaringText;
 
     // setting menu
@@ -51,10 +53,21 @@ public class FriendListManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        searchFriendNickName.onSubmit.AddListener(InputEnter);
-        searchFriendNickName.onValueChanged.AddListener(CheckedNickName);
+        //if (DEV.instance.isUsingTmpForInputField)
+        //{
+        //    searchFriendNickName.gameObject.SetActive(true);
+        //    searchUserNickName.gameObject.SetActive(true);
 
-        searchUserNickName.onSubmit.AddListener(TrySearchUser);
+        //    searchFriendNickName.onSubmit.AddListener(InputEnter);
+        //    searchFriendNickName.onValueChanged.AddListener(CheckedNickName);
+
+        //    searchUserNickName.onSubmit.AddListener(TrySearchUser);
+        //}
+
+        searchFriendNickname.onSubmit.AddListener(InputEnter);
+        searchFriendNickname.onValueChanged.AddListener(CheckedNickName);
+
+        searchUserNickname.onSubmit.AddListener(TrySearchUser);
 
         addButton.onClick.AddListener(TryAddFriend);
         settingButton.onClick.AddListener(ShowSettingMenu);
@@ -64,14 +77,6 @@ public class FriendListManager : MonoBehaviour
 
         searchUserWaringText.text = "";
     }
-
-    //public void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //    {
-    //        DeduplicationFriendListSlot(friendList);
-    //    }
-    //}
 
     #region Set List
     public void ResetSelect()
@@ -88,11 +93,11 @@ public class FriendListManager : MonoBehaviour
     public void CreateList()
     //public IEnumerator CreateList()
     {
+        List<SaveData.friendList> friendListValues = GameManager.instance.jsonData.friendList_List;
+        
         //yield return null;
         for (int i = 0; i < friendCount; i++)
         {
-            List<SaveData.friendList> friendListValues = GameManager.instance.jsonData.friendList_List;
-
             // create & set temp friend info
             temp_friendList.Add(new FriendInfo()
             {
@@ -127,54 +132,6 @@ public class FriendListManager : MonoBehaviour
 
             friendList.Add(info);
         }
-
-        // avoid duplicate creation
-        //if (friendList.Count != GameManager.instance.jsonData.friendList_List.Count)
-        //{
-        //    DeleteList();
-
-        //    for (int i = 0; i < friendCount; i++)
-        //    {
-        //        List<SaveData.friendList> friendListValues = GameManager.instance.jsonData.friendList_List;
-
-        //        if (friendListValues[i].frndRqstSttus == "1")
-        //        {
-        //            // create & set temp friend info
-        //            temp_friendList.Add(new FriendInfo()
-        //            {
-        //                ncnm = friendListValues[i].ncnm,
-        //                frndNo = friendListValues[i].frndNo,
-        //                mbrNo = friendListValues[i].mbrNo,
-        //                frndMbrNo = friendListValues[i].frndMbrNo,
-        //                frndSttus = friendListValues[i].frndSttus,
-        //                frndRqstSttus = friendListValues[i].frndRqstSttus,
-        //                frndRqstDt = friendListValues[i].frndRqstDt,
-        //                upDt = friendListValues[i].upDt,
-        //                regDt = friendListValues[i].regDt
-        //            });
-
-        //            // create friend list
-        //            GameObject clone = Instantiate(listSlot);
-        //            clone.transform.SetParent(listContent.transform, false);
-
-        //            // set friend info
-        //            FriendInfo info = clone.GetComponent<FriendInfo>();
-
-        //            info.ncnm = friendListValues[i].ncnm;
-        //            info.frndNo = friendListValues[i].frndNo;
-        //            info.mbrNo = friendListValues[i].mbrNo;
-        //            info.frndMbrNo = friendListValues[i].frndMbrNo;
-        //            info.frndSttus = friendListValues[i].frndSttus;
-        //            info.frndRqstSttus = friendListValues[i].frndRqstSttus;
-        //            info.frndRqstDt = friendListValues[i].frndRqstDt;
-        //            info.upDt = friendListValues[i].upDt;
-        //            info.regDt = friendListValues[i].regDt;
-        //            info.SetSlotValues();
-
-        //            friendList.Add(info);
-        //        }
-        //    }
-        //}
 
         listScrollPos.anchoredPosition = new Vector2(0, 0);
 
@@ -276,7 +233,7 @@ public class FriendListManager : MonoBehaviour
         Debug.Log("try search my friend : " + text);
 
         // blank
-        if (searchFriendNickName.text == "")
+        if (searchFriendNickname.text == "")
         {
             //GameManager.instance.popupManager.popups[(int)PopupType.BlankError].SetActive(true);
             searchUserWaringText.text = "추가할 유저 닉네임을 입력해 주세요.";
@@ -305,43 +262,54 @@ public class FriendListManager : MonoBehaviour
         if (DEV.instance.isTEST_Login)
         {
             // find
-            if (searchUserNickName.text == "test")
+            //if (searchUserNickName.text == "test")
+            if (searchUserNickname.text == "test")
             {
-                Debug.Log("Success find user : " + searchUserNickName.text);
-                GameManager.instance.popupManager.SetContents(1, searchUserNickName.text);
+                //Debug.Log("Success find user : " + searchUserNickName.text);
+                Debug.Log("Success find user : " + searchUserNickname.text);
+                //GameManager.instance.popupManager.SetContents(1, searchUserNickName.text);
+                GameManager.instance.popupManager.SetContents(1, searchUserNickname.text);
                 GameManager.instance.popupManager.popups[(int)PopupType.RequestFriend].SetActive(true);
-                searchUserNickName.text = "";
+                //searchUserNickName.text = "";
+                searchUserNickname.text = "";
             }
             // blank
-            else if (searchUserNickName.text == "")
+            //else if (searchUserNickName.text == "")
+            else if (searchUserNickname.text == "")
             {
                 GameManager.instance.popupManager.popups[(int)PopupType.BlankError].SetActive(true);
             }
             // not find
             else
             {
-                Debug.Log("Failed find user : " + searchUserNickName.text);
+                //Debug.Log("Failed find user : " + searchUserNickName.text);
+                Debug.Log("Failed find user : " + searchUserNickname.text);
                 GameManager.instance.popupManager.popups[(int)PopupType.UserSearchFaild].SetActive(true);
             }
         }
         else
         {
-            if (searchUserNickName.text != "")
+            //if (searchUserNickName.text != "")
+            if (searchUserNickname.text != "")
             {
-                bool isSuccess = await GameManager.instance.api.Request_SearchFriend(searchUserNickName.text);
+                //bool isSuccess = await GameManager.instance.api.Request_SearchFriend(searchUserNickName.text);
+                bool isSuccess = await GameManager.instance.api.Request_SearchFriend(searchUserNickname.text);
                 //Debug.Log("검색 결과 : " + CheckFriendList(searchUserNickName.text));
                 if (isSuccess)
                 {
-                    Debug.Log("Success find user : " + searchUserNickName.text);
+                    //Debug.Log("Success find user : " + searchUserNickName.text);
+                    Debug.Log("Success find user : " + searchUserNickname.text);
 
-                    int isCompareResult = CheckFriendList(searchUserNickName.text);
+                    //int isCompareResult = CheckFriendList(searchUserNickName.text);
+                    int isCompareResult = CheckFriendList(searchUserNickname.text);
 
                     switch (isCompareResult)
                     {
                         case 0:
                             // not exist friend
                             Debug.Log("addable user");
-                            GameManager.instance.popupManager.SetContents(1, searchUserNickName.text); // set nick name in popup
+                            //GameManager.instance.popupManager.SetContents(1, searchUserNickName.text); // set nick name in popup
+                            GameManager.instance.popupManager.SetContents(1, searchUserNickname.text); // set nick name in popup
                             GameManager.instance.popupManager.popups[(int)PopupType.RequestFriend].SetActive(true); // open popup
 
                             searchUserWaringText.text = "";
@@ -366,13 +334,15 @@ public class FriendListManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Failed find user : " + searchUserNickName.text);
+                    //Debug.Log("Failed find user : " + searchUserNickName.text);
+                    Debug.Log("Failed find user : " + searchUserNickname.text);
                     //GameManager.instance.popupManager.popups[(int)PopupType.UserSearchFaild].SetActive(true);
 
                     searchUserWaringText.text = "해당 유저를 찾을 수 없습니다.";
                 }
             }
-            else if (searchUserNickName.text == "")
+            //else if (searchUserNickName.text == "")
+            else if (searchUserNickname.text == "")
             {
                 //GameManager.instance.popupManager.popups[(int)PopupType.BlankError].SetActive(true);
 
@@ -382,16 +352,17 @@ public class FriendListManager : MonoBehaviour
     }
 
     // compare to seache user and my friend list
-    private int CheckFriendList(string _searchUserNickName)
+    //private int CheckFriendList(string _searchUserNickName)
+    private int CheckFriendList(string _searchUserNickname)
     {
         int isExistInList = 0; // 0: not exist friend, 1:exist friend, 2: exist request user, 3: my nick name
 
         List<SaveData.friendList> friendListValuse = GameManager.instance.jsonData.friendList_List;
-        
+
         // check my friend list
         for (int i = 0; i < friendListValuse.Count; i++)
         {
-            if (friendListValuse[i].ncnm == _searchUserNickName)
+            if (friendListValuse[i].ncnm == _searchUserNickname)
             {
                 isExistInList = 1;
                 Debug.Log("[SY] 해당 친구 있음");
@@ -407,10 +378,10 @@ public class FriendListManager : MonoBehaviour
         if (isExistInList == 0)
         {
             List<SaveData.friendList> requestListValuse = GameManager.instance.jsonData.requestFriendListValues;
-            
+
             for (int i = 0; i < requestListValuse.Count; i++)
             {
-                if (requestListValuse[i].ncnm == _searchUserNickName)
+                if (requestListValuse[i].ncnm == _searchUserNickname)
                 {
                     isExistInList = 2;
                     Debug.Log("[SY] 해당 요청 유저 있음");
@@ -426,7 +397,7 @@ public class FriendListManager : MonoBehaviour
         // check my nick name
         if (isExistInList == 0)
         {
-            if (Login.nickname  == _searchUserNickName)
+            if (Login.nickname == _searchUserNickname)
             {
                 isExistInList = 3;
             }
@@ -441,7 +412,7 @@ public class FriendListManager : MonoBehaviour
     #endregion
 
     #region Delete Friend
-   
+
     public void ShowSettingMenu()
     {
         if (!isFriendSettings)
@@ -512,7 +483,7 @@ public class FriendListManager : MonoBehaviour
 
     public void ResetSearchUserNickName()
     {
-        searchUserNickName.text = "";
+        searchUserNickname.text = "";
         GameManager.instance.jsonData.searchFriend = null;
         GameManager.instance.jsonData.searchFriendNum = "";
         searchUserWaringText.text = "";
