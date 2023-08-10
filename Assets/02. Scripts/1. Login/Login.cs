@@ -268,17 +268,11 @@ public class Login : MonoBehaviour
         
         gameManager.playerManager.SetPlayerState(1); // set player state
         gameManager.SetPage(1); // set main page
-        //GameManager.instance.SetSelectButton(0); // set file download button
 
-        //GameManager.instance.friendListManager.CreateList(); // create friedn list
-        //GameManager.instance.requestFriendManager.CreateRequestList(); // create request friend list
         gameManager.api.Request_FriendList().Forget();// create friedn list
         gameManager.api.Request_RequestFriendList().Forget(); // create request friend list
 
         gameManager.bannerNoticeManager.CreateAllContents();
-        //gameManager.bannerNoticeManager.Test_SetGuideDownloadLink();
-
-        //GameManager.instance.filePath.Test_SetDownloadURL();
         
         //GameManager.instance.pages[0].SetActive(false); // hide login page
 

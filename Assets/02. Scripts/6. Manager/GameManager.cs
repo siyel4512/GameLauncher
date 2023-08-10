@@ -38,11 +38,6 @@ public class GameManager : MonoBehaviour
     [Header("[ File Download Buttons ]")]
     public FileDownload[] SelectButtons;
 
-    //[Space(10)]
-    //[Header("[ Friend List Settings ]")]
-    //public int friendCount; // 삭제 예정
-    //public int requestFriendCount; // 삭제 예정
-
     [Space(10)]
     [Header("[ Player State Settings ]")]
     public int playerLimitTime;

@@ -30,12 +30,6 @@ public class API : URL
         SetURL();
     }
 
-    //// Update is called once per frame
-    //void Update()
-    //{
-
-    //}
-
     #region Friend List
     // friend list
     public async UniTaskVoid Request_FriendList(bool isUsingPlayerUpdate = false)

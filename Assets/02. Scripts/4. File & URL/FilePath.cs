@@ -1,17 +1,11 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Net.Http;
-using UnityEditor;
+using System.Diagnostics;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
-using System.Windows.Forms;
 
 using Application = UnityEngine.Application;
 using Debug = UnityEngine.Debug;
-using Ookii.Dialogs;
-using System.Diagnostics;
+
 
 public class FilePath : LoadFile
 {
@@ -70,22 +64,6 @@ public class FilePath : LoadFile
     void Start()
     {
         InitDataPath();
-    }
-
-    private void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    Debug.Log("삭제 시작");
-        //    Directory.Delete("C:\\Users\\LSY\\Desktop\\TEST", true);
-        //    Debug.Log("삭제 완료");
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.Space)) 
-        //{
-        //    Test_SetDownloadURL();
-        //    FilePathCheck();
-        //}
     }
 
     //---------- new version ----------//

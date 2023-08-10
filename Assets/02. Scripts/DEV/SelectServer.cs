@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.IO;
@@ -37,8 +35,8 @@ public class SelectServer : MonoBehaviour
 
         jsonFilePath = Path.Combine(Application.streamingAssetsPath + "/Default Settings", "SeletedServerState.json");
 
-        // Todo : ¶óÀÌºê ¼­¹ö ¼³Á¤
-        // Å×½ºÆ® ¼­¹öÀÏ¶§
+        // Todo : ë¼ì´ë¸Œ ì„œë²„ ì„¤ì •
+        // í…ŒìŠ¤íŠ¸ ì„œë²„ì¼ë•Œ
         if (DEV.instance.isUsingTestServer)
         {
             //selectServerNum = 0;
@@ -53,18 +51,18 @@ public class SelectServer : MonoBehaviour
             //FilePath.Instance.Test_SetDownloadURL();
             FilePath.Instance.Test_SetDownloadURL2(selectServerNum);
         }
-        // ¶óÀÌºê ¼­¹öÀÏ¶§
+        // ë¼ì´ë¸Œ ì„œë²„ì¼ë•Œ
         else
         {
             int tempSelectServerNum = LoadData().selectedServerNum;
 
-            // ¶óÀÌºê ¼­¹ö·Î ¼±ÅÃµÇ¾î ÀÖ´Â °æ¿ì
+            // ë¼ì´ë¸Œ ì„œë²„ë¡œ ì„ íƒë˜ì–´ ìˆëŠ” ê²½ìš°
             if (tempSelectServerNum == 3)
             {
                 selectServerNum = tempSelectServerNum;
                 selectServer.value = selectServerNum;
             }
-            // ¾Æ´Ò °æ¿ì
+            // ì•„ë‹ ê²½ìš°
             else
             {
                 SaveData((int)ServerType.live);
@@ -79,7 +77,7 @@ public class SelectServer : MonoBehaviour
     {
         if (FilePath.Instance.CheckRunningFiles())
         {
-            Debug.Log("[SY] ½ÇÇà ÁßÀÎ ÆÄÀÏ Á¸Àç & drapdown ¿ø·¡´ë·Î º¯°æ");
+            Debug.Log("[SY] ì‹¤í–‰ ì¤‘ì¸ íŒŒì¼ ì¡´ì¬ & drapdown ì›ë˜ëŒ€ë¡œ ë³€ê²½");
             selectServer.value = selectServerNum;
             return;
         }
