@@ -87,12 +87,6 @@ public class FileDownload : MonoBehaviour
         CheckBuidDirectory();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     #region File Check
     public async UniTaskVoid CheckForUpdates()
     {

@@ -41,10 +41,6 @@ public class NoticeInfo : MonoBehaviour
     // set contents
     public void SetContents()
     {
-        //title = _title;
-        //content = _content;
-        //linkURL = _linkURL;
-
         title_text.text = title;
         content_text.text = content;
     }

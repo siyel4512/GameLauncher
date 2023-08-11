@@ -5,14 +5,6 @@ using TMPro;
 
 using Debug = UnityEngine.Debug;
 
-//public enum PlayerState
-//{
-//    Online,
-//    Take_a_Break,
-//    Other_Work,
-//    Offline
-//} 
-
 public class PlayerManager : MonoBehaviour
 {
     // timer

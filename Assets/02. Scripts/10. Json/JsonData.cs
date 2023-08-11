@@ -31,26 +31,6 @@ public class JsonData : MonoBehaviour
     public List<SaveData.mainBoard> temp_guide_List;
     public List<SaveData.mainBoard> guide_List;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //temp_friendListValue = friendListValues;
-
-        //Test_SetJsonData();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.Escape))
-        //{
-        //    //temp_friendListValue.Clear();
-        //    //temp_friendListValue = null;
-
-        //    CompareToFriendList(frndInfoList1, frndInfoList2);
-        //}
-    }
-
     #region compare to json data (friend list)
     // compare to friend & request list
     public bool CompareToFriendList(List<SaveData.friendList> _list, List<SaveData.friendList> _temp_list)

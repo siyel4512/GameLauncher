@@ -1,14 +1,8 @@
-using Cysharp.Threading.Tasks;
-using Org.BouncyCastle.Crypto.Signers;
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
-using System.Net.Http;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
-
-//using System.Threading.Tasks;
+using TMPro;
 
 public class FriendListManager : MonoBehaviour
 {
