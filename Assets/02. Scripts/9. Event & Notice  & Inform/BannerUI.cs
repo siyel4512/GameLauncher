@@ -82,7 +82,7 @@ public class BannerUI : SwipeUI
             bannerInfo.exprPeriod = eventBannerInfoValue[i].exprPeriod;
             bannerInfo.regDt = eventBannerInfoValue[i].regDt;
             bannerInfo.upDt = eventBannerInfoValue[i].upDt;
-            bannerInfo.linkURL = "https://www.naver.com/";
+            bannerInfo.linkURL = eventBannerInfoValue[i].boardUrl;
 
             bannerInfo.bannerUI = this;
             spawnedContents.Add(bannerInfo);

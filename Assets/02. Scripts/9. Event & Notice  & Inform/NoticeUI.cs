@@ -68,7 +68,7 @@ public class NoticeUI : SwipeUI
             noticeInfo.exprPeriod = eventNewsInfoValue[i].exprPeriod;
             noticeInfo.regDt = eventNewsInfoValue[i].regDt;
             noticeInfo.upDt = eventNewsInfoValue[i].upDt;
-            noticeInfo.linkURL = "https://www.naver.com/";
+            noticeInfo.linkURL = eventNewsInfoValue[i].boardUrl;
 
             noticeInfo.noticeUI = this;
             spawnedContents.Add(noticeInfo);

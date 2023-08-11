@@ -129,7 +129,8 @@ public class JsonData : MonoBehaviour
                     || list.openYn != temp_list.openYn
                     || list.exprPeriod != temp_list.exprPeriod
                     || list.upDt != temp_list.upDt
-                    || list.regDt != temp_list.regDt)
+                    || list.regDt != temp_list.regDt
+                    || list.boardUrl != temp_list.boardUrl)
                 {
                     isSame = false;
                     break;
@@ -157,6 +158,7 @@ public class JsonData : MonoBehaviour
                 _list[i].exprPeriod = _temp_list[i].exprPeriod;
                 _list[i].upDt = _temp_list[i].upDt;
                 _list[i].regDt = _temp_list[i].regDt;
+                _list[i].boardUrl = _temp_list[i].boardUrl;
             }
         }
 

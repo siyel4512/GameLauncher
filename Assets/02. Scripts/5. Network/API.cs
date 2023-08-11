@@ -591,27 +591,27 @@ public class API : URL
                 case 0:
                     // 이벤트
                     jsonData.temp_event_List = new List<SaveData.mainBoard>();
-                    //jsonData.temp_event_List = tempSaveData;
-                    jsonData.temp_event_List = OrderSort(tempSaveData, false);
+                    jsonData.temp_event_List = tempSaveData;
+                    //jsonData.temp_event_List = OrderSort(tempSaveData, false);
                     break;
                 case 1:
                     // 공지사항
                     jsonData.temp_shortNotice_List = new List<SaveData.mainBoard>();
-                    //jsonData.temp_shortNotice_List = tempSaveData;
-                    jsonData.temp_shortNotice_List = OrderSort(tempSaveData, false);
+                    jsonData.temp_shortNotice_List = tempSaveData;
+                    //jsonData.temp_shortNotice_List = OrderSort(tempSaveData, false);
                     break;
                 case 2:
                     // 소식
                     jsonData.temp_news_List = new List<SaveData.mainBoard>();
-                    //jsonData.temp_news_List = tempSaveData;
-                    jsonData.temp_news_List = OrderSort(tempSaveData, false);
+                    jsonData.temp_news_List = tempSaveData;
+                    //jsonData.temp_news_List = OrderSort(tempSaveData, false);
                     break;
                 case 3:
                     // 가이드
                     Debug.Log("가이드 : " + requestResult);
                     jsonData.temp_guide_List = new List<SaveData.mainBoard>();
-                    //jsonData.temp_guide_List = tempSaveData;
-                    jsonData.temp_guide_List = OrderSort(tempSaveData, true);
+                    jsonData.temp_guide_List = tempSaveData;
+                    //jsonData.temp_guide_List = OrderSort(tempSaveData, true);
                     break;
             }
         }
@@ -641,8 +641,8 @@ public class API : URL
 
                     jsonData.event_List = new List<SaveData.mainBoard>();
                     List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).mainboardlist;
-                    //jsonData.event_List = tempSaveData;
-                    jsonData.event_List = OrderSort(tempSaveData, false);
+                    jsonData.event_List = tempSaveData;
+                    //jsonData.event_List = OrderSort(tempSaveData, false);
 
                     // create data
                     bannerNoticeManager.CreateEventBanner();
@@ -678,8 +678,8 @@ public class API : URL
 
                     jsonData.shortNotice_List = new List<SaveData.mainBoard>();
                     List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).mainboardlist;
-                    //jsonData.shortNotice_List = tempSaveData;
-                    jsonData.shortNotice_List = OrderSort(tempSaveData, false);
+                    jsonData.shortNotice_List = tempSaveData;
+                    //jsonData.shortNotice_List = OrderSort(tempSaveData, false);
 
                     // create data
                     bannerNoticeManager.SetNotice();
@@ -715,8 +715,8 @@ public class API : URL
 
                     jsonData.news_List = new List<SaveData.mainBoard>();
                     List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).mainboardlist;
-                    //jsonData.news_List = tempSaveData;
-                    jsonData.news_List = OrderSort(tempSaveData, false);
+                    jsonData.news_List = tempSaveData;
+                    //jsonData.news_List = OrderSort(tempSaveData, false);
 
                     // create data
                     bannerNoticeManager.CreateNews();
@@ -753,8 +753,8 @@ public class API : URL
 
                     jsonData.guide_List = new List<SaveData.mainBoard>();
                     List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).mainboardlist;
-                    //jsonData.guide_List = tempSaveData;
-                    jsonData.guide_List = OrderSort(tempSaveData, true);
+                    jsonData.guide_List = tempSaveData;
+                    //jsonData.guide_List = OrderSort(tempSaveData, true);
 
                     // create data
                     bannerNoticeManager.SetGuideDowloadLink();
@@ -778,6 +778,7 @@ public class API : URL
         }
     }
 
+    // Todo : 게시판 데이터 정렬함수 삭제 예정
     private List<SaveData.mainBoard> OrderSort(List<SaveData.mainBoard> _target, bool isAscending)
     {
         List<SaveData.mainBoard> target = new List<SaveData.mainBoard>();

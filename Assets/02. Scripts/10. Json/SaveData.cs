@@ -49,6 +49,7 @@ public class SaveData
         public string exprPeriod;
         public string regDt;
         public string upDt;
+        public string boardUrl;
     }
     public List<mainBoard> mainboardlist;
 

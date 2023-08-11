@@ -64,7 +64,7 @@ public class ShortNotice : MonoBehaviour
             shortNoticeInfos[i].exprPeriod = shortNoticeValues[i].exprPeriod;
             shortNoticeInfos[i].regDt = shortNoticeValues[i].regDt;
             shortNoticeInfos[i].upDt = shortNoticeValues[i].upDt;
-            shortNoticeInfos[i].linkURL = "https://www.youtube.com/";
+            shortNoticeInfos[i].linkURL = shortNoticeValues[i].boardUrl;
 
             shortNoticeInfos[i].SetContents(i);
         }
