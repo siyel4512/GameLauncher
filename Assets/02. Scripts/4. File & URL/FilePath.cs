@@ -256,9 +256,19 @@ public class FilePath : LoadFile
                 break;
         }
 
-        CompareToFileDownloadURL();
+        //CompareToFileDownloadURL();
+
+        for (int i = 0; i < 4; i++)
+        {
+            buildFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path;
+            jsonFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].json_path;
+
+            SaveDownloadURL(i, buildFileUrls[i]);
+        }
 
         SetFilePath();
+
+        GameManager.instance.SetSelectButton(0);
     }
 
     public void CompareToFileDownloadURL()
@@ -367,7 +377,7 @@ public class FilePath : LoadFile
         // 경로 갱신
         buildFileUrls[buttonNum] = GameManager.instance.jsonData.temp_donwloadUrlList[buttonNum].zip_path;
         jsonFileUrls[buttonNum] = GameManager.instance.jsonData.temp_donwloadUrlList[buttonNum].json_path;
-        SaveDownloadURL(buttonNum, buildFileUrls[buttonNum]);
+        //SaveDownloadURL(buttonNum, buildFileUrls[buttonNum]);
         Debug.Log("[SY] 갱신 완료");
 
         SetFilePath();

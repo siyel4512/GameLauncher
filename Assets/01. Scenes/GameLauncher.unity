@@ -7461,16 +7461,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f6ddb73d92632646ba5e3c5ee06d622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TEST_requesetKey: 
-  TEST_tryLogin: 
-  TEST_friendList: http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do
-  TEST_addFriend: http://101.101.218.135:5002/onlineScienceMuseumAPI/insertFrndInfo.do
-  TEST_requestAccept: http://101.101.218.135:5002/onlineScienceMuseumAPI/updateFrndReqAccept.do
-  TEST_requestRefuseNDelete: http://101.101.218.135:5002/onlineScienceMuseumAPI/deleteFrndReq.do
-  TEST_fileDownload: 
-  requesetKey: 
-  tryLogin: 
-  fileDownload: http://49.50.162.141:5002/onlineScienceMuseumAPI/downloadBuildFile.do
 --- !u!1 &548758757
 GameObject:
   m_ObjectHideFlags: 0
@@ -21291,7 +21281,7 @@ MonoBehaviour:
   isTEST_UpdatePlayerState: 0
   isUsingFolderDialog: 0
   isTEST_Contents: 0
-  isUsingTestServer: 1
+  isUsingTestServer: 0
   isProtectFileDownload: 1
   isFileDownload: 0
   isScienceMuseum: 0
@@ -34613,7 +34603,7 @@ PrefabInstance:
       objectReference: {fileID: 879023171}
     - target: {fileID: 8740760895345143285, guid: e7abe9de1d571664eaacd3bffacf325c, type: 3}
       propertyPath: m_FillAmount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8740760895644575252, guid: e7abe9de1d571664eaacd3bffacf325c, type: 3}
       propertyPath: m_Name

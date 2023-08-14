@@ -523,14 +523,18 @@ public class API : URL
             //GameManager.instance.filePath.jsonFileUrls[(int)_folderFlag] = jsonPath;
 
             // Todo : 문자열 변환....
-            string temp_zipPath = zipPath.Replace("\\", "/");
-            string temp_jsonPath = jsonPath.Replace("\\", "/");
+            //string temp_zipPath = zipPath.Replace("\\", "/");
+            //string temp_jsonPath = jsonPath.Replace("\\", "/");
 
-            jsonData.temp_donwloadUrl.zip_path = temp_zipPath; // temp data save
-            jsonData.temp_donwloadUrl.json_path = temp_jsonPath; // temp data save
+            //jsonData.temp_donwloadUrl.zip_path = temp_zipPath; // temp data save
+            //jsonData.temp_donwloadUrl.json_path = temp_jsonPath; // temp data save
+            jsonData.temp_donwloadUrl.zip_path = zipPath; // temp data save
+            jsonData.temp_donwloadUrl.json_path = jsonPath; // temp data save
 
-            jsonData.temp_donwloadUrlList[(int)_folderFlag].zip_path = temp_zipPath;
-            jsonData.temp_donwloadUrlList[(int)_folderFlag].json_path = temp_jsonPath;
+            //jsonData.temp_donwloadUrlList[(int)_folderFlag].zip_path = temp_zipPath;
+            //jsonData.temp_donwloadUrlList[(int)_folderFlag].json_path = temp_jsonPath;
+            jsonData.temp_donwloadUrlList[(int)_folderFlag].zip_path = zipPath;
+            jsonData.temp_donwloadUrlList[(int)_folderFlag].json_path = jsonPath;
 
             //GameManager.instance.filePath.buildFileUrls[(int)_folderFlag] = temp_zipPath;
             //GameManager.instance.filePath.jsonFileUrls[(int)_folderFlag] = temp_jsonPath;

@@ -111,7 +111,11 @@ public class FileDownload : MonoBehaviour
             Debug.Log(FilePath.Instance.ExeFolderPaths[buttonNum] + " [SY] 경로에 파일 있음");
             try
             {
-                await CheckData();
+                //await CheckData();
+                Status = LauncherStatus.ready;
+
+                // Todo : file check
+                excuteButton.interactable = true;
             }
             catch (Exception ex)
             {
@@ -285,7 +289,7 @@ public class FileDownload : MonoBehaviour
         //Debug.Log($"[SY] Execute result : {File.Exists(gameExcutePath)} / {Status}");
         //Debug.Log($"[SY] : {FilePath.Instance.defaultDataPath}");
 
-        if (!isNeedDownload)
+        //if (!isNeedDownload)
         {
             // create folder
             if (Directory.Exists(FilePath.Instance.defaultDataPath))
@@ -318,13 +322,13 @@ public class FileDownload : MonoBehaviour
 
                 _runningFiles[buttonNum] = Process.Start(startInfo);
             }
-            // update
-            else if (File.Exists(gameExcutePath) && Status == LauncherStatus.downloadUpdate)
-            {
-                UniTask.SwitchToThreadPool();
-                InstallGameFiles(true).Forget();
-                UniTask.SwitchToMainThread();
-            }
+            //// update
+            //else if (File.Exists(gameExcutePath) && Status == LauncherStatus.downloadUpdate)
+            //{
+            //    UniTask.SwitchToThreadPool();
+            //    InstallGameFiles(true).Forget();
+            //    UniTask.SwitchToMainThread();
+            //}
             // download
             else if (!File.Exists(gameExcutePath) && Status == LauncherStatus.downloadGame)
             {
@@ -340,22 +344,22 @@ public class FileDownload : MonoBehaviour
             else if (Status == LauncherStatus.failed)
             {
                 UniTask.SwitchToThreadPool();
-                CheckForUpdates().Forget();
+                //CheckForUpdates().Forget();
                 UniTask.SwitchToMainThread();
             }
         }
-        else
-        {
-            isNeedDownload = false;
+        //else
+        //{
+        //    isNeedDownload = false;
 
-            string deleteFilePaht = FilePath.Instance.ChangeDeleteFileName(buttonNum);
-            FilePath.Instance.SetNewPaht(buttonNum);
-            FilePath.Instance.DeleteOldFile(deleteFilePaht).Forget();
+        //    string deleteFilePaht = FilePath.Instance.ChangeDeleteFileName(buttonNum);
+        //    FilePath.Instance.SetNewPaht(buttonNum);
+        //    FilePath.Instance.DeleteOldFile(deleteFilePaht).Forget();
 
-            UniTask.SwitchToThreadPool();
-            InstallGameFiles(true).Forget();
-            UniTask.SwitchToMainThread();
-        }
+        //    UniTask.SwitchToThreadPool();
+        //    //InstallGameFiles(true).Forget();
+        //    UniTask.SwitchToMainThread();
+        //}
         
     }
 

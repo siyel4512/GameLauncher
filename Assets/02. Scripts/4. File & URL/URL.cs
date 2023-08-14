@@ -114,7 +114,7 @@ public class URL : LoadFile
             mainBoardURP = liveServer + mainBoard_URP;
 
             // file download
-            fileDownloadURL = liveServer + fileDownload_URL;
+            fileDownloadURL = testServer + fileDownload_URL;
             fileDownloadURL_Live = liveServer + fileDownload_URL;
         }
     }
