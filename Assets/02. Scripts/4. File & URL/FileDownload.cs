@@ -109,6 +109,9 @@ public class FileDownload : MonoBehaviour
         if (Directory.Exists(FilePath.Instance.ExeFolderPaths[buttonNum]))
         {
             Debug.Log(FilePath.Instance.ExeFolderPaths[buttonNum] + " [SY] 경로에 파일 있음");
+
+            CheckBuidDirectory();
+
             try
             {
                 //await CheckData();
@@ -286,7 +289,7 @@ public class FileDownload : MonoBehaviour
     public void Execute()
     {
         Debug.Log($"[SY] : {gameExcutePath}");
-        //Debug.Log($"[SY] Execute result : {File.Exists(gameExcutePath)} / {Status}");
+        Debug.Log($"[SY] Execute result : {File.Exists(gameExcutePath)} / {Status}");
         //Debug.Log($"[SY] : {FilePath.Instance.defaultDataPath}");
 
         //if (!isNeedDownload)
@@ -322,13 +325,13 @@ public class FileDownload : MonoBehaviour
 
                 _runningFiles[buttonNum] = Process.Start(startInfo);
             }
-            //// update
-            //else if (File.Exists(gameExcutePath) && Status == LauncherStatus.downloadUpdate)
-            //{
-            //    UniTask.SwitchToThreadPool();
-            //    InstallGameFiles(true).Forget();
-            //    UniTask.SwitchToMainThread();
-            //}
+            // update
+            else if (File.Exists(gameExcutePath) && Status == LauncherStatus.downloadUpdate)
+            {
+                UniTask.SwitchToThreadPool();
+                InstallGameFiles(true).Forget();
+                UniTask.SwitchToMainThread();
+            }
             // download
             else if (!File.Exists(gameExcutePath) && Status == LauncherStatus.downloadGame)
             {

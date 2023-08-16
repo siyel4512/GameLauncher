@@ -26,6 +26,12 @@ public class TCP_Server
             Server = null;
         }
 
+        if (Client != null)
+        {
+            Client.Close();
+            Client = null;
+        }
+
         if (ListenThread != null)
         {
             ListenThread.Abort();
@@ -53,26 +59,25 @@ public class TCP_Server
             {
                 Client = Server.AcceptTcpClient();
 
-                NetworkStream stream = Client.GetStream();
-
-                string msg;
-
-                if (DEV.instance.isTEST_Login)
+                using (NetworkStream stream = Client.GetStream())
                 {
-                    msg = "Test";
+                    string msg;
+
+                    if (DEV.instance.isTEST_Login)
+                    {
+                        msg = "Test";
+                    }
+                    else
+                    {
+                        msg = Login.PID;
+                    }
+
+                    byte[] sendBuffer = Encoding.UTF8.GetBytes(msg);
+
+                    stream.Write(sendBuffer, 0, sendBuffer.Length);
                 }
-                else
-                {
-                    msg = Login.PID;
-                }
 
-
-                int byteCount = Encoding.UTF8.GetByteCount(msg);
-
-                byte[] sendBuffer = new byte[byteCount];
-                sendBuffer = Encoding.UTF8.GetBytes(msg);
-
-                stream.Write(sendBuffer, 0, sendBuffer.Length);
+                Client.Close();
             }
         }
         catch (Exception ex)
@@ -84,13 +89,13 @@ public class TCP_Server
         //     스레드가 중지되었을 때 발생하는 예외 처리
         //    Console.WriteLine("stop thread");
         //}
-        //finally
-        //{
-        //    if (Server != null)
-        //    {
-        //        Server.Stop();
-        //        Server = null;
-        //    }
-        //}
+        finally
+        {
+            if (Server != null)
+            {
+                Server.Stop();
+                Server = null;
+            }
+        }
     }
 }

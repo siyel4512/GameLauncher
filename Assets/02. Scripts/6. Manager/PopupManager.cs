@@ -15,7 +15,8 @@ public enum PopupType
     RequestFriendList,
     BlackList,
     InvalidPID,
-    AlreadyExistRequestUserPopup
+    AlreadyExistRequestUserPopup,
+    SelectServer
 }
 
 public class PopupManager : MonoBehaviour

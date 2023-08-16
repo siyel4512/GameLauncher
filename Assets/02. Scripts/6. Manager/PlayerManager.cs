@@ -18,6 +18,7 @@ public class PlayerManager : MonoBehaviour
     [Space(10)]
     [Header("[ Player State Settings ]")]
     public TMP_Text nickname;
+    public Text nickname_legacy;
     public TMP_Text stateName;
     public Image icon; // state icon
     public GameObject[] stateIcons;

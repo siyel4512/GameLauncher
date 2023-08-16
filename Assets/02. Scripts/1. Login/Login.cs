@@ -23,10 +23,12 @@ public class Login : MonoBehaviour
     public static string PID;
     public static string nickname;
     public static string playerNum;
+    public static string authrtcd;
 
     public string temp_PID;
     public string temp_nickname;
     public string temp_playerNum;
+    public string temp_authrtcd;
 
     private TCP_Server tcp_Server = new TCP_Server();
 
@@ -161,10 +163,20 @@ public class Login : MonoBehaviour
             PID = requestResult.Split(":")[1].Split(",")[0];
             nickname = requestResult.Split(":")[2].Split(",")[0];
             playerNum = requestResult.Split(":")[3].Split("}")[0];
+            authrtcd = requestResult.Split(":")[4].Split("}")[0];
 
-            Debug.Log($"requestResult : {PID} / {nickname} / {playerNum}");
+            Debug.Log($"requestResult : {PID} / {nickname} / {playerNum} / {authrtcd}");
 
-            SetLogin();
+            // 일반 유저
+            if (authrtcd == "00" || authrtcd == "03")
+            {
+                SetLogin();
+            }
+            // 관리자 & 슈퍼 계정
+            else
+            {
+                AdminUser();
+            }
         }
         else
         {
@@ -224,10 +236,22 @@ public class Login : MonoBehaviour
             PID = requestResult.Split(":")[1].Split(",")[0];
             nickname = requestResult.Split(":")[2].Split(",")[0];
             playerNum = requestResult.Split(":")[3].Split("}")[0];
+            authrtcd = requestResult.Split(":")[4].Split("}")[0];
 
-            Debug.Log($"requestResult : {PID} / {nickname} / {playerNum}");
+            temp_authrtcd = authrtcd;
 
-            SetLogin();
+            Debug.Log($"requestResult : {PID} / {nickname} / {playerNum} / {authrtcd}");
+
+            // 일반 유저
+            if (authrtcd == "00" || authrtcd == "03")
+            {
+                SetLogin();
+            }
+            // 관리자 & 슈퍼 계정
+            else
+            {
+                AdminUser();
+            }
         }
         else
         {
@@ -261,10 +285,15 @@ public class Login : MonoBehaviour
     {
         GameManager gameManager = GameManager.instance;
 
-        FilePath.Instance.Test_SetDownloadURL2(gameManager.selectedServerNum);
-        
+        //gameManager.selectedServerNum = 3;
+
+        //FilePath.Instance.Test_SetDownloadURL2(gameManager.selectedServerNum);
+
+        gameManager.GetComponent<SelectServer>().SetLiveServer();
+
         gameManager.isLogin = true; // login
         gameManager.playerManager.nickname.text = nickname;// set nick name
+        gameManager.playerManager.nickname_legacy.text = nickname;// set nick name
         
         gameManager.playerManager.SetPlayerState(1); // set player state
         gameManager.SetPage(1); // set main page
@@ -274,6 +303,46 @@ public class Login : MonoBehaviour
 
         gameManager.bannerNoticeManager.CreateAllContents();
         
+        //GameManager.instance.pages[0].SetActive(false); // hide login page
+
+        // start TCP server
+        tcp_Server.StartServer();
+
+        // id & password input field reset
+        id.text = "";
+        password.text = "";
+    }
+
+    public void AdminUser()
+    {
+        GameManager gameManager = GameManager.instance;
+
+        gameManager.GetComponent<SelectServer>().SetTestServer();
+        gameManager.popupManager.popups[(int)PopupType.SelectServer].SetActive(true);
+    }
+
+    public void BTN_SelectServer()
+    {
+        GameManager gameManager = GameManager.instance;
+
+        //gameManager.GetComponent<SelectServer>().SetTestServer();
+
+        gameManager.popupManager.popups[(int)PopupType.SelectServer].SetActive(false);
+
+        FilePath.Instance.Test_SetDownloadURL2(gameManager.selectedServerNum);
+
+        gameManager.isLogin = true; // login
+        gameManager.playerManager.nickname.text = nickname;// set nick name
+        gameManager.playerManager.nickname_legacy.text = nickname;// set nick name
+
+        gameManager.playerManager.SetPlayerState(1); // set player state
+        gameManager.SetPage(1); // set main page
+
+        gameManager.api.Request_FriendList().Forget();// create friedn list
+        gameManager.api.Request_RequestFriendList().Forget(); // create request friend list
+
+        gameManager.bannerNoticeManager.CreateAllContents();
+
         //GameManager.instance.pages[0].SetActive(false); // hide login page
 
         // start TCP server
@@ -298,6 +367,7 @@ public class Login : MonoBehaviour
 
         // delete nick name
         gameManager.playerManager.nickname.text = "";
+        gameManager.playerManager.nickname_legacy.text = "";
 
         // reset friend list & request list
         gameManager.friendListManager.isSelectedSlot = false; // selected friend slot reset

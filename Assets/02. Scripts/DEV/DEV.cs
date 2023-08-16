@@ -22,6 +22,7 @@ public class DEV : MonoBehaviour
     public bool isUsingFolderDialog;
     public bool isTEST_Contents;
 
+    public bool isAdmin;
     public bool isUsingTestServer;
     public bool isProtectFileDownload; // 다운로드 중 버튼 누름 방지
     public bool isFileDownload; // 파일 다운로드 중

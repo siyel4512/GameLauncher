@@ -440,6 +440,7 @@ public class FilePath : LoadFile
 
     public void DeleteExeFiles(int serverNum)
     {
+        Debug.Log("삭제 시작");
         Test_SetDownloadURL2(serverNum);
 
         if (Directory.Exists(defaultDataPath))
