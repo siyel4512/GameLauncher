@@ -175,33 +175,13 @@ public class GameManager : MonoBehaviour
     }
 
     // request json data
-    public async void RefreshAllData()
+    public void RefreshAllData()
     {
-        // update player state
-        await api.Update_PlayerState(playerManager.currentState, Login.PID);
-
         // friend list
         api.Request_FriendList().Forget();// create friedn list
         
         // request friend list
         api.Request_RequestFriendList().Forget(); // create request friend list
-
-        //// file download url
-        //switch(selectedServerNum)
-        //{
-        //    case 0:
-        //        // dev server
-        //        break;
-        //    case 1:
-        //        // test server
-        //        break;
-        //    case 2:
-        //        // staging server
-        //        break;
-        //    case 3:
-        //        // live server
-        //        break;
-        //}
 
         // event banner && notice && news
         bannerNoticeManager.CreateAllContents();

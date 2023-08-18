@@ -430,18 +430,25 @@ public class API : URL
         var response = await client.PostAsync(playerStateUpdateURL, content);
         string requestResult = await response.Content.ReadAsStringAsync();
 
-        if (response.IsSuccessStatusCode)
-        {
-            Debug.Log("응답 성공 (플레이어 상태 변경 결과) : " + requestResult);
-            Debug.Log($"{status}번으로 상태 변경 요청 완료!!!");
-        }
-        else
+        if (requestResult == "TL_104")
         {
             // error code : TL_104
             Debug.Log("응답 실패 (플레이어 상태 변경 결과) : " + requestResult);
 
             // pid값이 유효하지 않습니다.
+            GameManager.instance.popupManager.popups[(int)PopupType.PlayerStateUpdateFailed].SetActive(true);
+        }
+        else if (requestResult == "no exist token")
+        {
+            Debug.Log("응답 실패 (플레이어 상태 변경 결과) : " + requestResult);
+
+            // pid값이 유효하지 않습니다.
             GameManager.instance.popupManager.popups[(int)PopupType.InvalidPID].SetActive(true);
+        }
+        else
+        {
+            Debug.Log("응답 성공 (플레이어 상태 변경 결과) : " + requestResult);
+            Debug.Log($"{status}번으로 상태 변경 요청 완료!!!");
         }
     }
     #endregion
@@ -516,26 +523,12 @@ public class API : URL
             string zipPath = JsonUtility.FromJson<SaveData.downloadUrlList>(requestResult).zip_path;
             string jsonPath = JsonUtility.FromJson<SaveData.downloadUrlList>(requestResult).json_path;
 
-            //jsonData.temp_donwloadUrl.zip_path = zipPath; // temp data save
-            //jsonData.temp_donwloadUrl.json_path = jsonPath; // temp data save
-
-            //GameManager.instance.filePath.buildFileUrls[(int)_folderFlag] = zipPath;
-            //GameManager.instance.filePath.jsonFileUrls[(int)_folderFlag] = jsonPath;
-
-            // Todo : 문자열 변환....
-            //string temp_zipPath = zipPath.Replace("\\", "/");
-            //string temp_jsonPath = jsonPath.Replace("\\", "/");
-
-            //jsonData.temp_donwloadUrl.zip_path = temp_zipPath; // temp data save
-            //jsonData.temp_donwloadUrl.json_path = temp_jsonPath; // temp data save
             jsonData.temp_donwloadUrl.zip_path = zipPath; // temp data save
             jsonData.temp_donwloadUrl.json_path = jsonPath; // temp data save
 
-            //jsonData.temp_donwloadUrlList[(int)_folderFlag].zip_path = temp_zipPath;
-            //jsonData.temp_donwloadUrlList[(int)_folderFlag].json_path = temp_jsonPath;
             jsonData.temp_donwloadUrlList[(int)_folderFlag].zip_path = zipPath;
             jsonData.temp_donwloadUrlList[(int)_folderFlag].json_path = jsonPath;
-
+            
             //GameManager.instance.filePath.buildFileUrls[(int)_folderFlag] = temp_zipPath;
             //GameManager.instance.filePath.jsonFileUrls[(int)_folderFlag] = temp_jsonPath;
         }

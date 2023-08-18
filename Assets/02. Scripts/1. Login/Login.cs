@@ -30,7 +30,7 @@ public class Login : MonoBehaviour
     public string temp_playerNum;
     public string temp_authrtcd;
 
-    private TCP_Server tcp_Server = new TCP_Server();
+    public TCP_Server tcp_Server;
 
 
     // Start is called before the first frame update

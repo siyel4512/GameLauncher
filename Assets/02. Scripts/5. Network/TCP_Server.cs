@@ -3,8 +3,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using UnityEngine;
 
-public class TCP_Server
+public class TCP_Server : MonoBehaviour
 {
     public TcpListener Server;
     public TcpClient Client;
@@ -73,8 +74,23 @@ public class TCP_Server
                     }
 
                     byte[] sendBuffer = Encoding.UTF8.GetBytes(msg);
-
                     stream.Write(sendBuffer, 0, sendBuffer.Length);
+
+                    // read msg
+                    stream.ReadTimeout = 5000;
+                    byte[] recevBuffer = new byte[1024];
+                    int bytesRead = stream.Read(recevBuffer, 0, recevBuffer.Length);
+
+                    string receiveMsg = Encoding.UTF8.GetString(recevBuffer, 0, recevBuffer.Length); // »ç¿ëÇÒ Nickname¸¦ ÀĞ¾î¿È
+                    receiveMsg = receiveMsg.Trim('\0');
+
+                    if (receiveMsg != "" && receiveMsg == "Need NickName")
+                    {
+                        // send msg
+                        msg = Login.nickname;
+                        byte[] sendBuffer_2 = Encoding.UTF8.GetBytes(msg);
+                        stream.Write(sendBuffer_2, 0, sendBuffer_2.Length);
+                    }
                 }
 
                 Client.Close();
@@ -84,11 +100,6 @@ public class TCP_Server
         {
             Console.WriteLine(ex.ToString());
         }
-        //catch (ThreadAbortException)
-        //{
-        //     ìŠ¤ë ˆë“œê°€ ì¤‘ì§€ë˜ì—ˆì„ ë•Œ ë°œìƒí•˜ëŠ” ì˜ˆì™¸ ì²˜ë¦¬
-        //    Console.WriteLine("stop thread");
-        //}
         finally
         {
             if (Server != null)

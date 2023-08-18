@@ -16,7 +16,8 @@ public enum PopupType
     BlackList,
     InvalidPID,
     AlreadyExistRequestUserPopup,
-    SelectServer
+    SelectServer,
+    PlayerStateUpdateFailed
 }
 
 public class PopupManager : MonoBehaviour
@@ -175,6 +176,11 @@ public class PopupManager : MonoBehaviour
     public void BTN_ConfirmInvalidPIDError()
     {
         popups[(int)PopupType.InvalidPID].SetActive(false);
+    }
+
+    public void BTN_ConfirmPlayerStateUpdateFailed()
+    {
+        popups[(int)PopupType.PlayerStateUpdateFailed].SetActive(false);
     }
     #endregion
 }

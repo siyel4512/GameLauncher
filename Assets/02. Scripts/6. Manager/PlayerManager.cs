@@ -187,6 +187,9 @@ public class PlayerManager : MonoBehaviour
     private void OnApplicationQuit()
     {
         Debug.Log("종료 시작");
-        RequestPlayerStateUpdate(0);
+        if (Login.PID != "")
+        {
+            RequestPlayerStateUpdate(0);
+        }
     }
 }
