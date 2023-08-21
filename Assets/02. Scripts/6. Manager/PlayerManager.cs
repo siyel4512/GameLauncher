@@ -187,6 +187,11 @@ public class PlayerManager : MonoBehaviour
     private void OnApplicationQuit()
     {
         Debug.Log("종료 시작");
+
+        Debug.Log("Login.PID 값 : " + Login.PID);
+
+        GameManager.instance.isQuit = true;
+
         if (Login.PID != "")
         {
             RequestPlayerStateUpdate(0);

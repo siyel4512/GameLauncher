@@ -62,6 +62,8 @@ public class GameManager : MonoBehaviour
     [Header("[ Running Files ]")]
     public Process[] runningFiles = new Process[4];
 
+    public bool isQuit;
+
     private void Awake()
     {
         if (instance == null)

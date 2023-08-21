@@ -19,7 +19,8 @@ public class GuideInfo : MonoBehaviour
 
     public void OnDownloadLink()
     {
-        Application.OpenURL(downloadLinkURL);
+        //Application.OpenURL(downloadLinkURL);
+        GameManager.instance.popupManager.popups[(int)PopupType.FunctionUpdate].SetActive(true);
     }
 
     public void SetLinkURL(string linkURL)

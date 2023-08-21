@@ -429,21 +429,27 @@ public class API : URL
         //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/changeMyStatus.do", content);
         var response = await client.PostAsync(playerStateUpdateURL, content);
         string requestResult = await response.Content.ReadAsStringAsync();
-
+        
         if (requestResult == "TL_104")
         {
             // error code : TL_104
             Debug.Log("응답 실패 (플레이어 상태 변경 결과) : " + requestResult);
 
-            // pid값이 유효하지 않습니다.
-            GameManager.instance.popupManager.popups[(int)PopupType.PlayerStateUpdateFailed].SetActive(true);
+            if (!GameManager.instance.isQuit)
+            {
+                // pid값이 유효하지 않습니다.
+                GameManager.instance.popupManager.popups[(int)PopupType.PlayerStateUpdateFailed].SetActive(true);
+            } 
         }
         else if (requestResult == "no exist token")
         {
             Debug.Log("응답 실패 (플레이어 상태 변경 결과) : " + requestResult);
 
-            // pid값이 유효하지 않습니다.
-            GameManager.instance.popupManager.popups[(int)PopupType.InvalidPID].SetActive(true);
+            if (!GameManager.instance.isQuit)
+            {
+                // pid값이 유효하지 않습니다.
+                GameManager.instance.popupManager.popups[(int)PopupType.InvalidPID].SetActive(true);
+            } 
         }
         else
         {
