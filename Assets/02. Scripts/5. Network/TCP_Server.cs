@@ -13,10 +13,21 @@ public class TCP_Server : MonoBehaviour
     public Thread ListenThread;
     private int port = 8000;
 
+    public bool isRunning;
+
+    public void Update()
+    {
+        if (GameManager.instance.isLogin && !isRunning)
+        {
+            StartServer();
+        }
+    }
+
     public void StartServer()
     {
         ListenThread = new Thread(new ThreadStart(Listen));
         ListenThread.Start();
+        isRunning = true;
     }
 
     public void StopServer()
@@ -38,6 +49,8 @@ public class TCP_Server : MonoBehaviour
             ListenThread.Abort();
             ListenThread = null;
         }
+
+        isRunning = false;
     }
 
     private void Listen()
@@ -81,7 +94,8 @@ public class TCP_Server : MonoBehaviour
                     byte[] recevBuffer = new byte[1024];
                     int bytesRead = stream.Read(recevBuffer, 0, recevBuffer.Length);
 
-                    string receiveMsg = Encoding.UTF8.GetString(recevBuffer, 0, recevBuffer.Length); // 사용할 Nickname를 읽어옴
+                    //string receiveMsg = Encoding.UTF8.GetString(recevBuffer, 0, recevBuffer.Length); // 사용할 Nickname를 읽어옴
+                    string receiveMsg = Encoding.UTF8.GetString(recevBuffer, 0, bytesRead); // 사용할 Nickname를 읽어옴
                     receiveMsg = receiveMsg.Trim('\0');
 
                     if (receiveMsg != "" && receiveMsg == "Need NickName")
@@ -107,6 +121,8 @@ public class TCP_Server : MonoBehaviour
                 Server.Stop();
                 Server = null;
             }
+
+            isRunning = false;
         }
     }
 }

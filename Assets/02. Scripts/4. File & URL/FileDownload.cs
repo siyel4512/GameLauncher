@@ -11,6 +11,7 @@ using TMPro;
 using Cysharp.Threading.Tasks;
 
 using Debug = UnityEngine.Debug;
+using JetBrains.Annotations;
 
 public enum LauncherStatus
 {
@@ -308,6 +309,11 @@ public class FileDownload : MonoBehaviour
             // execute
             if (File.Exists(gameExcutePath) && Status == LauncherStatus.ready)
             {
+                //if (!GameManager.instance.login.tcp_Server.isRunning)
+                //{
+                //    GameManager.instance.login.tcp_Server.StartServer();
+                //}
+
                 ProcessStartInfo startInfo = new ProcessStartInfo(gameExcutePath);
                 startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPaths[buttonNum], FilePath.Instance.ExeFolderNames[buttonNum]);
                 //Process.Start(startInfo);

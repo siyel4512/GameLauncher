@@ -251,6 +251,8 @@ public class FriendListManager : MonoBehaviour
 
     public async void SearchUser()
     {
+        //await GameManager.instance.api.Update_PlayerState(GameManager.instance.playerManager.currentState, Login.PID);
+
         // Requset
         // Todo : delete GameManager.instance.isTEST
         if (DEV.instance.isTEST_Login)
@@ -464,8 +466,10 @@ public class FriendListManager : MonoBehaviour
     #endregion
 
     #region Request Friend
-    public void ShowRequestFriendList()
+    public async void ShowRequestFriendList()
     {
+        //await GameManager.instance.api.Update_PlayerState(GameManager.instance.playerManager.currentState, Login.PID);
+
         ResetSelect();
         requestListScrollPos.anchoredPosition = new Vector2(0, 0);
 

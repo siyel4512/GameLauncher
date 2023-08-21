@@ -57,6 +57,11 @@ public class Login : MonoBehaviour
                 loginButton.Select();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            tcp_Server.StartServer();
+        }
     }
 
     // Check Input Field
@@ -235,7 +240,7 @@ public class Login : MonoBehaviour
 
             PID = requestResult.Split(":")[1].Split(",")[0];
             nickname = requestResult.Split(":")[2].Split(",")[0];
-            playerNum = requestResult.Split(":")[3].Split("}")[0];
+            playerNum = requestResult.Split(":")[3].Split(",")[0];
             authrtcd = requestResult.Split(":")[4].Split("}")[0];
 
             temp_authrtcd = authrtcd;

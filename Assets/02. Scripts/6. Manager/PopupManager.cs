@@ -80,7 +80,7 @@ public class PopupManager : MonoBehaviour
             Debug.Log("[SY] 친구 요청 완료");
 
             // 내 상태 업데이트
-            await GameManager.instance.api.Update_PlayerState(GameManager.instance.playerManager.currentState, Login.PID);
+            //await GameManager.instance.api.Update_PlayerState(GameManager.instance.playerManager.currentState, Login.PID);
 
             if (DEV.instance.isUsingTokenForFriendList)
             {

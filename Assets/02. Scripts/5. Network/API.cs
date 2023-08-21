@@ -34,10 +34,10 @@ public class API : URL
     // friend list
     public async UniTaskVoid Request_FriendList(bool isUsingPlayerUpdate = false)
     {
-        if (isUsingPlayerUpdate)
-        {
-            await GameManager.instance.api.Update_PlayerState(GameManager.instance.playerManager.currentState, Login.PID);
-        }
+        //if (isUsingPlayerUpdate)
+        //{
+        //    await GameManager.instance.api.Update_PlayerState(GameManager.instance.playerManager.currentState, Login.PID);
+        //}
 
         await UniTask.SwitchToThreadPool();
 
@@ -186,6 +186,8 @@ public class API : URL
     // add friend
     public async UniTaskVoid Temp_Request_AddFriend(string myNo, string mbrNo)
     {
+        //await GameManager.instance.api.Update_PlayerState(GameManager.instance.playerManager.currentState, Login.PID);
+
         await UniTask.SwitchToThreadPool();
         Debug.Log("Request_AddFriend() start()");
         JsonData jsonData = GameManager.instance.jsonData;
@@ -219,10 +221,14 @@ public class API : URL
         await UniTask.SwitchToMainThread();
         
         GameManager.instance.friendListManager.ResetSearchUserNickName();
+
+        await GameManager.instance.api.Update_PlayerState(GameManager.instance.playerManager.currentState, Login.PID);
     }
 
     public async UniTaskVoid Request_AddFriend(string token, string mbrNo)
     {
+        //await GameManager.instance.api.Update_PlayerState(GameManager.instance.playerManager.currentState, Login.PID);
+
         await UniTask.SwitchToThreadPool();
         Debug.Log("Request_AddFriend() start()");
         JsonData jsonData = GameManager.instance.jsonData;

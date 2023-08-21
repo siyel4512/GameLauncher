@@ -38,7 +38,7 @@ public class RequestInfo : MonoBehaviour
 
         //GameManager.instance.requestFriendManager.RequestAddList();
 
-        //// 내 상태 업데이트
+        // 내 상태 업데이트
         //await GameManager.instance.api.Update_PlayerState(GameManager.instance.playerManager.currentState, Login.PID);
 
         // 친구 리스트 추가 요청
