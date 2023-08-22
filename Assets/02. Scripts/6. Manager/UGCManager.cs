@@ -7,6 +7,7 @@ using TMPro;
 using System.IO;
 
 using Application = UnityEngine.Application;
+using AnotherFileBrowser.Windows;
 
 public class UGCManager : MonoBehaviour
 {
@@ -33,23 +34,29 @@ public class UGCManager : MonoBehaviour
     //    installPath_text.text = GameManager.instance.filePath.ExeFolderPaths[popupNum];
     //}
 
-    public void BTN_Oopn()
+    public void BTN_OpenFileDialog()
     {
-        VistaFolderBrowserDialog openDialog = new VistaFolderBrowserDialog();
-        openDialog.Description = "Select Folder";
-        openDialog.UseDescriptionForTitle = true;
+        VistaOpenFileDialog openDialog = new VistaOpenFileDialog();
+        openDialog.Multiselect = false;
+        openDialog.Title = "Select File";
+        openDialog.Filter = "All Files (*.*)|*.*|txt files (*.txt)|*.txt";
+        openDialog.FilterIndex = 0;
+        openDialog.RestoreDirectory = true;
 
-        openDialog.SelectedPath = LoadUGCFilePath().unityProjectExeFilePath + "\\";
+        openDialog.FileName = LoadUGCFilePath().unityProjectExeFilePath + "\\"; // initial dir
 
         if (openDialog.ShowDialog(new WindowWrapper(GetActiveWindow())) == DialogResult.OK)
         {
-            Debug.Log(openDialog.SelectedPath);
+            //filepath(openDialog.FileNames);
+
+            Debug.Log(openDialog.FileName);
 
             // save select install path
-            SaveUGCFilePath(1, openDialog.SelectedPath);
+            SaveUGCFilePath(1, openDialog.FileName);
 
             // set select install path
-            unityProjectExeFilePath_text.text = GameManager.instance.filePath.ExeFolderPaths[popupNum];
+            //unityProjectExeFilePath_text.text = GameManager.instance.filePath.ExeFolderPaths[popupNum];
+            unityProjectExeFilePath_text.text = openDialog.FileName;
         }
     }
 
@@ -68,9 +75,10 @@ public class UGCManager : MonoBehaviour
 
             // save select install path
             SaveUGCFilePath(2, openDialog.SelectedPath);
-
+            Debug.Log(openDialog.SelectedPath);
             // set select install path
-            objectUGCProjectDownloadPath_text.text = GameManager.instance.filePath.ExeFolderPaths[popupNum];
+            //objectUGCProjectDownloadPath_text.text = GameManager.instance.filePath.ExeFolderPaths[popupNum];
+            objectUGCProjectDownloadPath_text.text = openDialog.SelectedPath;
         }
     }
 
