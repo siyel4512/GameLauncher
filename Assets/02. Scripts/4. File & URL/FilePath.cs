@@ -396,48 +396,8 @@ public class FilePath : LoadFile
     }
 
     //---------------------------------------------//
-    //---------------------------------------------//
-    //---------------------------------------------//
-    //---------------------------------------------//
-    //---------------------------------------------//
 
     #region File Path Check
-    //public void FilePathCheck()
-    //{
-    //    Test_SetDownloadURL();
-    //    //Test_SetDownloadURL2();
-
-    //    for (int i = 0; i < 4; i++)
-    //    {
-    //        // Check URL Value
-    //        if (buildFileUrls[i] != LoadDownloadInfoData().downloadURL[i])
-    //        {
-    //            Debug.Log(i + " 값 다름 바로 삭제 필요");
-
-    //            Debug.Log("경로 : " + LoadDownloadInfoData().exeFolderPaths[i]);
-
-    //            //if (LoadDownloadInfoData().exeFolderPaths[i] != "")
-    //            {
-    //                if (Directory.Exists(LoadDownloadInfoData().exeFolderPaths[i]))
-    //                {
-    //                    Debug.Log("파일 삭제");
-    //                    Directory.Delete(LoadDownloadInfoData().exeFolderPaths[i], true);
-    //                }
-    //            }
-
-    //            // 해당 폴더 밑에 존재하는 모든 파일 삭제 기능필요
-    //            //Debug.Log("Root Paths : " + RootPaths[i]);
-    //        }
-    //        //else
-    //        //{
-    //        //    Debug.Log(i + "값 같음 체크썸 진행");
-    //        //}
-
-    //        SaveDownloadURL(i, buildFileUrls[i]);
-    //        SaveDownloadFolderPath(i, exeFolderPaths[i]);
-    //    }
-    //}
-
     public void DeleteExeFiles(int serverNum)
     {
         Debug.Log("삭제 시작");
@@ -467,58 +427,6 @@ public class FilePath : LoadFile
         //}
     }
     #endregion
-
-    //#region Exe file path Save & Load
-    ////save exe file download url
-    //public void SaveDownloadURL(int _index, string _path)
-    //{
-    //    exeFilePath.downloadURL[_index] = _path;
-
-    //    string jsonData = JsonUtility.ToJson(exeFilePath, true);
-    //    string serverNum = Path.Combine(Application.streamingAssetsPath + "/Data Path", "exeFilePath.json");
-    //    File.WriteAllText(serverNum, jsonData);
-    //}
-
-    //// save exe file download folder path
-    //public void SaveDownloadFolderPath(int _buttonNum, string _path)
-    //{
-    //    exeFilePath.exeFolderPaths[_buttonNum] = _path;
-
-    //    string jsonData = JsonUtility.ToJson(exeFilePath, true);
-    //    string serverNum = Path.Combine(Application.streamingAssetsPath + "/Data Path", "exeFilePath.json");
-    //    File.WriteAllText(serverNum, jsonData);
-    //}
-
-    //// load download info data
-    //public DownloadInfoData LoadDownloadInfoData()
-    //{
-    //    string serverNum = Path.Combine(Application.streamingAssetsPath + "/Data Path", "exeFilePath.json");
-    //    string jsonData = File.ReadAllText(serverNum);
-    //    exeFilePath = JsonUtility.FromJson<DownloadInfoData>(jsonData);
-
-    //    return exeFilePath;
-    //}
-
-    //public void ResetDownloadInfoData()
-    //{
-    //    //defaultDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
-    //    //defaultDataPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-    //    //defaultDataPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-    //    //defaultDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-    //    //defaultDataPath = "C:\\Curiverse";
-    //    defaultDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "TEST Folder");
-
-    //    for (int i = 0; i < 4; i++)
-    //    {
-    //        exeFilePath.downloadURL[i] = "";
-    //        exeFilePath.exeFolderPaths[i] = "";
-    //    }
-
-    //    string jsonData = JsonUtility.ToJson(exeFilePath, true);
-    //    string path = Path.Combine(Application.streamingAssetsPath + "/Data Path", "exeFilePath.json");
-    //    File.WriteAllText(path, jsonData);
-    //}
-    //#endregion
 
     public void SaveDownloadURL(int i, string newDonwloadURL)
     {
