@@ -18,7 +18,8 @@ public enum PopupType
     AlreadyExistRequestUserPopup,
     SelectServer,
     PlayerStateUpdateFailed,
-    FunctionUpdate
+    FunctionUpdate,
+    DownloadSetting
 }
 
 public class PopupManager : MonoBehaviour
@@ -189,6 +190,13 @@ public class PopupManager : MonoBehaviour
     public void BTN_ConfirmFunctionUpdate()
     {
         popups[(int)PopupType.FunctionUpdate].SetActive(false);
+    }
+    #endregion
+
+    #region Download Path Setting
+    public void BTN_ConfirmDownloadPathSetting()
+    {
+        popups[(int)PopupType.DownloadSetting].SetActive(false);
     }
     #endregion
 }

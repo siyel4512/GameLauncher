@@ -5,9 +5,10 @@ using UnityEngine;
 using Ookii.Dialogs;
 using TMPro;
 using System.IO;
+using System.Diagnostics;
 
 using Application = UnityEngine.Application;
-using AnotherFileBrowser.Windows;
+using Debug = UnityEngine.Debug;
 
 public class UGCManager : MonoBehaviour
 {
@@ -25,14 +26,38 @@ public class UGCManager : MonoBehaviour
 
     public void Start()
     {
-        ResetUGCFilePath();
+        //ResetUGCFilePath();
+        unityProjectExeFilePath_text.text = LoadUGCFilePath().unityProjectExeFilePath;
+        objectUGCProjectDownloadPath_text.text = LoadUGCFilePath().objectUGCProjectDownloadPath;
     }
 
-    //private void OnEnable()
-    //{
-    //    // set select install path
-    //    installPath_text.text = GameManager.instance.filePath.ExeFolderPaths[popupNum];
-    //}
+    public void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            ////Debug.Log(@"C:\Curiverse\startObjectUGC.bat".Replace('\\', Path.DirectorySeparatorChar));
+            //Debug.Log(LoadUGCFilePath().objectUGCProjectDownloadPath + "\\startObjectUGC.bat");
+            Debug.Log("[ugc] " + Path.Combine(LoadUGCFilePath().objectUGCProjectDownloadPath, "startObjectUGC.bat"));
+
+            if (File.Exists(Path.Combine(LoadUGCFilePath().objectUGCProjectDownloadPath, "startObjectUGC.bat")))
+            {
+                Debug.Log("[ugc] 배치 파일 있음");
+
+                ProcessStartInfo startInfo = new ProcessStartInfo(Path.Combine(LoadUGCFilePath().objectUGCProjectDownloadPath, "startObjectUGC.bat"));
+                startInfo.WorkingDirectory = LoadUGCFilePath().objectUGCProjectDownloadPath;
+                Process.Start(startInfo);
+            }
+            else
+            {
+                Debug.Log("[ugc] 배치 파일 없음");
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            CreateBatchFile();
+        }
+    }
 
     public void BTN_OpenFileDialog()
     {
@@ -43,20 +68,27 @@ public class UGCManager : MonoBehaviour
         openDialog.FilterIndex = 0;
         openDialog.RestoreDirectory = true;
 
-        openDialog.FileName = LoadUGCFilePath().unityProjectExeFilePath + "\\"; // initial dir
+        // open path setting
+        string[] splitPaths = LoadUGCFilePath().unityProjectExeFilePath.Split('\\');
+        string openDirectoryPath = "";
 
+        for (int i = 0; i < splitPaths.Length - 1; i++)
+        {
+            openDirectoryPath += (splitPaths[i] + "\\");
+        }
+
+        openDialog.FileName = openDirectoryPath; // 폴더 경로로 지정할것
+        Debug.Log("선택창 열림1");
         if (openDialog.ShowDialog(new WindowWrapper(GetActiveWindow())) == DialogResult.OK)
         {
-            //filepath(openDialog.FileNames);
-
+            Debug.Log("선택창 확인1");
             Debug.Log(openDialog.FileName);
 
             // save select install path
             SaveUGCFilePath(1, openDialog.FileName);
 
             // set select install path
-            //unityProjectExeFilePath_text.text = GameManager.instance.filePath.ExeFolderPaths[popupNum];
-            unityProjectExeFilePath_text.text = openDialog.FileName;
+            unityProjectExeFilePath_text.text = LoadUGCFilePath().unityProjectExeFilePath;
         }
     }
 
@@ -67,25 +99,52 @@ public class UGCManager : MonoBehaviour
         openDialog.Description = "Select Folder";
         openDialog.UseDescriptionForTitle = true;
 
+        // open path setting
         openDialog.SelectedPath = LoadUGCFilePath().objectUGCProjectDownloadPath + "\\";
 
+        string tempPath = openDialog.SelectedPath;
+
+        Debug.Log("선택창 열림2");
         if (openDialog.ShowDialog(new WindowWrapper(GetActiveWindow())) == DialogResult.OK)
         {
+            //Debug.Log("이전 경로1 : " + (tempPath + "\\startObjectUGC.bat"));
+            //Debug.Log("이전 경로2 : " + (tempPath.Replace('\\', Path.DirectorySeparatorChar)));
+            if (File.Exists(Path.Combine(LoadUGCFilePath().objectUGCProjectDownloadPath, "startObjectUGC.bat")))
+            //if (File.Exists(tempPath.Replace('\\', Path.DirectorySeparatorChar)))
+            {
+                // 배치 파일 삭제
+                Debug.Log("배치 파일 있음");
+            }
+            else
+            {
+                Debug.Log("배치 파일 없음");
+            }
+
+            Debug.Log("선택창 확인2");
             Debug.Log(openDialog.SelectedPath);
 
             // save select install path
             SaveUGCFilePath(2, openDialog.SelectedPath);
-            Debug.Log(openDialog.SelectedPath);
+            
             // set select install path
-            //objectUGCProjectDownloadPath_text.text = GameManager.instance.filePath.ExeFolderPaths[popupNum];
-            objectUGCProjectDownloadPath_text.text = openDialog.SelectedPath;
+            objectUGCProjectDownloadPath_text.text = LoadUGCFilePath().objectUGCProjectDownloadPath;
+            FilePath.Instance.rootPaths[2] = LoadUGCFilePath().objectUGCProjectDownloadPath;
         }
     }
 
-    public void BTN_ClosePopup()
-    {
-        gameObject.SetActive(false);
-    }
+    // Todo : 파일 경로 갱신 필요
+    //private void SetFilePath()
+    //{
+    //    for (int i = 0; i < 4; i++)
+    //    {
+    //        string[] folderFullName = buildFileUrls[i].Split("/");
+    //        string[] exeFolderName = folderFullName[folderFullName.Length - 1].Split(".");
+
+    //        exeFolderNames[i] = exeFolderName[0];
+    //        exeFolderPaths[i] = Path.Combine(rootPaths[i], exeFolderName[0]);
+    //        exeZipFilePaths[i] = Path.Combine(rootPaths[i], exeFolderPaths[i] + ".zip");
+    //    }
+    //}
 
     //---------------------------------------------------------------//
     public UGCFilePath ugcFilePath;
@@ -126,7 +185,66 @@ public class UGCManager : MonoBehaviour
         string path = Path.Combine(Application.streamingAssetsPath + "/Data Path", "ugcFilePath.json");
         File.WriteAllText(path, jsonData);
     }
+
+    public void CreateBatchFile()
+    {
+        // batch 파일 삭제
+
+        string directoryPath = LoadUGCFilePath().objectUGCProjectDownloadPath;
+        //string batchFilePath = @"C:\Curiverse\startObjectUGC.bat".Replace('\\', Path.DirectorySeparatorChar);
+        string batchFilePath = Path.Combine(LoadUGCFilePath().objectUGCProjectDownloadPath, "startObjectUGC.bat");
+
+        // 유니티 프로젝트 설치 위치(사용자로부터 입력)
+        //string unityPath = "C:\\Program Files\\Unity\\Hub\\Editor\\2020.3.38f1\\Editor\\Unity.exe";
+        string unityPath = LoadUGCFilePath().unityProjectExeFilePath;
+        string[] split_unityPath = unityPath.Split('\\');
+
+        if (split_unityPath[split_unityPath.Length - 1] != "Unity.exe")
+        {
+            Debug.Log("[UGC] 유니티 프로젝트 실행파일 아님");
+            return;
+        }
+        else
+        {
+            if (File.Exists(unityPath))
+            {
+                Debug.Log("[UGC] 유니티 프로젝트 실행파일 존재");
+            }
+            else
+            {
+                Debug.Log("[UGC] 해당 경로에 유니티 프로젝트 실행파일 없음");
+                return;
+            }
+        }
+
+        // 오브젝트UGC 프로젝트 다운로드 위치(사용자로부터 입력)
+        //string projectPath = "C:\\Users\\JYWON\\Documents\\Unity Projects\\Curiverse Object";
+        string projectPath = Path.Combine(LoadUGCFilePath().objectUGCProjectDownloadPath, FilePath.Instance.ExeFolderPaths[2]);
+        //string projectPath = Path.Combine(LoadUGCFilePath().objectUGCProjectDownloadPath, "Shared-Mode (2)");
+
+        if (Directory.Exists(projectPath))
+        {
+            Debug.Log("[UGC] 해당 경로에 프로젝트 있음");
+        }
+        else
+        {
+            Debug.Log("[UGC] 해당 경로에 프로젝트 없음");
+            return;
+        }
+
+        if (!Directory.Exists(directoryPath))
+            Directory.CreateDirectory(directoryPath);
+
+        string batchOrder = "@echo off\n" +
+                            "start \"\" \"" + unityPath + "\" -projectPath \"" + projectPath +
+                            "\"\nexit";
+
+        File.WriteAllText(batchFilePath, batchOrder);
+
+        Debug.Log("배치 파일 생성 완료");
+    }
 }
+//---------------------------------------------------------------//
 
 [System.Serializable]
 public class UGCFilePath

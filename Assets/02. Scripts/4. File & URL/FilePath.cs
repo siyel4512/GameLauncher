@@ -46,6 +46,8 @@ public class FilePath : LoadFile
     //public DownloadInfoData exeFilePath;
     public DownloadURL downloadURL;
 
+    public UGCManager ugcManager;
+
     public string fileCheckText = "File Check";
 
     private void Awake()
@@ -63,6 +65,7 @@ public class FilePath : LoadFile
     // Start is called before the first frame update
     void Start()
     {
+        ugcManager = GetComponent<UGCManager>();
         InitDataPath();
     }
 
@@ -75,16 +78,18 @@ public class FilePath : LoadFile
 
         rootPaths[0] = dataPath.pcPath;
         rootPaths[1] = dataPath.vrPath;
-        rootPaths[2] = dataPath.ugcPath;
+        //rootPaths[2] = dataPath.ugcPath; // ugc는 별도로 저장
         rootPaths[3] = dataPath.batchPath;
 
-        if (DEV.instance != null && DEV.instance.isTEST_Login)
-        {
-            DEV.instance.rootPaths[0] = rootPaths[0];
-            DEV.instance.rootPaths[1] = rootPaths[1];
-            DEV.instance.rootPaths[2] = rootPaths[2];
-            DEV.instance.rootPaths[3] = rootPaths[3];
-        }
+        //if (DEV.instance != null && DEV.instance.isTEST_Login)
+        //{
+        //    DEV.instance.rootPaths[0] = rootPaths[0];
+        //    DEV.instance.rootPaths[1] = rootPaths[1];
+        //    DEV.instance.rootPaths[2] = rootPaths[2];
+        //    DEV.instance.rootPaths[3] = rootPaths[3];
+        //}
+
+        rootPaths[2] = ugcManager.LoadUGCFilePath().objectUGCProjectDownloadPath;
     }
 
     // save path data
@@ -132,13 +137,7 @@ public class FilePath : LoadFile
 
     public void ResetDataPath()
     {
-        //defaultDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
-        //defaultDataPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        //defaultDataPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        //defaultDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
         defaultDataPath = "C:\\Curiverse";
-        //defaultDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "TEST Folder");
-
         dataPath.pcPath = dataPath.vrPath = dataPath.ugcPath = dataPath.batchPath = defaultDataPath;
 
         string jsonData = JsonUtility.ToJson(dataPath, true);
@@ -149,68 +148,68 @@ public class FilePath : LoadFile
     }
     //---------------------------------//
 
-    // read setting file content
-    public void Test_SetDownloadURL()
-    {
-        string[] parsingData = ParsingData();
+    //// read setting file content
+    //public void Test_SetDownloadURL()
+    //{
+    //    string[] parsingData = ParsingData();
 
-        switch (GameManager.instance.selectedServerNum)
-        {
-            case 0:
-                // dev server
-                buildFileUrls[0] = parsingData[5];
-                buildFileUrls[1] = parsingData[7];
-                buildFileUrls[2] = parsingData[9];
-                buildFileUrls[3] = parsingData[11];
+    //    switch (GameManager.instance.selectedServerNum)
+    //    {
+    //        case 0:
+    //            // dev server
+    //            buildFileUrls[0] = parsingData[5];
+    //            buildFileUrls[1] = parsingData[7];
+    //            buildFileUrls[2] = parsingData[9];
+    //            buildFileUrls[3] = parsingData[11];
 
-                jsonFileUrls[0] = parsingData[6];
-                jsonFileUrls[1] = parsingData[8];
-                jsonFileUrls[2] = parsingData[10];
-                jsonFileUrls[3] = parsingData[12];
+    //            jsonFileUrls[0] = parsingData[6];
+    //            jsonFileUrls[1] = parsingData[8];
+    //            jsonFileUrls[2] = parsingData[10];
+    //            jsonFileUrls[3] = parsingData[12];
 
-                // test
-                //await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev.ToString(), FileType.pc.ToString());
-                break;
-            case 1:
-                // test server
-                buildFileUrls[0] = parsingData[7];
-                buildFileUrls[1] = parsingData[9];
-                buildFileUrls[2] = parsingData[11];
-                buildFileUrls[3] = parsingData[5];
+    //            // test
+    //            //await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev.ToString(), FileType.pc.ToString());
+    //            break;
+    //        case 1:
+    //            // test server
+    //            buildFileUrls[0] = parsingData[7];
+    //            buildFileUrls[1] = parsingData[9];
+    //            buildFileUrls[2] = parsingData[11];
+    //            buildFileUrls[3] = parsingData[5];
 
-                jsonFileUrls[0] = parsingData[8];
-                jsonFileUrls[1] = parsingData[10];
-                jsonFileUrls[2] = parsingData[12];
-                jsonFileUrls[3] = parsingData[6];
-                break;
-            case 2:
-                // staging server
-                buildFileUrls[0] = parsingData[9];
-                buildFileUrls[1] = parsingData[11];
-                buildFileUrls[2] = parsingData[5];
-                buildFileUrls[3] = parsingData[7];
+    //            jsonFileUrls[0] = parsingData[8];
+    //            jsonFileUrls[1] = parsingData[10];
+    //            jsonFileUrls[2] = parsingData[12];
+    //            jsonFileUrls[3] = parsingData[6];
+    //            break;
+    //        case 2:
+    //            // staging server
+    //            buildFileUrls[0] = parsingData[9];
+    //            buildFileUrls[1] = parsingData[11];
+    //            buildFileUrls[2] = parsingData[5];
+    //            buildFileUrls[3] = parsingData[7];
 
-                jsonFileUrls[0] = parsingData[10];
-                jsonFileUrls[1] = parsingData[12];
-                jsonFileUrls[2] = parsingData[6];
-                jsonFileUrls[3] = parsingData[8];
-                break;
-            case 3:
-                // live server
-                buildFileUrls[0] = parsingData[11];
-                buildFileUrls[1] = parsingData[5];
-                buildFileUrls[2] = parsingData[7];
-                buildFileUrls[3] = parsingData[9];
+    //            jsonFileUrls[0] = parsingData[10];
+    //            jsonFileUrls[1] = parsingData[12];
+    //            jsonFileUrls[2] = parsingData[6];
+    //            jsonFileUrls[3] = parsingData[8];
+    //            break;
+    //        case 3:
+    //            // live server
+    //            buildFileUrls[0] = parsingData[11];
+    //            buildFileUrls[1] = parsingData[5];
+    //            buildFileUrls[2] = parsingData[7];
+    //            buildFileUrls[3] = parsingData[9];
 
-                jsonFileUrls[0] = parsingData[12];
-                jsonFileUrls[1] = parsingData[6];
-                jsonFileUrls[2] = parsingData[8];
-                jsonFileUrls[3] = parsingData[10];
-                break;
-        }
+    //            jsonFileUrls[0] = parsingData[12];
+    //            jsonFileUrls[1] = parsingData[6];
+    //            jsonFileUrls[2] = parsingData[8];
+    //            jsonFileUrls[3] = parsingData[10];
+    //            break;
+    //    }
 
-        SetFilePath();
-    }
+    //    SetFilePath();
+    //}
 
     public async void Test_SetDownloadURL2(int serverNum)
     {

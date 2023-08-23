@@ -35,6 +35,7 @@ public class PlayerManager : MonoBehaviour
     public Button onlineButton;
     public Button takeABreakButton;
     public Button otherWorkButton;
+    public Button downloadButton;
     public Button logoutButton;
     
 
@@ -45,6 +46,7 @@ public class PlayerManager : MonoBehaviour
         onlineButton.onClick.AddListener(() => SetPlayerState(1));
         takeABreakButton.onClick.AddListener(() => SetPlayerState(2));
         otherWorkButton.onClick.AddListener(() => SetPlayerState(3));
+        downloadButton.onClick.AddListener(ShowDownloadSettingPopup);
         logoutButton.onClick.AddListener(ShowLogoutPopup);
 
         sw = new Stopwatch();
@@ -172,6 +174,13 @@ public class PlayerManager : MonoBehaviour
         settingMenu.SetActive(isStateSettings);
         //GameManager.instance.popupManager.popups[(int)PopupType.logout].SetActive(!isStateSettings);
         GameManager.instance.popupManager.ShowLogoutPage();
+    }
+
+    public void ShowDownloadSettingPopup()
+    {
+        isStateSettings = false;
+        settingMenu.SetActive(isStateSettings);
+        GameManager.instance.popupManager.popups[(int)PopupType.DownloadSetting].SetActive(!isStateSettings);
     }
 
     private void SelectStateIcon(int iconNum)
