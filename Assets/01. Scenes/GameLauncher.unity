@@ -22781,6 +22781,7 @@ MonoBehaviour:
   requestFriendManager: {fileID: 979119270}
   bannerNoticeManager: {fileID: 1385737052}
   pcPowerMnager: {fileID: 721861403}
+  ugcManager: {fileID: 288331701}
   api: {fileID: 546057156}
   jsonData: {fileID: 1420501881}
   SelectButtons:

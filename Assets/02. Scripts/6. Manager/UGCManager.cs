@@ -41,7 +41,7 @@ public class UGCManager : MonoBehaviour
 
             if (File.Exists(Path.Combine(LoadUGCFilePath().objectUGCProjectDownloadPath, "startObjectUGC.bat")))
             {
-                Debug.Log("[ugc] πËƒ° ∆ƒ¿œ ¿÷¿Ω");
+                Debug.Log("[ugc] Î∞∞Ïπò ÌååÏùº ÏûàÏùå");
 
                 ProcessStartInfo startInfo = new ProcessStartInfo(Path.Combine(LoadUGCFilePath().objectUGCProjectDownloadPath, "startObjectUGC.bat"));
                 startInfo.WorkingDirectory = LoadUGCFilePath().objectUGCProjectDownloadPath;
@@ -49,7 +49,7 @@ public class UGCManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("[ugc] πËƒ° ∆ƒ¿œ æ¯¿Ω");
+                Debug.Log("[ugc] Î∞∞Ïπò ÌååÏùº ÏóÜÏùå");
             }
         }
 
@@ -77,12 +77,20 @@ public class UGCManager : MonoBehaviour
             openDirectoryPath += (splitPaths[i] + "\\");
         }
 
-        openDialog.FileName = openDirectoryPath; // ∆˙¥ı ∞Ê∑Œ∑Œ ¡ˆ¡§«“∞Õ
-        Debug.Log("º±≈√√¢ ø≠∏≤1");
+        openDialog.FileName = openDirectoryPath; // Ìè¥Îçî Í≤ΩÎ°úÎ°ú ÏßÄÏ†ïÌï†Í≤É
+
+        string tempPath = LoadUGCFilePath().objectUGCProjectDownloadPath + "\\";
+
         if (openDialog.ShowDialog(new WindowWrapper(GetActiveWindow())) == DialogResult.OK)
         {
-            Debug.Log("º±≈√√¢ »Æ¿Œ1");
-            Debug.Log(openDialog.FileName);
+            if (File.Exists(Path.Combine(tempPath, "startObjectUGC.bat")))
+            {
+                // Î∞∞Ïπò ÌååÏùº ÏÇ≠Ï†ú
+                Debug.Log("Î∞∞Ïπò ÌååÏùº ÏÇ≠Ï†ú");
+                File.Delete(Path.Combine(tempPath, "startObjectUGC.bat"));
+            }
+
+            //Debug.Log(openDialog.FileName);
 
             // save select install path
             SaveUGCFilePath(1, openDialog.FileName);
@@ -104,24 +112,16 @@ public class UGCManager : MonoBehaviour
 
         string tempPath = openDialog.SelectedPath;
 
-        Debug.Log("º±≈√√¢ ø≠∏≤2");
         if (openDialog.ShowDialog(new WindowWrapper(GetActiveWindow())) == DialogResult.OK)
         {
-            //Debug.Log("¿Ã¿¸ ∞Ê∑Œ1 : " + (tempPath + "\\startObjectUGC.bat"));
-            //Debug.Log("¿Ã¿¸ ∞Ê∑Œ2 : " + (tempPath.Replace('\\', Path.DirectorySeparatorChar)));
-            if (File.Exists(Path.Combine(LoadUGCFilePath().objectUGCProjectDownloadPath, "startObjectUGC.bat")))
-            //if (File.Exists(tempPath.Replace('\\', Path.DirectorySeparatorChar)))
+            if (File.Exists(Path.Combine(tempPath, "startObjectUGC.bat")))
             {
-                // πËƒ° ∆ƒ¿œ ªË¡¶
-                Debug.Log("πËƒ° ∆ƒ¿œ ¿÷¿Ω");
-            }
-            else
-            {
-                Debug.Log("πËƒ° ∆ƒ¿œ æ¯¿Ω");
+                // Î∞∞Ïπò ÌååÏùº ÏÇ≠Ï†ú
+                Debug.Log("Î∞∞Ïπò ÌååÏùº ÏÇ≠Ï†ú");
+                File.Delete(Path.Combine(tempPath, "startObjectUGC.bat"));
             }
 
-            Debug.Log("º±≈√√¢ »Æ¿Œ2");
-            Debug.Log(openDialog.SelectedPath);
+            //Debug.Log(openDialog.SelectedPath);
 
             // save select install path
             SaveUGCFilePath(2, openDialog.SelectedPath);
@@ -129,22 +129,10 @@ public class UGCManager : MonoBehaviour
             // set select install path
             objectUGCProjectDownloadPath_text.text = LoadUGCFilePath().objectUGCProjectDownloadPath;
             FilePath.Instance.rootPaths[2] = LoadUGCFilePath().objectUGCProjectDownloadPath;
+            FilePath.Instance.ExeFolderPaths[2] = Path.Combine(FilePath.Instance.rootPaths[2], FilePath.Instance.ExeFolderNames[2]);
+            FilePath.Instance.ExeZipFilePaths[2] = Path.Combine(FilePath.Instance.rootPaths[2], FilePath.Instance.ExeFolderPaths[2] + ".zip");
         }
     }
-
-    // Todo : ∆ƒ¿œ ∞Ê∑Œ ∞ªΩ≈ « ø‰
-    //private void SetFilePath()
-    //{
-    //    for (int i = 0; i < 4; i++)
-    //    {
-    //        string[] folderFullName = buildFileUrls[i].Split("/");
-    //        string[] exeFolderName = folderFullName[folderFullName.Length - 1].Split(".");
-
-    //        exeFolderNames[i] = exeFolderName[0];
-    //        exeFolderPaths[i] = Path.Combine(rootPaths[i], exeFolderName[0]);
-    //        exeZipFilePaths[i] = Path.Combine(rootPaths[i], exeFolderPaths[i] + ".zip");
-    //    }
-    //}
 
     //---------------------------------------------------------------//
     public UGCFilePath ugcFilePath;
@@ -188,47 +176,47 @@ public class UGCManager : MonoBehaviour
 
     public void CreateBatchFile()
     {
-        // batch ∆ƒ¿œ ªË¡¶
+        // batch ÌååÏùº ÏÇ≠Ï†ú
 
         string directoryPath = LoadUGCFilePath().objectUGCProjectDownloadPath;
         //string batchFilePath = @"C:\Curiverse\startObjectUGC.bat".Replace('\\', Path.DirectorySeparatorChar);
         string batchFilePath = Path.Combine(LoadUGCFilePath().objectUGCProjectDownloadPath, "startObjectUGC.bat");
 
-        // ¿Ø¥œ∆º «¡∑Œ¡ß∆Æ º≥ƒ° ¿ßƒ°(ªÁøÎ¿⁄∑Œ∫Œ≈Õ ¿‘∑¬)
+        // Ïú†ÎãàÌã∞ ÌîÑÎ°úÏ†ùÌä∏ ÏÑ§Ïπò ÏúÑÏπò(ÏÇ¨Ïö©ÏûêÎ°úÎ∂ÄÌÑ∞ ÏûÖÎ†•)
         //string unityPath = "C:\\Program Files\\Unity\\Hub\\Editor\\2020.3.38f1\\Editor\\Unity.exe";
         string unityPath = LoadUGCFilePath().unityProjectExeFilePath;
         string[] split_unityPath = unityPath.Split('\\');
 
         if (split_unityPath[split_unityPath.Length - 1] != "Unity.exe")
         {
-            Debug.Log("[UGC] ¿Ø¥œ∆º «¡∑Œ¡ß∆Æ Ω««‡∆ƒ¿œ æ∆¥‘");
+            Debug.Log("[UGC] Ïú†ÎãàÌã∞ ÌîÑÎ°úÏ†ùÌä∏ Ïã§ÌñâÌååÏùº ÏïÑÎãò");
             return;
         }
         else
         {
             if (File.Exists(unityPath))
             {
-                Debug.Log("[UGC] ¿Ø¥œ∆º «¡∑Œ¡ß∆Æ Ω««‡∆ƒ¿œ ¡∏¿Á");
+                Debug.Log("[UGC] Ïú†ÎãàÌã∞ ÌîÑÎ°úÏ†ùÌä∏ Ïã§ÌñâÌååÏùº Ï°¥Ïû¨");
             }
             else
             {
-                Debug.Log("[UGC] «ÿ¥Á ∞Ê∑Œø° ¿Ø¥œ∆º «¡∑Œ¡ß∆Æ Ω««‡∆ƒ¿œ æ¯¿Ω");
+                Debug.Log("[UGC] Ìï¥Îãπ Í≤ΩÎ°úÏóê Ïú†ÎãàÌã∞ ÌîÑÎ°úÏ†ùÌä∏ Ïã§ÌñâÌååÏùº ÏóÜÏùå");
                 return;
             }
         }
 
-        // ø¿∫Í¡ß∆ÆUGC «¡∑Œ¡ß∆Æ ¥ŸøÓ∑ŒµÂ ¿ßƒ°(ªÁøÎ¿⁄∑Œ∫Œ≈Õ ¿‘∑¬)
+        // Ïò§Î∏åÏ†ùÌä∏UGC ÌîÑÎ°úÏ†ùÌä∏ Îã§Ïö¥Î°úÎìú ÏúÑÏπò(ÏÇ¨Ïö©ÏûêÎ°úÎ∂ÄÌÑ∞ ÏûÖÎ†•)
         //string projectPath = "C:\\Users\\JYWON\\Documents\\Unity Projects\\Curiverse Object";
         string projectPath = Path.Combine(LoadUGCFilePath().objectUGCProjectDownloadPath, FilePath.Instance.ExeFolderPaths[2]);
         //string projectPath = Path.Combine(LoadUGCFilePath().objectUGCProjectDownloadPath, "Shared-Mode (2)");
 
         if (Directory.Exists(projectPath))
         {
-            Debug.Log("[UGC] «ÿ¥Á ∞Ê∑Œø° «¡∑Œ¡ß∆Æ ¿÷¿Ω");
+            Debug.Log("[UGC] Ìï¥Îãπ Í≤ΩÎ°úÏóê ÌîÑÎ°úÏ†ùÌä∏ ÏûàÏùå");
         }
         else
         {
-            Debug.Log("[UGC] «ÿ¥Á ∞Ê∑Œø° «¡∑Œ¡ß∆Æ æ¯¿Ω");
+            Debug.Log("[UGC] Ìï¥Îãπ Í≤ΩÎ°úÏóê ÌîÑÎ°úÏ†ùÌä∏ ÏóÜÏùå");
             return;
         }
 
@@ -241,7 +229,7 @@ public class UGCManager : MonoBehaviour
 
         File.WriteAllText(batchFilePath, batchOrder);
 
-        Debug.Log("πËƒ° ∆ƒ¿œ ª˝º∫ øœ∑·");
+        Debug.Log("Î∞∞Ïπò ÌååÏùº ÏÉùÏÑ± ÏôÑÎ£å");
     }
 }
 //---------------------------------------------------------------//

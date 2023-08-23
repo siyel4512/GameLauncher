@@ -231,6 +231,11 @@ public class FileDownload : MonoBehaviour
             ZipFile.ExtractToDirectory(FilePath.Instance.ExeZipFilePaths[buttonNum], FilePath.Instance.RootPaths[buttonNum] + "\\" + FilePath.Instance.ExeFolderNames[buttonNum], true);
             File.Delete(FilePath.Instance.ExeZipFilePaths[buttonNum]);
 
+            if (buttonNum == 2)
+            {
+                GameManager.instance.ugcManager.CreateBatchFile();
+            }
+
             Status = LauncherStatus.ready;
 
             excuteButton.interactable = true;
@@ -309,27 +314,50 @@ public class FileDownload : MonoBehaviour
             // execute
             if (File.Exists(gameExcutePath) && Status == LauncherStatus.ready)
             {
-                //if (!GameManager.instance.login.tcp_Server.isRunning)
-                //{
-                //    GameManager.instance.login.tcp_Server.StartServer();
-                //}
-
-                ProcessStartInfo startInfo = new ProcessStartInfo(gameExcutePath);
-                startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPaths[buttonNum], FilePath.Instance.ExeFolderNames[buttonNum]);
-                //Process.Start(startInfo);
-
-                // Todo : process Test
-                //DEV.instance.process = Process.Start(startInfo);
-
-                Process[] _runningFiles = GameManager.instance.runningFiles;
-
-                if (_runningFiles[buttonNum] != null && !_runningFiles[buttonNum].HasExited)
+                if (buttonNum != 2)
                 {
-                    Debug.Log("[SY] 파일 강제 종료");
-                    _runningFiles[buttonNum].Kill();
-                }
+                    //if (!GameManager.instance.login.tcp_Server.isRunning)
+                    //{
+                    //    GameManager.instance.login.tcp_Server.StartServer();
+                    //}
 
-                _runningFiles[buttonNum] = Process.Start(startInfo);
+                    ProcessStartInfo startInfo = new ProcessStartInfo(gameExcutePath);
+                    startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPaths[buttonNum], FilePath.Instance.ExeFolderNames[buttonNum]);
+                    //Process.Start(startInfo);
+
+                    // Todo : process Test
+                    //DEV.instance.process = Process.Start(startInfo);
+
+                    Process[] _runningFiles = GameManager.instance.runningFiles;
+
+                    if (_runningFiles[buttonNum] != null && !_runningFiles[buttonNum].HasExited)
+                    {
+                        Debug.Log("[SY] 파일 강제 종료");
+                        _runningFiles[buttonNum].Kill();
+                    }
+
+                    _runningFiles[buttonNum] = Process.Start(startInfo);
+                }
+                //else
+                //{
+                //    ProcessStartInfo startInfo = new ProcessStartInfo(GameManager.instance.ugcManager.);
+                //    startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPaths[buttonNum], FilePath.Instance.ExeFolderNames[buttonNum]);
+                //    //Process.Start(startInfo);
+
+                //    // Todo : process Test
+                //    //DEV.instance.process = Process.Start(startInfo);
+
+                //    Process[] _runningFiles = GameManager.instance.runningFiles;
+
+                //    if (_runningFiles[buttonNum] != null && !_runningFiles[buttonNum].HasExited)
+                //    {
+                //        Debug.Log("[SY] 파일 강제 종료");
+                //        _runningFiles[buttonNum].Kill();
+                //    }
+
+                //    _runningFiles[buttonNum] = Process.Start(startInfo);
+                //}
+                
             }
             // update
             else if (File.Exists(gameExcutePath) && Status == LauncherStatus.downloadUpdate)
