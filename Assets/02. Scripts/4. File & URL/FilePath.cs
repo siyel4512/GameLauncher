@@ -11,7 +11,6 @@ public class FilePath : MonoBehaviour
 {
     public static FilePath Instance;
 
-    //---------- old version ----------//
     // file download path
     private string rootPath;
 
@@ -32,16 +31,13 @@ public class FilePath : MonoBehaviour
 
     private string[] exeFolderNames = new string[4];
     public string[] ExeFolderNames => exeFolderNames;
-    //---------------------------------//
-
-    //---------- new version ----------//
+    
     [Header("[ Download File Path ]")]
     public DataPath dataPath;
     //public string defaultDataPath = "C:\\Program Files";
     public string defaultDataPath;
     public string[] rootPaths = new string[4];
     public string[] RootPaths => rootPaths;
-    //---------------------------------//
 
     //public DownloadInfoData exeFilePath;
     public DownloadURL downloadURL;
