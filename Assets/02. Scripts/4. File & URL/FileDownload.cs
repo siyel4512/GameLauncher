@@ -272,7 +272,29 @@ public class FileDownload : MonoBehaviour
 
     private void CheckBuidDirectory()
     {
-        if (Directory.Exists(FilePath.Instance.ExeFolderPaths[buttonNum]))
+        if (buttonNum == 2 && Directory.Exists(FilePath.Instance.ExeFolderPaths[buttonNum]))
+        {
+            Debug.Log("[ugc] 프로젝트 파일 존재");
+            string batchFilePath = GameManager.instance.ugcManager.LoadUGCFilePath().batchFilePath;
+            Debug.Log("[ugc] batchFilePath : " + batchFilePath);
+            if (File.Exists(batchFilePath))
+            {
+                Debug.Log("[ugc] 파일 존재");
+                // excute file name
+                gameExcutePath = batchFilePath;
+            }
+            else
+            {
+                Debug.Log("[ugc] 파일 없음");
+            }
+            //else
+            //{
+            //    Debug.Log("배치 파일 없음 배치 파일 재생성");
+            //    GameManager.instance.ugcManager.CreateBatchFile();
+            //    gameExcutePath = GameManager.instance.ugcManager.LoadUGCFilePath().batchFilePath;
+            //}
+        }
+        else if (buttonNum != 2 !& Directory.Exists(FilePath.Instance.ExeFolderPaths[buttonNum]))
         {
             string filePath = FilePath.Instance.ExeFolderPaths[buttonNum];
             string[] searchFile = Directory.GetFiles(filePath, "*.exe");
@@ -311,18 +333,30 @@ public class FileDownload : MonoBehaviour
                 Directory.CreateDirectory(FilePath.Instance.defaultDataPath);
             }
 
-            // execute
+            // execute 1
             if (File.Exists(gameExcutePath) && Status == LauncherStatus.ready)
             {
-                if (buttonNum != 2)
+                if (buttonNum == 2)
                 {
-                    //if (!GameManager.instance.login.tcp_Server.isRunning)
-                    //{
-                    //    GameManager.instance.login.tcp_Server.StartServer();
-                    //}
+                    if (GameManager.instance.ugcManager.LoadUGCFilePath().batchFilePath == "")
+                    {
+                        Debug.Log("[ugc] batch file path 없음");
+                        if (!GameManager.instance.ugcManager.UnityProjectExeFileCheck())
+                        {
+                            Debug.Log("[ugc] 유니티 경로 문제 발생!!!");
+                            return;
+                        }
+                        else
+                        {
+                            Debug.Log("[ugc] 유니티 경로 문제 없음");
+                        }
+                            
 
-                    ProcessStartInfo startInfo = new ProcessStartInfo(gameExcutePath);
-                    startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPaths[buttonNum], FilePath.Instance.ExeFolderNames[buttonNum]);
+                        GameManager.instance.ugcManager.CreateBatchFile();
+                    }
+
+                    ProcessStartInfo startInfo = new ProcessStartInfo(GameManager.instance.ugcManager.LoadUGCFilePath().batchFilePath);
+                    startInfo.WorkingDirectory = GameManager.instance.ugcManager.LoadUGCFilePath().objectUGCProjectDownloadPath;
                     //Process.Start(startInfo);
 
                     // Todo : process Test
@@ -338,26 +372,60 @@ public class FileDownload : MonoBehaviour
 
                     _runningFiles[buttonNum] = Process.Start(startInfo);
                 }
-                //else
-                //{
-                //    ProcessStartInfo startInfo = new ProcessStartInfo(GameManager.instance.ugcManager.);
-                //    startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPaths[buttonNum], FilePath.Instance.ExeFolderNames[buttonNum]);
-                //    //Process.Start(startInfo);
+                else
+                {
+                    ProcessStartInfo startInfo = new ProcessStartInfo(gameExcutePath);
+                    startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPaths[buttonNum], FilePath.Instance.ExeFolderNames[buttonNum]);
 
-                //    // Todo : process Test
-                //    //DEV.instance.process = Process.Start(startInfo);
+                    Process[] _runningFiles = GameManager.instance.runningFiles;
 
-                //    Process[] _runningFiles = GameManager.instance.runningFiles;
+                    if (_runningFiles[buttonNum] != null && !_runningFiles[buttonNum].HasExited)
+                    {
+                        Debug.Log("[SY] 파일 강제 종료");
+                        _runningFiles[buttonNum].Kill();
+                    }
 
-                //    if (_runningFiles[buttonNum] != null && !_runningFiles[buttonNum].HasExited)
-                //    {
-                //        Debug.Log("[SY] 파일 강제 종료");
-                //        _runningFiles[buttonNum].Kill();
-                //    }
+                    _runningFiles[buttonNum] = Process.Start(startInfo);
+                }
+            }
+            // exwcuate 2
+            else if (!File.Exists(gameExcutePath) && Status == LauncherStatus.ready)
+            {
+                if (buttonNum == 2)
+                {
+                    //if (gameExcutePath == "" || gameExcutePath != "")
+                    {
+                        Debug.Log("[ugc] batch file path 없음");
+                        if (!GameManager.instance.ugcManager.UnityProjectExeFileCheck())
+                        {
+                            Debug.Log("[ugc] 유니티 경로 문제 발생!!!");
+                            return;
+                        }
+                        else
+                        {
+                            Debug.Log("[ugc] 유니티 경로 문제 없음");
+                        }
 
-                //    _runningFiles[buttonNum] = Process.Start(startInfo);
-                //}
-                
+
+                        GameManager.instance.ugcManager.CreateBatchFile();
+                    }
+
+                    gameExcutePath = GameManager.instance.ugcManager.LoadUGCFilePath().batchFilePath;
+
+                    //ProcessStartInfo startInfo = new ProcessStartInfo(GameManager.instance.ugcManager.LoadUGCFilePath().batchFilePath);
+                    ProcessStartInfo startInfo = new ProcessStartInfo(gameExcutePath);
+                    startInfo.WorkingDirectory = GameManager.instance.ugcManager.LoadUGCFilePath().objectUGCProjectDownloadPath;
+
+                    Process[] _runningFiles = GameManager.instance.runningFiles;
+
+                    if (_runningFiles[buttonNum] != null && !_runningFiles[buttonNum].HasExited)
+                    {
+                        Debug.Log("[SY] 파일 강제 종료");
+                        _runningFiles[buttonNum].Kill();
+                    }
+
+                    _runningFiles[buttonNum] = Process.Start(startInfo);
+                }
             }
             // update
             else if (File.Exists(gameExcutePath) && Status == LauncherStatus.downloadUpdate)
@@ -369,6 +437,9 @@ public class FileDownload : MonoBehaviour
             // download
             else if (!File.Exists(gameExcutePath) && Status == LauncherStatus.downloadGame)
             {
+                if (buttonNum == 2 && !GameManager.instance.ugcManager.UnityProjectExeFileCheck())
+                    return;
+
                 if (DEV.instance.isUsingFolderDialog)
                 {
                     folderDialog.SetActive(true);
@@ -397,7 +468,6 @@ public class FileDownload : MonoBehaviour
         //    //InstallGameFiles(true).Forget();
         //    UniTask.SwitchToMainThread();
         //}
-        
     }
 
     public void InstallFile()

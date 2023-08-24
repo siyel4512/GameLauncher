@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 
 using Debug = UnityEngine.Debug;
+using UnityEngine.Networking;
 
 public class Login : MonoBehaviour
 {
@@ -95,10 +96,8 @@ public class Login : MonoBehaviour
     // Request public key
     private async UniTaskVoid RequestKey()
     {
-        var idValue = new Dictionary<string, string>
-        {
-            { "Id", id.text }
-        };
+        var content = new WWWForm();
+        content.AddField("Id", id.text);
 
         string keyFilePath = Environment.CurrentDirectory + "\\KEY\\" + id.text + ".pem";
         //Debug.Log($"key File paht : {keyFilePath}");
@@ -110,25 +109,35 @@ public class Login : MonoBehaviour
         }
         else
         {
-            //Debug.Log($"파일 없음 / {URL.Instance.Old_GetKeyUrl}");
             Debug.Log($"파일 없음 / {API.instance.GetKeyURL}");
-            var content = new FormUrlEncodedContent(idValue);
-            HttpClient client = new HttpClient();
-            //var response = await client.PostAsync(URL.Instance.Old_GetKeyUrl, content);
-            var response = await client.PostAsync(API.instance.GetKeyURL, content);
-            string requestResult = await response.Content.ReadAsStringAsync();
-            
-            if (response.IsSuccessStatusCode)
-            {
-                Debug.Log("결과값 : " + requestResult);
-                await TryLogin(requestResult);
-            }
-            else
-            {
-                Debug.Log("응답 실패 (로그인 실패) : " + requestResult);
 
-                // invalid ID, password value
-                GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
+            using (UnityWebRequest www = UnityWebRequest.Post(API.instance.GetKeyURL, content))
+            //using (UnityWebRequest www = UnityWebRequest.Post("http://101.101.218.135:5002/onlineScienceMuseumAPI/checkId.do", content))
+            {
+                try
+                {
+                    await www.SendWebRequest();
+
+                    string requestResult = www.downloadHandler.text;
+
+                    Debug.Log("www.result : " +www.result);
+
+                    if (www.result == UnityWebRequest.Result.Success)
+                    {
+                        //string requestResult = www.downloadHandler.text;
+                        Debug.Log("결과값 : " + requestResult);
+                        await TryLogin(requestResult);
+                    }
+                }
+                catch (UnityWebRequestException ex)
+                {
+                    string requestResult = www.downloadHandler.text;
+
+                    Debug.Log("응답 실패 (로그인 실패) : " + requestResult);
+
+                    // invalid ID, password value
+                    GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
+                }
             }
         }
     }
@@ -140,72 +149,75 @@ public class Login : MonoBehaviour
         string rsaPassword;
         rsaPassword = rsaPasswordEncrypt.GetRSAPassword(_requestResult, id.text, password.text);
 
-        var loginValues = new Dictionary<string, string>
-        {
-            { "Id", id.text },
-            { "pswd", rsaPassword }
-        };
+        var content = new WWWForm();
+        content.AddField("Id", id.text);
+        content.AddField("pswd", rsaPassword);
 
         //Debug.Log($"FilePath.Instance.GetKeyUrl : {URL.Instance.GetKeyUrl} " +
         //    $"/ id.text : {id.text} / FilePath.Instance.Key_password : {URL.Instance.Key_password}" +
         //    $" / rsaPassword : {rsaPassword}");
 
-        var content = new FormUrlEncodedContent(loginValues);
-
-        HttpClient client = new HttpClient();
-        client.BaseAddress = new Uri(API.instance.BaseServer);
-        //var response = await client.PostAsync(URL.Instance.Old_LoginUrl, content);
-        var response = await client.PostAsync(API.instance.TryLoginURL, content);
-        string requestResult = await response.Content.ReadAsStringAsync();
-
-        if (response.IsSuccessStatusCode)
+        Debug.Log("Try Login : " + API.instance.TryLoginURL);
+        using (UnityWebRequest www = UnityWebRequest.Post(API.instance.TryLoginURL, content))
+        //using (UnityWebRequest www = UnityWebRequest.Post("http://101.101.218.135:5002/onlineScienceMuseumAPI/tryLogin.do", content))
         {
-            //PID = requestResult;
-            //Debug.Log("PID : " + PID);
-
-            Debug.Log("로그인 결과 : " + requestResult);
-
-            PID = requestResult.Split(":")[1].Split(",")[0];
-            nickname = requestResult.Split(":")[2].Split(",")[0];
-            playerNum = requestResult.Split(":")[3].Split("}")[0];
-            authrtcd = requestResult.Split(":")[4].Split("}")[0];
-
-            Debug.Log($"requestResult : {PID} / {nickname} / {playerNum} / {authrtcd}");
-
-            // 일반 유저
-            if (authrtcd == "00" || authrtcd == "03")
+            try
             {
-                SetLogin();
+                await www.SendWebRequest();
+
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    string requestResult = www.downloadHandler.text;
+
+                    Debug.Log("로그인 결과 : " + requestResult);
+
+                    PID = requestResult.Split(":")[1].Split(",")[0];
+                    nickname = requestResult.Split(":")[2].Split(",")[0];
+                    playerNum = requestResult.Split(":")[3].Split(",")[0];
+                    authrtcd = requestResult.Split(":")[4].Split("}")[0];
+
+                    temp_authrtcd = authrtcd;
+
+                    Debug.Log($"requestResult : {PID} / {nickname} / {playerNum} / {authrtcd}");
+
+                    // 일반 유저
+                    if (authrtcd == "00" || authrtcd == "03")
+                    {
+                        SetLogin();
+                    }
+                    // 관리자 & 슈퍼 계정
+                    else
+                    {
+                        AdminUser();
+                    }
+                }
             }
-            // 관리자 & 슈퍼 계정
-            else
+            catch (UnityWebRequestException ex)
             {
-                AdminUser();
-            }
-        }
-        else
-        {
-            Debug.Log("응답 실패 (로그인 실패) : " + requestResult);
+                string requestResult = www.downloadHandler.text;
 
-            //Debug.Log("블랙리스트 결과 : " + requestResult.Contains("TL_103"));
+                Debug.Log("응답 실패 (로그인 실패) : " + requestResult);
 
-            bool isBlackList = requestResult.Contains("TL_103");
+                //Debug.Log("블랙리스트 결과 : " + requestResult.Contains("TL_103"));
 
-            // error code : TL_103
-            // black list
-            if (isBlackList)
-            {
-                string blackListContents = requestResult.Substring(6, requestResult.Length - 6);
-                string[] contents = blackListContents.Split(" / ");
+                bool isBlackList = requestResult.Contains("TL_103");
 
-                GameManager.instance.popupManager.SetBlackListAlertContents(contents[0], contents[1]);
-                GameManager.instance.popupManager.popups[(int)PopupType.BlackList].SetActive(true);
-            }
-            // error code : TL_102
-            // invalid ID, password value
-            else
-            {
-                GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
+                // error code : TL_103
+                // black list
+                if (isBlackList)
+                {
+                    string blackListContents = requestResult.Substring(6, requestResult.Length - 6);
+                    string[] contents = blackListContents.Split(" / ");
+
+                    GameManager.instance.popupManager.SetBlackListAlertContents(contents[0], contents[1]);
+                    GameManager.instance.popupManager.popups[(int)PopupType.BlackList].SetActive(true);
+                }
+                // error code : TL_102
+                // invalid ID, password value
+                else
+                {
+                    GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
+                }
             }
         }
     }
@@ -215,72 +227,78 @@ public class Login : MonoBehaviour
         string rsaPassword;
         rsaPassword = Convert.ToBase64String(rsa.Encrypt((new UTF8Encoding()).GetBytes(password.text), false));
 
-        var loginValues = new Dictionary<string, string>
-        {
-            { "Id", id.text },
-            { "pswd", rsaPassword }
-        };
+        var content = new WWWForm();
+        content.AddField("Id", id.text);
+        content.AddField("pswd", rsaPassword);
 
-        var content = new FormUrlEncodedContent(loginValues);
         Debug.Log("rsaPassword " + rsaPassword);
         //Debug.Log("content 인코딩 완료");
 
-        HttpClient client = new HttpClient();
-        client.BaseAddress = new Uri(API.instance.BaseServer);
-        //var response = await client.PostAsync(URL.Instance.Old_LoginUrl, content);
-        var response = await client.PostAsync(API.instance.TryLoginURL, content);
-        string requestResult = await response.Content.ReadAsStringAsync();
-
-        if (response.IsSuccessStatusCode)
+        //var content = new FormUrlEncodedContent(loginValues);
+        Debug.Log("Try Login : " + API.instance.TryLoginURL);
+        using (UnityWebRequest www = UnityWebRequest.Post(API.instance.TryLoginURL, content))
+        //using (UnityWebRequest www = UnityWebRequest.Post("http://101.101.218.135:5002/onlineScienceMuseumAPI/tryLogin.do", content))
         {
-            //PID = requestResult;
-            //Debug.Log("PID : " + PID);
-
-            Debug.Log("로그인 결과 : " + requestResult);
-
-            PID = requestResult.Split(":")[1].Split(",")[0];
-            nickname = requestResult.Split(":")[2].Split(",")[0];
-            playerNum = requestResult.Split(":")[3].Split(",")[0];
-            authrtcd = requestResult.Split(":")[4].Split("}")[0];
-
-            temp_authrtcd = authrtcd;
-
-            Debug.Log($"requestResult : {PID} / {nickname} / {playerNum} / {authrtcd}");
-
-            // 일반 유저
-            if (authrtcd == "00" || authrtcd == "03")
+            try
             {
-                SetLogin();
+                await www.SendWebRequest();
+
+                Debug.Log("www.result : " + www.result);
+
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    string requestResult = www.downloadHandler.text;
+
+                    Debug.Log("로그인 결과 : " + requestResult);
+
+                    PID = requestResult.Split(":")[1].Split(",")[0];
+                    nickname = requestResult.Split(":")[2].Split(",")[0];
+                    playerNum = requestResult.Split(":")[3].Split(",")[0];
+                    authrtcd = requestResult.Split(":")[4].Split("}")[0];
+
+                    temp_authrtcd = authrtcd;
+
+                    Debug.Log($"requestResult : {PID} / {nickname} / {playerNum} / {authrtcd}");
+
+                    // 일반 유저
+                    if (authrtcd == "00" || authrtcd == "03")
+                    {
+                        SetLogin();
+                    }
+                    // 관리자 & 슈퍼 계정
+                    else
+                    {
+                        AdminUser();
+                    }
+                }
+                
             }
-            // 관리자 & 슈퍼 계정
-            else
+            catch (UnityWebRequestException ex)
             {
-                AdminUser();
-            }
-        }
-        else
-        {
-            Debug.Log("응답 실패 (로그인 실패) : " + requestResult);
+                string requestResult = www.downloadHandler.text;
 
-            //Debug.Log("블랙리스트 결과 : " + requestResult.Contains("TL_103"));
+                Debug.Log("응답 실패 (로그인 실패) : " + requestResult);
 
-            bool isBlackList = requestResult.Contains("TL_103");
-            
-            // error code : TL_103
-            // black list
-            if (isBlackList)
-            {
-                string blackListContents = requestResult.Substring(6, requestResult.Length - 6);
-                string[] contents = blackListContents.Split(" / ");
+                //Debug.Log("블랙리스트 결과 : " + requestResult.Contains("TL_103"));
 
-                GameManager.instance.popupManager.SetBlackListAlertContents(contents[0], contents[1]);
-                GameManager.instance.popupManager.popups[(int)PopupType.BlackList].SetActive(true);
-            }
-            // error code : TL_102
-            // invalid ID, password value
-            else
-            {
-                GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
+                bool isBlackList = requestResult.Contains("TL_103");
+
+                // error code : TL_103
+                // black list
+                if (isBlackList)
+                {
+                    string blackListContents = requestResult.Substring(6, requestResult.Length - 6);
+                    string[] contents = blackListContents.Split(" / ");
+
+                    GameManager.instance.popupManager.SetBlackListAlertContents(contents[0], contents[1]);
+                    GameManager.instance.popupManager.popups[(int)PopupType.BlackList].SetActive(true);
+                }
+                // error code : TL_102
+                // invalid ID, password value
+                else
+                {
+                    GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
+                }
             }
         }
     }
@@ -289,10 +307,6 @@ public class Login : MonoBehaviour
     public void SetLogin()
     {
         GameManager gameManager = GameManager.instance;
-
-        //gameManager.selectedServerNum = 3;
-
-        //FilePath.Instance.Test_SetDownloadURL2(gameManager.selectedServerNum);
 
         gameManager.GetComponent<SelectServer>().SetLiveServer();
 
@@ -308,8 +322,6 @@ public class Login : MonoBehaviour
 
         gameManager.bannerNoticeManager.CreateAllContents();
         
-        //GameManager.instance.pages[0].SetActive(false); // hide login page
-
         // start TCP server
         tcp_Server.StartServer();
 
@@ -330,8 +342,6 @@ public class Login : MonoBehaviour
     {
         GameManager gameManager = GameManager.instance;
 
-        //gameManager.GetComponent<SelectServer>().SetTestServer();
-
         gameManager.popupManager.popups[(int)PopupType.SelectServer].SetActive(false);
 
         FilePath.Instance.Test_SetDownloadURL2(gameManager.selectedServerNum);
@@ -347,8 +357,6 @@ public class Login : MonoBehaviour
         gameManager.api.Request_RequestFriendList().Forget(); // create request friend list
 
         gameManager.bannerNoticeManager.CreateAllContents();
-
-        //GameManager.instance.pages[0].SetActive(false); // hide login page
 
         // start TCP server
         tcp_Server.StartServer();

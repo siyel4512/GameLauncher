@@ -17,7 +17,7 @@ public class EditorManager : Editor
         {
             Debug.Log("Reset Data!!!");
             dev.filePath.ResetDataPath();
-
+            dev.ugcManager.ResetUGCFilePath();
             dev.versionManager.ResetVersion();
             PlayerSettings.bundleVersion = "0.0.0";
             //dev.filePath.ResetDownloadInfoData();

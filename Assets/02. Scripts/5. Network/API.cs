@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class API : URL
 {
@@ -34,56 +35,57 @@ public class API : URL
     // friend list
     public async UniTaskVoid Request_FriendList(bool isUsingPlayerUpdate = false)
     {
-        //if (isUsingPlayerUpdate)
-        //{
-        //    await GameManager.instance.api.Update_PlayerState(GameManager.instance.playerManager.currentState, Login.PID);
-        //}
-
-        await UniTask.SwitchToThreadPool();
+        await UniTask.SwitchToMainThread();
 
         Debug.Log("Request_FriendList() start()");
 
         JsonData jsonData = GameManager.instance.jsonData;
         FriendListManager friendListManager = GameManager.instance.friendListManager;
 
-        var param = new Dictionary<string, string>
-        {
-            { "token", Login.PID },
-            { "ncnm", "" }
-        };
+        var content = new WWWForm();
+        content.AddField("token", Login.PID);
+        content.AddField("ncnm", "");
 
-        var content = new FormUrlEncodedContent(param);
-        
-        //HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
+        string temp_requestResult = "";
 
-        HttpClient client = new HttpClient();
         //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do", content);
-        var response = await client.PostAsync(friendListURL, content);
-        string requestResult = await response.Content.ReadAsStringAsync();
-
-        if (response.IsSuccessStatusCode)
+        using (UnityWebRequest www = UnityWebRequest.Post(friendListURL, content))
         {
-            Debug.Log("응답 성공 (친구 리스트 결과) : " + requestResult);
-            //jsonData.temp_friendListValue = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList; // temp data save
-
-            List<SaveData.friendList> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
-            //jsonData.temp_friendListValue = null;
-            jsonData.temp_friendList_List = new List<SaveData.friendList>();
-            
-            for (int i = 0; tempSaveData.Count > i; i++)
+            try
             {
-                if (tempSaveData[i].frndRqstSttus == "1")
+                await www.SendWebRequest();
+
+                if (www.result == UnityWebRequest.Result.Success)
                 {
-                    jsonData.temp_friendList_List.Add(tempSaveData[i]);
+                    string requestResult = www.downloadHandler.text;
+
+                    Debug.Log("응답 성공 (친구 리스트 결과) : " + requestResult);
+                    temp_requestResult = requestResult;
+                    //jsonData.temp_friendListValue = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList; // temp data save
+
+                    List<SaveData.friendList> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
+                    //jsonData.temp_friendListValue = null;
+                    jsonData.temp_friendList_List = new List<SaveData.friendList>();
+
+                    for (int i = 0; tempSaveData.Count > i; i++)
+                    {
+                        if (tempSaveData[i].frndRqstSttus == "1")
+                        {
+                            jsonData.temp_friendList_List.Add(tempSaveData[i]);
+                        }
+                    }
                 }
             }
-        }
-        else
-        {
-            Debug.Log("응답 실패 (친구 리스트 결과) : " + requestResult);
+            catch (UnityWebRequestException ex)
+            {
+                string requestResult = www.downloadHandler.text;
+                Debug.Log("응답 실패 (친구 리스트 결과) : " + requestResult);
+                temp_requestResult = requestResult;
+            }
+            
         }
 
-        await UniTask.SwitchToMainThread();
+        //await UniTask.SwitchToMainThread();
 
         // set friend list count
         friendListManager.friendCount = jsonData.temp_friendList_List.Count;
@@ -100,7 +102,7 @@ public class API : URL
                 friendListManager.DeleteList();
             }
 
-            List<SaveData.friendList> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
+            List<SaveData.friendList> tempSaveData = JsonUtility.FromJson<SaveData>(temp_requestResult).frndInfoList;
             jsonData.friendList_List = new List<SaveData.friendList>();
 
             for (int i = 0; tempSaveData.Count > i; i++)
@@ -141,85 +143,83 @@ public class API : URL
         Debug.Log("Request_SearchFriend() start()");
         JsonData jsonData = GameManager.instance.jsonData;
         FriendListManager friendListManager = GameManager.instance.friendListManager;
+        
+        var content = new WWWForm();
+        content.AddField("nickname", _nickName);
 
-        var param = new Dictionary<string, string>
-        {
-            { "nickname", _nickName }
-        };
-
-        var content = new FormUrlEncodedContent(param);
-
-        HttpClient client = new HttpClient();
         //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do", content);
-        var response = await client.PostAsync(searchUserWithNicknameURL, content);
-        string requestResult = await response.Content.ReadAsStringAsync();
-
-        if (response.IsSuccessStatusCode)
+        using (UnityWebRequest www = UnityWebRequest.Post(searchUserWithNicknameURL, content))
         {
-            Debug.Log("응답 성공 (친구 검색 결과) : " + requestResult);
-            
-            if (requestResult == "no nick")
+            try
             {
-                Debug.Log("[친구 검색] 해당 유저 없음");
-                jsonData.searchFriendNum = "";
+                await www.SendWebRequest();
+
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    string requestResult = www.downloadHandler.text;
+
+                    Debug.Log("응답 성공 (친구 검색 결과) : " + requestResult);
+
+                    if (requestResult == "no nick")
+                    {
+                        Debug.Log("[친구 검색] 해당 유저 없음");
+                        jsonData.searchFriendNum = "";
+                        isSuccessSearch = false;
+                    }
+                    else
+                    {
+                        Debug.Log("[친구 검색] 해당 유저 존재 : " + requestResult);
+                        jsonData.searchFriendNum = requestResult;
+                        isSuccessSearch = true;
+                    }
+                }
+            }
+            catch (UnityWebRequestException ex)
+            {
+                string requestResult = www.downloadHandler.text;
+
+                Debug.Log("응답 실패 (친구 검색 결과) : " + requestResult);
                 isSuccessSearch = false;
             }
-            else
-            {
-                Debug.Log("[친구 검색] 해당 유저 존재 : " + requestResult);
-                jsonData.searchFriendNum = requestResult;
-                isSuccessSearch = true;
-            }
         }
-        else
-        {
-            Debug.Log("응답 실패 (친구 검색 결과) : " + requestResult);
-            isSuccessSearch = false;
-        }
-
-        //// set friend list count
-        //friendListManager.friendCount = jsonData.temp_friendListValue.Count;
 
         return isSuccessSearch;
     }
 
     // add friend
+    //public async UniTask Temp_Request_AddFriend(string myNo, string mbrNo)
     public async UniTaskVoid Temp_Request_AddFriend(string myNo, string mbrNo)
     {
-        //await GameManager.instance.api.Update_PlayerState(GameManager.instance.playerManager.currentState, Login.PID);
-
-        await UniTask.SwitchToThreadPool();
         Debug.Log("Request_AddFriend() start()");
         JsonData jsonData = GameManager.instance.jsonData;
         FriendListManager friendListManager = GameManager.instance.friendListManager;
 
-        var param = new Dictionary<string, string>
-        {
-            //{ "mbrNo", myNo },
-            //{ "frndMbrNo", mbrNo }
-            { "mbrNo", mbrNo },
-            { "frndMbrNo", myNo }
-        };
+        var content = new WWWForm();
+        //content.AddField("mbrNo", myNo);
+        //content.AddField("frndMbrNo", mbrNo);
+        content.AddField("mbrNo", mbrNo);
+        content.AddField("frndMbrNo", myNo);
 
-        var content = new FormUrlEncodedContent(param);
-
-        //HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
-
-        HttpClient client = new HttpClient();
         //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/insertFrndInfo.do", content);
-        var response = await client.PostAsync(addFriendURL, content);
-        string requestResult = await response.Content.ReadAsStringAsync();
+        using (UnityWebRequest www = UnityWebRequest.Post(addFriendURL, content))
+        {
+            try
+            {
+                await www.SendWebRequest();
 
-        if (response.IsSuccessStatusCode)
-        {
-            Debug.Log("응답 성공 (친구 신청 결과) : " + requestResult);
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    string requestResult = www.downloadHandler.text;
+                    Debug.Log("응답 성공 (친구 신청 결과) : " + requestResult);
+                }
+            }
+            catch (UnityWebRequestException ex)
+            {
+                string requestResult = www.downloadHandler.text;
+                Debug.Log("응답 실패 (친구 신청 결과) : " + requestResult);
+            }
         }
-        else
-        {
-            Debug.Log("응답 실패 (친구 신청 결과) : " + requestResult);
-        }
-        await UniTask.SwitchToMainThread();
-        
+
         GameManager.instance.friendListManager.ResetSearchUserNickName();
 
         await GameManager.instance.api.Update_PlayerState(GameManager.instance.playerManager.currentState, Login.PID);
@@ -227,39 +227,37 @@ public class API : URL
 
     public async UniTaskVoid Request_AddFriend(string token, string mbrNo)
     {
-        //await GameManager.instance.api.Update_PlayerState(GameManager.instance.playerManager.currentState, Login.PID);
-
         await UniTask.SwitchToThreadPool();
         Debug.Log("Request_AddFriend() start()");
         JsonData jsonData = GameManager.instance.jsonData;
         FriendListManager friendListManager = GameManager.instance.friendListManager;
 
-        var param = new Dictionary<string, string>
-        {
-            { "token", token }, // Todo : 추후 변경 예정
-            { "frndMbrNo", mbrNo }
-        };
+        var content = new WWWForm();
+        content.AddField("token", token); // Todo : 추후 변경 예정
+        content.AddField("frndMbrNo", mbrNo);
 
-        var content = new FormUrlEncodedContent(param);
-
-        //HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
-
-        HttpClient client = new HttpClient();
         //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/insertFrndInfo.do", content);
-        var response = await client.PostAsync(addFriendURL, content);
-        string requestResult = await response.Content.ReadAsStringAsync();
-
-        if (response.IsSuccessStatusCode)
+        using (UnityWebRequest www = UnityWebRequest.Post(addFriendURL, content))
         {
-            Debug.Log("응답 성공 (친구 신청 결과) : " + requestResult);
-        }
-        else
-        {
-            Debug.Log("응답 실패 (친구 신청 결과) : " + requestResult);
-        }
-        await UniTask.SwitchToMainThread();
+            try
+            {
+                await www.SendWebRequest();
 
-        GameManager.instance.friendListManager.ResetSearchUserNickName();
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    string requestResult = www.downloadHandler.text;
+
+                    Debug.Log("응답 성공 (친구 신청 결과) : " + requestResult);
+                }
+            }
+            catch (UnityWebRequestException ex)
+            {
+                string requestResult = www.downloadHandler.text;
+                Debug.Log("응답 실패 (친구 신청 결과) : " + requestResult);
+            }
+
+            GameManager.instance.friendListManager.ResetSearchUserNickName();
+        }
     }
     #endregion
 
@@ -267,67 +265,63 @@ public class API : URL
     // request list
     public async UniTaskVoid Request_RequestFriendList()
     {
-        await UniTask.SwitchToThreadPool();
-
         Debug.Log("Request_RequestFriendList() start()");
 
         JsonData jsonData = GameManager.instance.jsonData;
         RequestFriendManager requestFriendManager = GameManager.instance.requestFriendManager;
-        
-        var param = new Dictionary<string, string>
-        {
-            { "token", Login.PID },
-            { "ncnm", "" }
-        };
 
-        var content = new FormUrlEncodedContent(param);
+        var content = new WWWForm();
+        content.AddField("token", Login.PID);
+        content.AddField("ncnm", "");
 
-        //HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
+        string temp_requestResult = "";
 
-        HttpClient client = new HttpClient();
         //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do", content);
-        var response = await client.PostAsync(friendListURL, content);
-        string requestResult = await response.Content.ReadAsStringAsync();
-
-        if (response.IsSuccessStatusCode)
+        using (UnityWebRequest www = UnityWebRequest.Post(friendListURL, content))
         {
-            Debug.Log("응답 성공 (친구 요청 리스트 결과) : " + requestResult);
-            
-            List<SaveData.friendList> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
-            jsonData.temp_requestFriendListValues = new List<SaveData.friendList>();
-
-            for (int i = 0; tempSaveData.Count > i; i++)
+            try
             {
-                if (tempSaveData[i].frndRqstSttus == "0")
+                await www.SendWebRequest();
+
+                if (www.result == UnityWebRequest.Result.Success)
                 {
-                    jsonData.temp_requestFriendListValues.Add(tempSaveData[i]);
+                    string requestResult = www.downloadHandler.text;
+                    temp_requestResult = requestResult;
+
+                    List<SaveData.friendList> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
+                    jsonData.temp_requestFriendListValues = new List<SaveData.friendList>();
+
+                    for (int i = 0; tempSaveData.Count > i; i++)
+                    {
+                        if (tempSaveData[i].frndRqstSttus == "0")
+                        {
+                            jsonData.temp_requestFriendListValues.Add(tempSaveData[i]);
+                        }
+                    }
                 }
             }
-        }
-        else
-        {
-            Debug.Log("응답 실패 (친구 요청 리스트 결과) : " + requestResult);
-        }
+            catch (UnityWebRequestException ex)
+            {
+                string requestResult = www.downloadHandler.text;
 
-        await UniTask.SwitchToMainThread();
+                Debug.Log("응답 실패 (친구 요청 리스트 결과) : " + requestResult);
+                temp_requestResult = requestResult;
+            }
+        }
 
         // set request friend list count
         requestFriendManager.requestfriendCount = jsonData.temp_requestFriendListValues.Count;
 
-        // if (jsonData.friendListValues.Count == 0 || (jsonData.friendListValues.Count != jsonData.temp_friendListValue.Count))
         // frist time setting
         if (jsonData.requestFriendListValues.Count == 0 || (jsonData.requestFriendListValues.Count != jsonData.temp_requestFriendListValues.Count))
         {
-            //Debug.Log("값 없음");
-            //jsonData.requestFriendListValues = new List<SaveData.friendList>();
-
             if (jsonData.requestFriendListValues.Count != 0)
             {
                 // delete data
                 requestFriendManager.DeleteRequestList();
             }
 
-            List<SaveData.friendList> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).frndInfoList;
+            List<SaveData.friendList> tempSaveData = JsonUtility.FromJson<SaveData>(temp_requestResult).frndInfoList;
             jsonData.requestFriendListValues = new List<SaveData.friendList>();
 
             for (int i = 0; tempSaveData.Count > i; i++)
@@ -363,26 +357,28 @@ public class API : URL
     {
         Debug.Log("Request_Accept() start()");
 
-        var param = new Dictionary<string, string>
-        {
-            { "mbrNo", _mbrNo.ToString() },
-            { "frndMbrNo", _frndMbrNo.ToString() }
-        };
+        var content = new WWWForm();
+        content.AddField("mbrNo", _mbrNo.ToString());
+        content.AddField("frndMbrNo", _frndMbrNo.ToString());
 
-        var content = new FormUrlEncodedContent(param);
-
-        HttpClient client = new HttpClient();
         //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/updateFrndReqAccept.do", content);
-        var response = await client.PostAsync(requestAcceptURL, content);
-        string requestResult = await response.Content.ReadAsStringAsync();
+        using (UnityWebRequest www = UnityWebRequest.Post(requestAcceptURL, content))
+        {
+            try
+            {
+                await www.SendWebRequest();
 
-        if (response.IsSuccessStatusCode)
-        {
-            Debug.Log("응답 성공 (친구 요청 승락 결과) : " + requestResult);
-        }
-        else
-        {
-            Debug.Log("응답 실패 (친구 요청 승락 결과) : " + requestResult);
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    string requestResult = www.downloadHandler.text;
+                    Debug.Log("응답 성공 (친구 요청 승락 결과) : " + requestResult);
+                }
+            }
+            catch (UnityWebRequestException ex)
+            {
+                string requestResult = www.downloadHandler.text;
+                Debug.Log("응답 실패 (친구 요청 승락 결과) : " + requestResult);
+            }
         }
     }
 
@@ -391,28 +387,28 @@ public class API : URL
     {
         Debug.Log("Request_RefuseNDelete() start()");
 
-        var param = new Dictionary<string, string>
-        {
-            { "mbrNo", _mbrNo.ToString() },
-            { "frndMbrNo", _frndMbrNo.ToString() }
-        };
+        var content = new WWWForm();
+        content.AddField("mbrNo", _mbrNo.ToString());
+        content.AddField("frndMbrNo", _frndMbrNo.ToString());
 
-        var content = new FormUrlEncodedContent(param);
-
-        //HttpContent content = new StringContent("", System.Text.Encoding.UTF8);
-
-        HttpClient client = new HttpClient();
         //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/deleteFrndReq.do", content);
-        var response = await client.PostAsync(requestRefuseNDeleteURL, content);
-        string requestResult = await response.Content.ReadAsStringAsync();
+        using (UnityWebRequest www = UnityWebRequest.Post(requestRefuseNDeleteURL, content))
+        {
+            try
+            {
+                await www.SendWebRequest();
 
-        if (response.IsSuccessStatusCode)
-        {
-            Debug.Log("응답 성공 (거절 및 삭제 결과) : " + requestResult);
-        }
-        else
-        {
-            Debug.Log("응답 실패 (거절 및 삭제 결과) : " + requestResult);
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    string requestResult = www.downloadHandler.text;
+                    Debug.Log("응답 성공 (거절 및 삭제 결과) : " + requestResult);
+                }
+            }
+            catch (UnityWebRequestException ex)
+            {
+                string requestResult = www.downloadHandler.text;
+                Debug.Log("응답 실패 (거절 및 삭제 결과) : " + requestResult);
+            }
         }
     }
     #endregion
@@ -423,44 +419,50 @@ public class API : URL
     {
         Debug.Log("Update_PlayerState() start()");
 
-        var param = new Dictionary<string, string>
-        {
-            { "myStatus", status.ToString() },
-            { "token", token }
-        };
+        var content = new WWWForm();
+        content.AddField("myStatus", status.ToString());
+        content.AddField("token", token);
 
-        var content = new FormUrlEncodedContent(param);
-
-        HttpClient client = new HttpClient();
         //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/changeMyStatus.do", content);
-        var response = await client.PostAsync(playerStateUpdateURL, content);
-        string requestResult = await response.Content.ReadAsStringAsync();
-        
-        if (requestResult == "TL_104")
+        using (UnityWebRequest www = UnityWebRequest.Post(playerStateUpdateURL, content))
         {
-            // error code : TL_104
-            Debug.Log("응답 실패 (플레이어 상태 변경 결과) : " + requestResult);
-
-            if (!GameManager.instance.isQuit)
+            try
             {
-                // pid값이 유효하지 않습니다.
-                GameManager.instance.popupManager.popups[(int)PopupType.PlayerStateUpdateFailed].SetActive(true);
-            } 
-        }
-        else if (requestResult == "no exist token")
-        {
-            Debug.Log("응답 실패 (플레이어 상태 변경 결과) : " + requestResult);
-
-            if (!GameManager.instance.isQuit)
+                await www.SendWebRequest();
+                //string requestResult = www.downloadHandler.text;
+            }
+            catch (UnityWebRequestException ex)
             {
-                // pid값이 유효하지 않습니다.
-                GameManager.instance.popupManager.popups[(int)PopupType.InvalidPID].SetActive(true);
-            } 
-        }
-        else
-        {
-            Debug.Log("응답 성공 (플레이어 상태 변경 결과) : " + requestResult);
-            Debug.Log($"{status}번으로 상태 변경 요청 완료!!!");
+                string requestResult = www.downloadHandler.text;
+                Debug.Log("플레이어 상태 변경 결과 requestResult : " + requestResult);
+
+                if (requestResult == "TL_104")
+                {
+                    // error code : TL_104
+                    Debug.Log("응답 실패 (플레이어 상태 변경 결과) : " + requestResult);
+
+                    if (!GameManager.instance.isQuit)
+                    {
+                        // pid값이 유효하지 않습니다.
+                        GameManager.instance.popupManager.popups[(int)PopupType.PlayerStateUpdateFailed].SetActive(true);
+                    }
+                }
+                else if (requestResult == "no exist token")
+                {
+                    Debug.Log("응답 실패 (플레이어 상태 변경 결과) : " + requestResult);
+
+                    if (!GameManager.instance.isQuit)
+                    {
+                        // pid값이 유효하지 않습니다.
+                        GameManager.instance.popupManager.popups[(int)PopupType.InvalidPID].SetActive(true);
+                    }
+                }
+                else
+                {
+                    Debug.Log("응답 성공 (플레이어 상태 변경 결과) : " + requestResult);
+                    Debug.Log($"{status}번으로 상태 변경 요청 완료!!!");
+                }
+            }
         }
     }
     #endregion
@@ -470,83 +472,92 @@ public class API : URL
     public async UniTask Request_FileDownloadURL(ServerType _pathFlag, FileType _folderFlag)
     {
         Debug.Log("Request_FileDownloadURL() start()");
-        
+
         JsonData jsonData = GameManager.instance.jsonData;
 
-        var param = new Dictionary<string, string>
-        {
-            { "pathFlag", _pathFlag.ToString() },
-            { "folderFlag", _folderFlag.ToString() }
-        };
+        var content = new WWWForm();
+        content.AddField("pathFlag", _pathFlag.ToString());
+        content.AddField("folderFlag", _folderFlag.ToString());
 
-        var content = new FormUrlEncodedContent(param);
-
-        HttpClient client = new HttpClient();
         //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/downloadBuildFile.do", content);
-        var response = await client.PostAsync(fileDownloadURL, content);
-        string requestResult = await response.Content.ReadAsStringAsync();
-
-        if (response.IsSuccessStatusCode)
+        using (UnityWebRequest www = UnityWebRequest.Post(fileDownloadURL, content))
         {
-            Debug.Log("응답 성공 (다운로드 경로 결과) : " + requestResult);
+            try
+            {
+                await www.SendWebRequest();
 
-            string zipPath = JsonUtility.FromJson<SaveData.downloadUrlList>(requestResult).zip_path;
-            string jsonPath = JsonUtility.FromJson<SaveData.downloadUrlList>(requestResult).json_path;
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    string requestResult = www.downloadHandler.text;
 
-            jsonData.temp_donwloadUrl.zip_path = zipPath; // temp data save
-            jsonData.temp_donwloadUrl.json_path = jsonPath; // temp data save
+                    Debug.Log("응답 성공 (다운로드 경로 결과) : " + requestResult);
 
-            Debug.Log("[SY] 인덱스값 " + (int)_folderFlag);
-            jsonData.temp_donwloadUrlList[(int)_folderFlag].zip_path = zipPath;
-            jsonData.temp_donwloadUrlList[(int)_folderFlag].json_path = jsonPath;
+                    string zipPath = JsonUtility.FromJson<SaveData.downloadUrlList>(requestResult).zip_path;
+                    string jsonPath = JsonUtility.FromJson<SaveData.downloadUrlList>(requestResult).json_path;
 
-            //GameManager.instance.filePath.buildFileUrls[(int)_folderFlag] = zipPath;
-            //GameManager.instance.filePath.jsonFileUrls[(int)_folderFlag] = jsonPath;
-        }
-        else
-        {
-            Debug.Log("응답 실패 (다운로드 경로 결과) : " + requestResult);
+                    jsonData.temp_donwloadUrl.zip_path = zipPath; // temp data save
+                    jsonData.temp_donwloadUrl.json_path = jsonPath; // temp data save
+
+                    Debug.Log("[SY] 인덱스값 " + (int)_folderFlag);
+                    jsonData.temp_donwloadUrlList[(int)_folderFlag].zip_path = zipPath;
+                    jsonData.temp_donwloadUrlList[(int)_folderFlag].json_path = jsonPath;
+
+                    //GameManager.instance.filePath.buildFileUrls[(int)_folderFlag] = zipPath;
+                    //GameManager.instance.filePath.jsonFileUrls[(int)_folderFlag] = jsonPath;
+                }
+            }
+            catch (UnityWebRequestException ex)
+            {
+                string requestResult = www.downloadHandler.text;
+
+                Debug.Log("응답 실패 (다운로드 경로 결과) : " + requestResult);
+            }
         }
     }
 
     public async UniTask Request_FileDownloadURL_live(FileType _folderFlag)
     {
         Debug.Log("Request_FileDownloadURL_live() start()");
-        
+
         JsonData jsonData = GameManager.instance.jsonData;
-        
-        var param = new Dictionary<string, string>
-        {
-            { "pathFlag", "dev" },
-            { "folderFlag", _folderFlag.ToString() }
-        };
 
-        var content = new FormUrlEncodedContent(param);
 
-        HttpClient client = new HttpClient();
+        var content = new WWWForm();
+        content.AddField("pathFlag", "dev");
+        content.AddField("folderFlag", _folderFlag.ToString());
+
         //var response = await client.PostAsync("http://49.50.162.141:5002/onlineScienceMuseumAPI/downloadBuildFile.do", content);
-        var response = await client.PostAsync(fileDownloadURL_Live, content);
-        string requestResult = await response.Content.ReadAsStringAsync();
-
-        if (response.IsSuccessStatusCode)
+        using (UnityWebRequest www = UnityWebRequest.Post(fileDownloadURL_Live, content))
         {
-            Debug.Log("응답 성공 (다운로드 경로 결과) : " + requestResult);
+            try
+            {
+                await www.SendWebRequest();
 
-            string zipPath = JsonUtility.FromJson<SaveData.downloadUrlList>(requestResult).zip_path;
-            string jsonPath = JsonUtility.FromJson<SaveData.downloadUrlList>(requestResult).json_path;
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    string requestResult = www.downloadHandler.text;
 
-            jsonData.temp_donwloadUrl.zip_path = zipPath; // temp data save
-            jsonData.temp_donwloadUrl.json_path = jsonPath; // temp data save
+                    Debug.Log("응답 성공 (다운로드 경로 결과) : " + requestResult);
 
-            jsonData.temp_donwloadUrlList[(int)_folderFlag].zip_path = zipPath;
-            jsonData.temp_donwloadUrlList[(int)_folderFlag].json_path = jsonPath;
-            
-            //GameManager.instance.filePath.buildFileUrls[(int)_folderFlag] = temp_zipPath;
-            //GameManager.instance.filePath.jsonFileUrls[(int)_folderFlag] = temp_jsonPath;
-        }
-        else
-        {
-            Debug.Log("응답 실패 (다운로드 경로 결과) : " + requestResult);
+                    string zipPath = JsonUtility.FromJson<SaveData.downloadUrlList>(requestResult).zip_path;
+                    string jsonPath = JsonUtility.FromJson<SaveData.downloadUrlList>(requestResult).json_path;
+
+                    jsonData.temp_donwloadUrl.zip_path = zipPath; // temp data save
+                    jsonData.temp_donwloadUrl.json_path = jsonPath; // temp data save
+
+                    jsonData.temp_donwloadUrlList[(int)_folderFlag].zip_path = zipPath;
+                    jsonData.temp_donwloadUrlList[(int)_folderFlag].json_path = jsonPath;
+
+                    //GameManager.instance.filePath.buildFileUrls[(int)_folderFlag] = temp_zipPath;
+                    //GameManager.instance.filePath.jsonFileUrls[(int)_folderFlag] = temp_jsonPath;
+                }
+            }
+            catch (UnityWebRequestException ex)
+            {
+                string requestResult = www.downloadHandler.text;
+
+                Debug.Log("응답 실패 (다운로드 경로 결과) : " + requestResult);
+            }
         }
     }
     #endregion
@@ -554,8 +565,6 @@ public class API : URL
     #region event banner & notice
     public async UniTaskVoid Request_MainBoard(int boardType)
     {
-        await UniTask.SwitchToThreadPool();
-
         Debug.Log("[Request_MainBoard] Request_MainBoard() start()");
 
         JsonData jsonData = GameManager.instance.jsonData;
@@ -572,58 +581,65 @@ public class API : URL
             _boardType = boardType;
         }
 
-        var param = new Dictionary<string, string>
+        var content = new WWWForm();
+        content.AddField("boardType", _boardType.ToString());
+
+        string temp_requestResult = "";
+
+        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do", content);
+        using (UnityWebRequest www = UnityWebRequest.Post(mainBoardURP, content))
         {
-            { "boardType", _boardType.ToString() }
-        };
-
-        var content = new FormUrlEncodedContent(param);
-
-        HttpClient client = new HttpClient();
-        var response = await client.PostAsync(mainBoardURP, content);
-        string requestResult = await response.Content.ReadAsStringAsync();
-
-        if (response.IsSuccessStatusCode)
-        {
-            Debug.Log("응답 성공 (게시글 요청 결과) : " + requestResult);
-
-            List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).mainboardlist;
-
-            switch (boardType)
+            try
             {
-                case 0:
-                    // 이벤트
-                    jsonData.temp_event_List = new List<SaveData.mainBoard>();
-                    jsonData.temp_event_List = tempSaveData;
-                    //jsonData.temp_event_List = OrderSort(tempSaveData, false);
-                    break;
-                case 1:
-                    // 공지사항
-                    jsonData.temp_shortNotice_List = new List<SaveData.mainBoard>();
-                    jsonData.temp_shortNotice_List = tempSaveData;
-                    //jsonData.temp_shortNotice_List = OrderSort(tempSaveData, false);
-                    break;
-                case 2:
-                    // 소식
-                    jsonData.temp_news_List = new List<SaveData.mainBoard>();
-                    jsonData.temp_news_List = tempSaveData;
-                    //jsonData.temp_news_List = OrderSort(tempSaveData, false);
-                    break;
-                case 3:
-                    // 가이드
-                    Debug.Log("가이드 : " + requestResult);
-                    jsonData.temp_guide_List = new List<SaveData.mainBoard>();
-                    jsonData.temp_guide_List = tempSaveData;
-                    //jsonData.temp_guide_List = OrderSort(tempSaveData, true);
-                    break;
+                await www.SendWebRequest();
+
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    string requestResult = www.downloadHandler.text;
+
+                    temp_requestResult = requestResult;
+
+                    Debug.Log("응답 성공 (게시글 요청 결과) : " + requestResult);
+
+                    List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).mainboardlist;
+
+                    switch (boardType)
+                    {
+                        case 0:
+                            // 이벤트
+                            jsonData.temp_event_List = new List<SaveData.mainBoard>();
+                            jsonData.temp_event_List = tempSaveData;
+                            //jsonData.temp_event_List = OrderSort(tempSaveData, false);
+                            break;
+                        case 1:
+                            // 공지사항
+                            jsonData.temp_shortNotice_List = new List<SaveData.mainBoard>();
+                            jsonData.temp_shortNotice_List = tempSaveData;
+                            //jsonData.temp_shortNotice_List = OrderSort(tempSaveData, false);
+                            break;
+                        case 2:
+                            // 소식
+                            jsonData.temp_news_List = new List<SaveData.mainBoard>();
+                            jsonData.temp_news_List = tempSaveData;
+                            //jsonData.temp_news_List = OrderSort(tempSaveData, false);
+                            break;
+                        case 3:
+                            // 가이드
+                            Debug.Log("가이드 : " + requestResult);
+                            jsonData.temp_guide_List = new List<SaveData.mainBoard>();
+                            jsonData.temp_guide_List = tempSaveData;
+                            //jsonData.temp_guide_List = OrderSort(tempSaveData, true);
+                            break;
+                    }
+                }
+            }
+            catch (UnityWebRequestException ex)
+            {
+                string requestResult = www.downloadHandler.text;
+                temp_requestResult = requestResult;
+                Debug.Log("응답 실패 (게시글 요청 결과) : " + requestResult);
             }
         }
-        else
-        {
-            Debug.Log("응답 실패 (게시글 요청 결과) : " + requestResult);
-        }
-
-        await UniTask.SwitchToMainThread();
 
         // set conents list count
         switch (boardType)
@@ -643,7 +659,7 @@ public class API : URL
                     }
 
                     jsonData.event_List = new List<SaveData.mainBoard>();
-                    List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).mainboardlist;
+                    List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(temp_requestResult).mainboardlist;
                     jsonData.event_List = tempSaveData;
                     //jsonData.event_List = OrderSort(tempSaveData, false);
 
@@ -680,7 +696,7 @@ public class API : URL
                     }
 
                     jsonData.shortNotice_List = new List<SaveData.mainBoard>();
-                    List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).mainboardlist;
+                    List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(temp_requestResult).mainboardlist;
                     jsonData.shortNotice_List = tempSaveData;
                     //jsonData.shortNotice_List = OrderSort(tempSaveData, false);
 
@@ -717,7 +733,7 @@ public class API : URL
                     }
 
                     jsonData.news_List = new List<SaveData.mainBoard>();
-                    List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).mainboardlist;
+                    List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(temp_requestResult).mainboardlist;
                     jsonData.news_List = tempSaveData;
                     //jsonData.news_List = OrderSort(tempSaveData, false);
 
@@ -755,7 +771,7 @@ public class API : URL
                     }
 
                     jsonData.guide_List = new List<SaveData.mainBoard>();
-                    List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).mainboardlist;
+                    List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(temp_requestResult).mainboardlist;
                     jsonData.guide_List = tempSaveData;
                     //jsonData.guide_List = OrderSort(tempSaveData, true);
 
@@ -819,34 +835,6 @@ public class API : URL
         await UniTask.SwitchToMainThread();
 
         GameManager.instance.bannerNoticeManager.guideInfo[1].SetLinkURL("https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Test+PDF.pdf");
-    }
-
-    public async UniTaskVoid Request_GuideDownload(int guideType)
-    {
-        Debug.Log("Request_GuideDownload() start()");
-        await UniTask.SwitchToThreadPool();
-
-        var param = new Dictionary<string, string>
-        {
-            { "boardType", guideType.ToString() }
-        };
-
-        var content = new FormUrlEncodedContent(param);
-
-        HttpClient client = new HttpClient();
-        var response = await client.PostAsync(mainBoardURP, content);
-        string requestResult = await response.Content.ReadAsStringAsync();
-
-        if (response.IsSuccessStatusCode)
-        {
-            Debug.Log("응답 성공 (가이드 로드 경로 요청 결과) : " + requestResult);
-        }
-        else
-        {
-            Debug.Log("응답 실패 (가이드 로드 경로 요청 결과) : " + requestResult);
-        }
-
-        await UniTask.SwitchToMainThread();
     }
     #endregion
 

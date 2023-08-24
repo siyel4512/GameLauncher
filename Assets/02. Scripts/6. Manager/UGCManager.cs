@@ -15,13 +15,11 @@ public class UGCManager : MonoBehaviour
     [DllImport("user32.dll")]
     private static extern IntPtr GetActiveWindow();
 
-    public int popupNum; // Folder Dialog Number
-
     public TMP_InputField unityProjectExeFilePath_text; // unity project EXE file path
     public TMP_InputField objectUGCProjectDownloadPath_text; // object UGC Project download path
 
-
-    public string defaultDataPath = "C:\\Curiverse";
+    public string batchFileName = "startObjectUGC.bat";
+    public string defaultDataPath = "C:\\Curiverse"; 
     public FileDownload fileDownload;
 
     public void Start()
@@ -31,33 +29,35 @@ public class UGCManager : MonoBehaviour
         objectUGCProjectDownloadPath_text.text = LoadUGCFilePath().objectUGCProjectDownloadPath;
     }
 
-    public void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            ////Debug.Log(@"C:\Curiverse\startObjectUGC.bat".Replace('\\', Path.DirectorySeparatorChar));
-            //Debug.Log(LoadUGCFilePath().objectUGCProjectDownloadPath + "\\startObjectUGC.bat");
-            Debug.Log("[ugc] " + Path.Combine(LoadUGCFilePath().objectUGCProjectDownloadPath, "startObjectUGC.bat"));
+    //// Todo : 삭제 예정
+    //public void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        if (Directory.Exists(LoadUGCFilePath().objectUGCProjectDownloadPath))
+    //        {
+    //            // 프로젝트 파일 삭제
+    //            Debug.Log("프로젝트 파일 삭제");
 
-            if (File.Exists(Path.Combine(LoadUGCFilePath().objectUGCProjectDownloadPath, "startObjectUGC.bat")))
-            {
-                Debug.Log("[ugc] 배치 파일 있음");
+    //            // delete all files in a directory
+    //            string[] files = Directory.GetFiles(LoadUGCFilePath().objectUGCProjectDownloadPath);
+    //            foreach (string file in files)
+    //            {
+    //                File.Delete(file);
+    //            }
 
-                ProcessStartInfo startInfo = new ProcessStartInfo(Path.Combine(LoadUGCFilePath().objectUGCProjectDownloadPath, "startObjectUGC.bat"));
-                startInfo.WorkingDirectory = LoadUGCFilePath().objectUGCProjectDownloadPath;
-                Process.Start(startInfo);
-            }
-            else
-            {
-                Debug.Log("[ugc] 배치 파일 없음");
-            }
-        }
+    //            // delete all subdirectories within a directory
+    //            string[] subdirectories = Directory.GetDirectories(LoadUGCFilePath().objectUGCProjectDownloadPath);
+    //            foreach (string subdirectory in subdirectories)
+    //            {
+    //                Directory.Delete(subdirectory, recursive: true);
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            CreateBatchFile();
-        }
-    }
+    //            }
+
+    //            //Directory.Delete(LoadUGCFilePath().objectUGCProjectDownloadPath);
+    //        }
+    //    }
+    //}
 
     public void BTN_OpenFileDialog()
     {
@@ -83,11 +83,11 @@ public class UGCManager : MonoBehaviour
 
         if (openDialog.ShowDialog(new WindowWrapper(GetActiveWindow())) == DialogResult.OK)
         {
-            if (File.Exists(Path.Combine(tempPath, "startObjectUGC.bat")))
+            if (File.Exists(Path.Combine(tempPath, batchFileName)))
             {
                 // 배치 파일 삭제
                 Debug.Log("배치 파일 삭제");
-                File.Delete(Path.Combine(tempPath, "startObjectUGC.bat"));
+                File.Delete(Path.Combine(tempPath, batchFileName));
             }
 
             //Debug.Log(openDialog.FileName);
@@ -114,12 +114,35 @@ public class UGCManager : MonoBehaviour
 
         if (openDialog.ShowDialog(new WindowWrapper(GetActiveWindow())) == DialogResult.OK)
         {
-            if (File.Exists(Path.Combine(tempPath, "startObjectUGC.bat")))
+            if (File.Exists(Path.Combine(tempPath, batchFileName)))
             {
                 // 배치 파일 삭제
                 Debug.Log("배치 파일 삭제");
-                File.Delete(Path.Combine(tempPath, "startObjectUGC.bat"));
+                File.Delete(Path.Combine(tempPath, batchFileName));
             }
+
+            //if (Directory.Exists(tempPath))
+            //{
+            //    // 프로젝트 파일 삭제
+            //    Debug.Log("프로젝트 파일 삭제");
+                
+            //    // delete all files in a directory
+            //    string[] files = Directory.GetFiles(tempPath);
+            //    foreach (string file in files)
+            //    {
+            //        File.Delete(file);
+            //    }
+
+            //    // delete all subdirectories within a directory
+            //    string[] subdirectories = Directory.GetDirectories(tempPath);
+            //    foreach (string subdirectory in subdirectories)
+            //    {
+            //        Directory.Delete(subdirectory, recursive: true);
+                    
+            //    }
+
+            //    Directory.Delete(tempPath);
+            //}
 
             //Debug.Log(openDialog.SelectedPath);
 
@@ -147,6 +170,9 @@ public class UGCManager : MonoBehaviour
             case 2:
                 ugcFilePath.objectUGCProjectDownloadPath = newDonwloadURL;
                 break;
+            case 3:
+                ugcFilePath.batchFilePath = newDonwloadURL;
+                break;
         }
 
         string jsonData = JsonUtility.ToJson(ugcFilePath, true);
@@ -166,8 +192,15 @@ public class UGCManager : MonoBehaviour
     public void ResetUGCFilePath()
     {
         Debug.Log("ResetUGCFilePath()");
+
+        if (File.Exists(ugcFilePath.batchFilePath))
+        {
+            File.Delete(ugcFilePath.batchFilePath);
+        }
+
         ugcFilePath.unityProjectExeFilePath = defaultDataPath;
         ugcFilePath.objectUGCProjectDownloadPath = defaultDataPath;
+        ugcFilePath.batchFilePath = "";
 
         string jsonData = JsonUtility.ToJson(ugcFilePath, true);
         string path = Path.Combine(Application.streamingAssetsPath + "/Data Path", "ugcFilePath.json");
@@ -180,7 +213,9 @@ public class UGCManager : MonoBehaviour
 
         string directoryPath = LoadUGCFilePath().objectUGCProjectDownloadPath;
         //string batchFilePath = @"C:\Curiverse\startObjectUGC.bat".Replace('\\', Path.DirectorySeparatorChar);
-        string batchFilePath = Path.Combine(LoadUGCFilePath().objectUGCProjectDownloadPath, "startObjectUGC.bat");
+        string batchFilePath = Path.Combine(LoadUGCFilePath().objectUGCProjectDownloadPath, batchFileName);
+        
+        SaveUGCFilePath(3, batchFilePath);
 
         // 유니티 프로젝트 설치 위치(사용자로부터 입력)
         //string unityPath = "C:\\Program Files\\Unity\\Hub\\Editor\\2020.3.38f1\\Editor\\Unity.exe";
@@ -190,6 +225,7 @@ public class UGCManager : MonoBehaviour
         if (split_unityPath[split_unityPath.Length - 1] != "Unity.exe")
         {
             Debug.Log("[UGC] 유니티 프로젝트 실행파일 아님");
+            GameManager.instance.popupManager.popups[(int)PopupType.UnityProjectPathFindFailedPopup_1].SetActive(true);
             return;
         }
         else
@@ -201,6 +237,7 @@ public class UGCManager : MonoBehaviour
             else
             {
                 Debug.Log("[UGC] 해당 경로에 유니티 프로젝트 실행파일 없음");
+                GameManager.instance.popupManager.popups[(int)PopupType.UnityProjectPathFindFailedPopup_2].SetActive(true);
                 return;
             }
         }
@@ -217,6 +254,7 @@ public class UGCManager : MonoBehaviour
         else
         {
             Debug.Log("[UGC] 해당 경로에 프로젝트 없음");
+            GameManager.instance.popupManager.popups[(int)PopupType.UGCPathFindFailedPopup].SetActive(true);
             return;
         }
 
@@ -231,7 +269,37 @@ public class UGCManager : MonoBehaviour
 
         Debug.Log("배치 파일 생성 완료");
     }
+
+    public bool UnityProjectExeFileCheck()
+    {
+        // 유니티 프로젝트 설치 위치(사용자로부터 입력)
+        string unityPath = LoadUGCFilePath().unityProjectExeFilePath;
+        string[] split_unityPath = unityPath.Split('\\');
+
+        if (split_unityPath[split_unityPath.Length - 1] != "Unity.exe")
+        {
+            Debug.Log("[UGC] 유니티 프로젝트 실행파일 아님");
+            GameManager.instance.popupManager.popups[(int)PopupType.UnityProjectPathFindFailedPopup_1].SetActive(true);
+            return false;
+        }
+        else
+        {
+            if (File.Exists(unityPath))
+            {
+                Debug.Log("[UGC] 유니티 프로젝트 실행파일 존재");
+            }
+            else
+            {
+                Debug.Log("[UGC] 해당 경로에 유니티 프로젝트 실행파일 없음");
+                GameManager.instance.popupManager.popups[(int)PopupType.UnityProjectPathFindFailedPopup_2].SetActive(true);
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
+
 //---------------------------------------------------------------//
 
 [System.Serializable]
@@ -239,4 +307,5 @@ public class UGCFilePath
 {
     public string unityProjectExeFilePath;
     public string objectUGCProjectDownloadPath;
+    public string batchFilePath;
 }

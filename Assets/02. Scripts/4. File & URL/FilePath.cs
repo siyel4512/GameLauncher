@@ -81,14 +81,6 @@ public class FilePath : LoadFile
         //rootPaths[2] = dataPath.ugcPath; // ugc는 별도로 저장
         rootPaths[3] = dataPath.batchPath;
 
-        //if (DEV.instance != null && DEV.instance.isTEST_Login)
-        //{
-        //    DEV.instance.rootPaths[0] = rootPaths[0];
-        //    DEV.instance.rootPaths[1] = rootPaths[1];
-        //    DEV.instance.rootPaths[2] = rootPaths[2];
-        //    DEV.instance.rootPaths[3] = rootPaths[3];
-        //}
-
         rootPaths[2] = ugcManager.LoadUGCFilePath().objectUGCProjectDownloadPath;
     }
 
@@ -112,11 +104,6 @@ public class FilePath : LoadFile
         }
 
         rootPaths[buttonNum] = _path;
-
-        if (DEV.instance.isTEST_Login)
-        {
-            DEV.instance.rootPaths[buttonNum] = _path;
-        }
 
         string jsonData = JsonUtility.ToJson(dataPath, true);
         string path = Path.Combine(Application.streamingAssetsPath + "/Data Path", "dataPath.json");
@@ -145,72 +132,9 @@ public class FilePath : LoadFile
         File.WriteAllText(path, jsonData);
 
         InitDataPath();
+
     }
-    //---------------------------------//
-
-    //// read setting file content
-    //public void Test_SetDownloadURL()
-    //{
-    //    string[] parsingData = ParsingData();
-
-    //    switch (GameManager.instance.selectedServerNum)
-    //    {
-    //        case 0:
-    //            // dev server
-    //            buildFileUrls[0] = parsingData[5];
-    //            buildFileUrls[1] = parsingData[7];
-    //            buildFileUrls[2] = parsingData[9];
-    //            buildFileUrls[3] = parsingData[11];
-
-    //            jsonFileUrls[0] = parsingData[6];
-    //            jsonFileUrls[1] = parsingData[8];
-    //            jsonFileUrls[2] = parsingData[10];
-    //            jsonFileUrls[3] = parsingData[12];
-
-    //            // test
-    //            //await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev.ToString(), FileType.pc.ToString());
-    //            break;
-    //        case 1:
-    //            // test server
-    //            buildFileUrls[0] = parsingData[7];
-    //            buildFileUrls[1] = parsingData[9];
-    //            buildFileUrls[2] = parsingData[11];
-    //            buildFileUrls[3] = parsingData[5];
-
-    //            jsonFileUrls[0] = parsingData[8];
-    //            jsonFileUrls[1] = parsingData[10];
-    //            jsonFileUrls[2] = parsingData[12];
-    //            jsonFileUrls[3] = parsingData[6];
-    //            break;
-    //        case 2:
-    //            // staging server
-    //            buildFileUrls[0] = parsingData[9];
-    //            buildFileUrls[1] = parsingData[11];
-    //            buildFileUrls[2] = parsingData[5];
-    //            buildFileUrls[3] = parsingData[7];
-
-    //            jsonFileUrls[0] = parsingData[10];
-    //            jsonFileUrls[1] = parsingData[12];
-    //            jsonFileUrls[2] = parsingData[6];
-    //            jsonFileUrls[3] = parsingData[8];
-    //            break;
-    //        case 3:
-    //            // live server
-    //            buildFileUrls[0] = parsingData[11];
-    //            buildFileUrls[1] = parsingData[5];
-    //            buildFileUrls[2] = parsingData[7];
-    //            buildFileUrls[3] = parsingData[9];
-
-    //            jsonFileUrls[0] = parsingData[12];
-    //            jsonFileUrls[1] = parsingData[6];
-    //            jsonFileUrls[2] = parsingData[8];
-    //            jsonFileUrls[3] = parsingData[10];
-    //            break;
-    //    }
-
-    //    SetFilePath();
-    //}
-
+    
     public async void Test_SetDownloadURL2(int serverNum)
     {
         if (CheckRunningFiles())
@@ -238,20 +162,20 @@ public class FilePath : LoadFile
                 await api.Request_FileDownloadURL(ServerType.test, FileType.colca);
                 break;
             case 2:
-                // staging server
-                Debug.Log("[SY] staging server");
-                await api.Request_FileDownloadURL(ServerType.stage, FileType.pc);
-                await api.Request_FileDownloadURL(ServerType.stage, FileType.vr);
-                await api.Request_FileDownloadURL(ServerType.stage, FileType.prod);
-                await api.Request_FileDownloadURL(ServerType.stage, FileType.colca);
-                break;
-            case 3:
                 // live server
                 Debug.Log("[SY] live server");
                 await api.Request_FileDownloadURL_live(FileType.pc);
                 await api.Request_FileDownloadURL_live(FileType.vr);
                 await api.Request_FileDownloadURL_live(FileType.prod);
                 await api.Request_FileDownloadURL_live(FileType.colca);
+                break;
+            case 3:
+                // staging server
+                Debug.Log("[SY] staging server");
+                await api.Request_FileDownloadURL(ServerType.stage, FileType.pc);
+                await api.Request_FileDownloadURL(ServerType.stage, FileType.vr);
+                await api.Request_FileDownloadURL(ServerType.stage, FileType.prod);
+                await api.Request_FileDownloadURL(ServerType.stage, FileType.colca);
                 break;
         }
 

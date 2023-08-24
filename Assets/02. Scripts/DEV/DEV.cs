@@ -1,10 +1,6 @@
-using Org.BouncyCastle.Bcpg.OpenPgp;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 
 using Debug = UnityEngine.Debug;
@@ -31,7 +27,7 @@ public class DEV : MonoBehaviour
     //public bool isUsingTmpForInputField; // input field에서 TMPro를 사용할 것인지
 
     public FilePath filePath;
-    public string[] rootPaths; // div 용
+    public UGCManager ugcManager;
 
     public SelectServer selectServer;
     public int selectedServerNum; // div 용
@@ -59,7 +55,6 @@ public class DEV : MonoBehaviour
             Destroy(gameObject);
         }
 
-        rootPaths = new string[4];
         defaultSettings = new DefaultSettings();
     }
 

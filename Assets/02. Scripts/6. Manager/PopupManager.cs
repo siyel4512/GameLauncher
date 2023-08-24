@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.IO;
 
 public enum PopupType
 {
@@ -19,7 +20,10 @@ public enum PopupType
     SelectServer,
     PlayerStateUpdateFailed,
     FunctionUpdate,
-    DownloadSetting
+    DownloadSetting,
+    UnityProjectPathFindFailedPopup_1,
+    UnityProjectPathFindFailedPopup_2,
+    UGCPathFindFailedPopup,
 }
 
 public class PopupManager : MonoBehaviour
@@ -90,6 +94,8 @@ public class PopupManager : MonoBehaviour
             else
             {
                 GameManager.instance.api.Temp_Request_AddFriend(Login.playerNum, GameManager.instance.jsonData.searchFriendNum).Forget();
+                //await GameManager.instance.api.Temp_Request_AddFriend(Login.playerNum, GameManager.instance.jsonData.searchFriendNum);
+                //await GameManager.instance.api.Update_PlayerState(GameManager.instance.playerManager.currentState, Login.PID);
             }
         }
         else
@@ -197,6 +203,23 @@ public class PopupManager : MonoBehaviour
     public void BTN_ConfirmDownloadPathSetting()
     {
         popups[(int)PopupType.DownloadSetting].SetActive(false);
+    }
+    #endregion
+
+    #region UGC File Download
+    public void BTN_ConfirmUnityProjectPathFindFailedPopup1()
+    {
+        popups[(int)PopupType.UnityProjectPathFindFailedPopup_1].SetActive(false);
+    }
+
+    public void BTN_ConfirmUnityProjectPathFindFailedPopup2()
+    {
+        popups[(int)PopupType.UnityProjectPathFindFailedPopup_2].SetActive(false);
+    }
+
+    public void BTN_ConfirmUGCPathFindFailedPopup()
+    {
+        popups[(int)PopupType.UGCPathFindFailedPopup].SetActive(false);
     }
     #endregion
 }

@@ -71,7 +71,7 @@ public class URL : LoadFile
             
             // login
             getKeyURL = testServer + requestKey_URL;
-            tryLoginURL = tryLogin_URL;
+            tryLoginURL = testServer + tryLogin_URL;
 
             // player state
             playerStateUpdateURL = testServer + playerStateUpdate_URL;
@@ -98,7 +98,7 @@ public class URL : LoadFile
 
             // login
             getKeyURL = liveServer + requestKey_URL;
-            tryLoginURL = tryLogin_URL;
+            tryLoginURL = liveServer + tryLogin_URL;
 
             // player state
             playerStateUpdateURL = liveServer + playerStateUpdate_URL;
