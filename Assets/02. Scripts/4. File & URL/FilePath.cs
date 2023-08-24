@@ -7,7 +7,7 @@ using Application = UnityEngine.Application;
 using Debug = UnityEngine.Debug;
 
 
-public class FilePath : LoadFile
+public class FilePath : MonoBehaviour
 {
     public static FilePath Instance;
 

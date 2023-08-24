@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class URL : LoadFile
+public class URL : MonoBehaviour
 {
     // server
     private string baseServer;

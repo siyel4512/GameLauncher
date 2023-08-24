@@ -29,36 +29,6 @@ public class UGCManager : MonoBehaviour
         objectUGCProjectDownloadPath_text.text = LoadUGCFilePath().objectUGCProjectDownloadPath;
     }
 
-    //// Todo : 삭제 예정
-    //public void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //    {
-    //        if (Directory.Exists(LoadUGCFilePath().objectUGCProjectDownloadPath))
-    //        {
-    //            // 프로젝트 파일 삭제
-    //            Debug.Log("프로젝트 파일 삭제");
-
-    //            // delete all files in a directory
-    //            string[] files = Directory.GetFiles(LoadUGCFilePath().objectUGCProjectDownloadPath);
-    //            foreach (string file in files)
-    //            {
-    //                File.Delete(file);
-    //            }
-
-    //            // delete all subdirectories within a directory
-    //            string[] subdirectories = Directory.GetDirectories(LoadUGCFilePath().objectUGCProjectDownloadPath);
-    //            foreach (string subdirectory in subdirectories)
-    //            {
-    //                Directory.Delete(subdirectory, recursive: true);
-
-    //            }
-
-    //            //Directory.Delete(LoadUGCFilePath().objectUGCProjectDownloadPath);
-    //        }
-    //    }
-    //}
-
     public void BTN_OpenFileDialog()
     {
         VistaOpenFileDialog openDialog = new VistaOpenFileDialog();
