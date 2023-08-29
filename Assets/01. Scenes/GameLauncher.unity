@@ -20832,6 +20832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   downloadLinkURL: 
+  buttonNum: 1
 --- !u!114 &1284716666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35336,6 +35337,10 @@ PrefabInstance:
     - target: {fileID: 1928901118682426167, guid: 4e767b1a0e350e44e90928716697a01a, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 1928901120130716953, guid: 4e767b1a0e350e44e90928716697a01a, type: 3}
+      propertyPath: buttonNum
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1928901120130716956, guid: 4e767b1a0e350e44e90928716697a01a, type: 3}
       propertyPath: m_Name

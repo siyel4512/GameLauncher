@@ -10,6 +10,9 @@ public class GuideInfo : MonoBehaviour
     [Header("[ UI ]")]
     private Button downloadButton;
 
+    // Todo : 추후 삭제 필요
+    public int buttonNum = 1;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,8 +22,14 @@ public class GuideInfo : MonoBehaviour
 
     public void OnDownloadLink()
     {
-        //Application.OpenURL(downloadLinkURL);
-        GameManager.instance.popupManager.popups[(int)PopupType.FunctionUpdate].SetActive(true);
+        if (buttonNum == 1)
+        {
+            Application.OpenURL(downloadLinkURL);
+        }
+        else
+        {
+            GameManager.instance.popupManager.popups[(int)PopupType.FunctionUpdate].SetActive(true);
+        }
     }
 
     public void SetLinkURL(string linkURL)

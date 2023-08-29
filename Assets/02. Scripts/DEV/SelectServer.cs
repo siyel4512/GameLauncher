@@ -6,8 +6,8 @@ public enum ServerType
 {
     dev,
     test,
+    live,
     stage,
-    live
 }
 
 public enum FileType

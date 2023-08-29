@@ -7,6 +7,7 @@ using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
+using System.Windows.Forms;
 
 internal class RSAPasswordEncrypt
 {
@@ -31,10 +32,39 @@ internal class RSAPasswordEncrypt
 
         rsa.ImportParameters(pubKey);
 
-        DirectoryInfo di = new DirectoryInfo(Environment.CurrentDirectory + "\\KEY");
+        //DirectoryInfo di = new DirectoryInfo(Environment.CurrentDirectory + "\\KEY");
+        //if (!di.Exists) di.Create();
+        //string pemPath = Environment.CurrentDirectory + "\\KEY\\" + id + ".pem";
+        //File.Create(pemPath).Close();
+
+        DirectoryInfo di;
+        string pemPath;
+#if UNITY_EDITOR
+        di = new DirectoryInfo(Environment.CurrentDirectory + "\\KEY");
         if (!di.Exists) di.Create();
-        string pemPath = Environment.CurrentDirectory + "\\KEY\\" + id + ".pem";
+        pemPath = Environment.CurrentDirectory + "\\KEY\\" + id + ".pem";
         File.Create(pemPath).Close();
+#else
+        string tempPath = Application.ExecutablePath;
+
+        // path setting
+        string[] splitPaths = tempPath.Split('\\');
+        string assemblePath = "";
+
+        for (int i = 0; i < splitPaths.Length - 1; i++)
+        {
+            assemblePath += (splitPaths[i] + "\\");
+        }
+
+        di = new DirectoryInfo(assemblePath + "KEY");
+        if (!di.Exists) di.Create();
+        pemPath = assemblePath + "KEY\\" + id + ".pem";
+        File.Create(pemPath).Close();
+#endif
+
+
+
+
 
         File.WriteAllText(pemPath, ExportPublicKey(rsa));
 

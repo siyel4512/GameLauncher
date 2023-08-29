@@ -7,9 +7,12 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
+using System.Windows.Forms;
 
 using Debug = UnityEngine.Debug;
 using UnityEngine.Networking;
+using Button = UnityEngine.UI.Button;
+using Application = System.Windows.Forms.Application;
 
 public class Login : MonoBehaviour
 {
@@ -99,9 +102,30 @@ public class Login : MonoBehaviour
         var content = new WWWForm();
         content.AddField("Id", id.text);
 
-        string keyFilePath = Environment.CurrentDirectory + "\\KEY\\" + id.text + ".pem";
+        string keyFilePath = "";
+
+        // save publc key
+#if UNITY_EDITOR
+        keyFilePath = Environment.CurrentDirectory + "\\KEY\\" + id.text + ".pem";
         //Debug.Log($"key File paht : {keyFilePath}");
-        
+#else
+        string tempPath = Application.ExecutablePath;
+
+        // path setting
+        string[] splitPaths = tempPath.Split('\\');
+        string assemblePath = "";
+
+        for (int i = 0; i < splitPaths.Length - 1; i++)
+        {
+            assemblePath += (splitPaths[i] + "\\");
+        }
+
+        keyFilePath = assemblePath + "KEY\\" + id.text + ".pem";
+#endif
+        //keyFilePath = Environment.CurrentDirectory + "\\KEY\\" + id.text + ".pem";
+
+        //Debug.LogError($"[경로 확인 중] {keyFilePath}");
+
         if (File.Exists(keyFilePath))
         {
             Debug.Log("파일 있음");
