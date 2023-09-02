@@ -436,6 +436,11 @@ public class Login : MonoBehaviour
 
     private void OnApplicationQuit()
     {
+        //if (DEV.instance.isUsingAbnormalShutdown)
+        //{
+        //    GameManager.instance.api.Send_AbnormalShutdown().Forget();
+        //}
+
         tcp_Server.StopServer();
 
         PID = "";

@@ -32,6 +32,9 @@ public class URL : MonoBehaviour
     protected string fileDownloadURL;
     protected string fileDownloadURL_Live;
 
+
+    protected string abnormalShutdownURL;
+
     #region API
     // using server
     private string testServer = "http://101.101.218.135:5002/";
@@ -58,6 +61,9 @@ public class URL : MonoBehaviour
 
     // file download
     private string fileDownload_URL = "onlineScienceMuseumAPI/downloadBuildFile.do";
+
+    // abnormal shutdown
+    private string abnormalShutdown_URL = "onlineScienceMuseumAPI/insertErrLog.do";
     #endregion
 
     // set URL
@@ -89,6 +95,9 @@ public class URL : MonoBehaviour
             // file download
             fileDownloadURL = testServer + fileDownload_URL;
             fileDownloadURL_Live = liveServer + fileDownload_URL;
+
+            // abnormal shutdown
+            abnormalShutdownURL = testServer + abnormalShutdown_URL;
         }
         // live server
         else
@@ -116,6 +125,10 @@ public class URL : MonoBehaviour
             // file download
             fileDownloadURL = testServer + fileDownload_URL;
             fileDownloadURL_Live = liveServer + fileDownload_URL;
+
+            // abnormal shutdown
+            //abnormalShutdownURL = liveServer + abnormalShutdown_URL;
+            abnormalShutdownURL = testServer + abnormalShutdown_URL;
         }
     }
 }

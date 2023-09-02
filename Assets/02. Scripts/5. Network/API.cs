@@ -848,4 +848,37 @@ public class API : URL
         Debug.Log("PC off 요청 완료");
     }
     #endregion
+
+    #region Abnormal Shutdown
+    public async UniTaskVoid Send_AbnormalShutdown()
+    {
+        Debug.Log("Send_AbnormalShutdown() start()");
+
+        JsonData jsonData = GameManager.instance.jsonData;
+        FriendListManager friendListManager = GameManager.instance.friendListManager;
+
+        var content = new WWWForm();
+        content.AddField("divType", "02");
+
+        using (UnityWebRequest www = UnityWebRequest.Post(abnormalShutdownURL, content))
+        {
+            try
+            {
+                await www.SendWebRequest();
+
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    string requestResult = www.downloadHandler.text;
+
+                    Debug.Log("응답 성공 (비정상 종료) : " + requestResult);
+                }
+            }
+            catch (UnityWebRequestException ex)
+            {
+                string requestResult = www.downloadHandler.text;
+                Debug.Log("응답 실패 (비정상 종료) : " + requestResult);
+            }
+        }
+    }
+    #endregion
 }

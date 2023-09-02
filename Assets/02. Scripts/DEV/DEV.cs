@@ -25,6 +25,7 @@ public class DEV : MonoBehaviour
     public bool isScienceMuseum;
     public bool isUsingTokenForFriendList; // 친구 리스트 요청시 token값 사용
     //public bool isUsingTmpForInputField; // input field에서 TMPro를 사용할 것인지
+    public bool isUsingAbnormalShutdown;
 
     public FilePath filePath;
     public UGCManager ugcManager;
@@ -65,28 +66,6 @@ public class DEV : MonoBehaviour
             pcPowerManager.gameObject.SetActive(true);
         }
     }
-
-    //public /*async*/ void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //    {
-    //        Debug.Log("[SY]실행 파일 실행 유무 확인");
-    //        //await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev.ToString(), FileType.pc.ToString());
-    //        //await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.pc);
-
-    //        //await GameManager.instance.api.Request_FileDownloadURL(ServerType.dev, FileType.pc);
-    //        //await GameManager.instance.api.Request_FileDownloadURL_live(FileType.pc);
-    //        //await GameManager.instance.api.Request_FileDownloadURL_live(FileType.vr);
-    //        //await GameManager.instance.api.Request_FileDownloadURL_live(FileType.prod);
-    //        //await GameManager.instance.api.Request_FileDownloadURL_live(FileType.colca);
-    //        //Test_CheckProcessState();
-
-    //        GameManager.instance.api.Request_MainBoard(0).Forget();
-    //        GameManager.instance.api.Request_MainBoard(1).Forget();
-    //        GameManager.instance.api.Request_MainBoard(2).Forget();
-    //        GameManager.instance.api.Request_MainBoard(3).Forget();
-    //    }
-    //}
 
     public void Test()
     {
