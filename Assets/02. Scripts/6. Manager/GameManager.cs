@@ -166,7 +166,7 @@ public class GameManager : MonoBehaviour
                 currentTimeCount = refreshLimitTime;
                 sw.Restart();
 
-                RefreshAllData();
+                AutoRefreshAllData();
             }
         }
         else
@@ -178,7 +178,7 @@ public class GameManager : MonoBehaviour
     }
 
     // request json data
-    public void RefreshAllData()
+    public void AutoRefreshAllData()
     {
         // friend list
         api.Request_FriendList().Forget();// create friedn list
@@ -193,7 +193,29 @@ public class GameManager : MonoBehaviour
         //api.Request_GuideDownload1().Forget();
         //api.Request_GuideDownload2().Forget();
 
-        Debug.Log("Request Data");
+        Debug.Log("Auto RefreshAllData");
+    }
+
+    public void ManualRefreshAllData()
+    {
+        // playr state
+
+        // download file
+
+        // friend list
+        api.Request_FriendList().Forget();// create friedn list
+
+        // request friend list
+        api.Request_RequestFriendList().Forget(); // create request friend list
+
+        // event banner && notice && news
+        bannerNoticeManager.CreateAllContents();
+
+        // guide download
+        //api.Request_GuideDownload1().Forget();
+        //api.Request_GuideDownload2().Forget();
+
+        Debug.Log("Auto RefreshAllData");
     }
     #endregion
 

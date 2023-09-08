@@ -7474,18 +7474,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3167120743195023685, guid: 99a9a080cb6f08044b4311f4b1daa177, type: 3}
       propertyPath: m_text
-      value: "\uD574\uB2F9\uACBD\uB85C\uC5D0 \uD504\uB85C\uC81D\uD2B8 \uD30C\uC77C\uC774
+      value: "  \uD574\uB2F9\uACBD\uB85C\uC5D0 \uD504\uB85C\uC81D\uD2B8 \uD30C\uC77C\uC774
         \uC874\uC7AC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4.\n\uB2E4\uC6B4\uB85C\uB4DC
         \uC124\uC815\uC5D0\uC11C \uACBD\uB85C\uB97C \uB2E4\uC2DC \uC124\uC815\uD574
         \uC8FC\uC138\uC694."
       objectReference: {fileID: 0}
     - target: {fileID: 3167120743195023685, guid: 99a9a080cb6f08044b4311f4b1daa177, type: 3}
       propertyPath: m_HorizontalAlignment
-      value: 2
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3167120744191379345, guid: 99a9a080cb6f08044b4311f4b1daa177, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 540
+      value: 560
       objectReference: {fileID: 0}
     - target: {fileID: 3167120744191379345, guid: 99a9a080cb6f08044b4311f4b1daa177, type: 3}
       propertyPath: m_SizeDelta.y
@@ -7613,7 +7613,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7013838942083196455, guid: 99a9a080cb6f08044b4311f4b1daa177, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 440
+      value: 460
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99a9a080cb6f08044b4311f4b1daa177, type: 3}

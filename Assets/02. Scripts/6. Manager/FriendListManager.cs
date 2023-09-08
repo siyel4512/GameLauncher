@@ -47,17 +47,6 @@ public class FriendListManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //if (DEV.instance.isUsingTmpForInputField)
-        //{
-        //    searchFriendNickName.gameObject.SetActive(true);
-        //    searchUserNickName.gameObject.SetActive(true);
-
-        //    searchFriendNickName.onSubmit.AddListener(InputEnter);
-        //    searchFriendNickName.onValueChanged.AddListener(CheckedNickName);
-
-        //    searchUserNickName.onSubmit.AddListener(TrySearchUser);
-        //}
-
         searchFriendNickname.onSubmit.AddListener(InputEnter);
         searchFriendNickname.onValueChanged.AddListener(CheckedNickName);
 

@@ -79,6 +79,9 @@ public class FileDownload : MonoBehaviour
 
     public bool isNeedDownload;
 
+    public GameObject donwloadStateMessage_1;
+    public GameObject donwloadStateMessage_2;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -86,6 +89,9 @@ public class FileDownload : MonoBehaviour
         excuteButton.onClick.AddListener(Execute);
         installButton.onClick.AddListener(InstallFile);
         CheckBuidDirectory();
+
+        donwloadStateMessage_1.SetActive(false);
+        donwloadStateMessage_2.SetActive(false);
     }
 
     #region File Check
@@ -207,6 +213,9 @@ public class FileDownload : MonoBehaviour
             Status = LauncherStatus.downloadGame;
         }
         Debug.Log("[SY] 다운로드 시작");
+
+        donwloadStateMessage_1.SetActive(true);
+
         webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback);
         webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadGameCompletedCallback);
         webClient.DownloadFileAsync(new Uri(FilePath.Instance.BuildFileUrls[buttonNum]), FilePath.Instance.ExeZipFilePaths[buttonNum]); // download build file
@@ -228,27 +237,32 @@ public class FileDownload : MonoBehaviour
                 Debug.Log(FilePath.Instance.RootPaths[buttonNum] + "\\" + FilePath.Instance.ExeFolderNames[buttonNum]);
             }
 
-            ZipFile.ExtractToDirectory(FilePath.Instance.ExeZipFilePaths[buttonNum], FilePath.Instance.RootPaths[buttonNum] + "\\" + FilePath.Instance.ExeFolderNames[buttonNum], true);
-            File.Delete(FilePath.Instance.ExeZipFilePaths[buttonNum]);
+            //ZipFile.ExtractToDirectory(FilePath.Instance.ExeZipFilePaths[buttonNum], FilePath.Instance.RootPaths[buttonNum] + "\\" + FilePath.Instance.ExeFolderNames[buttonNum], true);
+            //File.Delete(FilePath.Instance.ExeZipFilePaths[buttonNum]);
 
-            if (buttonNum == 2)
-            {
-                GameManager.instance.ugcManager.CreateBatchFile();
-            }
+            //if (buttonNum == 2)
+            //{
+            //    GameManager.instance.ugcManager.CreateBatchFile();
+            //}
 
-            Status = LauncherStatus.ready;
+            //Status = LauncherStatus.ready;
 
-            excuteButton.interactable = true;
-            prograss.gameObject.SetActive(false);
-            prograss.ResetState();
+            //excuteButton.interactable = true;
+            //prograss.gameObject.SetActive(false);
+            //prograss.ResetState();
 
-            CheckBuidDirectory();
+            //CheckBuidDirectory();
+
+            UnzipFile().Forget();
         }
         catch (Exception ex)
         {
             Status = LauncherStatus.failed;
             Debug.Log($"Error finishing download: {ex}");
-            
+
+            donwloadStateMessage_1.SetActive(false);
+            donwloadStateMessage_2.SetActive(false);
+
             if (DEV.instance.isUsingFolderDialog)
             {
                 //Debug.Log("해당 경로에 다운로드할 수 없습니다. 다른 경로에서 설치를 진행해 주세요.");
@@ -268,6 +282,32 @@ public class FileDownload : MonoBehaviour
             // disable protect guard
             DEV.instance.downloadProtectGaurd.SetActive(DEV.instance.isFileDownload);
         }
+    }
+
+    private async UniTaskVoid UnzipFile()
+    {
+        donwloadStateMessage_1.SetActive(false);
+        donwloadStateMessage_2.SetActive(true);
+
+        await UniTask.SwitchToThreadPool();
+        ZipFile.ExtractToDirectory(FilePath.Instance.ExeZipFilePaths[buttonNum], FilePath.Instance.RootPaths[buttonNum] + "\\" + FilePath.Instance.ExeFolderNames[buttonNum], true);
+        File.Delete(FilePath.Instance.ExeZipFilePaths[buttonNum]);
+
+        if (buttonNum == 2)
+        {
+            GameManager.instance.ugcManager.CreateBatchFile();
+        }
+
+        await UniTask.SwitchToMainThread();
+
+        Status = LauncherStatus.ready;
+        excuteButton.interactable = true;
+        prograss.gameObject.SetActive(false);
+        prograss.ResetState();
+
+        donwloadStateMessage_2.SetActive(false);
+
+        CheckBuidDirectory();
     }
 
     private void CheckBuidDirectory()
@@ -459,13 +499,16 @@ public class FileDownload : MonoBehaviour
         //else
         //{
         //    isNeedDownload = false;
-
+            
+        //    // Todo : ugc 용 구분	
         //    string deleteFilePaht = FilePath.Instance.ChangeDeleteFileName(buttonNum);
+            
         //    FilePath.Instance.SetNewPaht(buttonNum);
         //    FilePath.Instance.DeleteOldFile(deleteFilePaht).Forget();
-
+        //    FilePath.Instance.SaveDownloadURL(buttonNum, GameManager.instance.jsonData.temp_donwloadUrlList[buttonNum].zip_path);
+            
         //    UniTask.SwitchToThreadPool();
-        //    //InstallGameFiles(true).Forget();
+        //    InstallGameFiles(true).Forget();
         //    UniTask.SwitchToMainThread();
         //}
     }
