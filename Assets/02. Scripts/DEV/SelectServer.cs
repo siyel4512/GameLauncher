@@ -34,43 +34,6 @@ public class SelectServer : MonoBehaviour
         });
 
         jsonFilePath = Path.Combine(Application.streamingAssetsPath + "/Default Settings", "SeletedServerState.json");
-
-        //// Todo : 라이브 서버 설정
-        //// 테스트 서버일때
-        //if (DEV.instance.isUsingTestServer)
-        //{
-        //    //selectServerNum = 0;
-        //    selectServerNum = LoadData().selectedServerNum;
-        //    selectServer.value = selectServerNum;
-
-        //    //if (selectServerNum == 0)
-        //    //{
-        //    //    GameManager.instance.filePath.FilePathCheck();
-        //    //}
-
-        //    //FilePath.Instance.Test_SetDownloadURL();
-        //    FilePath.Instance.Test_SetDownloadURL2(selectServerNum);
-        //}
-        //// 라이브 서버일때
-        //else
-        //{
-        //    int tempSelectServerNum = LoadData().selectedServerNum;
-
-        //    // 라이브 서버로 선택되어 있는 경우
-        //    if (tempSelectServerNum == 3)
-        //    {
-        //        selectServerNum = tempSelectServerNum;
-        //        selectServer.value = selectServerNum;
-        //    }
-        //    // 아닐 경우
-        //    else
-        //    {
-        //        SaveData((int)ServerType.live);
-        //        selectServer.value = (int)ServerType.live;
-        //    }
-
-        //    FilePath.Instance.Test_SetDownloadURL2(selectServerNum);
-        //}
     }
 
     public void SetTestServer()
@@ -108,7 +71,7 @@ public class SelectServer : MonoBehaviour
         {
             Debug.Log("삭제");
             //FilePath.Instance.FilePathCheck();
-            FilePath.Instance.DeleteExeFiles(change.value);
+            FilePath.Instance.DeleteExeFiles(change.value).Forget();
         }
 
         selectServerNum = change.value;

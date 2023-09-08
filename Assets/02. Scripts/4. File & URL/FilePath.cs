@@ -46,6 +46,9 @@ public class FilePath : MonoBehaviour
 
     public string fileCheckText = "File Check";
 
+    [Header("[ Select Server ]")]
+    public GameObject settingSelectServer;
+
     private void Awake()
     {
         if (Instance == null)
@@ -310,18 +313,49 @@ public class FilePath : MonoBehaviour
         Directory.Delete(deleteFilePath, true);
         Debug.Log("[SY] 삭제 완료");
         await UniTask.SwitchToMainThread();
-
-        
     }
-
     //---------------------------------------------//
 
     #region File Path Check
-    public void DeleteExeFiles(int serverNum)
+    public async UniTaskVoid DeleteExeFiles(int serverNum)
     {
         Debug.Log("삭제 시작");
         Test_SetDownloadURL2(serverNum);
 
+        // Todo : 서버 선택시 파일 삭제 임시 숨김
+        if (Directory.Exists(defaultDataPath))
+        {
+            // delete all files in a directory
+            string[] files = Directory.GetFiles(defaultDataPath);
+            
+            await UniTask.SwitchToThreadPool();
+            foreach (string file in files)
+            {
+                File.Delete(file);
+            }
+            await UniTask.SwitchToMainThread();
+
+            // delete all subdirectories within a directory
+            string[] subdirectories = Directory.GetDirectories(defaultDataPath);
+            if (subdirectories.Length > 0)
+            {
+                settingSelectServer.SetActive(true);
+            }
+            
+            await UniTask.SwitchToThreadPool();
+            foreach (string subdirectory in subdirectories)
+            {
+                Directory.Delete(subdirectory, recursive: true);
+            }
+            await UniTask.SwitchToMainThread();
+        }
+
+        await UniTask.Delay(1000);
+        settingSelectServer.SetActive(false);
+    }
+
+    public void Temp_FileDelete()
+    {
         if (Directory.Exists(defaultDataPath))
         {
             // delete all files in a directory
@@ -338,12 +372,14 @@ public class FilePath : MonoBehaviour
                 Directory.Delete(subdirectory, recursive: true);
             }
         }
+    }
 
-        //for (int i = 0; i < 4; i++)
-        //{
-        //    SaveDownloadURL(i, buildFileUrls[i]);
-        //    SaveDownloadFolderPath(i, exeFolderPaths[i]);
-        //}
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Temp_FileDelete();
+        }
     }
     #endregion
 
@@ -386,13 +422,6 @@ public class DataPath
     public string ugcPath;
     public string batchPath;
 }
-
-//[System.Serializable]
-//public class DownloadInfoData
-//{
-//    public string[] downloadURL = new string[4];
-//    public string[] exeFolderPaths = new string[4];
-//}
 
 [System.Serializable]
 public class DownloadURL

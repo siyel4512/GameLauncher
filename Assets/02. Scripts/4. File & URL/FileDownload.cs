@@ -273,14 +273,14 @@ public class FileDownload : MonoBehaviour
                 //Debug.Log("해당 경로에 다운로드할 수 없습니다. 다른 경로에서 설치를 진행해 주세요.");
                 downloadFailedPopup_2.SetActive(true);
             }
-        }
 
-        DEV.instance.isFileDownload = false;
+            DEV.instance.isFileDownload = false;
 
-        if (DEV.instance.isProtectFileDownload)
-        {
-            // disable protect guard
-            DEV.instance.downloadProtectGaurd.SetActive(DEV.instance.isFileDownload);
+            if (DEV.instance.isProtectFileDownload)
+            {
+                // disable protect guard
+                DEV.instance.downloadProtectGaurd.SetActive(DEV.instance.isFileDownload);
+            }
         }
     }
 
@@ -308,6 +308,14 @@ public class FileDownload : MonoBehaviour
         donwloadStateMessage_2.SetActive(false);
 
         CheckBuidDirectory();
+
+        DEV.instance.isFileDownload = false;
+
+        if (DEV.instance.isProtectFileDownload)
+        {
+            // disable protect guard
+            DEV.instance.downloadProtectGaurd.SetActive(DEV.instance.isFileDownload);
+        }
     }
 
     private void CheckBuidDirectory()
