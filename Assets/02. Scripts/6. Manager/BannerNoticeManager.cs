@@ -32,9 +32,16 @@ public class BannerNoticeManager : MonoBehaviour
             noticeUI.TryAddContents(eventNewsCount);
 
             // Set Guide URL
-            //guideInfo[0].SetLinkURL("https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/2020+%EB%8C%80%EC%A0%84%EB%A7%88%EC%BC%80%ED%8C%85%EA%B3%B5%EC%82%AC+%ED%99%8D%EB%B3%B4%EC%9E%90%EB%A3%8C.pdf");
-            guideInfo[0].SetLinkURL("https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/%EB%9F%B0%EC%B2%98+%EC%82%AC%EC%9A%A9%EB%B2%95+%EB%B0%8F+%ED%8C%8C%EC%9D%BC+%EC%97%85%EB%A1%9C%EB%93%9C+%EB%A9%94%EB%89%B4%EC%96%BC.pdf");
-            guideInfo[1].SetLinkURL("https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/2021%EB%85%84+%EB%8C%80%EC%A0%84%EB%A7%88%EC%BC%80%ED%8C%85%EA%B3%B5%EC%82%AC.pdf");
+            if (DEV.instance.isUsingTestServer)
+            {
+                guideInfo[0].SetLinkURL("http://fgnowlvzhshz17884402.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
+                guideInfo[1].SetLinkURL("http://fgnowlvzhshz17884402.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
+            }
+            else
+            {
+                guideInfo[0].SetLinkURL("http://alilgjwknwlm18374611.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
+                guideInfo[1].SetLinkURL("http://alilgjwknwlm18374611.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
+            }
         }
         else
         {
@@ -77,8 +84,18 @@ public class BannerNoticeManager : MonoBehaviour
     {
         // Todo : 추후 수정 필요
         //guideInfo[0].SetLinkURL(GameManager.instance.jsonData.guide_List[0].lnchrImg);
-        guideInfo[0].SetLinkURL("https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/%EB%9F%B0%EC%B2%98+%EC%82%AC%EC%9A%A9%EB%B2%95+%EB%B0%8F+%ED%8C%8C%EC%9D%BC+%EC%97%85%EB%A1%9C%EB%93%9C+%EB%A9%94%EB%89%B4%EC%96%BC.pdf");
-        guideInfo[1].SetLinkURL(GameManager.instance.jsonData.guide_List[1].lnchrImg);
+        //guideInfo[1].SetLinkURL(GameManager.instance.jsonData.guide_List[1].lnchrImg);
+
+        if (DEV.instance.isUsingTestServer)
+        {
+            guideInfo[0].SetLinkURL("http://fgnowlvzhshz17884402.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
+            guideInfo[1].SetLinkURL("http://fgnowlvzhshz17884402.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
+        }
+        else
+        {
+            guideInfo[0].SetLinkURL("http://alilgjwknwlm18374611.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
+            guideInfo[1].SetLinkURL("http://alilgjwknwlm18374611.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
+        }
     }
 
     //public void Test_SetGuideDownloadLink()

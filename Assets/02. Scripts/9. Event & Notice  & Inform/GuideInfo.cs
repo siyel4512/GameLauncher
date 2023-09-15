@@ -22,13 +22,31 @@ public class GuideInfo : MonoBehaviour
 
     public void OnDownloadLink()
     {
-        if (buttonNum == 1)
+        if (DEV.instance.isUsingTestServer)
         {
-            Application.OpenURL(downloadLinkURL);
+            if (buttonNum == 1)
+            {
+                //GameManager.instance.popupManager.popups[(int)PopupType.FunctionUpdate].SetActive(true);
+                Application.OpenURL(downloadLinkURL);
+            }
+            else
+            {
+                //GameManager.instance.popupManager.popups[(int)PopupType.FunctionUpdate].SetActive(true);
+                Application.OpenURL(downloadLinkURL);
+            }
         }
         else
         {
-            GameManager.instance.popupManager.popups[(int)PopupType.FunctionUpdate].SetActive(true);
+            if (buttonNum == 1)
+            {
+                //GameManager.instance.popupManager.popups[(int)PopupType.FunctionUpdate].SetActive(true);
+                Application.OpenURL(downloadLinkURL);
+            }
+            else
+            {
+                //GameManager.instance.popupManager.popups[(int)PopupType.FunctionUpdate].SetActive(true);
+                Application.OpenURL(downloadLinkURL);
+            }
         }
     }
 

@@ -825,7 +825,7 @@ public class API : URL
         Debug.Log("Request_GuideDownload1() start()");
         await UniTask.SwitchToMainThread();
 
-        GameManager.instance.bannerNoticeManager.guideInfo[0].SetLinkURL("https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Test+PDF.pdf");
+        //GameManager.instance.bannerNoticeManager.guideInfo[0].SetLinkURL("https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Test+PDF.pdf");
     }
 
     public async UniTaskVoid Request_GuideDownload2()
@@ -834,7 +834,7 @@ public class API : URL
         Debug.Log("Request_GuideDownload2() start()");
         await UniTask.SwitchToMainThread();
 
-        GameManager.instance.bannerNoticeManager.guideInfo[1].SetLinkURL("https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Test+PDF.pdf");
+        //GameManager.instance.bannerNoticeManager.guideInfo[1].SetLinkURL("https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Test+PDF.pdf");
     }
     #endregion
 

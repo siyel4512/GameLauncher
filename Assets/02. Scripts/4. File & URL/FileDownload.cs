@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Diagnostics;
 using System.ComponentModel;
+using System.Collections;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +13,9 @@ using Cysharp.Threading.Tasks;
 
 using Debug = UnityEngine.Debug;
 using JetBrains.Annotations;
+using System.Collections.Generic;
+using UnityEngine.Networking;
+using System.Linq;
 
 public enum LauncherStatus
 {
@@ -362,147 +366,162 @@ public class FileDownload : MonoBehaviour
     #endregion
 
     #region File Execute
-    public void Execute()
-    {
-        Debug.Log($"[SY] : {gameExcutePath}");
-        Debug.Log($"[SY] Execute result : {File.Exists(gameExcutePath)} / {Status}");
-        //Debug.Log($"[SY] : {FilePath.Instance.defaultDataPath}");
+    public void Execute() { 
+    
+        try {
+            Debug.Log($"[SY] : {gameExcutePath}");
+            Debug.Log($"[SY] Execute result : {File.Exists(gameExcutePath)} / {Status}");
+            //Debug.Log($"[SY] : {FilePath.Instance.defaultDataPath}");
 
-        //if (!isNeedDownload)
-        {
-            // create folder
-            if (Directory.Exists(FilePath.Instance.defaultDataPath))
+            //if (!isNeedDownload)
             {
-                Debug.Log("exist directory");
-            }
-            else
-            {
-                Debug.Log("not exist directory and create directory");
-                Directory.CreateDirectory(FilePath.Instance.defaultDataPath);
-            }
-
-            // execute 1
-            if (File.Exists(gameExcutePath) && Status == LauncherStatus.ready)
-            {
-                if (buttonNum == 2)
+                // create folder
+                if (Directory.Exists(FilePath.Instance.defaultDataPath))
                 {
-                    if (GameManager.instance.ugcManager.LoadUGCFilePath().batchFilePath == "")
+                    Debug.Log("exist directory");
+                }
+                else
+                {
+                    Debug.Log("not exist directory and create directory");
+                    Directory.CreateDirectory(FilePath.Instance.defaultDataPath);
+                }
+
+                // execute 1
+                if (File.Exists(gameExcutePath) && Status == LauncherStatus.ready)
+                {
+                    // ugc 인 경우
+                    if (buttonNum == 2)
                     {
-                        Debug.Log("[ugc] batch file path 없음");
-                        if (!GameManager.instance.ugcManager.UnityProjectExeFileCheck())
+                        if (GameManager.instance.ugcManager.LoadUGCFilePath().batchFilePath == "")
                         {
-                            Debug.Log("[ugc] 유니티 경로 문제 발생!!!");
-                            return;
-                        }
-                        else
-                        {
-                            Debug.Log("[ugc] 유니티 경로 문제 없음");
-                        }
+                            Debug.Log("[ugc] batch file path 없음");
+                            if (!GameManager.instance.ugcManager.UnityProjectExeFileCheck())
+                            {
+                                Debug.Log("[ugc] 유니티 경로 문제 발생!!!");
+                                return;
+                            }
+                            else
+                            {
+                                Debug.Log("[ugc] 유니티 경로 문제 없음");
+                            }
                             
 
-                        GameManager.instance.ugcManager.CreateBatchFile();
-                    }
-
-                    ProcessStartInfo startInfo = new ProcessStartInfo(GameManager.instance.ugcManager.LoadUGCFilePath().batchFilePath);
-                    startInfo.WorkingDirectory = GameManager.instance.ugcManager.LoadUGCFilePath().objectUGCProjectDownloadPath;
-                    //Process.Start(startInfo);
-
-                    // Todo : process Test
-                    //DEV.instance.process = Process.Start(startInfo);
-
-                    Process[] _runningFiles = GameManager.instance.runningFiles;
-
-                    if (_runningFiles[buttonNum] != null && !_runningFiles[buttonNum].HasExited)
-                    {
-                        Debug.Log("[SY] 파일 강제 종료");
-                        _runningFiles[buttonNum].Kill();
-                    }
-
-                    _runningFiles[buttonNum] = Process.Start(startInfo);
-                }
-                else
-                {
-                    ProcessStartInfo startInfo = new ProcessStartInfo(gameExcutePath);
-                    startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPaths[buttonNum], FilePath.Instance.ExeFolderNames[buttonNum]);
-
-                    Process[] _runningFiles = GameManager.instance.runningFiles;
-
-                    if (_runningFiles[buttonNum] != null && !_runningFiles[buttonNum].HasExited)
-                    {
-                        Debug.Log("[SY] 파일 강제 종료");
-                        _runningFiles[buttonNum].Kill();
-                    }
-
-                    _runningFiles[buttonNum] = Process.Start(startInfo);
-                }
-            }
-            // exwcuate 2
-            else if (!File.Exists(gameExcutePath) && Status == LauncherStatus.ready)
-            {
-                if (buttonNum == 2)
-                {
-                    //if (gameExcutePath == "" || gameExcutePath != "")
-                    {
-                        Debug.Log("[ugc] batch file path 없음");
-                        if (!GameManager.instance.ugcManager.UnityProjectExeFileCheck())
-                        {
-                            Debug.Log("[ugc] 유니티 경로 문제 발생!!!");
-                            return;
+                            GameManager.instance.ugcManager.CreateBatchFile();
                         }
+
+                        ProcessStartInfo startInfo = new ProcessStartInfo(GameManager.instance.ugcManager.LoadUGCFilePath().batchFilePath);
+                        startInfo.WorkingDirectory = GameManager.instance.ugcManager.LoadUGCFilePath().objectUGCProjectDownloadPath;
+                        //Process.Start(startInfo);
+
+                        // Todo : process Test
+                        //DEV.instance.process = Process.Start(startInfo);
+
+                        Process[] _runningFiles = GameManager.instance.runningFiles;
+
+                        if (_runningFiles[buttonNum] != null && !_runningFiles[buttonNum].HasExited)
+                        {
+                            Debug.Log("[SY] 파일 강제 종료");
+                            _runningFiles[buttonNum].Kill();
+                        }
+
+                        _runningFiles[buttonNum] = Process.Start(startInfo);
+                    }
+                    else
+                    {
+                        // pc
+                        if (buttonNum == 0)
+                            StartCoroutine(GetMyBundleListJson());
                         else
+                            ExecuteContent();
+
+                        //ProcessStartInfo startInfo = new ProcessStartInfo(gameExcutePath);
+                        //startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPaths[buttonNum], FilePath.Instance.ExeFolderNames[buttonNum]);
+
+                        //Process[] _runningFiles = GameManager.instance.runningFiles;
+
+                        //if (_runningFiles[buttonNum] != null && !_runningFiles[buttonNum].HasExited)
+                        //{
+                        //    Debug.Log("[SY] 파일 강제 종료");
+                        //    _runningFiles[buttonNum].Kill();
+                        //}
+
+                        //_runningFiles[buttonNum] = Process.Start(startInfo);
+                    }
+                }
+                // exwcuate 2 (ugc 전용 / 실행파일(.exe) 경로를 모를 경우)
+                else if (!File.Exists(gameExcutePath) && Status == LauncherStatus.ready)
+                {
+                    if (buttonNum == 2)
+                    {
+                        //if (gameExcutePath == "" || gameExcutePath != "")
                         {
-                            Debug.Log("[ugc] 유니티 경로 문제 없음");
+                            Debug.Log("[ugc] batch file path 없음");
+                            if (!GameManager.instance.ugcManager.UnityProjectExeFileCheck())
+                            {
+                                Debug.Log("[ugc] 유니티 경로 문제 발생!!!");
+                                return;
+                            }
+                            else
+                            {
+                                Debug.Log("[ugc] 유니티 경로 문제 없음");
+                            }
+
+
+                            GameManager.instance.ugcManager.CreateBatchFile();
                         }
 
+                        gameExcutePath = GameManager.instance.ugcManager.LoadUGCFilePath().batchFilePath;
 
-                        GameManager.instance.ugcManager.CreateBatchFile();
+                        //ProcessStartInfo startInfo = new ProcessStartInfo(GameManager.instance.ugcManager.LoadUGCFilePath().batchFilePath);
+                        ProcessStartInfo startInfo = new ProcessStartInfo(gameExcutePath);
+                        startInfo.WorkingDirectory = GameManager.instance.ugcManager.LoadUGCFilePath().objectUGCProjectDownloadPath;
+
+                        Process[] _runningFiles = GameManager.instance.runningFiles;
+
+                        if (_runningFiles[buttonNum] != null && !_runningFiles[buttonNum].HasExited)
+                        {
+                            Debug.Log("[SY] 파일 강제 종료");
+                            _runningFiles[buttonNum].Kill();
+                        }
+
+                        _runningFiles[buttonNum] = Process.Start(startInfo);
                     }
+                }
+                // update
+                else if (File.Exists(gameExcutePath) && Status == LauncherStatus.downloadUpdate)
+                {
+                    UniTask.SwitchToThreadPool();
+                    InstallGameFiles(true).Forget();
+                    UniTask.SwitchToMainThread();
+                }
+                // download
+                else if (!File.Exists(gameExcutePath) && Status == LauncherStatus.downloadGame)
+                {
+                    if (buttonNum == 2 && !GameManager.instance.ugcManager.UnityProjectExeFileCheck())
+                        return;
 
-                    gameExcutePath = GameManager.instance.ugcManager.LoadUGCFilePath().batchFilePath;
-
-                    //ProcessStartInfo startInfo = new ProcessStartInfo(GameManager.instance.ugcManager.LoadUGCFilePath().batchFilePath);
-                    ProcessStartInfo startInfo = new ProcessStartInfo(gameExcutePath);
-                    startInfo.WorkingDirectory = GameManager.instance.ugcManager.LoadUGCFilePath().objectUGCProjectDownloadPath;
-
-                    Process[] _runningFiles = GameManager.instance.runningFiles;
-
-                    if (_runningFiles[buttonNum] != null && !_runningFiles[buttonNum].HasExited)
+                    if (DEV.instance.isUsingFolderDialog)
                     {
-                        Debug.Log("[SY] 파일 강제 종료");
-                        _runningFiles[buttonNum].Kill();
+                        folderDialog.SetActive(true);
                     }
-
-                    _runningFiles[buttonNum] = Process.Start(startInfo);
+                    else
+                    {
+                        InstallFile();
+                    }
                 }
-            }
-            // update
-            else if (File.Exists(gameExcutePath) && Status == LauncherStatus.downloadUpdate)
-            {
-                UniTask.SwitchToThreadPool();
-                InstallGameFiles(true).Forget();
-                UniTask.SwitchToMainThread();
-            }
-            // download
-            else if (!File.Exists(gameExcutePath) && Status == LauncherStatus.downloadGame)
-            {
-                if (buttonNum == 2 && !GameManager.instance.ugcManager.UnityProjectExeFileCheck())
-                    return;
-
-                if (DEV.instance.isUsingFolderDialog)
+                else if (Status == LauncherStatus.failed)
                 {
-                    folderDialog.SetActive(true);
-                }
-                else
-                {
-                    InstallFile();
+                    UniTask.SwitchToThreadPool();
+                    //CheckForUpdates().Forget();
+                    UniTask.SwitchToMainThread();
                 }
             }
-            else if (Status == LauncherStatus.failed)
-            {
-                UniTask.SwitchToThreadPool();
-                //CheckForUpdates().Forget();
-                UniTask.SwitchToMainThread();
-            }
+        } 
+        catch (IOException ioe) {
+            
+        } 
+        finally {
+            
         }
         //else
         //{
@@ -558,4 +577,179 @@ public class FileDownload : MonoBehaviour
         }
     }
     #endregion
+
+    private void ExecuteContent()
+    {
+        ProcessStartInfo startInfo = new ProcessStartInfo(gameExcutePath);
+        startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPaths[buttonNum], FilePath.Instance.ExeFolderNames[buttonNum]);
+
+        Process[] _runningFiles = GameManager.instance.runningFiles;
+
+        if (_runningFiles[buttonNum] != null && !_runningFiles[buttonNum].HasExited)
+        {
+            Debug.Log("[SY] 파일 강제 종료");
+            _runningFiles[buttonNum].Kill();
+        }
+
+        _runningFiles[buttonNum] = Process.Start(startInfo);
+    }
+
+    // 여기서부터 에셋번들 다운로드 관련 스크립트
+    string ipDev = "http://49.50.162.141:5002";// 개발서버 url
+    string ipLive = "http://49.50.162.141:5002";// 라이브서버 url
+    string myBundleListUrl = "/onlineScienceMuseumAPI/callDownloadAssetList.do";
+    string downloadBundleUrl = "/onlineScienceMuseumAPI/downloadAssetBundleFile.do";
+
+    IEnumerator GetMyBundleListJson()
+    {
+        // 1.오브젝트 저작도구에서 제작한 나의 번들 리스트 확인
+        WWWForm form = new WWWForm();
+        form.AddField("token", Login.PID);
+
+        string requestUrl = ipLive + myBundleListUrl;
+
+        using (UnityWebRequest www = UnityWebRequest.Post(requestUrl, form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+                Debug.LogError("번들 데이터 전송 실패: " + www.error);
+            else
+            {
+                string myBundleListJsonString = www.downloadHandler.text;
+
+                if (!myBundleListJsonString.Equals("{]}"))
+                {
+                    MyBundleList myBundleList = new MyBundleList();
+                    List<string> bundleKeys = new List<string>();
+                    myBundleList = JsonUtility.FromJson<MyBundleList>(myBundleListJsonString);
+
+                    if (myBundleList.assetBundles.Count > 0)
+                    {
+                        for (int i = 0; i < myBundleList.assetBundles.Count; i++)
+                            bundleKeys.Add(myBundleList.assetBundles[i].bundleKey);
+
+                        // 2. 서버에서 받아온 번들 리스트에 따라 번들 다운로드 
+                        StartCoroutine(DownloadMyBundle(bundleKeys));
+                    }
+                }
+            }
+        }
+    }
+
+    IEnumerator DownloadMyBundle(List<string> _bundleKeys)
+    {
+        float maxDownloadTime = 30f;    // 다운로드 최대 시간은 30초 제한
+        string bundleSaveFolderPath = Path.GetDirectoryName(gameExcutePath);
+        bundleSaveFolderPath += "\\Bundle";
+
+        string extensionBundle = ".bundle";
+        string extensionManifest = ".manifest";
+
+        if (!Directory.Exists(bundleSaveFolderPath))
+            Directory.CreateDirectory(bundleSaveFolderPath);
+
+        string[] allFiles = Directory.GetFiles(bundleSaveFolderPath);
+
+        for (int i = 0; i < _bundleKeys.Count; i++)
+        {
+            for (int j = 0; j < 2; j++)
+            {
+                if (j == 0)
+                {
+                    var existFiles = allFiles.Where(f => Path.GetFileName(f).StartsWith(_bundleKeys[i].ToString()) && Path.GetFileName(f).EndsWith(extensionBundle)).ToArray();
+                    if (existFiles.Length > 0)
+                    {
+                        Debug.Log($"bundleKey({_bundleKeys[i]}) 번들파일이 이미 존재하므로 다운로드 하지 않음.");
+                        continue;
+                    }
+                }
+                else
+                {
+                    var existFiles = allFiles.Where(f => Path.GetFileName(f).StartsWith(_bundleKeys[i].ToString()) && Path.GetFileName(f).EndsWith(extensionManifest)).ToArray();
+                    if (existFiles.Length > 0)
+                    {
+                        Debug.Log($"bundleKey({_bundleKeys[i]}) 매니페스트파일이 이미 존재하므로 다운로드 하지 않음.");
+                        continue;
+                    }
+                }
+
+                WWWForm form = new WWWForm();
+                form.AddField("bundleKey", _bundleKeys[i]);
+                if (j == 0)
+                    form.AddField("flag", "0"); // flag값이 0일 경우, bundle 파일 다운로드
+                else if (j == 1)
+                    form.AddField("flag", "1"); // flag값이 1일 경우, manifest 파일 다운로드
+
+                string tempFilePath = Path.GetTempFileName();
+                string requestUrl = ipLive + downloadBundleUrl;
+
+                using (UnityWebRequest www = UnityWebRequest.Post(requestUrl, form))
+                {
+                    www.downloadHandler = new DownloadHandlerFile(tempFilePath);
+
+                    float downloadProgress = 0f;
+                    float startTime = Time.time;
+
+                    yield return www.SendWebRequest();
+
+                    string contentLengthHeader = www.GetResponseHeader("Content-Length");
+
+                    while (!www.isDone)
+                    {
+                        float elapsedTime = Time.time - startTime;
+
+                        if (elapsedTime >= maxDownloadTime)
+                        {
+                            Debug.Log($"[{_bundleKeys[i]}] 다운로드 시간이 초과되었습니다.");
+                            break;
+                        }
+
+                        if (string.IsNullOrEmpty(contentLengthHeader) || !long.TryParse(contentLengthHeader, out long totalBytes))
+                            downloadProgress = www.downloadProgress;
+                        else
+                            downloadProgress = (float)www.downloadedBytes / totalBytes;
+
+                        int progressPercentage = Mathf.RoundToInt(downloadProgress * 100f);
+
+                        yield return null;
+                    }
+
+                    yield return new WaitForSeconds(0.1f);
+
+                    byte[] assetBundleData = File.ReadAllBytes(tempFilePath);
+                    File.Delete(tempFilePath);
+
+                    bundleSaveFolderPath = Path.GetFullPath(bundleSaveFolderPath);
+
+                    string fileName = www.GetResponseHeader("Content-Disposition");
+                    fileName = fileName.Replace("form-data; name=\"attachment\"; filename=\"", "").Trim('"');
+
+                    string savePath = Path.Combine(bundleSaveFolderPath, fileName);
+
+                    File.WriteAllBytes(savePath, assetBundleData);
+
+                    Debug.Log($"[{_bundleKeys[i]}] save complete at {bundleSaveFolderPath}");
+                }
+            }
+        }
+
+        ExecuteContent();
+    }
+}
+
+// 에셋 번들 다운로드시 json파일 Read를 위한 클래스
+[System.Serializable]
+public class MyBundleList
+{
+    public string accountData;
+    public List<MyAssetBundleData> assetBundles = new List<MyAssetBundleData>();
+}
+
+[System.Serializable]
+public class MyAssetBundleData
+{
+    public string bundleName;
+    public string bundleKey;
+    public List<string> objectNames;
 }
