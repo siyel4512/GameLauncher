@@ -161,14 +161,6 @@ public class FilePath : MonoBehaviour
                 await api.Request_FileDownloadURL(ServerType.test, FileType.colca);
                 break;
             case 2:
-                // live server
-                Debug.Log("[SY] live server");
-                await api.Request_FileDownloadURL_live(FileType.pc);
-                await api.Request_FileDownloadURL_live(FileType.vr);
-                await api.Request_FileDownloadURL_live(FileType.prod);
-                await api.Request_FileDownloadURL_live(FileType.colca);
-                break;
-            case 3:
                 // staging server
                 Debug.Log("[SY] staging server");
                 await api.Request_FileDownloadURL(ServerType.stage, FileType.pc);
@@ -176,6 +168,15 @@ public class FilePath : MonoBehaviour
                 await api.Request_FileDownloadURL(ServerType.stage, FileType.prod);
                 await api.Request_FileDownloadURL(ServerType.stage, FileType.colca);
                 break;
+            case 3:
+                // live server
+                Debug.Log("[SY] live server");
+                await api.Request_FileDownloadURL_live(FileType.pc);
+                await api.Request_FileDownloadURL_live(FileType.vr);
+                await api.Request_FileDownloadURL_live(FileType.prod);
+                await api.Request_FileDownloadURL_live(FileType.colca);
+                break;
+            
         }
 
         //CompareToFileDownloadURL();

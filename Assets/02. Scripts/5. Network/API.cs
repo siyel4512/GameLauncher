@@ -145,9 +145,10 @@ public class API : URL
         FriendListManager friendListManager = GameManager.instance.friendListManager;
         
         var content = new WWWForm();
-        content.AddField("nickname", _nickName);
+        content.AddField("id", _nickName);
 
         //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do", content);
+        //using (UnityWebRequest www = UnityWebRequest.Post("http://101.101.218.135:5002/onlineScienceMuseumAPI/searchUserWithId.do", content))
         using (UnityWebRequest www = UnityWebRequest.Post(searchUserWithNicknameURL, content))
         {
             try
@@ -160,7 +161,7 @@ public class API : URL
 
                     Debug.Log("응답 성공 (친구 검색 결과) : " + requestResult);
 
-                    if (requestResult == "no nick")
+                    if (requestResult == "no id")
                     {
                         Debug.Log("[친구 검색] 해당 유저 없음");
                         jsonData.searchFriendNum = "";

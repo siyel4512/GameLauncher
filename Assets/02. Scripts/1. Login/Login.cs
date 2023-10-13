@@ -34,6 +34,8 @@ public class Login : MonoBehaviour
     public string temp_playerNum;
     public string temp_authrtcd;
 
+    public string myID;
+
     public TCP_Server tcp_Server;
 
 
@@ -191,12 +193,15 @@ public class Login : MonoBehaviour
 
                 if (www.result == UnityWebRequest.Result.Success)
                 {
+                    myID = id.text;
+
                     string requestResult = www.downloadHandler.text;
 
                     Debug.Log("로그인 결과 : " + requestResult);
 
                     PID = requestResult.Split(":")[1].Split(",")[0];
-                    nickname = requestResult.Split(":")[2].Split(",")[0];
+                    //nickname = requestResult.Split(":")[2].Split(",")[0];
+                    nickname = myID;
                     playerNum = requestResult.Split(":")[3].Split(",")[0];
                     authrtcd = requestResult.Split(":")[4].Split("}")[0];
 
@@ -275,8 +280,11 @@ public class Login : MonoBehaviour
 
                     Debug.Log("로그인 결과 : " + requestResult);
 
+                    myID = id.text;
+
                     PID = requestResult.Split(":")[1].Split(",")[0];
-                    nickname = requestResult.Split(":")[2].Split(",")[0];
+                    //nickname = requestResult.Split(":")[2].Split(",")[0];
+                    nickname = myID;
                     playerNum = requestResult.Split(":")[3].Split(",")[0];
                     authrtcd = requestResult.Split(":")[4].Split("}")[0];
 
@@ -335,9 +343,9 @@ public class Login : MonoBehaviour
         gameManager.GetComponent<SelectServer>().SetLiveServer();
 
         gameManager.isLogin = true; // login
-        gameManager.playerManager.nickname.text = nickname;// set nick name
-        gameManager.playerManager.nickname_legacy.text = nickname;// set nick name
-        
+        gameManager.playerManager.nickname.text = myID;// set id
+        gameManager.playerManager.nickname_legacy.text = myID;// set id
+
         gameManager.playerManager.SetPlayerState(1); // set player state
         gameManager.SetPage(1); // set main page
 
@@ -371,8 +379,8 @@ public class Login : MonoBehaviour
         FilePath.Instance.Test_SetDownloadURL2(gameManager.selectedServerNum);
 
         gameManager.isLogin = true; // login
-        gameManager.playerManager.nickname.text = nickname;// set nick name
-        gameManager.playerManager.nickname_legacy.text = nickname;// set nick name
+        gameManager.playerManager.nickname.text = myID;// set id
+        gameManager.playerManager.nickname_legacy.text = myID;// set id
 
         gameManager.playerManager.SetPlayerState(1); // set player state
         gameManager.SetPage(1); // set main page

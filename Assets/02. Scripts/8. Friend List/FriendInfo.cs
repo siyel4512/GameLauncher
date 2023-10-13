@@ -8,7 +8,7 @@ public class FriendInfo : MonoBehaviour
     public bool isSelected;
 
     // json 값 저정
-    public string ncnm;
+    public string id;
     public int frndNo;
     public int mbrNo;
     public int frndMbrNo;
@@ -29,7 +29,7 @@ public class FriendInfo : MonoBehaviour
     public void SetSlotValues()
     {
         //nickname_text.text = nickname;
-        nickname_text.text = ncnm;
+        nickname_text.text = id;
 
         switch (frndSttus)
         {

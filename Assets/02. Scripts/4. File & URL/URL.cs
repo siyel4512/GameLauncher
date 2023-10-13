@@ -57,7 +57,7 @@ public class URL : MonoBehaviour
     private string addFriend_URL = "onlineScienceMuseumAPI/insertFrndInfo.do";
     private string requestAccept_URL = "onlineScienceMuseumAPI/updateFrndReqAccept.do";
     private string requestRefuseNDelete_URL = "onlineScienceMuseumAPI/deleteFrndReq.do";
-    private string searchUserWithNickname_URL = "onlineScienceMuseumAPI/searchUserWithNickname.do";
+    private string searchUserWithNickname_URL = "onlineScienceMuseumAPI/searchUserWithId.do";
 
     // file download
     private string fileDownload_URL = "onlineScienceMuseumAPI/downloadBuildFile.do";
@@ -75,9 +75,13 @@ public class URL : MonoBehaviour
             // server
             baseServer = testServer;
             
+            //// login
+            //getKeyURL = testServer + requestKey_URL;
+            //tryLoginURL = testServer + tryLogin_URL;
+
             // login
-            getKeyURL = testServer + requestKey_URL;
-            tryLoginURL = testServer + tryLogin_URL;
+            getKeyURL = liveServer + requestKey_URL;
+            tryLoginURL = liveServer + tryLogin_URL;
 
             // player state
             playerStateUpdateURL = testServer + playerStateUpdate_URL;

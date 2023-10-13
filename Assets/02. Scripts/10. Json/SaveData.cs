@@ -8,7 +8,7 @@ public class SaveData
     [Serializable]
     public class friendList
     {
-        public string ncnm;
+        public string id;
         public int frndNo;
         public int mbrNo;
         public int frndMbrNo;

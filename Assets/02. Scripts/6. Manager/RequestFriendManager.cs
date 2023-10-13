@@ -49,7 +49,7 @@ public class RequestFriendManager : MonoBehaviour
 
             // set request info
             RequestInfo info = clone.GetComponent<RequestInfo>();
-            info.ncnm = GameManager.instance.jsonData.requestFriendListValues[i].ncnm;
+            info.ncnm = GameManager.instance.jsonData.requestFriendListValues[i].id;
             info.frndNo = GameManager.instance.jsonData.requestFriendListValues[i].frndNo;
             info.mbrNo = GameManager.instance.jsonData.requestFriendListValues[i].mbrNo;
             info.frndMbrNo = GameManager.instance.jsonData.requestFriendListValues[i].frndMbrNo;
@@ -165,8 +165,8 @@ public class RequestFriendManager : MonoBehaviour
             if (requestList[i].isRequestComplate)
             {
                 friendListManager.temp_friendList.Add(new FriendInfo() 
-                { 
-                    ncnm = requestList[i].GetComponent<RequestInfo>().ncnm,
+                {
+                    id = requestList[i].GetComponent<RequestInfo>().ncnm,
                     frndNo = requestList[i].GetComponent<RequestInfo>().frndNo,
                     mbrNo = requestList[i].GetComponent<RequestInfo>().mbrNo,
                     frndMbrNo = requestList[i].GetComponent<RequestInfo>().frndMbrNo,
@@ -186,7 +186,7 @@ public class RequestFriendManager : MonoBehaviour
                 //friendtInfo.nickname = requestList[i].GetComponent<RequestInfo>().nickname;
                 //friendtInfo.state = requestList[i].GetComponent<RequestInfo>().state;
                 
-                friendtInfo.ncnm = requestList[i].GetComponent<RequestInfo>().ncnm;
+                friendtInfo.id = requestList[i].GetComponent<RequestInfo>().ncnm;
                 friendtInfo.frndNo = requestList[i].GetComponent<RequestInfo>().frndNo;
                 friendtInfo.mbrNo = requestList[i].GetComponent<RequestInfo>().mbrNo;
                 friendtInfo.frndMbrNo = requestList[i].GetComponent<RequestInfo>().frndMbrNo;

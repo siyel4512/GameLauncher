@@ -84,7 +84,7 @@ public class FriendListManager : MonoBehaviour
             // create & set temp friend info
             temp_friendList.Add(new FriendInfo()
             {
-                ncnm = friendListValues[i].ncnm,
+                id = friendListValues[i].id,
                 frndNo = friendListValues[i].frndNo,
                 mbrNo = friendListValues[i].mbrNo,
                 frndMbrNo = friendListValues[i].frndMbrNo,
@@ -102,7 +102,7 @@ public class FriendListManager : MonoBehaviour
             // set friend info
             FriendInfo info = clone.GetComponent<FriendInfo>();
 
-            info.ncnm = friendListValues[i].ncnm;
+            info.id = friendListValues[i].id;
             info.frndNo = friendListValues[i].frndNo;
             info.mbrNo = friendListValues[i].mbrNo;
             info.frndMbrNo = friendListValues[i].frndMbrNo;
@@ -128,7 +128,7 @@ public class FriendListManager : MonoBehaviour
     {
         // find duplicates by grouping (using ncnm, frndMbrNo)
         var groupsByCombinedKey = _friendList
-            .GroupBy(info => (info.ncnm, info.frndMbrNo))
+            .GroupBy(info => (info.id, info.frndMbrNo))
             .Where(group => group.Count() > 1);
 
         // duplicate element output
@@ -347,7 +347,7 @@ public class FriendListManager : MonoBehaviour
         // check my friend list
         for (int i = 0; i < friendListValuse.Count; i++)
         {
-            if (friendListValuse[i].ncnm == _searchUserNickname)
+            if (friendListValuse[i].id == _searchUserNickname)
             {
                 isExistInList = 1;
                 Debug.Log("[SY] 해당 친구 있음");
@@ -366,7 +366,7 @@ public class FriendListManager : MonoBehaviour
 
             for (int i = 0; i < requestListValuse.Count; i++)
             {
-                if (requestListValuse[i].ncnm == _searchUserNickname)
+                if (requestListValuse[i].id == _searchUserNickname)
                 {
                     isExistInList = 2;
                     Debug.Log("[SY] 해당 요청 유저 있음");

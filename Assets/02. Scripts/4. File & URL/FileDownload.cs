@@ -603,6 +603,12 @@ public class FileDownload : MonoBehaviour
     IEnumerator GetMyBundleListJson()
     {
         // 1.오브젝트 저작도구에서 제작한 나의 번들 리스트 확인
+        string bundleSaveFolderPath = Path.GetDirectoryName(gameExcutePath);
+        bundleSaveFolderPath += "\\Bundle";
+
+        if (!Directory.Exists(bundleSaveFolderPath))
+            Directory.CreateDirectory(bundleSaveFolderPath);
+
         WWWForm form = new WWWForm();
         form.AddField("token", Login.PID);
 
@@ -617,7 +623,7 @@ public class FileDownload : MonoBehaviour
             else
             {
                 string myBundleListJsonString = www.downloadHandler.text;
-
+                
                 if (!myBundleListJsonString.Equals("{]}"))
                 {
                     MyBundleList myBundleList = new MyBundleList();
@@ -633,6 +639,8 @@ public class FileDownload : MonoBehaviour
                         StartCoroutine(DownloadMyBundle(bundleKeys));
                     }
                 }
+                else
+                    ExecuteContent();
             }
         }
     }
@@ -645,9 +653,6 @@ public class FileDownload : MonoBehaviour
 
         string extensionBundle = ".bundle";
         string extensionManifest = ".manifest";
-
-        if (!Directory.Exists(bundleSaveFolderPath))
-            Directory.CreateDirectory(bundleSaveFolderPath);
 
         string[] allFiles = Directory.GetFiles(bundleSaveFolderPath);
 

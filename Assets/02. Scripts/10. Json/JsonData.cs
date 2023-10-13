@@ -45,7 +45,7 @@ public class JsonData : MonoBehaviour
                 SaveData.friendList list = _list[i];
                 SaveData.friendList temp_list = _temp_list[i];
 
-                if (list.ncnm != temp_list.ncnm
+                if (list.id != temp_list.id
                     || list.frndNo != temp_list.frndNo
                     || list.mbrNo != temp_list.mbrNo
                     || list.frndMbrNo != temp_list.frndMbrNo
@@ -70,7 +70,7 @@ public class JsonData : MonoBehaviour
         {
             for (int i = 0; i < _temp_list.Count; i++)
             {
-                _list[i].ncnm = _temp_list[i].ncnm;
+                _list[i].id = _temp_list[i].id;
                 _list[i].frndNo = _temp_list[i].frndNo;
                 _list[i].mbrNo = _temp_list[i].mbrNo;
                 _list[i].frndMbrNo = _temp_list[i].frndMbrNo;
