@@ -19,7 +19,8 @@ public class UGCManager : MonoBehaviour
     public TMP_InputField objectUGCProjectDownloadPath_text; // object UGC Project download path
 
     public string batchFileName = "startObjectUGC.bat";
-    public string defaultDataPath = "C:\\Curiverse"; 
+    //public string defaultDataPath = "C:\\Curiverse"; 
+    public string defaultDataPath = "C:\\MetaPly"; 
     public FileDownload fileDownload;
 
     public void Start()

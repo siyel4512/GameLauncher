@@ -219,7 +219,7 @@ public class FriendListManager : MonoBehaviour
         if (searchFriendNickname.text == "")
         {
             //GameManager.instance.popupManager.popups[(int)PopupType.BlankError].SetActive(true);
-            searchUserWaringText.text = "추가할 유저 닉네임을 입력해 주세요.";
+            searchUserWaringText.text = "추가할 유저 아이디를 입력해 주세요.";
         }
     }
     #endregion
@@ -331,7 +331,7 @@ public class FriendListManager : MonoBehaviour
             {
                 //GameManager.instance.popupManager.popups[(int)PopupType.BlankError].SetActive(true);
 
-                searchUserWaringText.text = "추가할 유저 닉네임을 입력해 주세요.";
+                searchUserWaringText.text = "추가할 유저 아이디를 입력해 주세요.";
             }
         }
     }

@@ -123,7 +123,8 @@ public class FilePath : MonoBehaviour
 
     public void ResetDataPath()
     {
-        defaultDataPath = "C:\\Curiverse";
+        //defaultDataPath = "C:\\Curiverse";
+        defaultDataPath = "C:\\MetaPly";
         dataPath.pcPath = dataPath.vrPath = dataPath.ugcPath = dataPath.batchPath = defaultDataPath;
 
         string jsonData = JsonUtility.ToJson(dataPath, true);
