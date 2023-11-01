@@ -38,6 +38,8 @@ public class Login : MonoBehaviour
 
     public TCP_Server tcp_Server;
 
+    public GameObject batchAdminButton;
+
 
     // Start is called before the first frame update
     void Start()
@@ -343,6 +345,12 @@ public class Login : MonoBehaviour
         gameManager.GetComponent<SelectServer>().SetLiveServer();
 
         gameManager.isLogin = true; // login
+
+        if (DEV.instance.isAdmin)
+        {
+            batchAdminButton.SetActive(true);
+        }
+
         gameManager.playerManager.nickname.text = myID;// set id
         gameManager.playerManager.nickname_legacy.text = myID;// set id
 
@@ -403,6 +411,13 @@ public class Login : MonoBehaviour
     {
         GameManager gameManager = GameManager.instance;
         gameManager.isLogin = false; // logout
+
+        if (DEV.instance.isAdmin)
+        {
+            batchAdminButton.SetActive(false);
+        }
+
+        DEV.instance.isAdmin = false;
 
         gameManager.bannerNoticeManager.mainBoardScrollPos.anchoredPosition = new Vector2(0, 0); // scroll reset
         GameManager.instance.SetSelectButton(0); // set file download button
