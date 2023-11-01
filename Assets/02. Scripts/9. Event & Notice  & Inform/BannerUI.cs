@@ -15,7 +15,7 @@ public class BannerUI : SwipeUI
     // Start is called before the first frame update
     void Start()
     {
-        warningText.SetActive(false);
+        //warningText.SetActive(false);
     }
 
     private void Update()

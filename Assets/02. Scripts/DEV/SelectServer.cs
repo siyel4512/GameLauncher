@@ -15,7 +15,8 @@ public enum FileType
     pc,
     vr,
     prod,
-    colca
+    colca,
+    admin
 }
 
 public class SelectServer : MonoBehaviour

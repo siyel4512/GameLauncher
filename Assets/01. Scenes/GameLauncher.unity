@@ -4084,7 +4084,9 @@ MonoBehaviour:
   - 
   - 
   - 
+  - 
   jsonFileUrls:
+  - 
   - 
   - 
   - 
@@ -4094,14 +4096,17 @@ MonoBehaviour:
     vrPath: C:\MetaPly
     ugcPath: C:\MetaPly
     batchPath: C:\MetaPly
+    batchPath_admin: C:\MetaPly
   defaultDataPath: C:\MetaPly
   rootPaths:
   - C:\MetaPly
   - C:\MetaPly
   - C:\MetaPly
   - C:\MetaPly
+  - C:\MetaPly
   downloadURL:
     downloadURLs:
+    - 
     - 
     - 
     - 
@@ -20820,6 +20825,7 @@ MonoBehaviour:
   limitTime: 5
   isReadyForStopwatch: 0
   warningText: {fileID: 0}
+  imageLoadingText: {fileID: 0}
   compressedWidth: 512
 --- !u!114 &1278242268
 MonoBehaviour:
@@ -22450,7 +22456,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7153272692848610885, guid: e7abe9de1d571664eaacd3bffacf325c, type: 3}
       propertyPath: buttonNum
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7153272692848610885, guid: e7abe9de1d571664eaacd3bffacf325c, type: 3}
       propertyPath: folderDialog
@@ -37615,6 +37621,10 @@ PrefabInstance:
       propertyPath: warningText
       value: 
       objectReference: {fileID: 1006242218}
+    - target: {fileID: 4591189120526202947, guid: d043f8e1f2aec88458cca0b533e56782, type: 3}
+      propertyPath: imageLoadingText
+      value: 
+      objectReference: {fileID: 1827636946851994916}
     - target: {fileID: 4591189120526202992, guid: d043f8e1f2aec88458cca0b533e56782, type: 3}
       propertyPath: m_Name
       value: Event Banner
@@ -37737,6 +37747,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d043f8e1f2aec88458cca0b533e56782, type: 3}
+--- !u!1 &1827636946851994916 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9075096194059577974, guid: d043f8e1f2aec88458cca0b533e56782, type: 3}
+  m_PrefabInstance: {fileID: 1827636946851994915}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1928901120007354780
 PrefabInstance:
   m_ObjectHideFlags: 0

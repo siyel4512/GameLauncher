@@ -14,14 +14,18 @@ public class FilePath : MonoBehaviour
     // file download path
     private string rootPath;
 
-    public string[] buildFileUrls = new string[4];
-    public string[] jsonFileUrls = new string[4];
+    //public string[] buildFileUrls = new string[4];
+    public string[] buildFileUrls = new string[5];
+    //public string[] jsonFileUrls = new string[4];
+    public string[] jsonFileUrls = new string[5];
 
     //public string[] temp_buildFileUrls = new string[4];
     //public string[] temp_jsonFileUrls = new string[4];
 
-    private string[] exeFolderPaths = new string[4];
-    private string[] exeZipFilePaths = new string[4];
+    //private string[] exeFolderPaths = new string[4];
+    private string[] exeFolderPaths = new string[5];
+    //private string[] exeZipFilePaths = new string[4];
+    private string[] exeZipFilePaths = new string[5];
 
     public string RootPath => rootPath;
     public string[] BuildFileUrls => buildFileUrls;
@@ -29,14 +33,16 @@ public class FilePath : MonoBehaviour
     public string[] ExeFolderPaths => exeFolderPaths;
     public string[] ExeZipFilePaths => exeZipFilePaths;
 
-    private string[] exeFolderNames = new string[4];
+    //private string[] exeFolderNames = new string[4];
+    private string[] exeFolderNames = new string[5];
     public string[] ExeFolderNames => exeFolderNames;
     
     [Header("[ Download File Path ]")]
     public DataPath dataPath;
     //public string defaultDataPath = "C:\\Program Files";
     public string defaultDataPath;
-    public string[] rootPaths = new string[4];
+    //public string[] rootPaths = new string[4];
+    public string[] rootPaths = new string[5];
     public string[] RootPaths => rootPaths;
 
     //public DownloadInfoData exeFilePath;
@@ -100,6 +106,9 @@ public class FilePath : MonoBehaviour
             case 3:
                 dataPath.batchPath = _path;
                 break;
+            case 4:
+                dataPath.batchPath_admin = _path;
+                break;
         }
 
         rootPaths[buttonNum] = _path;
@@ -152,6 +161,7 @@ public class FilePath : MonoBehaviour
                 await api.Request_FileDownloadURL(ServerType.dev, FileType.vr);
                 await api.Request_FileDownloadURL(ServerType.dev, FileType.prod);
                 await api.Request_FileDownloadURL(ServerType.dev, FileType.colca);
+                await api.Request_FileDownloadURL(ServerType.dev, FileType.admin);
                 break;
             case 1:
                 // test server
@@ -160,6 +170,7 @@ public class FilePath : MonoBehaviour
                 await api.Request_FileDownloadURL(ServerType.test, FileType.vr);
                 await api.Request_FileDownloadURL(ServerType.test, FileType.prod);
                 await api.Request_FileDownloadURL(ServerType.test, FileType.colca);
+                await api.Request_FileDownloadURL(ServerType.test, FileType.admin);
                 break;
             case 2:
                 // staging server
@@ -168,6 +179,7 @@ public class FilePath : MonoBehaviour
                 await api.Request_FileDownloadURL(ServerType.stage, FileType.vr);
                 await api.Request_FileDownloadURL(ServerType.stage, FileType.prod);
                 await api.Request_FileDownloadURL(ServerType.stage, FileType.colca);
+                await api.Request_FileDownloadURL(ServerType.stage, FileType.admin);
                 break;
             case 3:
                 // live server
@@ -176,13 +188,15 @@ public class FilePath : MonoBehaviour
                 await api.Request_FileDownloadURL_live(FileType.vr);
                 await api.Request_FileDownloadURL_live(FileType.prod);
                 await api.Request_FileDownloadURL_live(FileType.colca);
+                await api.Request_FileDownloadURL_live(FileType.admin);
                 break;
             
         }
 
         //CompareToFileDownloadURL();
 
-        for (int i = 0; i < 4; i++)
+        //for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 5; i++)
         {
             buildFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path;
             jsonFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].json_path;
@@ -275,7 +289,8 @@ public class FilePath : MonoBehaviour
 
     private void SetFilePath()
     {
-        for (int i = 0; i < 4; i++)
+        //for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 5; i++)
         {
             string[] folderFullName = buildFileUrls[i].Split("/");
             string[] exeFolderName = folderFullName[folderFullName.Length - 1].Split(".");
@@ -405,7 +420,8 @@ public class FilePath : MonoBehaviour
 
     public void ResetDownloadURL()
     {
-        for (int i = 0; i < 4; i++)
+        //for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 5; i++)
         {
             downloadURL.downloadURLs[i] = null;
         }
@@ -423,10 +439,12 @@ public class DataPath
     public string vrPath;
     public string ugcPath;
     public string batchPath;
+    public string batchPath_admin;
 }
 
 [System.Serializable]
 public class DownloadURL
 {
-    public string[] downloadURLs = new string[4];
+    //public string[] downloadURLs = new string[4];
+    public string[] downloadURLs = new string[5];
 }

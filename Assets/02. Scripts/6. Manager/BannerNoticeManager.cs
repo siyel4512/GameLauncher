@@ -82,7 +82,6 @@ public class BannerNoticeManager : MonoBehaviour
 
     public void SetGuideDowloadLink()
     {
-        // Todo : 추후 수정 필요
         //guideInfo[0].SetLinkURL(GameManager.instance.jsonData.guide_List[0].lnchrImg);
         //guideInfo[1].SetLinkURL(GameManager.instance.jsonData.guide_List[1].lnchrImg);
 
@@ -97,26 +96,4 @@ public class BannerNoticeManager : MonoBehaviour
             guideInfo[1].SetLinkURL("http://alilgjwknwlm18374611.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
         }
     }
-
-    //public void Test_SetGuideDownloadLink()
-    //{
-    //    if (DEV.instance.isTEST_Contents)
-    //    {
-    //        // curiverse using guide download
-    //        //guideInfo[0].SetLinkURL("https://www.google.com/");
-    //        guideInfo[0].SetLinkURL("https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Test+PDF.pdf");
-
-    //        // make/batch editor guide download
-    //        //guideInfo[1].SetLinkURL("https://www.google.com/");
-    //        guideInfo[1].SetLinkURL("https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Test+PDF.pdf");
-    //    }
-    //    else
-    //    {
-    //        // curiverse using guide download
-    //        GameManager.instance.api.Request_GuideDownload1().Forget();
-
-    //        // make/batch editor guide download
-    //        GameManager.instance.api.Request_GuideDownload2().Forget();
-    //    }
-    //}
 }
