@@ -384,7 +384,7 @@ public class Login : MonoBehaviour
 
         gameManager.popupManager.popups[(int)PopupType.SelectServer].SetActive(false);
 
-        FilePath.Instance.Test_SetDownloadURL2(gameManager.selectedServerNum);
+        FilePath.Instance.SetDownloadURL(gameManager.selectedServerNum);
 
         gameManager.isLogin = true; // login
         gameManager.playerManager.nickname.text = myID;// set id

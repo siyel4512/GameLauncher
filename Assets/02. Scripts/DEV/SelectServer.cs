@@ -45,7 +45,7 @@ public class SelectServer : MonoBehaviour
         selectServerNum = LoadData().selectedServerNum;
         selectServer.value = selectServerNum;
 
-        FilePath.Instance.Test_SetDownloadURL2(selectServerNum);
+        FilePath.Instance.SetDownloadURL(selectServerNum);
     }
 
     public void SetLiveServer()
@@ -56,7 +56,7 @@ public class SelectServer : MonoBehaviour
         selectServerNum = (int)ServerType.live;
         selectServer.value = (int)ServerType.live;
 
-        FilePath.Instance.Test_SetDownloadURL2(selectServerNum);
+        FilePath.Instance.SetDownloadURL(selectServerNum);
     }
 
     public void OnChangedValue(TMP_Dropdown change)
@@ -72,7 +72,8 @@ public class SelectServer : MonoBehaviour
         {
             Debug.Log("삭제");
             //FilePath.Instance.FilePathCheck();
-            FilePath.Instance.DeleteExeFiles(change.value).Forget();
+            //FilePath.Instance.DeleteExeFiles(change.value).Forget();
+            FilePath.Instance.DeleteExeFiles(change.value);
         }
 
         selectServerNum = change.value;

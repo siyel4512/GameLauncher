@@ -48,7 +48,6 @@ public class API : URL
 
         string temp_requestResult = "";
 
-        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do", content);
         using (UnityWebRequest www = UnityWebRequest.Post(friendListURL, content))
         {
             try
@@ -147,8 +146,6 @@ public class API : URL
         var content = new WWWForm();
         content.AddField("id", _nickName);
 
-        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do", content);
-        //using (UnityWebRequest www = UnityWebRequest.Post("http://101.101.218.135:5002/onlineScienceMuseumAPI/searchUserWithId.do", content))
         using (UnityWebRequest www = UnityWebRequest.Post(searchUserWithNicknameURL, content))
         {
             try
@@ -201,7 +198,6 @@ public class API : URL
         content.AddField("mbrNo", mbrNo);
         content.AddField("frndMbrNo", myNo);
 
-        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/insertFrndInfo.do", content);
         using (UnityWebRequest www = UnityWebRequest.Post(addFriendURL, content))
         {
             try
@@ -237,7 +233,6 @@ public class API : URL
         content.AddField("token", token); // Todo : 추후 변경 예정
         content.AddField("frndMbrNo", mbrNo);
 
-        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/insertFrndInfo.do", content);
         using (UnityWebRequest www = UnityWebRequest.Post(addFriendURL, content))
         {
             try
@@ -277,7 +272,6 @@ public class API : URL
 
         string temp_requestResult = "";
 
-        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do", content);
         using (UnityWebRequest www = UnityWebRequest.Post(friendListURL, content))
         {
             try
@@ -362,7 +356,6 @@ public class API : URL
         content.AddField("mbrNo", _mbrNo.ToString());
         content.AddField("frndMbrNo", _frndMbrNo.ToString());
 
-        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/updateFrndReqAccept.do", content);
         using (UnityWebRequest www = UnityWebRequest.Post(requestAcceptURL, content))
         {
             try
@@ -392,7 +385,6 @@ public class API : URL
         content.AddField("mbrNo", _mbrNo.ToString());
         content.AddField("frndMbrNo", _frndMbrNo.ToString());
 
-        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/deleteFrndReq.do", content);
         using (UnityWebRequest www = UnityWebRequest.Post(requestRefuseNDeleteURL, content))
         {
             try
@@ -424,7 +416,6 @@ public class API : URL
         content.AddField("myStatus", status.ToString());
         content.AddField("token", token);
 
-        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/changeMyStatus.do", content);
         using (UnityWebRequest www = UnityWebRequest.Post(playerStateUpdateURL, content))
         {
             try
@@ -480,7 +471,6 @@ public class API : URL
         content.AddField("pathFlag", _pathFlag.ToString());
         content.AddField("folderFlag", _folderFlag.ToString());
 
-        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/downloadBuildFile.do", content);
         using (UnityWebRequest www = UnityWebRequest.Post(fileDownloadURL, content))
         {
             try
@@ -527,7 +517,6 @@ public class API : URL
         content.AddField("pathFlag", "dev");
         content.AddField("folderFlag", _folderFlag.ToString());
 
-        //var response = await client.PostAsync("http://49.50.162.141:5002/onlineScienceMuseumAPI/downloadBuildFile.do", content);
         using (UnityWebRequest www = UnityWebRequest.Post(fileDownloadURL_Live, content))
         {
             try
@@ -587,7 +576,6 @@ public class API : URL
 
         string temp_requestResult = "";
 
-        //var response = await client.PostAsync("http://101.101.218.135:5002/onlineScienceMuseumAPI/frndInfo.do", content);
         using (UnityWebRequest www = UnityWebRequest.Post(mainBoardURP, content))
         {
             try

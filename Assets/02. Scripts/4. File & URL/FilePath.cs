@@ -144,7 +144,8 @@ public class FilePath : MonoBehaviour
 
     }
     
-    public async void Test_SetDownloadURL2(int serverNum)
+    //public async void SetDownloadURL(int serverNum)
+    public async void SetDownloadURL(int serverNum, bool isSelectServer = false)
     {
         if (CheckRunningFiles())
             return;
@@ -192,20 +193,22 @@ public class FilePath : MonoBehaviour
                 break;
         }
 
-        //CompareToFileDownloadURL();
-
-        //for (int i = 0; i < 4; i++)
-        for (int i = 0; i < 5; i++)
+        if (isSelectServer)
         {
-            buildFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path;
-            jsonFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].json_path;
-
-            SaveDownloadURL(i, buildFileUrls[i]);
+            //for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 5; i++)
+            {
+                buildFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path;
+                jsonFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].json_path;
+                SaveDownloadURL(i, buildFileUrls[i]);
+            }
+            SetFilePath();
+            GameManager.instance.SetSelectButton(0);
         }
-
-        SetFilePath();
-
-        GameManager.instance.SetSelectButton(0);
+        else
+        {
+            CompareToFileDownloadURL();
+        }
     }
 
     public void CompareToFileDownloadURL()
@@ -215,7 +218,7 @@ public class FilePath : MonoBehaviour
             return;
         }
 
-        Debug.Log("[SY] 비교 시작");
+        Debug.Log("[Compare] 비교 시작");
         DownloadURL temp_downloadURL = LoadDownloadURL();
 
         for (int i = 0; i < buildFileUrls.Length; i++)
@@ -223,7 +226,7 @@ public class FilePath : MonoBehaviour
             //if (BuildFileUrls[i] == "")
             if (temp_downloadURL.downloadURLs[i] == "")
             {
-                Debug.Log($"[SY] {i}번 공백 초기화");
+                Debug.Log($"[Compare] {i}번 공백 초기화");
                 buildFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path;
                 jsonFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].json_path;
 
@@ -232,23 +235,51 @@ public class FilePath : MonoBehaviour
             //else if (buildFileUrls[i] != GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path)
             else if (temp_downloadURL.downloadURLs[i] != GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path)
             {
-                Debug.Log("[SY] 경로 변경됨");
+                Debug.Log("[Compare] 경로 변경됨");
+                Debug.Log($"[Compare] : %%{exeFolderPaths[i]}$$");
+                if (exeFolderPaths[i] == "")
+                {
+                    Debug.Log($"[Compare] : {exeFolderPaths[i]}");
+                    // 임시 저장
+                    buildFileUrls[i] = temp_downloadURL.downloadURLs[i];
+
+                    // set path
+                    string[] folderFullName = buildFileUrls[i].Split("/");
+                    string[] exeFolderName = folderFullName[folderFullName.Length - 1].Split(".");
+
+                    exeFolderNames[i] = exeFolderName[0];
+                    exeFolderPaths[i] = Path.Combine(rootPaths[i], exeFolderName[0]);
+                    exeZipFilePaths[i] = Path.Combine(rootPaths[i], exeFolderPaths[i] + ".zip");
+                    Debug.Log($"[Compare] : {exeFolderPaths[i]}");
+                }
+                else if (exeFolderPaths[i] == null)
+                {
+                    Debug.Log($"[Compare] : {exeFolderPaths[i]}");
+                    // 임시 저장
+                    buildFileUrls[i] = temp_downloadURL.downloadURLs[i];
+
+                    // set path
+                    string[] folderFullName = buildFileUrls[i].Split("/");
+                    string[] exeFolderName = folderFullName[folderFullName.Length - 1].Split(".");
+
+                    exeFolderNames[i] = exeFolderName[0];
+                    exeFolderPaths[i] = Path.Combine(rootPaths[i], exeFolderName[0]);
+                    exeZipFilePaths[i] = Path.Combine(rootPaths[i], exeFolderPaths[i] + ".zip");
+                    Debug.Log($"[Compare] : {exeFolderPaths[i]}");
+                }
 
                 // 파일 삭제
                 if (Directory.Exists(exeFolderPaths[i]))
                 {
-                    Debug.Log("[SY] 파일 존재 " + exeFolderPaths[i]);
-                    GameManager.instance.SelectButtons[i].isNeedDownload = true;
+                    Debug.Log("[Compare] 파일 존재 " + exeFolderPaths[i]);
+                    GameManager.instance.SelectButtons[i].isNeedUpdate = true;
 
                 }
                 else
                 {
-                    Debug.Log("파일 없음");
-                    GameManager.instance.SelectButtons[i].isNeedDownload = false;
+                    Debug.Log("[Compare] 파일 없음");
+                    GameManager.instance.SelectButtons[i].isNeedUpdate = false;
                 }
-
-                // 임시 저장
-                buildFileUrls[i] = temp_downloadURL.downloadURLs[i];
             }
             else if (temp_downloadURL.downloadURLs[i] == GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path)
             {
@@ -256,9 +287,17 @@ public class FilePath : MonoBehaviour
                 jsonFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].json_path;
 
                 SaveDownloadURL(i, buildFileUrls[i]);
+
+                // set path
+                string[] folderFullName = buildFileUrls[i].Split("/");
+                string[] exeFolderName = folderFullName[folderFullName.Length - 1].Split(".");
+
+                exeFolderNames[i] = exeFolderName[0];
+                exeFolderPaths[i] = Path.Combine(rootPaths[i], exeFolderName[0]);
+                exeZipFilePaths[i] = Path.Combine(rootPaths[i], exeFolderPaths[i] + ".zip");
             }
         }
-        Debug.Log("[SY] 비교 완료");
+        Debug.Log("[Compare] 비교 완료");
         GameManager.instance.SetSelectButton(0);
     }
 
@@ -333,45 +372,12 @@ public class FilePath : MonoBehaviour
     //---------------------------------------------//
 
     #region File Path Check
-    public async UniTaskVoid DeleteExeFiles(int serverNum)
+    //public async UniTaskVoid DeleteExeFiles(int serverNum)
+    public void DeleteExeFiles(int serverNum)
     {
         Debug.Log("삭제 시작");
-        Test_SetDownloadURL2(serverNum);
+        SetDownloadURL(serverNum, true);
 
-        // Todo : 서버 선택시 파일 삭제 임시 숨김
-        if (Directory.Exists(defaultDataPath))
-        {
-            // delete all files in a directory
-            string[] files = Directory.GetFiles(defaultDataPath);
-            
-            await UniTask.SwitchToThreadPool();
-            foreach (string file in files)
-            {
-                File.Delete(file);
-            }
-            await UniTask.SwitchToMainThread();
-
-            // delete all subdirectories within a directory
-            string[] subdirectories = Directory.GetDirectories(defaultDataPath);
-            if (subdirectories.Length > 0)
-            {
-                settingSelectServer.SetActive(true);
-            }
-            
-            await UniTask.SwitchToThreadPool();
-            foreach (string subdirectory in subdirectories)
-            {
-                Directory.Delete(subdirectory, recursive: true);
-            }
-            await UniTask.SwitchToMainThread();
-        }
-
-        await UniTask.Delay(1000);
-        settingSelectServer.SetActive(false);
-    }
-
-    public void Temp_FileDelete()
-    {
         if (Directory.Exists(defaultDataPath))
         {
             // delete all files in a directory
@@ -380,21 +386,12 @@ public class FilePath : MonoBehaviour
             {
                 File.Delete(file);
             }
-
             // delete all subdirectories within a directory
             string[] subdirectories = Directory.GetDirectories(defaultDataPath);
             foreach (string subdirectory in subdirectories)
             {
                 Directory.Delete(subdirectory, recursive: true);
             }
-        }
-    }
-
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Temp_FileDelete();
         }
     }
     #endregion

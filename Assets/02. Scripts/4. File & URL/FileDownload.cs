@@ -82,7 +82,7 @@ public class FileDownload : MonoBehaviour
     public GameObject downloadFailedPopup_1;
     public GameObject downloadFailedPopup_2;
 
-    public bool isNeedDownload;
+    public bool isNeedUpdate;
 
     public GameObject donwloadStateMessage_1;
     public GameObject donwloadStateMessage_2;
@@ -110,7 +110,7 @@ public class FileDownload : MonoBehaviour
         // Todo : file check
         excuteButton.interactable = false;
 
-        if (isNeedDownload)
+        if (isNeedUpdate)
         {
             Status = LauncherStatus.downloadUpdate;
             excuteButton.interactable = true;
@@ -404,7 +404,7 @@ public class FileDownload : MonoBehaviour
             Debug.Log($"[SY] Execute result : {File.Exists(gameExcutePath)} / {Status}");
             //Debug.Log($"[SY] : {FilePath.Instance.defaultDataPath}");
 
-            //if (!isNeedDownload)
+            if (!isNeedUpdate)
             {
                 // create folder
                 if (Directory.Exists(FilePath.Instance.defaultDataPath))
@@ -547,28 +547,27 @@ public class FileDownload : MonoBehaviour
                     UniTask.SwitchToMainThread();
                 }
             }
-        } 
+            else
+            {
+                isNeedUpdate = false;
+
+                string deleteFilePaht = FilePath.Instance.ChangeDeleteFileName(buttonNum);
+
+                FilePath.Instance.SetNewPaht(buttonNum);
+                FilePath.Instance.DeleteOldFile(deleteFilePaht).Forget();
+                FilePath.Instance.SaveDownloadURL(buttonNum, GameManager.instance.jsonData.temp_donwloadUrlList[buttonNum].zip_path);
+
+                UniTask.SwitchToThreadPool();
+                InstallGameFiles(true).Forget();
+                UniTask.SwitchToMainThread();
+            }
+        }
         catch (IOException ioe) {
-            
+            Debug.Log("[excute failed]" + ioe);
         } 
         finally {
             
         }
-        //else
-        //{
-        //    isNeedDownload = false;
-            
-        //    // Todo : ugc 용 구분	
-        //    string deleteFilePaht = FilePath.Instance.ChangeDeleteFileName(buttonNum);
-            
-        //    FilePath.Instance.SetNewPaht(buttonNum);
-        //    FilePath.Instance.DeleteOldFile(deleteFilePaht).Forget();
-        //    FilePath.Instance.SaveDownloadURL(buttonNum, GameManager.instance.jsonData.temp_donwloadUrlList[buttonNum].zip_path);
-            
-        //    UniTask.SwitchToThreadPool();
-        //    InstallGameFiles(true).Forget();
-        //    UniTask.SwitchToMainThread();
-        //}
     }
 
     public void InstallFile()

@@ -91,6 +91,12 @@ public class GameManager : MonoBehaviour
     public void Update()
     {
         RefreshTimer();
+
+        if (Input.GetKeyDown(KeyCode.F5) && isLogin)
+        {
+            Debug.Log("F5 누름!!!!");
+            ManualRefreshAllData();
+        }
     }
 
     #region set launcher page
@@ -200,8 +206,10 @@ public class GameManager : MonoBehaviour
     public void ManualRefreshAllData()
     {
         // playr state
+        playerManager.RequestPlayerStateUpdate(playerManager.currentState);
 
         // download file
+        filePath.SetDownloadURL(selectedServerNum);
 
         // friend list
         api.Request_FriendList().Forget();// create friedn list
@@ -216,7 +224,7 @@ public class GameManager : MonoBehaviour
         //api.Request_GuideDownload1().Forget();
         //api.Request_GuideDownload2().Forget();
 
-        Debug.Log("Auto RefreshAllData");
+        Debug.Log("Manual RefreshAllData");
     }
     #endregion
 
