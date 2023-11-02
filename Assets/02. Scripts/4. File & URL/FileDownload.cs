@@ -16,6 +16,7 @@ using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using System.Linq;
+using Unity.VisualScripting;
 
 public enum LauncherStatus
 {
@@ -235,6 +236,8 @@ public class FileDownload : MonoBehaviour
     {
         try
         {
+            Debug.Log("[다운로드 완료] : " + FilePath.Instance.RootPaths[buttonNum] + "\\" + FilePath.Instance.ExeFolderNames[buttonNum]);
+            
             if (Directory.Exists(FilePath.Instance.RootPaths[buttonNum] + "\\" + FilePath.Instance.ExeFolderNames[buttonNum]))
             {
                 Directory.CreateDirectory(FilePath.Instance.RootPaths[buttonNum] + "\\" + FilePath.Instance.ExeFolderNames[buttonNum]);
@@ -290,35 +293,63 @@ public class FileDownload : MonoBehaviour
 
     private async UniTaskVoid UnzipFile()
     {
-        donwloadStateMessage_1.SetActive(false);
-        donwloadStateMessage_2.SetActive(true);
-
-        await UniTask.SwitchToThreadPool();
-        ZipFile.ExtractToDirectory(FilePath.Instance.ExeZipFilePaths[buttonNum], FilePath.Instance.RootPaths[buttonNum] + "\\" + FilePath.Instance.ExeFolderNames[buttonNum], true);
-        File.Delete(FilePath.Instance.ExeZipFilePaths[buttonNum]);
-
-        if (buttonNum == 2)
+        try
         {
-            GameManager.instance.ugcManager.CreateBatchFile();
+            donwloadStateMessage_1.SetActive(false);
+            donwloadStateMessage_2.SetActive(true);
+
+            await UniTask.SwitchToThreadPool();
+            ZipFile.ExtractToDirectory(FilePath.Instance.ExeZipFilePaths[buttonNum], FilePath.Instance.RootPaths[buttonNum] + "\\" + FilePath.Instance.ExeFolderNames[buttonNum], true);
+            File.Delete(FilePath.Instance.ExeZipFilePaths[buttonNum]);
+
+            if (buttonNum == 2)
+            {
+                GameManager.instance.ugcManager.CreateBatchFile();
+            }
+
+            await UniTask.SwitchToMainThread();
+
+            Status = LauncherStatus.ready;
+            excuteButton.interactable = true;
+            prograss.gameObject.SetActive(false);
+            prograss.ResetState();
+
+            donwloadStateMessage_2.SetActive(false);
+
+            CheckBuidDirectory();
+
+            DEV.instance.isFileDownload = false;
+
+            if (DEV.instance.isProtectFileDownload)
+            {
+                // disable protect guard
+                DEV.instance.downloadProtectGaurd.SetActive(DEV.instance.isFileDownload);
+            }
         }
-
-        await UniTask.SwitchToMainThread();
-
-        Status = LauncherStatus.ready;
-        excuteButton.interactable = true;
-        prograss.gameObject.SetActive(false);
-        prograss.ResetState();
-
-        donwloadStateMessage_2.SetActive(false);
-
-        CheckBuidDirectory();
-
-        DEV.instance.isFileDownload = false;
-
-        if (DEV.instance.isProtectFileDownload)
+        catch (Exception ex)
         {
-            // disable protect guard
-            DEV.instance.downloadProtectGaurd.SetActive(DEV.instance.isFileDownload);
+            Debug.Log("[압축 실패] : " + ex);
+
+            await UniTask.SwitchToMainThread();
+
+            Status = LauncherStatus.downloadGame;
+            excuteButton.interactable = true;
+            prograss.gameObject.SetActive(false);
+            prograss.ResetState();
+
+            donwloadStateMessage_2.SetActive(false);
+
+            CheckBuidDirectory();
+
+            DEV.instance.isFileDownload = false;
+
+            if (DEV.instance.isProtectFileDownload)
+            {
+                // disable protect guard
+                DEV.instance.downloadProtectGaurd.SetActive(DEV.instance.isFileDownload);
+            }
+
+            downloadFailedPopup_2.SetActive(true);
         }
     }
 

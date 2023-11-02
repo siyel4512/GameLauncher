@@ -25,7 +25,8 @@ public enum PopupType
     UnityProjectPathFindFailedPopup_2,
     UGCPathFindFailedPopup,
     IdIncorrect,
-    PasswordIncorrect
+    PasswordIncorrect,
+    logoutFailed
 }
 
 public class PopupManager : MonoBehaviour
@@ -72,6 +73,12 @@ public class PopupManager : MonoBehaviour
     public void BTN_CancelLogout()
     {
         popups[(int)PopupType.logout].SetActive(false);
+    }
+
+    // logout failed
+    public void BTN_LogoutFailed()
+    {
+        popups[(int)PopupType.logoutFailed].SetActive(false);
     }
     #endregion
 

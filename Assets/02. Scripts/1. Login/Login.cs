@@ -164,7 +164,8 @@ public class Login : MonoBehaviour
                     Debug.Log("응답 실패 (로그인 실패) : " + requestResult);
 
                     // invalid ID, password value
-                    GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
+                    //GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
+                    GameManager.instance.popupManager.popups[(int)PopupType.IdIncorrect].SetActive(true);
                 }
             }
         }
@@ -247,7 +248,8 @@ public class Login : MonoBehaviour
                 // invalid ID, password value
                 else
                 {
-                    GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
+                    //GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
+                    GameManager.instance.popupManager.popups[(int)PopupType.PasswordIncorrect].SetActive(true);
                 }
             }
         }
@@ -331,7 +333,8 @@ public class Login : MonoBehaviour
                 // invalid ID, password value
                 else
                 {
-                    GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
+                    //GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
+                    GameManager.instance.popupManager.popups[(int)PopupType.PasswordIncorrect].SetActive(true);
                 }
             }
         }

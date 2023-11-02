@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-//using static SaveData;
 
 public class BannerUI : SwipeUI
 {
     private List<BannerInfo> spawnedContents;
     public GameObject warningText;
+    public GameObject loadImageText;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +35,7 @@ public class BannerUI : SwipeUI
         else
         {
             warningText.SetActive(false);
+            loadImageText.SetActive(true);
         }
 
         await PreloadImages(contentCount);
@@ -245,6 +246,8 @@ public class BannerUI : SwipeUI
                 downloadErrorImageIndexNum.Add(false);
             }
         }
+
+        loadImageText.SetActive(false);
     }
 
     private Texture2D CompressTexture(Texture2D originalTexture, int targetWidth)

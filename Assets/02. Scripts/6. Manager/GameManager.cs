@@ -61,7 +61,8 @@ public class GameManager : MonoBehaviour
 
     [Space(10)]
     [Header("[ Running Files ]")]
-    public Process[] runningFiles = new Process[4];
+    //public Process[] runningFiles = new Process[4];
+    public Process[] runningFiles = new Process[5];
 
     public bool isQuit;
 

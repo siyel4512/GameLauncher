@@ -170,10 +170,17 @@ public class PlayerManager : MonoBehaviour
 
     private void ShowLogoutPopup()
     {
-        isStateSettings = false;
-        settingMenu.SetActive(isStateSettings);
-        //GameManager.instance.popupManager.popups[(int)PopupType.logout].SetActive(!isStateSettings);
-        GameManager.instance.popupManager.ShowLogoutPage();
+        if (!DEV.instance.isFileDownload)
+        {
+            isStateSettings = false;
+            settingMenu.SetActive(isStateSettings);
+            //GameManager.instance.popupManager.popups[(int)PopupType.logout].SetActive(!isStateSettings);
+            GameManager.instance.popupManager.ShowLogoutPage();
+        }
+        else
+        {
+            GameManager.instance.popupManager.popups[(int)PopupType.logoutFailed].SetActive(true);
+        }
     }
 
     public void ShowDownloadSettingPopup()
