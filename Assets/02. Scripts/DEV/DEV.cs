@@ -17,6 +17,7 @@ public class DEV : MonoBehaviour
     public bool isTEST_UpdatePlayerState;
     public bool isUsingFolderDialog;
     public bool isTEST_Contents;
+    public bool isManualRefreshAllData = false;
 
     public bool isAdmin;
     public bool isUsingTestServer;
