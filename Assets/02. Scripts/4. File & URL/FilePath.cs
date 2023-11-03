@@ -145,7 +145,8 @@ public class FilePath : MonoBehaviour
     }
     
     //public async void SetDownloadURL(int serverNum)
-    public async void SetDownloadURL(int serverNum, bool isSelectServer = false)
+    //public async void SetDownloadURL(int serverNum, bool isDeleteMode = false)
+    public async void SetDownloadURL(int serverNum, int buttonNum = 0, bool isDeleteMode = false)
     {
         if (CheckRunningFiles())
             return;
@@ -193,7 +194,7 @@ public class FilePath : MonoBehaviour
                 break;
         }
 
-        if (isSelectServer)
+        if (isDeleteMode)
         {
             //for (int i = 0; i < 4; i++)
             for (int i = 0; i < 5; i++)
@@ -203,15 +204,15 @@ public class FilePath : MonoBehaviour
                 SaveDownloadURL(i, buildFileUrls[i]);
             }
             SetFilePath();
-            GameManager.instance.SetSelectButton(0);
+            GameManager.instance.SetSelectButton(buttonNum);
         }
         else
         {
-            CompareToFileDownloadURL();
+            CompareToFileDownloadURL(buttonNum);
         }
     }
 
-    public void CompareToFileDownloadURL()
+    public void CompareToFileDownloadURL(int buttonNum)
     {
         if (GameManager.instance.jsonData.temp_donwloadUrlList.Count <= 0)
         {
@@ -298,7 +299,7 @@ public class FilePath : MonoBehaviour
             }
         }
         Debug.Log("[Compare] 비교 완료");
-        GameManager.instance.SetSelectButton(0);
+        GameManager.instance.SetSelectButton(buttonNum);
     }
 
     public bool CheckRunningFiles()
@@ -376,8 +377,40 @@ public class FilePath : MonoBehaviour
     public void DeleteExeFiles(int serverNum)
     {
         Debug.Log("삭제 시작");
-        SetDownloadURL(serverNum, true);
 
+        FileDownload[] selectButtons = GameManager.instance.SelectButtons;
+
+        // reset button state
+        for (int i = 0; i < selectButtons.Length; i++)
+        {
+            FileDownload fileDownload = selectButtons[i].GetComponent<FileDownload>();
+
+            fileDownload.Status = LauncherStatus.downloadGame;
+            fileDownload.isNeedUpdate = false;
+
+            fileDownload.excuteButton.interactable = true;
+            
+            fileDownload.prograss.gameObject.SetActive(false);
+            fileDownload.prograss.ResetState();
+
+            fileDownload.donwloadStateMessage_1.SetActive(false);
+            fileDownload.donwloadStateMessage_2.SetActive(false);
+
+            //fileDownload.CheckBuidDirectory();
+
+            DEV.instance.isFileDownload = false;
+
+            if (DEV.instance.isProtectFileDownload)
+            {
+                // disable protect guard
+                DEV.instance.downloadProtectGaurd.SetActive(DEV.instance.isFileDownload);
+            }
+        }
+        
+        // update download url
+        SetDownloadURL(serverNum, 0, true);
+
+        // delete all files
         if (Directory.Exists(defaultDataPath))
         {
             // delete all files in a directory

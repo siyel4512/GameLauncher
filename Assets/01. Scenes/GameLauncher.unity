@@ -18260,7 +18260,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8740760895644575252, guid: e7abe9de1d571664eaacd3bffacf325c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8740760895644575258, guid: e7abe9de1d571664eaacd3bffacf325c, type: 3}
       propertyPath: buttonNum
@@ -19454,6 +19454,7 @@ MonoBehaviour:
   - {fileID: 2115927125}
   - {fileID: 2133052417}
   - {fileID: 1368883212}
+  currentSelectButtonNum: 0
   playerLimitTime: 300
   selectedServerNum: 0
   currentTimeCount: 0
@@ -19477,6 +19478,7 @@ MonoBehaviour:
   isTEST_UpdatePlayerState: 0
   isUsingFolderDialog: 0
   isTEST_Contents: 0
+  isManualRefreshAllData: 1
   isAdmin: 0
   isUsingTestServer: 1
   isProtectFileDownload: 1

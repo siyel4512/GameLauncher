@@ -27,15 +27,21 @@ public class DEV : MonoBehaviour
     public bool isUsingTokenForFriendList; // 친구 리스트 요청시 token값 사용
     //public bool isUsingTmpForInputField; // input field에서 TMPro를 사용할 것인지
     public bool isUsingAbnormalShutdown;
-
+    
+    [Space(10)]
     public FilePath filePath;
+
+    [Space(10)]
     public UGCManager ugcManager;
 
+    [Space(10)]
     public SelectServer selectServer;
     public int selectedServerNum; // div 용
 
+    [Space(10)]
     public DefaultSettings defaultSettings;
 
+    [Space(10)]
     public WindowSizeInitializer windowSizeInitializer;
 
     public PCPowerManager pcPowerManager;

@@ -397,9 +397,10 @@ public class FileDownload : MonoBehaviour
     #endregion
 
     #region File Execute
-    public void Execute() { 
-    
-        try {
+    public void Execute() {
+
+        try
+        {
             Debug.Log($"[SY] : {gameExcutePath}");
             Debug.Log($"[SY] Execute result : {File.Exists(gameExcutePath)} / {Status}");
             //Debug.Log($"[SY] : {FilePath.Instance.defaultDataPath}");
@@ -464,19 +465,6 @@ public class FileDownload : MonoBehaviour
                             StartCoroutine(GetMyBundleListJson());
                         else
                             ExecuteContent();
-
-                        //ProcessStartInfo startInfo = new ProcessStartInfo(gameExcutePath);
-                        //startInfo.WorkingDirectory = Path.Combine(FilePath.Instance.RootPaths[buttonNum], FilePath.Instance.ExeFolderNames[buttonNum]);
-
-                        //Process[] _runningFiles = GameManager.instance.runningFiles;
-
-                        //if (_runningFiles[buttonNum] != null && !_runningFiles[buttonNum].HasExited)
-                        //{
-                        //    Debug.Log("[SY] 파일 강제 종료");
-                        //    _runningFiles[buttonNum].Kill();
-                        //}
-
-                        //_runningFiles[buttonNum] = Process.Start(startInfo);
                     }
                 }
                 // exwcuate 2 (ugc 전용 / 실행파일(.exe) 경로를 모를 경우)
@@ -496,7 +484,6 @@ public class FileDownload : MonoBehaviour
                             {
                                 Debug.Log("[ugc] 유니티 경로 문제 없음");
                             }
-
 
                             GameManager.instance.ugcManager.CreateBatchFile();
                         }
@@ -562,11 +549,13 @@ public class FileDownload : MonoBehaviour
                 UniTask.SwitchToMainThread();
             }
         }
-        catch (IOException ioe) {
+        catch (IOException ioe)
+        {
             Debug.Log("[excute failed]" + ioe);
-        } 
-        finally {
-            
+        }
+        finally
+        {
+
         }
     }
 

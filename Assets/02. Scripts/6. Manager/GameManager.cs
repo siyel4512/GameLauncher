@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     [Space(10)]
     [Header("[ File Download Buttons ]")]
     public FileDownload[] SelectButtons;
+    public int currentSelectButtonNum;
 
     [Space(10)]
     [Header("[ Player State Settings ]")]
@@ -92,9 +93,9 @@ public class GameManager : MonoBehaviour
     {
         RefreshTimer();
 
-        if (Input.GetKeyDown(KeyCode.F5) && isLogin)
+        if (DEV.instance.isManualRefreshAllData && Input.GetKeyDown(KeyCode.F5) && isLogin)
         {
-            Debug.Log("F5 누름!!!!");
+            Debug.Log("F5 누름 !!!!");
             ManualRefreshAllData();
         }
     }
@@ -125,6 +126,7 @@ public class GameManager : MonoBehaviour
         SelectButtons[buttonNum].CheckForUpdates().Forget();
         UniTask.SwitchToMainThread();
 
+        currentSelectButtonNum = buttonNum;
         SelectButtons[buttonNum].isSelected = true;
         SelectButtons[buttonNum].selectImage.SetActive(true);
         //UniTask.SwitchToThreadPool();
@@ -209,7 +211,7 @@ public class GameManager : MonoBehaviour
         playerManager.RequestPlayerStateUpdate(playerManager.currentState);
 
         // download file
-        filePath.SetDownloadURL(selectedServerNum);
+        filePath.SetDownloadURL(selectedServerNum, currentSelectButtonNum);
 
         // friend list
         api.Request_FriendList().Forget();// create friedn list

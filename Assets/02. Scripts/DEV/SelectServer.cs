@@ -53,10 +53,29 @@ public class SelectServer : MonoBehaviour
         DEV.instance.isAdmin = false;
 
         //selectServer.value = selectServerNum;
-        selectServerNum = (int)ServerType.live;
-        selectServer.value = (int)ServerType.live;
 
-        FilePath.Instance.SetDownloadURL(selectServerNum);
+        selectServerNum = LoadData().selectedServerNum;
+        Debug.Log("[서버 체크] selectServerNum : " + selectServerNum);
+        // is not live server
+        if (selectServerNum != 3)
+        {
+            Debug.Log("[서버 체크] 다름");
+            selectServerNum = (int)ServerType.live;
+            selectServer.value = (int)ServerType.live;
+            SaveData(selectServerNum);
+            FilePath.Instance.SetDownloadURL(selectServerNum, 0, true);
+        }
+        // is live server
+        else
+        {
+            Debug.Log("[서버 체크] 같음");
+            FilePath.Instance.SetDownloadURL(selectServerNum);
+        }
+
+        //selectServerNum = (int)ServerType.live;
+        //selectServer.value = (int)ServerType.live;
+
+        //FilePath.Instance.SetDownloadURL(selectServerNum);
     }
 
     public void OnChangedValue(TMP_Dropdown change)
