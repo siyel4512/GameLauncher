@@ -11,7 +11,7 @@ public class SelectServerManager : Editor
 
         SelectServer selectServer = (SelectServer)target;
 
-        if (GUILayout.Button("Reset"))
+        if (GUILayout.Button("Selected Server Reset"))
         {
             Debug.Log("Reset Data!!!");
             selectServer.ResetSelectedServer();

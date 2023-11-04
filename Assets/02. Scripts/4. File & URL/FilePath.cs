@@ -141,7 +141,6 @@ public class FilePath : MonoBehaviour
         File.WriteAllText(path, jsonData);
 
         InitDataPath();
-
     }
     
     //public async void SetDownloadURL(int serverNum)

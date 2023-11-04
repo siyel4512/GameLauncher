@@ -5,7 +5,7 @@ using UnityEditor;
 [CustomEditor(typeof(DEV))]
 public class EditorManager : Editor
 {
-    DefaultSettings defaultSettings;
+    //DefaultSettings defaultSettings;
 
     public override void OnInspectorGUI()
     {
@@ -13,16 +13,24 @@ public class EditorManager : Editor
 
         DEV dev = (DEV)target;
 
-        if (GUILayout.Button("Reset"))
+        // reset default setting
+        if (GUILayout.Button("Default Reset"))
         {
             Debug.Log("Reset Data!!!");
             dev.filePath.ResetDataPath();
+            dev.filePath.ResetDownloadURL();
             dev.ugcManager.ResetUGCFilePath();
-            dev.versionManager.ResetVersion();
-            PlayerSettings.bundleVersion = "0.0.0";
+            
             //dev.filePath.ResetDownloadInfoData();
             //dev.selectServer.ResetSelectedServer();
             //dev.ResetSettingValue();
+        }
+
+        // reset version number
+        if (GUILayout.Button("Version Reset"))
+        {
+            dev.versionManager.ResetVersion();
+            PlayerSettings.bundleVersion = "0.0.0";
         }
     }
 }
