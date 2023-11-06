@@ -31,6 +31,26 @@ MonoBehaviour:
     m_Key: delete button
     m_Metadata:
       m_Items: []
+  - m_Id: 128073017978880
+    m_Key: search user waring text 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 128081087819776
+    m_Key: search user waring text 2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 128082845233152
+    m_Key: search user waring text 3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 128295727132672
+    m_Key: search user waring text 4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 128966442479616
+    m_Key: search user waring text 5
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

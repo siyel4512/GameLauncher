@@ -146,6 +146,22 @@ MonoBehaviour:
       \uC8FC\uC138\uC694."
     m_Metadata:
       m_Items: []
+  - m_Id: 188738336321536
+    m_Localized: "\uD655\uC778"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 189491377467392
+    m_Localized: "\uCDE8\uC18C"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 190922755010560
+    m_Localized: "\uB85C\uADF8\uC544\uC6C3"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 193418026151936
+    m_Localized: "\uCDE8\uC18C"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -34,6 +34,26 @@ MonoBehaviour:
     m_Localized: Delete friend
     m_Metadata:
       m_Items: []
+  - m_Id: 128073017978880
+    m_Localized: This user has already been added as a friend.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 128081087819776
+    m_Localized: This is the user who received a friend request.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 128082845233152
+    m_Localized: This user cannot make a request.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 128295727132672
+    m_Localized: The user cannot be found.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 128966442479616
+    m_Localized: Please enter the user ID you want to add.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -135,6 +135,22 @@ MonoBehaviour:
     m_Key: UGC path find failed
     m_Metadata:
       m_Items: []
+  - m_Id: 188738336321536
+    m_Key: confirm button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 189491377467392
+    m_Key: cancel button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 190922755010560
+    m_Key: logout button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 193418026151936
+    m_Key: cancel button 2
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

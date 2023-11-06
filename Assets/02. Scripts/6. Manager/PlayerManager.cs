@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 
 using Debug = UnityEngine.Debug;
+using UnityEngine.Localization.Settings;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -84,7 +85,8 @@ public class PlayerManager : MonoBehaviour
                 if (currentState != 2)
                 {
                     currentState = 2;
-                    stateName.text = "자리 비움";
+                    //stateName.text = "자리 비움";
+                    stateName.text = stateNames[1].text;
                     //icon.color = Color.yellow;
                     SelectStateIcon(1);
                     RequestPlayerStateUpdate(currentState);
@@ -132,21 +134,24 @@ public class PlayerManager : MonoBehaviour
             // online
             case 1:
                 //stateName.text = "온라인";
-                stateName.text = stateNames[0].text;
+                //stateName.text = stateNames[0].text;
+                stateName.text = LocalizationSettings.StringDatabase.GetLocalizedString("Player State Table", "online button");
                 //icon.color = Color.green;
                 SelectStateIcon(0);
                 break;
             // take a break
             case 2:
                 //stateName.text = "자리 비움";
-                stateName.text = stateNames[1].text;
+                //stateName.text = stateNames[1].text;
+                stateName.text = LocalizationSettings.StringDatabase.GetLocalizedString("Player State Table", "take a break button");
                 //icon.color = Color.yellow;
                 SelectStateIcon(1);
                 break;
             // other work
             case 3:
                 //stateName.text = "다른 용무 중";
-                stateName.text = stateNames[2].text;
+                //stateName.text = stateNames[2].text;
+                stateName.text = LocalizationSettings.StringDatabase.GetLocalizedString("Player State Table", "other work button");
                 //icon.color = Color.red;
                 SelectStateIcon(2);
                 break;
