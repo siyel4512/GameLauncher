@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Localization-Assets-Shared
+  m_EditorClassIdentifier: 
+  m_GroupName: Localization-Assets-Shared
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 7cd05b5891d641740bd980805af60435
+  m_SerializeEntries:
+  - m_GUID: 2e6d0402e9c43c14d814a7de95228aa8
+    m_Address: Assets/06. Language/Default Language Table Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  - m_GUID: 061414acca1a5d34486083c93458f444
+    m_Address: Assets/06. Language/Download Page Table Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  - m_GUID: 107cd146fe3513e4981a67891baf0268
+    m_Address: Assets/06. Language/User Guide Table Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  - m_GUID: 8df50bfe4c166034699940dd2a0545e1
+    m_Address: Assets/06. Language/Popup Table Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  - m_GUID: ba8e9f11698e01d4f95b54e2434fc46c
+    m_Address: Assets/06. Language/Player State Table Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  - m_GUID: ab7ec2cff7d8e9e4c9cb5cc4d57c56d7
+    m_Address: Assets/06. Language/Friend List Table Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  m_ReadOnly: 1
+  m_Settings: {fileID: 11400000, guid: 1ac17de0933c6244ca277ac5e4137a40, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: c49f136d1c7d0354b929a4548cc0eea3, type: 2}
+    - {fileID: 11400000, guid: 1f54fe7024b4bae4787fdb4b69371f96, type: 2}

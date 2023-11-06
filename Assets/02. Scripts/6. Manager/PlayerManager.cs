@@ -37,7 +37,8 @@ public class PlayerManager : MonoBehaviour
     public Button otherWorkButton;
     public Button downloadButton;
     public Button logoutButton;
-    
+
+    public TMP_Text[] stateNames = new TMP_Text[3];
 
     // Start is called before the first frame update
     void Start()
@@ -130,19 +131,22 @@ public class PlayerManager : MonoBehaviour
                 break;
             // online
             case 1:
-                stateName.text = "온라인";
+                //stateName.text = "온라인";
+                stateName.text = stateNames[0].text;
                 //icon.color = Color.green;
                 SelectStateIcon(0);
                 break;
             // take a break
             case 2:
-                stateName.text = "자리 비움";
+                //stateName.text = "자리 비움";
+                stateName.text = stateNames[1].text;
                 //icon.color = Color.yellow;
                 SelectStateIcon(1);
                 break;
             // other work
             case 3:
-                stateName.text = "다른 용무 중";
+                //stateName.text = "다른 용무 중";
+                stateName.text = stateNames[2].text;
                 //icon.color = Color.red;
                 SelectStateIcon(2);
                 break;

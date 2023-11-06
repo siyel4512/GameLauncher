@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 6786193751794363818}
   - component: {fileID: 4225431346962726114}
   - component: {fileID: 3859723336706208581}
+  - component: {fileID: 5941674329987314833}
   m_Layer: 5
   m_Name: File Unzip Text (TMP)
   m_TagString: Untagged
@@ -114,7 +115,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -20, y: 0}
-  m_SizeDelta: {x: 160, y: 20}
+  m_SizeDelta: {x: 200, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6786193751794363818
 CanvasRenderer:
@@ -228,6 +229,47 @@ MonoBehaviour:
   stateText: {fileID: 4225431346962726114}
   count: 0
   message: "\uC555\uCD95 \uD574\uC81C \uC911"
+  LocalizeStringEvent: {fileID: 0}
+--- !u!114 &5941674329987314833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3627791155910293251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:061414acca1a5d34486083c93458f444
+    m_TableEntryReference:
+      m_KeyId: 3179263037440
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4225431346962726114}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &7061941491858969559
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,6 +282,7 @@ GameObject:
   - component: {fileID: 9135913490110032591}
   - component: {fileID: 1485816237922588411}
   - component: {fileID: 3612932829581509405}
+  - component: {fileID: 1280508089504280216}
   m_Layer: 5
   m_Name: File Download Text (TMP)
   m_TagString: Untagged
@@ -265,7 +308,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -20, y: 0}
-  m_SizeDelta: {x: 160, y: 20}
+  m_SizeDelta: {x: 200, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9135913490110032591
 CanvasRenderer:
@@ -379,6 +422,47 @@ MonoBehaviour:
   stateText: {fileID: 1485816237922588411}
   count: 0
   message: "\uB2E4\uC6B4\uB85C\uB4DC \uC911"
+  LocalizeStringEvent: {fileID: 0}
+--- !u!114 &1280508089504280216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7061941491858969559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:061414acca1a5d34486083c93458f444
+    m_TableEntryReference:
+      m_KeyId: 3104268881920
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1485816237922588411}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &8740760894124229118
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,6 +474,7 @@ GameObject:
   - component: {fileID: 8740760894124229117}
   - component: {fileID: 8740760894124229091}
   - component: {fileID: 8740760894124229116}
+  - component: {fileID: 473642282}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -445,7 +530,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD050\uB9AC\uBC84\uC2A4 PC Online"
+  m_text: "\uBA54\uD0C0\uD50C\uB9AC PC Online"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 51890438e7aef2b49ac9036b4fa99ab3, type: 2}
   m_sharedMaterial: {fileID: -322181135264957342, guid: 51890438e7aef2b49ac9036b4fa99ab3, type: 2}
@@ -514,6 +599,46 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &473642282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8740760894124229118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:061414acca1a5d34486083c93458f444
+    m_TableEntryReference:
+      m_KeyId: 5546446848
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8740760894124229116}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &8740760894217723627
 GameObject:
   m_ObjectHideFlags: 0
@@ -1073,6 +1198,7 @@ GameObject:
   - component: {fileID: 8740760895393540170}
   - component: {fileID: 8740760895393540168}
   - component: {fileID: 8740760895393540169}
+  - component: {fileID: 192572197}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1128,7 +1254,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD050\uB9AC\uBC84\uC2A4 PC Online"
+  m_text: "\uBA54\uD0C0\uD50C\uB9AC PC Online"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d3dfa2d35adac2042a5ae4b7592661f6, type: 2}
   m_sharedMaterial: {fileID: -322181135264957342, guid: d3dfa2d35adac2042a5ae4b7592661f6, type: 2}
@@ -1197,6 +1323,46 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &192572197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8740760895393540171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:061414acca1a5d34486083c93458f444
+    m_TableEntryReference:
+      m_KeyId: 5546446848
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8740760895393540169}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &8740760895644575252
 GameObject:
   m_ObjectHideFlags: 0
@@ -1261,7 +1427,7 @@ MonoBehaviour:
   gameExcutePath: 
   downloadFailedPopup_1: {fileID: 0}
   downloadFailedPopup_2: {fileID: 0}
-  isNeedDownload: 0
+  isNeedUpdate: 0
   donwloadStateMessage_1: {fileID: 7061941491858969559}
   donwloadStateMessage_2: {fileID: 3627791155910293251}
 --- !u!1 &8740760896075955491

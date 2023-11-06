@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Localization.Components;
 
 public class DownloadStateTextAnimation : MonoBehaviour
 {
@@ -9,14 +10,22 @@ public class DownloadStateTextAnimation : MonoBehaviour
     public int count = 0;
     public string message;
 
+    public LocalizeStringEvent LocalizeStringEvent;
+
     // Start is called before the first frame update
     void Start()
     {
         stateText.text = message;
+        LocalizeStringEvent.RefreshString(); // LocalizeStringEvent refresh
     }
 
     public void OnEnable()
     {
+        if (LocalizeStringEvent == null)
+        {
+            LocalizeStringEvent = GetComponent<LocalizeStringEvent>();
+        }
+
         InvokeRepeating("StateAnimation", 0, 1);
     }
 
@@ -25,7 +34,6 @@ public class DownloadStateTextAnimation : MonoBehaviour
         CancelInvoke("StateAnimation");
         count = 0;
         stateText.text = message;
-
     }
 
     public void StateAnimation()
@@ -41,6 +49,7 @@ public class DownloadStateTextAnimation : MonoBehaviour
         {
             count = 1;
             stateText.text = message;
+            LocalizeStringEvent.RefreshString();
         }
     }
 }

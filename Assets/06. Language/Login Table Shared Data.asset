@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Login Table Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Login Table
+  m_TableCollectionNameGuidString: 2e6d0402e9c43c14d814a7de95228aa8
+  m_Entries:
+  - m_Id: 35024015360
+    m_Key: id input field
+    m_Metadata:
+      m_Items: []
+  - m_Id: 146839965696
+    m_Key: password input field
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3120005910528
+    m_Key: login button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64254780116992
+    m_Key: select server title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65114046205952
+    m_Key: setting select sever
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74378575876096
+    m_Key: dropdown-Dev server
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74485543211008
+    m_Key: dropdown-Test server
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74488915431424
+    m_Key: dropdown-Staging server
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74491616563200
+    m_Key: dropdown-Live server
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 8519712219988230168
+  references:
+    version: 2
+    RefIds:
+    - rid: 8519712219988230168
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1699233804906

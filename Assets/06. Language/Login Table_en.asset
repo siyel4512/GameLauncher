@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Login Table_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 2e6d0402e9c43c14d814a7de95228aa8, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 35024015360
+    m_Localized: ID
+    m_Metadata:
+      m_Items: []
+  - m_Id: 146839965696
+    m_Localized: Password
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3120005910528
+    m_Localized: Sign in
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64254780116992
+    m_Localized: Select Server
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65114046205952
+    m_Localized: Server is being set up. please wait for a moment
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74378575876096
+    m_Localized: Dev Server
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74485543211008
+    m_Localized: Test Server
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74488915431424
+    m_Localized: Staging Server
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74491616563200
+    m_Localized: Live Server
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

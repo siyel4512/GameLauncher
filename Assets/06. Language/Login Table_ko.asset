@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Login Table_ko
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: ko
+  m_SharedData: {fileID: 11400000, guid: 2e6d0402e9c43c14d814a7de95228aa8, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 35024015360
+    m_Localized: "\uC544\uC774\uB514"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 146839965696
+    m_Localized: "\uBE44\uBC00\uBC88\uD638"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3120005910528
+    m_Localized: "\uD655\uC778"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64254780116992
+    m_Localized: "\uC11C\uBC84 \uC120\uD0DD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65114046205952
+    m_Localized: "\uC11C\uBC84 \uC138\uD305 \uC911\uC785\uB2C8\uB2E4. \uC7A0\uC2DC\uB9CC
+      \uAE30\uB2E4\uB824 \uC8FC\uC138\uC694"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74378575876096
+    m_Localized: "Dev \uC11C\uBC84"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74485543211008
+    m_Localized: "\uD14C\uC2A4\uD2B8 \uC11C\uBC84"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74488915431424
+    m_Localized: "\uC2A4\uD14C\uC774\uC9D5 \uC11C\uBC84"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74491616563200
+    m_Localized: "\uB77C\uC774\uBE0C \uC11C\uBC84"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

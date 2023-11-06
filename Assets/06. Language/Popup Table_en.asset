@@ -1,0 +1,146 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Popup Table_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 8df50bfe4c166034699940dd2a0545e1, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 68926574592
+    m_Localized: You entered your ID incorrectly.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1185655820288
+    m_Localized: You entered your password incorrectly.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1674321596416
+    m_Localized: Do you want to log out?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2675451629568
+    m_Localized: You cannot log out while downloading and decompressing files.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5129329184768
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9184680087552
+    m_Localized: Add to friends
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9461315407872
+    m_Localized: 'Please enter the user ID
+
+      you want to add.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9579443785728
+    m_Localized: User ID
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9749585727488
+    m_Localized: Add
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11310894419968
+    m_Localized: The user cannot be found.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12734395060224
+    m_Localized: This user has already been added as a friend.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12980483264512
+    m_Localized: This is the user who received a friend request.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13978341740544
+    m_Localized: Would you like to send a friend request?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14307573633024
+    m_Localized: Please enter the user nickname to search.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14674596204544
+    m_Localized: Should I delete it from my friends list?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14960727429120
+    m_Localized: Please select the friend you want to delete.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 15229838168064
+    m_Localized: Friend Request List
+    m_Metadata:
+      m_Items: []
+  - m_Id: 15428820144128
+    m_Localized: No friends have been requested.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16284336525312
+    m_Localized: PID value is invalid.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16580370501632
+    m_Localized: Player state cannot be updated.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17026254376960
+    m_Localized: This path does not exist.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17822924673024
+    m_Localized: An update is scheduled.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18235291865088
+    m_Localized: Set UGC Project installation path
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18343530074112
+    m_Localized: Unity project installation location
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18620731625472
+    m_Localized: Object UGC project installation location
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19561463681024
+    m_Localized: Search
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20309014482944
+    m_Localized: ' In the UGC project installation path settings, check that the
+      Unity project installation location and the object UGC project installation
+      location path are the correct paths.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20993931743232
+    m_Localized: ' In the UGC project installation path settings, check that the
+      Unity project installation location and the object UGC project installation
+      location path are the correct paths.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21257073987584
+    m_Localized: ' The project file does not exist in that path. Please reset the
+      path in download settings.'
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

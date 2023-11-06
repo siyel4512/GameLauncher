@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Friend List Table_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: ab7ec2cff7d8e9e4c9cb5cc4d57c56d7, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 9849802752
+    m_Localized: Search friend
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32092196864
+    m_Localized: Please add a friend.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35430862848
+    m_Localized: Request List
+    m_Metadata:
+      m_Items: []
+  - m_Id: 38899552256
+    m_Localized: Delete friend
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

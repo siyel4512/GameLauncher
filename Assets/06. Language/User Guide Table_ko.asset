@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: User Guide Table_ko
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: ko
+  m_SharedData: {fileID: 11400000, guid: 107cd146fe3513e4981a67891baf0268, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 32847171584
+    m_Localized: "\uBA54\uD0C0\uD50C\uB9AC\n\uC0AC\uC6A9\uC790 \uAC00\uC774\uB4DC"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 36785623040
+    m_Localized: "\uBA54\uD0C0\uD50C\uB9AC 3D / \uB098\uB9CC\uC758\uACFC\uD559\uAD00
+      \n\uC0AC\uC6A9\uC790 \uAC00\uC774\uB4DC"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
