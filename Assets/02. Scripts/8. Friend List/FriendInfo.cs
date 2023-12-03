@@ -29,34 +29,34 @@ public class FriendInfo : MonoBehaviour
 
     public void SetSlotValues()
     {
-        //nickname_text.text = nickname;
         nickname_text.text = id;
 
         switch (frndSttus)
         {
             case "0":
-                //state_text.text = "오프라인";
+                // Offline
                 state_text.text = LocalizationSettings.StringDatabase.GetLocalizedString("Player State Table", "offline");
                 SetStateIcon(3);
                 break;
             case "1":
-                //state_text.text = "온라인";
+                // Online
                 state_text.text = LocalizationSettings.StringDatabase.GetLocalizedString("Player State Table", "online button");
                 SetStateIcon(0);
                 break;
             case "2":
-                //state_text.text = "자리 비움";
+                // Take a Break
                 state_text.text = LocalizationSettings.StringDatabase.GetLocalizedString("Player State Table", "take a break button");
                 SetStateIcon(1);
                 break;
             case "3":
-                //state_text.text = "다른 용무 중";
+                // Other Work
                 state_text.text = LocalizationSettings.StringDatabase.GetLocalizedString("Player State Table", "other work button");
                 SetStateIcon(2);
                 break;
         }
     }
 
+    // select this slot
     public void SelectSlot()
     {
         GameManager.instance.friendListManager.ResetSelect();
@@ -65,6 +65,7 @@ public class FriendInfo : MonoBehaviour
         selectedImage.SetActive(true);
     }
 
+    // set select state icon
     public void SetStateIcon(int iconNum)
     {
         for (int i = 0; i < stateIcons.Length; i++)

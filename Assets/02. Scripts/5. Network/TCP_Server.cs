@@ -94,8 +94,8 @@ public class TCP_Server : MonoBehaviour
                     byte[] recevBuffer = new byte[1024];
                     int bytesRead = stream.Read(recevBuffer, 0, recevBuffer.Length);
 
-                    //string receiveMsg = Encoding.UTF8.GetString(recevBuffer, 0, recevBuffer.Length); // »ç¿ëÇÒ Nickname¸¦ ÀĞ¾î¿È
-                    string receiveMsg = Encoding.UTF8.GetString(recevBuffer, 0, bytesRead); // »ç¿ëÇÒ Nickname¸¦ ÀĞ¾î¿È
+                    //string receiveMsg = Encoding.UTF8.GetString(recevBuffer, 0, recevBuffer.Length); // ì‚¬ìš©í•  Nicknameë¥¼ ì½ì–´ì˜´
+                    string receiveMsg = Encoding.UTF8.GetString(recevBuffer, 0, bytesRead); // ì‚¬ìš©í•  Nicknameë¥¼ ì½ì–´ì˜´
                     receiveMsg = receiveMsg.Trim('\0');
 
                     if (receiveMsg != "" && receiveMsg == "Need NickName")

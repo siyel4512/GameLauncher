@@ -6,11 +6,18 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
+using System.Security.Cryptography;
+
 public class BannerUI : SwipeUI
 {
     private List<BannerInfo> spawnedContents;
     public GameObject warningText;
     public GameObject loadImageText;
+
+    public Texture2D[] defaultBannerImages;
+
+    // 삭제 예정
+    public Texture2D[] tempBannerImages;
 
     // Start is called before the first frame update
     void Start()
@@ -131,7 +138,7 @@ public class BannerUI : SwipeUI
         }
 
         // 다운로드 에러 체크
-        CheckDownloadError();
+        //CheckDownloadError();
     }
 
     public void DeleteContents()
@@ -209,41 +216,108 @@ public class BannerUI : SwipeUI
                         }
                         else
                         {
-                            Debug.Log("[에러]Image download failed: " + www.error);
+                            Debug.Log($"[에러]Image download failed: {i} 이미지에서 {www.error}");
+
+                            int newIndex = i % defaultBannerImages.Length;
+                            imageCache.Add(defaultBannerImages[newIndex]);
                         }
                     }
                 }
                 else
                 {
-                    Debug.Log("[에러]Invalid URL: " + eventBannerInfoValue[i].lnchrImg);
-                    //imageCache.Add(new Texture2D(512, 512));
-                    imageCache.Add(new Texture2D(2, 2));
-                    downloadErrorImageIndexNum.Add(false);
+                    Debug.Log($"[에러]Invalid URL: {i} 이미지에서 {eventBannerInfoValue[i].lnchrImg}");
+                    if (DEV.instance.isTempBannerMode)
+                    {
+                        imageCache.Add(tempBannerImages[i]);
+                    }
+                    else
+                    {
+                        if (i < defaultBannerImages.Length)
+                        {
+                            //imageCache.Add(new Texture2D(512, 512));
+                            //imageCache.Add(new Texture2D(2, 2));
+                            imageCache.Add(defaultBannerImages[i]);
+                            //downloadErrorImageIndexNum.Add(false);
+                        }
+                        else
+                        {
+                            int newIndex = i % defaultBannerImages.Length;
+                            imageCache.Add(defaultBannerImages[newIndex]);
+                        }
+                    }
                 }
             }
             catch (UnityWebRequestException ex)
             {
                 if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
-                    Debug.LogWarning("[에러]Image not found: " + eventBannerInfoValue[i].lnchrImg);
+                    Debug.LogWarning($"[에러]Image not found: {i} 이미지에서 {eventBannerInfoValue[i].lnchrImg}");
                     // 이미지를 찾을 수 없을 때의 처리
-                    imageCache.Add(new Texture2D(2, 2));
-                    downloadErrorImageIndexNum.Add(false);
+                    if (DEV.instance.isTempBannerMode)
+                    {
+                        imageCache.Add(tempBannerImages[i]);
+                    }
+                    else
+                    {
+                        if (i < defaultBannerImages.Length)
+                        {
+                            //imageCache.Add(new Texture2D(2, 2));
+                            imageCache.Add(defaultBannerImages[i]);
+                            //downloadErrorImageIndexNum.Add(false);
+                        }
+                        else
+                        {
+                            int newIndex = i % defaultBannerImages.Length;
+                            imageCache.Add(defaultBannerImages[newIndex]);
+                        }
+                    }
                 }
                 else
                 {
-                    Debug.LogError("[에러]UnityWebRequestException: " + ex.Message);
+                    Debug.LogError($"[에러] UnityWebRequestException: {i} 이미지에서 {ex.Message}");
                     // 다른 UnityWebRequestException 처리
-                    imageCache.Add(new Texture2D(2, 2));
-                    downloadErrorImageIndexNum.Add(false);
+                    if (DEV.instance.isTempBannerMode)
+                    {
+                        imageCache.Add(tempBannerImages[i]);
+                    }
+                    else
+                    {
+                        if (i < defaultBannerImages.Length)
+                        {
+                            //imageCache.Add(new Texture2D(2, 2));
+                            imageCache.Add(defaultBannerImages[i]);
+                            //downloadErrorImageIndexNum.Add(false);
+                        }
+                        else
+                        {
+                            int newIndex = i % defaultBannerImages.Length;
+                            imageCache.Add(defaultBannerImages[newIndex]);
+                        }
+                    }
                 }
             }
             catch (Exception e)
             {
                 Debug.LogError("[에러] : " + e);
                 // 기타 예외 처리
-                imageCache.Add(new Texture2D(2, 2));
-                downloadErrorImageIndexNum.Add(false);
+                if (DEV.instance.isTempBannerMode)
+                {
+                    imageCache.Add(tempBannerImages[i]);
+                }
+                else
+                {
+                    if (i < defaultBannerImages.Length)
+                    {
+                        //imageCache.Add(new Texture2D(2, 2));
+                        imageCache.Add(defaultBannerImages[i]);
+                        //downloadErrorImageIndexNum.Add(false);
+                    }
+                    else
+                    {
+                        int newIndex = i % defaultBannerImages.Length;
+                        imageCache.Add(defaultBannerImages[newIndex]);
+                    }
+                }
             }
         }
 

@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public BannerNoticeManager bannerNoticeManager;
     public PCPowerManager pcPowerMnager;
     public UGCManager ugcManager;
+    public LanguageManager languageManager;
     public API api;
     public JsonData jsonData;
 

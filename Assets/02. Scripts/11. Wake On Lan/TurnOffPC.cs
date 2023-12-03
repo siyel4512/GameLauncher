@@ -37,7 +37,7 @@ public class TurnOffPC : MonoBehaviour
 
             //if ()
             {
-                Debug.Log("PC off 요청 확인");
+                Debug.Log("PC off");
             }
         }
     }

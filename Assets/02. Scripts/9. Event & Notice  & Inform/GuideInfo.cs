@@ -10,7 +10,6 @@ public class GuideInfo : MonoBehaviour
     [Header("[ UI ]")]
     private Button downloadButton;
 
-    // Todo : 추후 삭제 필요
     public int buttonNum = 1;
 
     // Start is called before the first frame update

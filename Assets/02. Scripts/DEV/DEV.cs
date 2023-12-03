@@ -27,7 +27,11 @@ public class DEV : MonoBehaviour
     public bool isUsingTokenForFriendList; // 친구 리스트 요청시 token값 사용
     //public bool isUsingTmpForInputField; // input field에서 TMPro를 사용할 것인지
     public bool isUsingAbnormalShutdown;
-    
+
+    [Header("==========================")]
+    public bool isTempBannerMode; // cdn 이미지 다운로드 문제 해결시 삭제 예정
+    public bool isCdnTest;
+
     [Space(10)]
     public FilePath filePath;
 

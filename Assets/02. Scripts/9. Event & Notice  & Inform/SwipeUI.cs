@@ -298,12 +298,31 @@ public class SwipeUI : MonoBehaviour
     public int currentTimeCount;
     public int limitTime;
     public bool isReadyForStopwatch;
+    public bool isComplateLoaded; // 배너 로드 완료
 
     public void SetStopwatch()
     {
+        //sw = new Stopwatch();
+        //isReadyForStopwatch = true;
+        //sw.Start();
+
         sw = new Stopwatch();
-        isReadyForStopwatch = true;
-        sw.Start();
+
+        // korean
+        if (GameManager.instance.languageManager.currentLanguageNum == 1)
+        {
+            isReadyForStopwatch = true;
+            sw.Start();
+        }
+        // english
+        else
+        {
+            sw.Stop();
+            isReadyForStopwatch = false;
+            SetScrollBarValue(maxPage, 0);
+        }
+
+        isComplateLoaded = true;
     }
 
     public void ChangeContent()
@@ -346,10 +365,28 @@ public class SwipeUI : MonoBehaviour
         }
     }
 
+    // logout
     public void ResetStopwatch()
     {
         sw.Stop();
+        sw.Reset();
         isReadyForStopwatch = false;
+        isComplateLoaded = false;
+    }
+
+    public void ReStartBanner()
+    {
+        sw.Start();
+        isReadyForStopwatch = true;
+        SetScrollBarValue(maxPage, 0);
+    }
+
+    public void StopBanner()
+    {
+        sw.Stop();
+        sw.Reset();
+        isReadyForStopwatch = false;
+        SetScrollBarValue(maxPage, 0);
     }
     #endregion
 }

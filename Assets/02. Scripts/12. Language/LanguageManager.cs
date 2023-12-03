@@ -5,16 +5,37 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.Tables;
-using UnityEngine.ResourceManagement.AsyncOperations;
+using System.IO;
+using Cysharp.Threading.Tasks;
+using System.Reflection;
+using DG.Tweening.Core.Easing;
 
 public class LanguageManager : MonoBehaviour
 {
-    public int currentLanguageNum = 0;
+    public int currentLanguageNum = 0; // 0:english 1:korean
 
+    public TMP_Dropdown selectServer; // 관리자가 로그인시 사용할 서버 선택용 드롭다운
     public PlayerManager playerManager;
     public FriendListManager friendListManager;
 
-    public TMP_Dropdown selectServer;
+    bool isChange = false; // localizing 중 대기용 변수
+
+    // json 저정 관련
+    public LanguageState languageState;
+    public string jsonFilePath;
+
+    public LanguageButtonAnimation languageButtonAnimation;
+    private bool isInitLanguage = true;
+
+    // event banner
+    public GameObject[] eventBanners;
+
+    private void Awake()
+    {
+        jsonFilePath = Path.Combine(Application.streamingAssetsPath + "/Default Settings", "Language.json");
+        currentLanguageNum = LoadData().LanguageNum;
+        ChangeLanguage();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -23,29 +44,92 @@ public class LanguageManager : MonoBehaviour
         friendListManager = GameManager.instance.friendListManager;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log(LocalizationSettings.StringDatabase.GetLocalizedString("Player State Table", "online button"));
-        }
-    }
+    //public void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Space) && GameManager.instance.isLogin)
+    //    {
+    //        GameManager.instance.bannerNoticeManager.bannerUI.ChangeLanguage();
+    //        GameManager.instance.bannerNoticeManager.noticeUI.ChangeLanguage();
+    //    }
+    //}
 
-    bool isChange = false;
-
-    public void ChangeLanguage(int index)
+    // change language
+    public void ChangeLanguage()
     {
         if (isChange)
             return;
 
-        StartCoroutine(Co_ChangeLanguage(index));
+        if (!isInitLanguage)
+        {
+            Debug.Log("[language] change launcher language");
+            // change launcher language
+            if (currentLanguageNum == 0)
+            {
+                currentLanguageNum++;
+            }
+            else if (currentLanguageNum == 1)
+            {
+                currentLanguageNum--;
+            }
+
+            languageButtonAnimation.SetLanguageButton(currentLanguageNum);
+            StartCoroutine(Co_ChangeLanguage(currentLanguageNum));
+        }
+        else
+        {
+            // init launcher language
+            Debug.Log("[language] init launcher language");
+            languageButtonAnimation.SetLanguageButton(currentLanguageNum);
+            StartCoroutine(Co_ChangeLanguage(currentLanguageNum));
+        }
     }
 
     IEnumerator Co_ChangeLanguage(int index)
     {
         isChange = true;
-        currentLanguageNum = index;
+        //currentLanguageNum = index;
+        Debug.Log($"로컬라이징 테스트 : {currentLanguageNum}");
+        
+        // event banner change
+        if (currentLanguageNum == 1)
+        {
+            // korean
+            eventBanners[0].SetActive(true);
+            eventBanners[1].SetActive(false);
+        }
+        else
+        {
+            // english
+            eventBanners[0].SetActive(true);
+            eventBanners[1].SetActive(true);
+        }
+
+        // event banner state reset
+        if (!isInitLanguage)
+        {
+            BannerUI banner = GameManager.instance.bannerNoticeManager.bannerUI;
+
+            if (currentLanguageNum == 1)
+            {
+                // korean
+                if (banner != null && banner.isComplateLoaded)
+                {
+                    // 타이머 시작 및 위치 초기화
+                    GameManager.instance.bannerNoticeManager.bannerUI.ReStartBanner();
+                    GameManager.instance.bannerNoticeManager.noticeUI.ReStartBanner();
+                }
+            }
+            else
+            {
+                // english
+                if (banner != null && banner.isComplateLoaded)
+                {
+                    // 타이머 시작 및 위치 초기화
+                    GameManager.instance.bannerNoticeManager.bannerUI.StopBanner();
+                    GameManager.instance.bannerNoticeManager.noticeUI.StopBanner();
+                }
+            }
+        }
 
         yield return LocalizationSettings.InitializationOperation;
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[index];
@@ -59,12 +143,21 @@ public class LanguageManager : MonoBehaviour
             yield return null;
         }
 
+        if (!isInitLanguage)
+        {
+            Debug.Log("[language] language num save");
+            SaveData(currentLanguageNum);
+        }
+
+        isInitLanguage = false;
+
         SetPlayerState();
         SetFriendListState();
         SetAddFriendWarningText();
         SetSelectServerDropdown();
     }
 
+    // player state localizing
     private void SetPlayerState()
     {
         Debug.Log(LocalizationSettings.StringDatabase.GetLocalizedString("Player State Table", "online button"));
@@ -86,6 +179,7 @@ public class LanguageManager : MonoBehaviour
         }
     }
 
+    // friend list localizing
     private void SetFriendListState()
     {
         if (friendListManager.friendList.Count <= 0)
@@ -97,6 +191,7 @@ public class LanguageManager : MonoBehaviour
         }
     }
 
+    // friend list warning localizing
     private void SetAddFriendWarningText()
     {
         switch (friendListManager.currentWarningTextNum)
@@ -119,7 +214,7 @@ public class LanguageManager : MonoBehaviour
         }
     }
 
-
+    // select server localizing
     private void SetSelectServerDropdown()
     {
         for (int i = 0; i < selectServer.options.Count; i++)
@@ -139,9 +234,54 @@ public class LanguageManager : MonoBehaviour
                     selectServer.options[i].text = LocalizationSettings.StringDatabase.GetLocalizedString("Login Table", "dropdown-Live server");
                     break;
             }
-            
-        }
 
+        }
         selectServer.captionText.text = selectServer.options[selectServer.value].text;
     }
+
+    // set event banner
+    //public void SetEventBanner()
+    //{
+        
+    //}
+
+    //public void ResetBanner()
+    //{
+    //    // 타이머 시작 및 위치 초기화
+    //    GameManager.instance.bannerNoticeManager.bannerUI.ChangeLanguage();
+    //    GameManager.instance.bannerNoticeManager.noticeUI.ChangeLanguage();
+    //}
+
+    #region Data Save
+    public void SaveData(int _languageNum)
+    {
+        languageState.LanguageNum = _languageNum;
+
+        string jsonData = JsonUtility.ToJson(languageState, true);
+        string languageNum = jsonFilePath;
+        File.WriteAllText(languageNum, jsonData);
+    }
+
+    // load server num data
+    public LanguageState LoadData()
+    {
+        string serverNum = jsonFilePath;
+        string jsonData = File.ReadAllText(serverNum);
+        languageState = JsonUtility.FromJson<LanguageState>(jsonData);
+        return languageState;
+    }
+
+    public void ResetSelectedServer()
+    {
+        languageState.LanguageNum = 1;
+
+        string jsonData = JsonUtility.ToJson(languageState, true);
+        string path = jsonFilePath;
+        File.WriteAllText(path, jsonData);
+    }
+    #endregion
+}
+[System.Serializable]
+public class LanguageState{
+    public int LanguageNum;
 }

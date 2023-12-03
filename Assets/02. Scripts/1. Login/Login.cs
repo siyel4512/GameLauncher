@@ -435,10 +435,12 @@ public class Login : MonoBehaviour
         gameManager.requestFriendManager.DeleteRequestList(); // delete request friend list
         gameManager.playerManager.StopTimer(); // player state change timer reset
         
-        // event banner & notice & news delete
+        // event banner & notice & news delete & timer reset
         gameManager.bannerNoticeManager.bannerUI.DeleteContents();
         gameManager.bannerNoticeManager.shortNotice.ResetShortNoticeInfo();
         gameManager.bannerNoticeManager.noticeUI.DeleteContents();
+        gameManager.bannerNoticeManager.bannerUI.ResetStopwatch();
+        gameManager.bannerNoticeManager.noticeUI.ResetStopwatch();
 
         // user guide reset
         gameManager.bannerNoticeManager.guideInfo[0].ResetLinkURL();

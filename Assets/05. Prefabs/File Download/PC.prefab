@@ -475,6 +475,7 @@ GameObject:
   - component: {fileID: 8740760894124229091}
   - component: {fileID: 8740760894124229116}
   - component: {fileID: 473642282}
+  - component: {fileID: 3732804063474811135}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -639,6 +640,54 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!114 &3732804063474811135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8740760894124229118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69beb381e244f92449b8c4cf954630e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TrackedObjects:
+  - rid: 8978374536817016895
+  references:
+    version: 2
+    RefIds:
+    - rid: 8978374536817016895
+      type: {class: TrackedUGuiGraphic, ns: UnityEngine.Localization.PropertyVariants.TrackedObjects, asm: Unity.Localization}
+      data:
+        m_Target: {fileID: 8740760894124229116}
+        m_TrackedProperties:
+          items:
+          - rid: 8978374536817016896
+          - rid: 8978374536817016897
+        m_UpdateType: 0
+    - rid: 8978374536817016896
+      type: {class: FloatTrackedProperty, ns: UnityEngine.Localization.PropertyVariants.TrackedProperties, asm: Unity.Localization}
+      data:
+        m_PropertyPath: m_fontSize
+        m_VariantData:
+        - localeIdentifier:
+            m_Code: en
+          value: 28
+        - localeIdentifier:
+            m_Code: ko
+          value: 32
+    - rid: 8978374536817016897
+      type: {class: FloatTrackedProperty, ns: UnityEngine.Localization.PropertyVariants.TrackedProperties, asm: Unity.Localization}
+      data:
+        m_PropertyPath: m_fontSizeBase
+        m_VariantData:
+        - localeIdentifier:
+            m_Code: en
+          value: 28
+        - localeIdentifier:
+            m_Code: ko
+          value: 32
 --- !u!1 &8740760894217723627
 GameObject:
   m_ObjectHideFlags: 0
@@ -1051,7 +1100,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8740760895167518215
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1199,6 +1248,7 @@ GameObject:
   - component: {fileID: 8740760895393540168}
   - component: {fileID: 8740760895393540169}
   - component: {fileID: 192572197}
+  - component: {fileID: 3869708032298696515}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1363,6 +1413,54 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!114 &3869708032298696515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8740760895393540171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69beb381e244f92449b8c4cf954630e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TrackedObjects:
+  - rid: 8978374536817016841
+  references:
+    version: 2
+    RefIds:
+    - rid: 8978374536817016841
+      type: {class: TrackedUGuiGraphic, ns: UnityEngine.Localization.PropertyVariants.TrackedObjects, asm: Unity.Localization}
+      data:
+        m_Target: {fileID: 8740760895393540169}
+        m_TrackedProperties:
+          items:
+          - rid: 8978374536817016842
+          - rid: 8978374536817016843
+        m_UpdateType: 0
+    - rid: 8978374536817016842
+      type: {class: FloatTrackedProperty, ns: UnityEngine.Localization.PropertyVariants.TrackedProperties, asm: Unity.Localization}
+      data:
+        m_PropertyPath: m_fontSize
+        m_VariantData:
+        - localeIdentifier:
+            m_Code: en
+          value: 28
+        - localeIdentifier:
+            m_Code: ko
+          value: 32
+    - rid: 8978374536817016843
+      type: {class: FloatTrackedProperty, ns: UnityEngine.Localization.PropertyVariants.TrackedProperties, asm: Unity.Localization}
+      data:
+        m_PropertyPath: m_fontSizeBase
+        m_VariantData:
+        - localeIdentifier:
+            m_Code: en
+          value: 28
+        - localeIdentifier:
+            m_Code: ko
+          value: 32
 --- !u!1 &8740760895644575252
 GameObject:
   m_ObjectHideFlags: 0
