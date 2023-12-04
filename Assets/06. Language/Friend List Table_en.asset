@@ -54,6 +54,14 @@ MonoBehaviour:
     m_Localized: Please enter the user ID you want to add.
     m_Metadata:
       m_Items: []
+  - m_Id: 10121506169819136
+    m_Localized: Accept
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10121509537845248
+    m_Localized: Refuse
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

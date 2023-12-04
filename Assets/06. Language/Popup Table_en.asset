@@ -97,7 +97,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 16580370501632
-    m_Localized: Player state cannot be updated.
+    m_Localized: Player state can't be updated.
     m_Metadata:
       m_Items: []
   - m_Id: 17026254376960
@@ -155,6 +155,11 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 193418026151936
     m_Localized: No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10111309217009664
+    m_Localized: Downloading can't proceed from that path. Please proceed with installation
+      from a different path.
     m_Metadata:
       m_Items: []
   references:

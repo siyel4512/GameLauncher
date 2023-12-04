@@ -51,6 +51,14 @@ MonoBehaviour:
     m_Key: search user waring text 5
     m_Metadata:
       m_Items: []
+  - m_Id: 10121506169819136
+    m_Key: accept friend button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10121509537845248
+    m_Key: refuse friend button
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

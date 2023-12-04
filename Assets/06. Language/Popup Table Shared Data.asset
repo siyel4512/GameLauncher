@@ -151,6 +151,10 @@ MonoBehaviour:
     m_Key: cancel button 2
     m_Metadata:
       m_Items: []
+  - m_Id: 10111309217009664
+    m_Key: download failed2
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
