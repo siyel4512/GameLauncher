@@ -26,7 +26,8 @@ public enum PopupType
     UGCPathFindFailedPopup,
     IdIncorrect,
     PasswordIncorrect,
-    logoutFailed
+    logoutFailed,
+    DeletedAccount
 }
 
 public class PopupManager : MonoBehaviour
@@ -241,6 +242,13 @@ public class PopupManager : MonoBehaviour
     public void BTN_ConfirmUGCPathFindFailedPopup()
     {
         popups[(int)PopupType.UGCPathFindFailedPopup].SetActive(false);
+    }
+    #endregion
+
+    #region Deleted Account
+    public void BTN_ConfirmDeletedAccount()
+    {
+        popups[(int)PopupType.DeletedAccount].SetActive(false);
     }
     #endregion
 }

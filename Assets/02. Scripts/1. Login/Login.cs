@@ -317,17 +317,24 @@ public class Login : MonoBehaviour
 
                 //Debug.Log("블랙리스트 결과 : " + requestResult.Contains("TL_103"));
 
-                bool isBlackList = requestResult.Contains("TL_103");
+                //bool isBlackList = requestResult.Contains("TL_103");
 
                 // error code : TL_103
                 // black list
-                if (isBlackList)
+                //if (isBlackList)
+                if (requestResult.Contains("TL_103"))
                 {
                     string blackListContents = requestResult.Substring(6, requestResult.Length - 6);
                     string[] contents = blackListContents.Split(" / ");
 
                     GameManager.instance.popupManager.SetBlackListAlertContents(contents[0], contents[1]);
                     GameManager.instance.popupManager.popups[(int)PopupType.BlackList].SetActive(true);
+                }
+                // error code : TL_106
+                // deleted account
+                else if (requestResult.Contains("TL_106"))
+                {
+                    GameManager.instance.popupManager.popups[(int)PopupType.DeletedAccount].SetActive(true);
                 }
                 // error code : TL_102
                 // invalid ID, password value

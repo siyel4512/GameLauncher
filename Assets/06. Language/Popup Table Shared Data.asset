@@ -155,6 +155,10 @@ MonoBehaviour:
     m_Key: download failed2
     m_Metadata:
       m_Items: []
+  - m_Id: 11059040893136896
+    m_Key: deleted account
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
