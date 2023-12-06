@@ -32,12 +32,14 @@ public class URL : MonoBehaviour
     protected string fileDownloadURL;
     protected string fileDownloadURL_Live;
 
-
     protected string abnormalShutdownURL;
+
+    protected string launcherVersionCheckURL;
 
     #region API
     // using server
-    private string testServer = "http://101.101.218.135:5002/";
+    //private string testServer = "http://101.101.218.135:5002/";
+    private string testServer = "https://metaplytest.co.kr/";
     private string liveServer = "http://49.50.162.141:5002/";
     //private string liveServer = "http://metaply.go.kr/";
 
@@ -65,6 +67,10 @@ public class URL : MonoBehaviour
 
     // abnormal shutdown
     private string abnormalShutdown_URL = "onlineScienceMuseumAPI/insertErrLog.do";
+
+    // launcher version check
+    //https://metaplytest.co.kr/onlineScienceMuseumAPI/getCurrentVersionOfLauncher.do
+    private string launcherVersionCheck_URL = "onlineScienceMuseumAPI/getCurrentVersionOfLauncher.do";
     #endregion
 
     // set URL
@@ -103,6 +109,10 @@ public class URL : MonoBehaviour
 
             // abnormal shutdown
             abnormalShutdownURL = testServer + abnormalShutdown_URL;
+
+            // launcher version check
+            launcherVersionCheckURL = testServer + launcherVersionCheck_URL;
+
         }
         // live server
         else
@@ -134,6 +144,9 @@ public class URL : MonoBehaviour
             // abnormal shutdown
             //abnormalShutdownURL = liveServer + abnormalShutdown_URL;
             abnormalShutdownURL = testServer + abnormalShutdown_URL;
+
+            // launcher version check
+            launcherVersionCheckURL = liveServer + launcherVersionCheck_URL;
         }
     }
 }

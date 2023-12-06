@@ -27,11 +27,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1674321596416
-    m_Localized: Do you want to log out?
+    m_Localized: Do you want to logout?
     m_Metadata:
       m_Items: []
   - m_Id: 2675451629568
-    m_Localized: You cannot log out while downloading and decompressing files.
+    m_Localized: You can't logout while downloading and decompressing files.
     m_Metadata:
       m_Items: []
   - m_Id: 5129329184768
@@ -57,7 +57,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 11310894419968
-    m_Localized: The user cannot be found.
+    m_Localized: The user can't be found.
     m_Metadata:
       m_Items: []
   - m_Id: 12734395060224

@@ -25,36 +25,38 @@ public class BannerNoticeManager : MonoBehaviour
             bannerUI.TryAddContents(eventBannerCount);
 
             // Create Notice
-            //noticeUIs[0].TryAddContents(noticeCount);
             shortNotice.SetContents(shortNoticeCount);
 
             // Create Event News
             noticeUI.TryAddContents(eventNewsCount);
 
             // Set Guide URL
+            // test server
             if (DEV.instance.isUsingTestServer)
             {
-                guideInfo[0].SetLinkURL("http://fgnowlvzhshz17884402.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
-                guideInfo[1].SetLinkURL("http://fgnowlvzhshz17884402.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
+                //guideInfo[0].SetLinkURL("http://fgnowlvzhshz17884402.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
+                //guideInfo[1].SetLinkURL("http://fgnowlvzhshz17884402.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
+                guideInfo[0].SetLinkURL("https://ejrdejzsaflk20717940.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
+                guideInfo[1].SetLinkURL("https://ejrdejzsaflk20717940.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
             }
+            // live server
             else
             {
+                //guideInfo[0].SetLinkURL("http://yhbdymjatqnq20869625.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
+                //guideInfo[1].SetLinkURL("http://yhbdymjatqnq20869625.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
                 guideInfo[0].SetLinkURL("http://alilgjwknwlm18374611.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
                 guideInfo[1].SetLinkURL("http://alilgjwknwlm18374611.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
             }
         }
         else
         {
-            //// Create Event Banner
-            //GameManager.instance.api.Request_EventBanner().Forget();
+            // Create Event Banner
             GameManager.instance.api.Request_MainBoard(0).Forget();
 
-            //// Create Notice
-            //GameManager.instance.api.Request_Notice().Forget();
+            // Create Notice
             GameManager.instance.api.Request_MainBoard(1).Forget();
 
-            //// Create Curiverse Notice
-            //GameManager.instance.api.Request_EventNews().Forget();
+            // Create Curiverse Notice
             GameManager.instance.api.Request_MainBoard(2).Forget();
 
             // Set Guide ULR
@@ -85,13 +87,19 @@ public class BannerNoticeManager : MonoBehaviour
         //guideInfo[0].SetLinkURL(GameManager.instance.jsonData.guide_List[0].lnchrImg);
         //guideInfo[1].SetLinkURL(GameManager.instance.jsonData.guide_List[1].lnchrImg);
 
+        // test server
         if (DEV.instance.isUsingTestServer)
         {
-            guideInfo[0].SetLinkURL("http://fgnowlvzhshz17884402.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
-            guideInfo[1].SetLinkURL("http://fgnowlvzhshz17884402.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
+            //guideInfo[0].SetLinkURL("http://fgnowlvzhshz17884402.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
+            //guideInfo[1].SetLinkURL("http://fgnowlvzhshz17884402.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
+            guideInfo[0].SetLinkURL("https://ejrdejzsaflk20717940.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
+            guideInfo[1].SetLinkURL("https://ejrdejzsaflk20717940.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
         }
+        // live server
         else
         {
+            // guideInfo[0].SetLinkURL("https://yhbdymjatqnq20869625.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
+            //guideInfo[1].SetLinkURL("https://yhbdymjatqnq20869625.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
             guideInfo[0].SetLinkURL("http://alilgjwknwlm18374611.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
             guideInfo[1].SetLinkURL("http://alilgjwknwlm18374611.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
         }

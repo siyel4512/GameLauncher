@@ -24318,13 +24318,13 @@ MonoBehaviour:
   isTEST_Contents: 0
   isManualRefreshAllData: 1
   isAdmin: 0
-  isUsingTestServer: 0
+  isUsingTestServer: 1
   isProtectFileDownload: 1
   isFileDownload: 0
   isScienceMuseum: 0
   isUsingTokenForFriendList: 0
   isUsingAbnormalShutdown: 0
-  isTempBannerMode: 1
+  isTempBannerMode: 0
   isCdnTest: 0
   filePath: {fileID: 288331700}
   ugcManager: {fileID: 288331701}

@@ -221,7 +221,6 @@ public class FriendListManager : MonoBehaviour
         // blank
         if (searchFriendNickname.text == "")
         {
-            //GameManager.instance.popupManager.popups[(int)PopupType.BlankError].SetActive(true);
             //searchUserWaringText.text = "추가할 유저 아이디를 입력해 주세요.";
             searchUserWaringText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Friend List Table", "search user waring text 5");
             currentWarningTextNum = 5;
@@ -232,7 +231,7 @@ public class FriendListManager : MonoBehaviour
     #region Add Friend
     public void TryAddFriend()
     {
-        Debug.Log("친구 추가 시도");
+        //Debug.Log("친구 추가 시도");
         searchUserWaringText.text = "";
         currentWarningTextNum = 0;
         ResetSelect();
@@ -246,26 +245,19 @@ public class FriendListManager : MonoBehaviour
 
     public async void SearchUser()
     {
-        //await GameManager.instance.api.Update_PlayerState(GameManager.instance.playerManager.currentState, Login.PID);
-
         // Requset
-        // Todo : delete GameManager.instance.isTEST
+        // Test login
         if (DEV.instance.isTEST_Login)
         {
             // find
-            //if (searchUserNickName.text == "test")
             if (searchUserNickname.text == "test")
             {
-                //Debug.Log("Success find user : " + searchUserNickName.text);
                 Debug.Log("Success find user : " + searchUserNickname.text);
-                //GameManager.instance.popupManager.SetContents(1, searchUserNickName.text);
                 GameManager.instance.popupManager.SetContents(1, searchUserNickname.text);
                 GameManager.instance.popupManager.popups[(int)PopupType.RequestFriend].SetActive(true);
-                //searchUserNickName.text = "";
                 searchUserNickname.text = "";
             }
             // blank
-            //else if (searchUserNickName.text == "")
             else if (searchUserNickname.text == "")
             {
                 GameManager.instance.popupManager.popups[(int)PopupType.BlankError].SetActive(true);
@@ -273,33 +265,28 @@ public class FriendListManager : MonoBehaviour
             // not find
             else
             {
-                //Debug.Log("Failed find user : " + searchUserNickName.text);
                 Debug.Log("Failed find user : " + searchUserNickname.text);
                 GameManager.instance.popupManager.popups[(int)PopupType.UserSearchFaild].SetActive(true);
             }
         }
+        // live server login
         else
         {
-            //if (searchUserNickName.text != "")
             if (searchUserNickname.text != "")
             {
-                //bool isSuccess = await GameManager.instance.api.Request_SearchFriend(searchUserNickName.text);
                 bool isSuccess = await GameManager.instance.api.Request_SearchFriend(searchUserNickname.text);
-                //Debug.Log("검색 결과 : " + CheckFriendList(searchUserNickName.text));
+                
                 if (isSuccess)
                 {
-                    //Debug.Log("Success find user : " + searchUserNickName.text);
                     Debug.Log("Success find user : " + searchUserNickname.text);
 
-                    //int isCompareResult = CheckFriendList(searchUserNickName.text);
                     int isCompareResult = CheckFriendList(searchUserNickname.text);
 
                     switch (isCompareResult)
                     {
                         case 0:
                             // not exist friend
-                            Debug.Log("addable user");
-                            //GameManager.instance.popupManager.SetContents(1, searchUserNickName.text); // set nick name in popup
+                            Debug.Log("[Add friend] addable user");
                             GameManager.instance.popupManager.SetContents(1, searchUserNickname.text); // set nick name in popup
                             GameManager.instance.popupManager.popups[(int)PopupType.RequestFriend].SetActive(true); // open popup
 
@@ -308,23 +295,19 @@ public class FriendListManager : MonoBehaviour
                             break;
                         case 1:
                             // exist friend
-                            Debug.Log("my friend");
-                            //GameManager.instance.popupManager.popups[(int)PopupType.AlreadyExistFriend].SetActive(true); // open popup
-                            //searchUserWaringText.text = "이미 친구 추가된 유저입니다.";
+                            Debug.Log("[Add friend] my friend (이미 친구 추가된 유저입니다.)");
                             searchUserWaringText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Friend List Table", "search user waring text 1");
                             currentWarningTextNum = 1;
                             break;
                         case 2:
                             // exist request user
-                            Debug.Log("request list user");
-                            //GameManager.instance.popupManager.popups[(int)PopupType.AlreadyExistRequestUserPopup].SetActive(true); // open popup
-                            //searchUserWaringText.text = "친구 요청이 들어온 유저입니다.";
+                            Debug.Log("[Add friend] request list user (친구 요청이 들어온 유저입니다.)");
                             searchUserWaringText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Friend List Table", "search user waring text 2");
                             currentWarningTextNum = 2;
                             break;
                         case 3:
-                            Debug.Log("my nick name");
-                            //searchUserWaringText.text = "요청할 수 없는 유저입니다.";
+                            // user who can't request
+                            Debug.Log("[Add friend] my nick name (요청할 수 없는 유저입니다.)");
                             searchUserWaringText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Friend List Table", "search user waring text 3");
                             currentWarningTextNum = 3;
                             break;
@@ -332,20 +315,15 @@ public class FriendListManager : MonoBehaviour
                 }
                 else
                 {
-                    //Debug.Log("Failed find user : " + searchUserNickName.text);
-                    Debug.Log("Failed find user : " + searchUserNickname.text);
-                    //GameManager.instance.popupManager.popups[(int)PopupType.UserSearchFaild].SetActive(true);
-
+                    Debug.Log("[Add friend] Failed find user : " + searchUserNickname.text);
                     //searchUserWaringText.text = "해당 유저를 찾을 수 없습니다.";
                     searchUserWaringText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Friend List Table", "search user waring text 4");
                     currentWarningTextNum = 4;
                 }
             }
-            //else if (searchUserNickName.text == "")
             else if (searchUserNickname.text == "")
             {
-                //GameManager.instance.popupManager.popups[(int)PopupType.BlankError].SetActive(true);
-
+                Debug.Log("[Add friend] 유저 아이디 입력 필요");
                 //searchUserWaringText.text = "추가할 유저 아이디를 입력해 주세요.";
                 searchUserWaringText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Friend List Table", "search user waring text 5");
                 currentWarningTextNum = 5;
@@ -354,7 +332,6 @@ public class FriendListManager : MonoBehaviour
     }
 
     // compare to seache user and my friend list
-    //private int CheckFriendList(string _searchUserNickName)
     private int CheckFriendList(string _searchUserNickname)
     {
         int isExistInList = 0; // 0: not exist friend, 1:exist friend, 2: exist request user, 3: my nick name
@@ -367,7 +344,7 @@ public class FriendListManager : MonoBehaviour
             if (friendListValuse[i].id == _searchUserNickname)
             {
                 isExistInList = 1;
-                Debug.Log("[SY] 해당 친구 있음");
+                Debug.Log("[Add friend] 해당 친구 있음");
                 break;
             }
             else
@@ -386,7 +363,7 @@ public class FriendListManager : MonoBehaviour
                 if (requestListValuse[i].id == _searchUserNickname)
                 {
                     isExistInList = 2;
-                    Debug.Log("[SY] 해당 요청 유저 있음");
+                    Debug.Log("[Add friend] 해당 요청 유저 있음");
                     break;
                 }
                 else
@@ -414,26 +391,23 @@ public class FriendListManager : MonoBehaviour
     #endregion
 
     #region Delete Friend
-
     public void ShowSettingMenu()
     {
         if (!isFriendSettings)
         {
             isFriendSettings = true;
-            Debug.Log("Show Setting menu");
             settingMenu.SetActive(isFriendSettings);
         }
         else
         {
             isFriendSettings = false;
-            Debug.Log("Hide Setting menu");
             settingMenu.SetActive(isFriendSettings);
         }
     }
 
     public void TryDeleteFriend()
     {
-        Debug.Log("친구 삭제 시도");
+        Debug.Log("[Friend list] 친구 삭제 시도");
         isFriendSettings = false;
         settingMenu.SetActive(isFriendSettings);
 
@@ -450,7 +424,7 @@ public class FriendListManager : MonoBehaviour
 
     public async void DeleteFriend()
     {
-        Debug.Log("친구 삭제");
+        Debug.Log("[Friend list] 친구 삭제");
 
         for (int i = 0; i < friendList.Count; i++)
         {
@@ -474,8 +448,6 @@ public class FriendListManager : MonoBehaviour
     #region Request Friend
     public async void ShowRequestFriendList()
     {
-        //await GameManager.instance.api.Update_PlayerState(GameManager.instance.playerManager.currentState, Login.PID);
-
         ResetSelect();
         requestListScrollPos.anchoredPosition = new Vector2(0, 0);
 
@@ -485,6 +457,7 @@ public class FriendListManager : MonoBehaviour
     }
     #endregion
 
+    // reset user nickname
     public void ResetSearchUserNickName()
     {
         searchUserNickname.text = "";
