@@ -14,17 +14,10 @@ public class FilePath : MonoBehaviour
     // file download path
     private string rootPath;
 
-    //public string[] buildFileUrls = new string[4];
     public string[] buildFileUrls = new string[5];
-    //public string[] jsonFileUrls = new string[4];
     public string[] jsonFileUrls = new string[5];
 
-    //public string[] temp_buildFileUrls = new string[4];
-    //public string[] temp_jsonFileUrls = new string[4];
-
-    //private string[] exeFolderPaths = new string[4];
     private string[] exeFolderPaths = new string[5];
-    //private string[] exeZipFilePaths = new string[4];
     private string[] exeZipFilePaths = new string[5];
 
     public string RootPath => rootPath;
@@ -33,19 +26,15 @@ public class FilePath : MonoBehaviour
     public string[] ExeFolderPaths => exeFolderPaths;
     public string[] ExeZipFilePaths => exeZipFilePaths;
 
-    //private string[] exeFolderNames = new string[4];
     private string[] exeFolderNames = new string[5];
     public string[] ExeFolderNames => exeFolderNames;
     
     [Header("[ Download File Path ]")]
     public DataPath dataPath;
-    //public string defaultDataPath = "C:\\Program Files";
     public string defaultDataPath;
-    //public string[] rootPaths = new string[4];
     public string[] rootPaths = new string[5];
     public string[] RootPaths => rootPaths;
 
-    //public DownloadInfoData exeFilePath;
     public DownloadURL downloadURL;
 
     public UGCManager ugcManager;
@@ -321,7 +310,7 @@ public class FilePath : MonoBehaviour
                 }
             }
         }
-        Debug.Log("[SY] 실행파일 상태 확인 결과 : " + isRunning);
+        Debug.Log("[check Running files] 실행파일 상태 확인 결과 : " + isRunning);
         return isRunning;
     }
 
@@ -341,32 +330,32 @@ public class FilePath : MonoBehaviour
 
     public string ChangeDeleteFileName(int buttonNum)
     {
-        Debug.Log("[SY] 이름 변경 시작");
+        Debug.Log("[check Running files] 이름 변경 시작");
         Directory.Move(exeFolderPaths[buttonNum], exeFolderPaths[buttonNum] + "_temp");
-        Debug.Log("[SY] 이름 변경 완료");
+        Debug.Log("[check Running files] 이름 변경 완료");
 
         return exeFolderPaths[buttonNum] + "_temp";
     }
 
     public void SetNewPaht(int buttonNum)
     {
-        Debug.Log("[SY] 갱신 시작");
+        Debug.Log("[check Running files] 갱신 시작");
         // 경로 갱신
         buildFileUrls[buttonNum] = GameManager.instance.jsonData.temp_donwloadUrlList[buttonNum].zip_path;
         jsonFileUrls[buttonNum] = GameManager.instance.jsonData.temp_donwloadUrlList[buttonNum].json_path;
         //SaveDownloadURL(buttonNum, buildFileUrls[buttonNum]);
-        Debug.Log("[SY] 갱신 완료");
+        Debug.Log("[check Running files] 갱신 완료");
 
         SetFilePath();
-        Debug.Log("[SY] 세팅 완료");
+        Debug.Log("[check Running files] 세팅 완료");
     }
 
     public async UniTaskVoid DeleteOldFile(string deleteFilePath)
     {
         await UniTask.SwitchToThreadPool();
-        Debug.Log("[SY] 삭제 시작");
+        Debug.Log("[old file delete] 삭제 시작");
         Directory.Delete(deleteFilePath, true);
-        Debug.Log("[SY] 삭제 완료");
+        Debug.Log("[old file delete] 삭제 완료");
         await UniTask.SwitchToMainThread();
     }
     //---------------------------------------------//
@@ -375,8 +364,6 @@ public class FilePath : MonoBehaviour
     //public async UniTaskVoid DeleteExeFiles(int serverNum)
     public void DeleteExeFiles(int serverNum)
     {
-        Debug.Log("삭제 시작");
-
         FileDownload[] selectButtons = GameManager.instance.SelectButtons;
 
         // reset button state

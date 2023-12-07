@@ -38,8 +38,8 @@ public class URL : MonoBehaviour
 
     #region API
     // using server
-    //private string testServer = "http://101.101.218.135:5002/";
-    private string testServer = "https://metaplytest.co.kr/";
+    private string testServer = "http://101.101.218.135:5002/";
+    //private string testServer = "https://metaplytest.co.kr/";
     private string liveServer = "http://49.50.162.141:5002/";
     //private string liveServer = "http://metaply.go.kr/";
 
@@ -82,13 +82,19 @@ public class URL : MonoBehaviour
             // server
             baseServer = testServer;
             
-            //// login
-            //getKeyURL = testServer + requestKey_URL;
-            //tryLoginURL = testServer + tryLogin_URL;
-
             // login
-            getKeyURL = liveServer + requestKey_URL;
-            tryLoginURL = liveServer + tryLogin_URL;
+            if (DEV.instance.isLoginToTestServer)
+            {
+                // test server
+                getKeyURL = testServer + requestKey_URL;
+                tryLoginURL = testServer + tryLogin_URL;
+            }
+            else
+            {
+                // live server
+                getKeyURL = liveServer + requestKey_URL;
+                tryLoginURL = liveServer + tryLogin_URL;
+            }
 
             // player state
             playerStateUpdateURL = testServer + playerStateUpdate_URL;
@@ -121,8 +127,18 @@ public class URL : MonoBehaviour
             baseServer = liveServer;
 
             // login
-            getKeyURL = liveServer + requestKey_URL;
-            tryLoginURL = liveServer + tryLogin_URL;
+            if (DEV.instance.isLoginToTestServer)
+            {
+                // test server
+                getKeyURL = testServer + requestKey_URL;
+                tryLoginURL = testServer + tryLogin_URL;
+            }
+            else
+            {
+                // live server
+                getKeyURL = liveServer + requestKey_URL;
+                tryLoginURL = liveServer + tryLogin_URL;
+            }
 
             // player state
             playerStateUpdateURL = liveServer + playerStateUpdate_URL;

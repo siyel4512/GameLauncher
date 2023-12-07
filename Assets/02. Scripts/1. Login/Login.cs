@@ -284,27 +284,41 @@ public class Login : MonoBehaviour
 
                     Debug.Log("로그인 결과 : " + requestResult);
 
-                    myID = id.text;
-
-                    PID = requestResult.Split(":")[1].Split(",")[0];
-                    //nickname = requestResult.Split(":")[2].Split(",")[0];
-                    nickname = myID;
-                    playerNum = requestResult.Split(":")[3].Split(",")[0];
-                    authrtcd = requestResult.Split(":")[4].Split("}")[0];
-
-                    temp_authrtcd = authrtcd;
-
-                    Debug.Log($"requestResult : {PID} / {nickname} / {playerNum} / {authrtcd}");
-
-                    // 일반 유저
-                    if (authrtcd == "00" || authrtcd == "03")
+                    // error code : TL_103
+                    // black list
+                    if (requestResult.Contains("TL_103"))
                     {
-                        SetLogin();
+                        string blackListContents = requestResult.Substring(6, requestResult.Length - 6);
+                        string[] contents = blackListContents.Split("|");
+
+                        GameManager.instance.popupManager.SetBlackListAlertContents(contents[0], contents[1]);
+                        GameManager.instance.popupManager.popups[(int)PopupType.BlackList].SetActive(true);
                     }
-                    // 관리자 & 슈퍼 계정
+                    // success login
                     else
                     {
-                        AdminUser();
+                        myID = id.text;
+
+                        PID = requestResult.Split(":")[1].Split(",")[0];
+                        //nickname = requestResult.Split(":")[2].Split(",")[0];
+                        nickname = myID;
+                        playerNum = requestResult.Split(":")[3].Split(",")[0];
+                        authrtcd = requestResult.Split(":")[4].Split("}")[0];
+
+                        temp_authrtcd = authrtcd;
+
+                        Debug.Log($"requestResult : {PID} / {nickname} / {playerNum} / {authrtcd}");
+
+                        // 일반 유저
+                        if (authrtcd == "00" || authrtcd == "03")
+                        {
+                            SetLogin();
+                        }
+                        // 관리자 & 슈퍼 계정
+                        else
+                        {
+                            AdminUser();
+                        }
                     }
                 }
                 
@@ -325,7 +339,7 @@ public class Login : MonoBehaviour
                 if (requestResult.Contains("TL_103"))
                 {
                     string blackListContents = requestResult.Substring(6, requestResult.Length - 6);
-                    string[] contents = blackListContents.Split(" / ");
+                    string[] contents = blackListContents.Split("|");
 
                     GameManager.instance.popupManager.SetBlackListAlertContents(contents[0], contents[1]);
                     GameManager.instance.popupManager.popups[(int)PopupType.BlackList].SetActive(true);

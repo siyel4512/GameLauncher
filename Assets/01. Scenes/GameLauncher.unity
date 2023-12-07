@@ -9299,6 +9299,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 548758757}
   m_CullTransparentMesh: 1
+--- !u!1 &556479117
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 556479119}
+  - component: {fileID: 556479118}
+  m_Layer: 0
+  m_Name: TEST Launcher Download
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &556479118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556479117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b10623dbf1c0c2548a9ee84accf48a4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &556479119
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556479117}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &562649039 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3167120743163513754, guid: 99a9a080cb6f08044b4311f4b1daa177, type: 3}
@@ -24742,12 +24786,13 @@ MonoBehaviour:
   isTEST_Contents: 0
   isManualRefreshAllData: 1
   isAdmin: 0
-  isUsingTestServer: 1
   isProtectFileDownload: 1
   isFileDownload: 0
   isScienceMuseum: 0
   isUsingTokenForFriendList: 0
   isUsingAbnormalShutdown: 0
+  isUsingTestServer: 1
+  isLoginToTestServer: 0
   isTempBannerMode: 0
   isCdnTest: 0
   filePath: {fileID: 288331700}
