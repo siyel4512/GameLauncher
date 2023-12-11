@@ -59,6 +59,9 @@ public class DEV : MonoBehaviour
 
     public GameObject downloadProtectGaurd;
 
+    [Space(10)]
+    public string CDN_Live;
+    public string CDN_Test;
 
     // Start is called before the first frame update
     void Awake()

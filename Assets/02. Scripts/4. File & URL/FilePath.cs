@@ -136,6 +136,7 @@ public class FilePath : MonoBehaviour
     //public async void SetDownloadURL(int serverNum, bool isDeleteMode = false)
     public async void SetDownloadURL(int serverNum, int buttonNum = 0, bool isDeleteMode = false)
     {
+        Debug.Log("SetDownloadURL 함수 호출");
         if (CheckRunningFiles())
             return;
 
@@ -257,12 +258,37 @@ public class FilePath : MonoBehaviour
                     Debug.Log($"[Compare] : {exeFolderPaths[i]}");
                 }
 
+                // Todo : 2023.12.11 update check
+                // 이미 설치된 파일 (최신) & 런처가 가지고 있는 경로가 구버전일 경우 (파일 이름이 다른 경우)
+                string[] tempFolderFullName = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path.Split("/");
+                string[] tempExeFolderName = tempFolderFullName[tempFolderFullName.Length - 1].Split(".");
+                string tempExeFolderPath = Path.Combine(rootPaths[i], tempExeFolderName[0]);
+
                 // 파일 삭제
+                // 이미 설치된 파일 (구버전) & 런처가 가지고 있는 경로가 구버전일 경우
                 if (Directory.Exists(exeFolderPaths[i]))
                 {
-                    Debug.Log("[Compare] 파일 존재 " + exeFolderPaths[i]);
+                    Debug.Log("[Compare] 파일 존재1 " + exeFolderPaths[i]);
                     GameManager.instance.SelectButtons[i].isNeedUpdate = true;
+                }
+                // Todo : 2023.12.11 update check
+                // 이미 설치된 파일(최신) & 런처가 가지고 있는 경로가 구버전일 경우 (파일 이름이 다른 경우)
+                else if (Directory.Exists(tempExeFolderPath)) 
+                {
+                    Debug.Log("[Compare] 파일 존재2 " + tempExeFolderPath);
 
+                    // set path
+                    string[] folderFullName = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path.Split("/");
+                    string[] exeFolderName = folderFullName[folderFullName.Length - 1].Split(".");
+
+                    exeFolderNames[i] = exeFolderName[0];
+                    exeFolderPaths[i] = Path.Combine(rootPaths[i], exeFolderName[0]);
+                    exeZipFilePaths[i] = Path.Combine(rootPaths[i], exeFolderPaths[i] + ".zip");
+
+                    // download path update
+                    buildFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path;
+                    jsonFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].json_path;
+                    SaveDownloadURL(i, buildFileUrls[i]);
                 }
                 else
                 {
@@ -272,6 +298,7 @@ public class FilePath : MonoBehaviour
             }
             else if (temp_downloadURL.downloadURLs[i] == GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path)
             {
+                Debug.Log("[Compare] 파일 경로 같음");
                 buildFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path;
                 jsonFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].json_path;
 

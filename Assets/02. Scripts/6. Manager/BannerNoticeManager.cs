@@ -17,6 +17,10 @@ public class BannerNoticeManager : MonoBehaviour
 
     public RectTransform mainBoardScrollPos;
 
+    [Space(10)]
+    public string[] launcherUserGuideLinks;
+    public string[] UGCInstallMenualLinks;
+
     public void CreateAllContents()
     {
         if (DEV.instance.isTEST_Contents)
@@ -34,18 +38,34 @@ public class BannerNoticeManager : MonoBehaviour
             // test server
             if (DEV.instance.isUsingTestServer)
             {
-                //guideInfo[0].SetLinkURL("http://fgnowlvzhshz17884402.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
-                //guideInfo[1].SetLinkURL("http://fgnowlvzhshz17884402.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
-                guideInfo[0].SetLinkURL("https://ejrdejzsaflk20717940.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
-                guideInfo[1].SetLinkURL("https://ejrdejzsaflk20717940.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
+                // korean
+                if (GameManager.instance.languageManager.currentLanguageNum == 1)
+                {
+                    guideInfo[0].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[0]);
+                    guideInfo[1].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[0]);
+                }
+                // english
+                else
+                {
+                    guideInfo[0].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[1]);
+                    guideInfo[1].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[1]);
+                }
             }
             // live server
             else
             {
-                //guideInfo[0].SetLinkURL("http://yhbdymjatqnq20869625.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
-                //guideInfo[1].SetLinkURL("http://yhbdymjatqnq20869625.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
-                guideInfo[0].SetLinkURL("http://alilgjwknwlm18374611.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
-                guideInfo[1].SetLinkURL("http://alilgjwknwlm18374611.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
+                // korean
+                if (GameManager.instance.languageManager.currentLanguageNum == 1)
+                {
+                    guideInfo[0].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[0]);
+                    guideInfo[1].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[0]);
+                }
+                // english
+                else
+                {
+                    guideInfo[0].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[1]);
+                    guideInfo[1].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[1]);
+                }
             }
         }
         else
@@ -90,18 +110,34 @@ public class BannerNoticeManager : MonoBehaviour
         // test server
         if (DEV.instance.isUsingTestServer)
         {
-            //guideInfo[0].SetLinkURL("http://fgnowlvzhshz17884402.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
-            //guideInfo[1].SetLinkURL("http://fgnowlvzhshz17884402.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
-            guideInfo[0].SetLinkURL("https://ejrdejzsaflk20717940.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
-            guideInfo[1].SetLinkURL("https://ejrdejzsaflk20717940.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
+            // korean
+            if (GameManager.instance.languageManager.currentLanguageNum == 1)
+            {
+                guideInfo[0].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[0]);
+                guideInfo[1].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[0]);
+            }
+            // english
+            else
+            {
+                guideInfo[0].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[1]);
+                guideInfo[1].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[1]);
+            }
         }
         // live server
         else
         {
-            // guideInfo[0].SetLinkURL("https://yhbdymjatqnq20869625.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
-            //guideInfo[1].SetLinkURL("https://yhbdymjatqnq20869625.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
-            guideInfo[0].SetLinkURL("http://alilgjwknwlm18374611.cdn.ntruss.com/onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf");
-            guideInfo[1].SetLinkURL("http://alilgjwknwlm18374611.cdn.ntruss.com/onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf");
+            // korean
+            if (GameManager.instance.languageManager.currentLanguageNum == 1)
+            {
+                guideInfo[0].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[0]);
+                guideInfo[1].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[0]);
+            }
+            // english
+            else
+            {
+                guideInfo[0].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[1]);
+                guideInfo[1].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[1]);
+            }
         }
     }
 }

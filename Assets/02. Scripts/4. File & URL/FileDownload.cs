@@ -102,7 +102,7 @@ public class FileDownload : MonoBehaviour
     #region File Check
     public async UniTaskVoid CheckForUpdates()
     {
-        Debug.Log("[SY] " + FilePath.Instance.ExeFolderPaths[buttonNum]);
+        Debug.Log("[Check update file] " + FilePath.Instance.ExeFolderPaths[buttonNum]);
 
         //excuteButton_txt.text = "-";
         excuteButton_txt.text = FilePath.Instance.fileCheckText;
@@ -112,6 +112,7 @@ public class FileDownload : MonoBehaviour
 
         if (isNeedUpdate)
         {
+            Debug.Log("[Check update file] isNeedUpdate");
             Status = LauncherStatus.downloadUpdate;
             excuteButton.interactable = true;
             return;
@@ -120,7 +121,7 @@ public class FileDownload : MonoBehaviour
         // file check
         if (Directory.Exists(FilePath.Instance.ExeFolderPaths[buttonNum]))
         {
-            Debug.Log(FilePath.Instance.ExeFolderPaths[buttonNum] + " [SY] 경로에 파일 있음");
+            Debug.Log(FilePath.Instance.ExeFolderPaths[buttonNum] + " [Check update file] 경로에 파일 있음");
 
             CheckBuidDirectory();
 
@@ -140,13 +141,13 @@ public class FileDownload : MonoBehaviour
         }
         else if (FilePath.Instance.ExeFolderPaths[buttonNum] == null)
         {
-            Debug.Log("[SY] 초반 세팅");
+            Debug.Log("[Check update file] 초반 세팅");
             //excuteButton_txt.text = "-";
             excuteButton_txt.text = FilePath.Instance.fileCheckText;
         }
         else
         {
-            Debug.Log("[SY] 다운로드 준비");
+            Debug.Log("[Check update file] 다운로드 준비");
             Status = LauncherStatus.downloadGame;
 
             // Todo : file check
@@ -515,6 +516,7 @@ public class FileDownload : MonoBehaviour
                 // download
                 else if (!File.Exists(gameExcutePath) && Status == LauncherStatus.downloadGame)
                 {
+                    Debug.Log("다운로드 상태");
                     if (buttonNum == 2 && !GameManager.instance.ugcManager.UnityProjectExeFileCheck())
                         return;
 

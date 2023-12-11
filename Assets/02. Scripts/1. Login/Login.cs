@@ -66,10 +66,19 @@ public class Login : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        // enter key login
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
         {
-            tcp_Server.StartServer();
+            if (id.text != "" && password.text != "")
+            {
+                TryRequestKey();
+            }
         }
+
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    tcp_Server.StartServer();
+        //}
     }
 
     // Check Input Field
@@ -405,7 +414,8 @@ public class Login : MonoBehaviour
 
         gameManager.popupManager.popups[(int)PopupType.SelectServer].SetActive(false);
 
-        FilePath.Instance.SetDownloadURL(gameManager.selectedServerNum);
+        // Todo : 2023.12.11 set download url (admin / update check)
+        //FilePath.Instance.SetDownloadURL(gameManager.selectedServerNum);
 
         gameManager.isLogin = true; // login
         gameManager.playerManager.nickname.text = myID;// set id
