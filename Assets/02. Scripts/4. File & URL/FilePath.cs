@@ -285,10 +285,11 @@ public class FilePath : MonoBehaviour
                     exeFolderPaths[i] = Path.Combine(rootPaths[i], exeFolderName[0]);
                     exeZipFilePaths[i] = Path.Combine(rootPaths[i], exeFolderPaths[i] + ".zip");
 
-                    // download path update
-                    buildFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path;
-                    jsonFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].json_path;
-                    SaveDownloadURL(i, buildFileUrls[i]);
+                    //// download path update
+                    //buildFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path;
+                    //jsonFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].json_path;
+                    //SaveDownloadURL(i, buildFileUrls[i]);
+                    GameManager.instance.SelectButtons[i].isNeedUpdate = true;
                 }
                 else
                 {
