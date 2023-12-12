@@ -18,8 +18,8 @@ public class BannerNoticeManager : MonoBehaviour
     public RectTransform mainBoardScrollPos;
 
     [Space(10)]
-    public string[] launcherUserGuideLinks;
-    public string[] UGCInstallMenualLinks;
+    public string[] launcherUserGuideLinks; // 0:korean, 1:english
+    public string[] UGCInstallMenualLinks; // 0:korean, 1:english
 
     public void CreateAllContents()
     {
@@ -39,33 +39,23 @@ public class BannerNoticeManager : MonoBehaviour
             if (DEV.instance.isUsingTestServer)
             {
                 // korean
-                if (GameManager.instance.languageManager.currentLanguageNum == 1)
-                {
-                    guideInfo[0].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[0]);
-                    guideInfo[1].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[0]);
-                }
+                guideInfo[0].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[0]);
+                guideInfo[1].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[0]);
+
                 // english
-                else
-                {
-                    guideInfo[0].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[1]);
-                    guideInfo[1].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[1]);
-                }
+                guideInfo[2].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[1]);
+                guideInfo[3].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[1]);
             }
             // live server
             else
             {
                 // korean
-                if (GameManager.instance.languageManager.currentLanguageNum == 1)
-                {
-                    guideInfo[0].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[0]);
-                    guideInfo[1].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[0]);
-                }
+                guideInfo[0].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[0]);
+                guideInfo[1].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[0]);
+
                 // english
-                else
-                {
-                    guideInfo[0].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[1]);
-                    guideInfo[1].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[1]);
-                }
+                guideInfo[2].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[1]);
+                guideInfo[3].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[1]);
             }
         }
         else
@@ -111,33 +101,23 @@ public class BannerNoticeManager : MonoBehaviour
         if (DEV.instance.isUsingTestServer)
         {
             // korean
-            if (GameManager.instance.languageManager.currentLanguageNum == 1)
-            {
-                guideInfo[0].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[0]);
-                guideInfo[1].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[0]);
-            }
+            guideInfo[0].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[0]);
+            guideInfo[1].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[0]);
+
             // english
-            else
-            {
-                guideInfo[0].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[1]);
-                guideInfo[1].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[1]);
-            }
+            guideInfo[2].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[1]);
+            guideInfo[3].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[1]);
         }
         // live server
         else
         {
             // korean
-            if (GameManager.instance.languageManager.currentLanguageNum == 1)
-            {
-                guideInfo[0].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[0]);
-                guideInfo[1].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[0]);
-            }
+            guideInfo[0].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[0]);
+            guideInfo[1].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[0]);
+
             // english
-            else
-            {
-                guideInfo[0].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[1]);
-                guideInfo[1].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[1]);
-            }
+            guideInfo[2].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[1]);
+            guideInfo[3].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[1]);
         }
     }
 }
