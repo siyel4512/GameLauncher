@@ -9,13 +9,18 @@ public class LanguageButtonAnimation : MonoBehaviour
 {
     public Transform ToggleButtonBackground; // 버튼 애니메이션 이동 기준점
     public Transform iconPos;
-    
+
     public Image[] icons; // 언어 아이콘
     public Image[] LoginTitles; // 로그인 타이틀 이미지
     public TMP_Text[] texts;
 
     public Sequence buttonAnimation;
     public float animationTime; // 애니메이션 실행 속도
+
+    public void Update()
+    {
+        Debug.Log("[위치 테스트] : " + ToggleButtonBackground.localPosition.x);
+    }
 
     public void SetLanguageButton(int languageNum)
     {
@@ -24,7 +29,7 @@ public class LanguageButtonAnimation : MonoBehaviour
             case 0:
                 // english
                 buttonAnimation = DOTween.Sequence()
-                    .Append(iconPos.DOMoveX(ToggleButtonBackground.position.x + 42, animationTime))
+                    .Append(iconPos.DOLocalMoveX(42f, animationTime))
                     .OnComplete(() =>
                     {
                         for (int i = 0; i < icons.Length; i++)
@@ -42,7 +47,7 @@ public class LanguageButtonAnimation : MonoBehaviour
             case 1:
                 // korean
                 buttonAnimation = DOTween.Sequence()
-                    .Append(iconPos.DOMoveX(ToggleButtonBackground.position.x - 42, animationTime))
+                    .Append(iconPos.DOLocalMoveX(-42f, animationTime))
                     .OnComplete(() =>
                     {
                         for (int i = 0; i < icons.Length; i++)

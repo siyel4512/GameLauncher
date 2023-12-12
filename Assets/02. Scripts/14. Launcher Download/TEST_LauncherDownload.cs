@@ -28,10 +28,10 @@ public class TEST_LauncherDownload : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Debug.LogError("·±Ã³ ´Ù¿î·Îµå Å×½ºÆ® ½ÃÀÛ");
+            Debug.LogError("ëŸ°ì²˜ ë‹¤ìš´ë¡œë“œ í…ŒìŠ¤íŠ¸ ì‹œì‘");
             Test_FileDownload().Forget();
 
-            //Debug.LogError("¾Û Á¾·á");
+            //Debug.LogError("ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
             //Application.Quit();
         }
 
@@ -58,7 +58,7 @@ public class TEST_LauncherDownload : MonoBehaviour
 
     private void DownloadProgressCallBack(object sender, DownloadProgressChangedEventArgs e)
     {
-        Debug.LogError($"·±Ã³ ´Ù¿î¸£µµ Å×½ºÆ® : {e.ProgressPercentage}%");
+        Debug.LogError($"ëŸ°ì²˜ ë‹¤ìš´ë¥´ë„ í…ŒìŠ¤íŠ¸ : {e.ProgressPercentage}%");
     }
 
     private void DownloadGameCompletedCallback(object sender, AsyncCompletedEventArgs e)
@@ -68,7 +68,7 @@ public class TEST_LauncherDownload : MonoBehaviour
 
         Process.Start(startInfo);
 
-        Debug.LogError("·±Ã³ ´Ù¿î·Îµå ¿Ï·á");
+        Debug.LogError("ëŸ°ì²˜ ë‹¤ìš´ë¡œë“œ ì™„ë£Œ");
 
         isCampletedDownloand = true;
     }
