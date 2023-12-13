@@ -15,12 +15,14 @@ public class TEST_LauncherDownload : MonoBehaviour
 
     public bool isCampletedDownloand;
 
+    public bool isDownloading;
+
     // Start is called before the first frame update
     void Start()
     {
         path = Path.GetDirectoryName(Environment.GetFolderPath(Environment.SpecialFolder.Personal));
         path = Path.Combine(path, "Downloads");
-        Debug.LogError(path + "\\Launcher_download_Test.exe");
+        Debug.LogError(path + "\\Launcher_download_Test.exe"); // 저장할 .exe 파일 변경하기
     }
 
     // Update is called once per frame
@@ -30,9 +32,6 @@ public class TEST_LauncherDownload : MonoBehaviour
         {
             Debug.LogError("런처 다운로드 테스트 시작");
             Test_FileDownload().Forget();
-
-            //Debug.LogError("�� ����");
-            //Application.Quit();
         }
 
         if (isCampletedDownloand)
@@ -58,18 +57,28 @@ public class TEST_LauncherDownload : MonoBehaviour
 
     private void DownloadProgressCallBack(object sender, DownloadProgressChangedEventArgs e)
     {
+        isDownloading = true;
         Debug.LogError($"런처 다운르도 테스트 : {e.ProgressPercentage}%");
     }
 
-    private void DownloadGameCompletedCallback(object sender, AsyncCompletedEventArgs e)
+    private async void DownloadGameCompletedCallback(object sender, AsyncCompletedEventArgs e)
     {
-        ProcessStartInfo startInfo = new ProcessStartInfo(path + "\\Launcher_download_Test.exe");
-        startInfo.WorkingDirectory = GameManager.instance.ugcManager.LoadUGCFilePath().objectUGCProjectDownloadPath;
+        if (isDownloading)
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo(path + "\\Launcher_download_Test.exe");
+            startInfo.WorkingDirectory = GameManager.instance.ugcManager.LoadUGCFilePath().objectUGCProjectDownloadPath;
 
-        Process.Start(startInfo);
+            Process.Start(startInfo);
 
-        Debug.LogError("런처 다운로드 완료");
+            Debug.LogError("런처 다운로드 완료");
 
-        isCampletedDownloand = true;
+            isCampletedDownloand = true;
+        }
+        else
+        {
+            Debug.LogError("런처 재다운로드");
+            await UniTask.Delay(3000);
+            Test_FileDownload().Forget();
+        }
     }
 }
