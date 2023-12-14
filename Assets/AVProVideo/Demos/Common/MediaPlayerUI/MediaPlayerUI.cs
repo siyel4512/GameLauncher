@@ -687,7 +687,7 @@ namespace RenderHeads.Media.AVProVideo.Demos
 
 		private void UpdateControlsVisibility()
 		{
-			if (UserInteraction.IsUserInputThisFrame() || !CanHideControls())
+			if ((UserInteraction.IsUserInputThisFrame() || !CanHideControls()) && isHover)
 			{
 				UserInteraction.InactiveTime = 0f;
 				FadeUpControls();
@@ -706,6 +706,18 @@ namespace RenderHeads.Media.AVProVideo.Demos
 				}
 			}
 		}
+
+		public bool isHover;
+
+		public void PointerEnter()
+		{
+			isHover = true;
+        }
+
+		public void PointerExit()
+		{
+			isHover = false;
+        }
 
 		private void FadeUpControls()
 		{

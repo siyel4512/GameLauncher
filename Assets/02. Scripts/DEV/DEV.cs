@@ -28,6 +28,7 @@ public class DEV : MonoBehaviour
     public bool isUsingTokenForFriendList; // 친구 리스트 요청시 token값 사용
     //public bool isUsingTmpForInputField; // input field에서 TMPro를 사용할 것인지
     public bool isUsingAbnormalShutdown;
+    public bool isUsingVideoAnimControl; // 이미지 maskable 제어 사용 유무
 
     [Space(10)]
     public bool isUsingTestServer;
