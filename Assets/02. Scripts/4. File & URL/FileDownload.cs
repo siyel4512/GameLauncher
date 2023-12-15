@@ -12,11 +12,9 @@ using TMPro;
 using Cysharp.Threading.Tasks;
 
 using Debug = UnityEngine.Debug;
-using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using System.Linq;
-using Unity.VisualScripting;
 
 public enum LauncherStatus
 {
@@ -78,12 +76,12 @@ public class FileDownload : MonoBehaviour
     public Button installButton;
     public Prograss prograss;
     public string gameExcutePath;
+    public bool isNeedUpdate; // 업데이트 가능 확인
 
+    [Space(10)]
+    [Header("[ download failed popups ]")]
     public GameObject downloadFailedPopup_1;
     public GameObject downloadFailedPopup_2;
-
-    public bool isNeedUpdate;
-
     public GameObject donwloadStateMessage_1;
     public GameObject donwloadStateMessage_2;
 
@@ -616,13 +614,27 @@ public class FileDownload : MonoBehaviour
     }
 
     // 여기서부터 에셋번들 다운로드 관련 스크립트
-    string ipDev = "http://49.50.162.141:5002";// 개발서버 url
-    string ipLive = "http://49.50.162.141:5002";// 라이브서버 url
+    //string ipDev = "http://49.50.162.141:5002";// 개발서버 url
+    //string ipLive = "http://49.50.162.141:5002";// 라이브서버 url
+    string ip;
     string myBundleListUrl = "/onlineScienceMuseumAPI/callDownloadAssetList.do";
     string downloadBundleUrl = "/onlineScienceMuseumAPI/downloadAssetBundleFile.do";
 
     IEnumerator GetMyBundleListJson()
     {
+        // test server
+        if (DEV.instance.isUsingTestServer)
+        {
+            ip = "http://101.101.218.135:5002";
+            //ip = "https://metaplytest.co.kr";
+        }
+        // liver server
+        else
+        {
+            ip = "http://49.50.162.141:5002";
+            //ip = "http://metaply.go.kr";
+        }
+
         // 1.오브젝트 저작도구에서 제작한 나의 번들 리스트 확인
         string bundleSaveFolderPath = Path.GetDirectoryName(gameExcutePath);
         bundleSaveFolderPath += "\\Bundle";
@@ -633,7 +645,7 @@ public class FileDownload : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("token", Login.PID);
 
-        string requestUrl = ipLive + myBundleListUrl;
+        string requestUrl = ip + myBundleListUrl;
 
         using (UnityWebRequest www = UnityWebRequest.Post(requestUrl, form))
         {
@@ -708,7 +720,7 @@ public class FileDownload : MonoBehaviour
                     form.AddField("flag", "1"); // flag값이 1일 경우, manifest 파일 다운로드
 
                 string tempFilePath = Path.GetTempFileName();
-                string requestUrl = ipLive + downloadBundleUrl;
+                string requestUrl = ip + downloadBundleUrl;
 
                 using (UnityWebRequest www = UnityWebRequest.Post(requestUrl, form))
                 {

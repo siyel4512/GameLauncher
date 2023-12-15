@@ -43,6 +43,8 @@ public class FriendListManager : MonoBehaviour
     [Header("[ Request List ]")]
     public RectTransform requestListScrollPos;
 
+    [Space(10)]
+    [Header("[ Warning Text Setting ]")]
     public GameObject warningText;
     public int currentWarningTextNum;
 

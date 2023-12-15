@@ -41,14 +41,14 @@ public class VideoController : MonoBehaviour
     {
         if (!DEV.instance.isUsingVideoAnimControl) return;
 
-        // ½ºÅ©·Ñ¹Ù°¡ »ı°åÀ»¶§
+        // ìŠ¤í¬ë¡¤ë°”ê°€ ìƒê²¼ì„ë•Œ
         if (viewport.rect.height < contents.rect.height)
         {
             float scrollPos = ((viewport.rect.height + contents.anchoredPosition.y) / contents.rect.height) * 100;
 
-            //Debug.Log("½ºÅ©·Ñ À§Ä¡ °è»ê : " + ((viewport.rect.height + contents.anchoredPosition.y) / contents.rect.height) * 100);
+            //Debug.Log("ìŠ¤í¬ë¡¤ ìœ„ì¹˜ ê³„ì‚° : " + ((viewport.rect.height + contents.anchoredPosition.y) / contents.rect.height) * 100);
 
-            // Àç»ı ¹öÆ° & º¼·ı ½ºÇÇÄ¿ maskable ¼û±â±â
+            // ì¬ìƒ ë²„íŠ¼ & ë³¼ë¥¨ ìŠ¤í”¼ì»¤ maskable ìˆ¨ê¸°ê¸°
             if (scrollPos <= controlButtonsLimeLine)
             {
                 for (int i = 0; i < PlayAndVolumeImage.Length; i++)
@@ -60,7 +60,7 @@ public class VideoController : MonoBehaviour
                 AudioSpectrumImage.maskable = true;
                 //AudioSpectrumImage.gameObject.SetActive(false);
             }
-            //  Àç»ı ¹öÆ° & º¼·ı ½ºÇÇÄ¿ ¾Ö´Ï¸ŞÀÌ¼Ç ÀÛµ¿
+            //  ì¬ìƒ ë²„íŠ¼ & ë³¼ë¥¨ ìŠ¤í”¼ì»¤ ì• ë‹ˆë©”ì´ì…˜ ì‘ë™
             else
             {
                 for (int i = 0; i < PlayAndVolumeImage.Length; i++)
@@ -74,12 +74,12 @@ public class VideoController : MonoBehaviour
                 TimeLineImage.SetActive(true);
             }
 
-            // Å¸ÀÓ¶óÀÎ¹Ù ¼û±â±â
+            // íƒ€ì„ë¼ì¸ë°” ìˆ¨ê¸°ê¸°
             if (scrollPos <= timeLineLimeLine)
             {
                 TimeLineImage.SetActive(false);
             }
-            // Å¸ÀÓ¶óÀÎ¹Ù Ç¥½Ã
+            // íƒ€ì„ë¼ì¸ë°” í‘œì‹œ
             else
             {
                 TimeLineImage.SetActive(true);
@@ -103,26 +103,26 @@ public class VideoController : MonoBehaviour
     {
         if (!DEV.instance.isUsingVideoAnimControl) return;
 
-        // ½ºÅ©·Ñ¹Ù°¡ »ı°åÀ»¶§
+        // ìŠ¤í¬ë¡¤ë°”ê°€ ìƒê²¼ì„ë•Œ
         if (viewport.rect.height < contents.rect.height)
         {
-            //Debug.Log($"contents ³ôÀÌ : {rectTransform1.rect.height} / ÀÌ¹ÌÁö ³ôÀÌ : {rectTransform2.rect.height} / ½ºÅ©·Ñ À§Ä¡ : {rectTransform3.anchoredPosition.y} / ÀÌ¹ÌÁö ³ôÀÌ + ½ºÅ©·Ñ À§Ä¡ : {rectTransform2.rect.height + rectTransform3.anchoredPosition.y}");
+            //Debug.Log($"contents ë†’ì´ : {rectTransform1.rect.height} / ì´ë¯¸ì§€ ë†’ì´ : {rectTransform2.rect.height} / ìŠ¤í¬ë¡¤ ìœ„ì¹˜ : {rectTransform3.anchoredPosition.y} / ì´ë¯¸ì§€ ë†’ì´ + ìŠ¤í¬ë¡¤ ìœ„ì¹˜ : {rectTransform2.rect.height + rectTransform3.anchoredPosition.y}");
 
             //float scrollPos1 = ((rectTransform2.rect.height + rectTransform3.anchoredPosition.y) / rectTransform1.rect.height) * 100;
             float scrollPos1 = ((viewport.rect.height + contents.anchoredPosition.y) / contents.rect.height) * 100;
-            //Debug.Log($"½ºÅ©·Ñ À§Ä¡ ÆÛ¼¾Æ® : {scrollPos1}");
+            //Debug.Log($"ìŠ¤í¬ë¡¤ ìœ„ì¹˜ í¼ì„¼íŠ¸ : {scrollPos1}");
 
             float scrollPos2 = viewport.rect.height + contents.anchoredPosition.y;
 
-            //Debug.Log($"ºñµğ¿À À§Ä¡1 : {Mathf.Abs(videoTransform.localPosition.y) + 25} / ÀÌ¹ÌÁö ³ôÀÌ - ½ºÅ©·Ñ À§Ä¡ : {scrollPos2} / °Å¸® °è»ê {Mathf.Abs((Mathf.Abs(videoTransform.localPosition.y) + 25) - scrollPos2)}");
-            //Debug.Log($"ºñµğ¿À À§Ä¡2 : {Mathf.Abs(videoTransform.localPosition.y)} / ½ºÅ©·Ñ À§Ä¡ / 2 : {rectTransform3.anchoredPosition.y / 2} / (½ºÅ©·Ñ À§Ä¡ + (ÀÌ¹ÌÁö ³ôÀÌ / 2)) : {rectTransform3.anchoredPosition.y + (rectTransform2.rect.height /*/ 2*/)} / (½ºÅ©·Ñ À§Ä¡ - (ÀÌ¹ÌÁö ³ôÀÌ / 2)) : {rectTransform3.anchoredPosition.y - (rectTransform2.rect.height /*/ 2*/)}");
+            //Debug.Log($"ë¹„ë””ì˜¤ ìœ„ì¹˜1 : {Mathf.Abs(videoTransform.localPosition.y) + 25} / ì´ë¯¸ì§€ ë†’ì´ - ìŠ¤í¬ë¡¤ ìœ„ì¹˜ : {scrollPos2} / ê±°ë¦¬ ê³„ì‚° {Mathf.Abs((Mathf.Abs(videoTransform.localPosition.y) + 25) - scrollPos2)}");
+            //Debug.Log($"ë¹„ë””ì˜¤ ìœ„ì¹˜2 : {Mathf.Abs(videoTransform.localPosition.y)} / ìŠ¤í¬ë¡¤ ìœ„ì¹˜ / 2 : {rectTransform3.anchoredPosition.y / 2} / (ìŠ¤í¬ë¡¤ ìœ„ì¹˜ + (ì´ë¯¸ì§€ ë†’ì´ / 2)) : {rectTransform3.anchoredPosition.y + (rectTransform2.rect.height /*/ 2*/)} / (ìŠ¤í¬ë¡¤ ìœ„ì¹˜ - (ì´ë¯¸ì§€ ë†’ì´ / 2)) : {rectTransform3.anchoredPosition.y - (rectTransform2.rect.height /*/
 
             float minPos = contents.anchoredPosition.y;
             float maxPos = contents.anchoredPosition.y + viewport.rect.height;
 
             if (minPos + min_correctionValue <= Mathf.Abs(videoPosition.localPosition.y) && maxPos - max_correctionValue >= Mathf.Abs(videoPosition.localPosition.y))
             {
-                Debug.Log("[TEST] È­¸é¿¡ µé¾î¿È...");
+                Debug.Log("[TEST] í™”ë©´ì— ë“¤ì–´ì˜´...");
 
                 for (int i = 0; i < CenterPlayButtonImages.Length; i++)
                 {

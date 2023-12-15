@@ -10,20 +10,23 @@ using System.Security.Cryptography;
 
 public class BannerUI : SwipeUI
 {
+    [Header("[ Setting ]")]
     private List<BannerInfo> spawnedContents;
     public GameObject warningText;
     public GameObject loadImageText;
 
+    [Space(10)]
+    [Header("[ Default Banner Images ]")]
     public Texture2D[] defaultBannerImages;
 
     // 삭제 예정
     public Texture2D[] tempBannerImages;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        //warningText.SetActive(false);
-    }
+    //void Start()
+    //{
+    //    //warningText.SetActive(false);
+    //}
 
     private void Update()
     {

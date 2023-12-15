@@ -8,6 +8,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 
 using Debug = UnityEngine.Debug;
+using Cysharp.Threading.Tasks.Triggers;
 
 public class GameManager : MonoBehaviour
 {
@@ -67,6 +68,10 @@ public class GameManager : MonoBehaviour
     public Process[] runningFiles = new Process[5];
 
     public bool isQuit;
+
+    [Space(10)]
+    [Header("[ Audio Listener ]")]
+    public AudioListener audioListener;
 
     private void Awake()
     {
@@ -231,6 +236,25 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    private void OnApplicationFocus(bool focus)
+    {
+        if (focus)
+        {
+            // 런처 사용중
+            audioListener.enabled = true; // 음소거 해제
+        }
+        else
+        {
+            // 다른 응용 프로그램 사용중
+            audioListener.enabled = false; // 음소거
+        }
+    }
+    
+    private void OnApplicationQuit()
+    {
+        ForceQuit();
+    }
+
     public void ForceQuit()
     {
         Debug.Log("[SY] File 강제 종료");
@@ -241,10 +265,5 @@ public class GameManager : MonoBehaviour
                 runningFiles[i].Kill();
             }
         }
-    }
-
-    private void OnApplicationQuit()
-    {
-        ForceQuit();
     }
 }

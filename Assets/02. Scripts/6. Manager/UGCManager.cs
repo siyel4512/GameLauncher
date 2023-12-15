@@ -238,7 +238,7 @@ public class UGCManager : MonoBehaviour
 
         File.WriteAllText(batchFilePath, batchOrder);
 
-        Debug.Log("배치 파일 생성 완료");
+        Debug.Log("[UGC] 배치 파일 생성 완료");
     }
 
     public bool UnityProjectExeFileCheck()

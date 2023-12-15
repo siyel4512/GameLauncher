@@ -15,9 +15,12 @@ public class BannerNoticeManager : MonoBehaviour
     public int eventNewsCount;
     public int guideCount;
 
+    [Space(10)]
+    [Header("[ Main Board Scroll ]")]
     public RectTransform mainBoardScrollPos;
 
     [Space(10)]
+    [Header("[ Guide Link ]")]
     public string[] launcherUserGuideLinks; // 0:korean, 1:english
     public string[] UGCInstallMenualLinks; // 0:korean, 1:english
 

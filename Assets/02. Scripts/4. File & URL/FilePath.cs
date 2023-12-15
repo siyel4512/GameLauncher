@@ -29,7 +29,7 @@ public class FilePath : MonoBehaviour
     private string[] exeFolderNames = new string[5];
     public string[] ExeFolderNames => exeFolderNames;
     
-    [Header("[ Download File Path ]")]
+    [Header("[ Default Download File Path ]")]
     public DataPath dataPath;
     public string defaultDataPath;
     public string[] rootPaths = new string[5];

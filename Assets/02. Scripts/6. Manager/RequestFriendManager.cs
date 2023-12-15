@@ -21,18 +21,6 @@ public class RequestFriendManager : MonoBehaviour
 
     public GameObject warningText;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     #region Set List
     // Todo : 임시 친구 리스트 생성
     //public void CreateRequestList()

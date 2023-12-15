@@ -29,7 +29,7 @@ public class LanguageManager : MonoBehaviour
 
     // event banner
     public GameObject[] eventBanners;
-    public GameObject videoPlayer;
+    //public GameObject videoPlayer;
 
     // guide link
     public string launcherUserGuide;
@@ -101,14 +101,14 @@ public class LanguageManager : MonoBehaviour
             // korean
             eventBanners[0].SetActive(true);
             eventBanners[1].SetActive(false);
-            videoPlayer.SetActive(false);
+            //videoPlayer.SetActive(false);
         }
         else
         {
             // english
             eventBanners[0].SetActive(true);
             eventBanners[1].SetActive(true);
-            videoPlayer.SetActive(true);
+            //videoPlayer.SetActive(true);
         }
 
         // event banner state reset

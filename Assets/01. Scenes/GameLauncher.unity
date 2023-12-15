@@ -1385,7 +1385,6 @@ Transform:
   m_Children:
   - {fileID: 218229011}
   - {fileID: 202952397}
-  - {fileID: 1159176601}
   - {fileID: 1366501761}
   - {fileID: 198164236}
   - {fileID: 627422412}
@@ -2480,7 +2479,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1159176597}
+        - m_Target: {fileID: 202952401}
           m_TargetAssemblyTypeName: RenderHeads.Media.AVProVideo.Demos.MediaPlayerUI,
             AVProVideo.Demos
           m_MethodName: PointerEnter
@@ -2497,7 +2496,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1159176597}
+        - m_Target: {fileID: 202952401}
           m_TargetAssemblyTypeName: RenderHeads.Media.AVProVideo.Demos.MediaPlayerUI,
             AVProVideo.Demos
           m_MethodName: PointerExit
@@ -3893,7 +3892,7 @@ RectTransform:
   m_Children:
   - {fileID: 1794769210}
   m_Father: {fileID: 72605801}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3973,6 +3972,7 @@ GameObject:
   - component: {fileID: 202952400}
   - component: {fileID: 202952399}
   - component: {fileID: 202952398}
+  - component: {fileID: 202952401}
   m_Layer: 5
   m_Name: Event Banner & Notice Section Canvas
   m_TagString: Untagged
@@ -4062,6 +4062,55 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 2
   m_TargetDisplay: 0
+--- !u!114 &202952401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202952396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35bb2f3708dd0394cb564ca3557a37fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mediaPlayer: {fileID: 430467865}
+  _keyVolumeDelta: 0.05
+  _jumpDeltaTime: 5
+  _showOptions: 0
+  _autoHide: 1
+  _userInactiveDuration: 3
+  _useAudioFading: 1
+  _enableKeyboardControls: 1
+  KeyVolumeUp: 273
+  KeyVolumeDown: 274
+  KeyTogglePlayPause: 32
+  KeyToggleMute: 109
+  KeyJumpForward: 275
+  KeyJumpBack: 276
+  _overlayManager: {fileID: 695092466}
+  _thumbnailMediaPlayer: {fileID: 0}
+  _timelineTip: {fileID: 1545241340}
+  _canvasTransform: {fileID: 202952397}
+  _sliderTime: {fileID: 1404408937}
+  _videoTouch: {fileID: 407273683}
+  _controlsGroup: {fileID: 15075415}
+  _liveItem: {fileID: 495509673}
+  _textMediaName: {fileID: 1623389985}
+  _textTimeDuration: {fileID: 375444347}
+  _sliderVolume: {fileID: 1597715485}
+  _buttonPlayPause: {fileID: 1450156815}
+  _buttonVolume: {fileID: 787993993}
+  _buttonSubtitles: {fileID: 802192155}
+  _buttonOptions: {fileID: 992296411}
+  _buttonTimeBack: {fileID: 1471088965}
+  _buttonTimeForward: {fileID: 1370645656}
+  _imageAudioSpectrum: {fileID: 1603281493}
+  _optionsMenuRoot: {fileID: 1436216481}
+  _segmentsSeek: {fileID: 1128845424}
+  _segmentsBuffered: {fileID: 670954746}
+  _segmentsProgress: {fileID: 1962031569}
+  isHover: 0
 --- !u!1 &205582739
 GameObject:
   m_ObjectHideFlags: 0
@@ -7704,7 +7753,8 @@ GameObject:
   - component: {fileID: 407273681}
   - component: {fileID: 407273680}
   - component: {fileID: 407273679}
-  - component: {fileID: 407273678}
+  - component: {fileID: 407273682}
+  - component: {fileID: 407273683}
   m_Layer: 0
   m_Name: VideoDisplay
   m_TagString: Untagged
@@ -7712,19 +7762,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &407273678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 407273677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates: []
 --- !u!114 &407273679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7785,6 +7822,32 @@ RectTransform:
   m_AnchoredPosition: {x: 0.000061035156, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &407273682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407273677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e582088747aa337478c622685ed53765, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollRect: {fileID: 1925812817}
+--- !u!114 &407273683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407273677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
 --- !u!1 &423965974
 GameObject:
   m_ObjectHideFlags: 0
@@ -11018,7 +11081,6 @@ MonoBehaviour:
   eventBanners:
   - {fileID: 1947031049}
   - {fileID: 1925812815}
-  videoPlayer: {fileID: 1159176596}
   launcherUserGuide: 
   UGCInstallMaual: 
 --- !u!1001 &537537297
@@ -12803,7 +12865,7 @@ RectTransform:
   m_Children:
   - {fileID: 1726790396}
   m_Father: {fileID: 72605801}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -20667,7 +20729,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &963194227
 Camera:
   m_ObjectHideFlags: 0
@@ -25590,170 +25652,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1153699597}
   m_CullTransparentMesh: 1
---- !u!1 &1159176596
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1159176601}
-  - component: {fileID: 1159176600}
-  - component: {fileID: 1159176599}
-  - component: {fileID: 1159176598}
-  - component: {fileID: 1159176597}
-  - component: {fileID: 1159176602}
-  m_Layer: 5
-  m_Name: MediaPlayerUI
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1159176597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1159176596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35bb2f3708dd0394cb564ca3557a37fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _mediaPlayer: {fileID: 430467865}
-  _keyVolumeDelta: 0.05
-  _jumpDeltaTime: 5
-  _showOptions: 0
-  _autoHide: 1
-  _userInactiveDuration: 3
-  _useAudioFading: 1
-  _enableKeyboardControls: 1
-  KeyVolumeUp: 273
-  KeyVolumeDown: 274
-  KeyTogglePlayPause: 32
-  KeyToggleMute: 109
-  KeyJumpForward: 275
-  KeyJumpBack: 276
-  _overlayManager: {fileID: 695092466}
-  _thumbnailMediaPlayer: {fileID: 0}
-  _timelineTip: {fileID: 1545241340}
-  _canvasTransform: {fileID: 1159176601}
-  _sliderTime: {fileID: 1404408937}
-  _videoTouch: {fileID: 407273678}
-  _controlsGroup: {fileID: 15075415}
-  _liveItem: {fileID: 495509673}
-  _textMediaName: {fileID: 1623389985}
-  _textTimeDuration: {fileID: 375444347}
-  _sliderVolume: {fileID: 1597715485}
-  _buttonPlayPause: {fileID: 1450156815}
-  _buttonVolume: {fileID: 787993993}
-  _buttonSubtitles: {fileID: 802192155}
-  _buttonOptions: {fileID: 992296411}
-  _buttonTimeBack: {fileID: 1471088965}
-  _buttonTimeForward: {fileID: 1370645656}
-  _imageAudioSpectrum: {fileID: 1603281493}
-  _optionsMenuRoot: {fileID: 1436216481}
-  _segmentsSeek: {fileID: 1128845424}
-  _segmentsBuffered: {fileID: 670954746}
-  _segmentsProgress: {fileID: 1962031569}
-  isHover: 0
---- !u!114 &1159176598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1159176596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!114 &1159176599
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1159176596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UiScaleMode: 1
-  m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
-  m_PhysicalUnit: 3
-  m_FallbackScreenDPI: 96
-  m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
---- !u!223 &1159176600
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1159176596}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 2
-  m_TargetDisplay: 0
---- !u!224 &1159176601
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1159176596}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 72605801}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
---- !u!114 &1159176602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1159176596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b381b1beacdee7448e6692d19e278f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Player: {fileID: 430467865}
 --- !u!1 &1162217886
 GameObject:
   m_ObjectHideFlags: 0
@@ -29603,7 +29501,7 @@ RectTransform:
   m_Children:
   - {fileID: 1906061174}
   m_Father: {fileID: 72605801}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -30942,7 +30840,7 @@ RectTransform:
   m_Children:
   - {fileID: 828481676}
   m_Father: {fileID: 72605801}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -31377,6 +31275,7 @@ MonoBehaviour:
   isUsingRefreshTimer: 0
   turnOffLimitTime: 2
   isQuit: 0
+  audioListener: {fileID: 963194226}
 --- !u!114 &1420501879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37767,7 +37666,7 @@ RectTransform:
   m_Children:
   - {fileID: 1811808960}
   m_Father: {fileID: 72605801}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -41492,13 +41391,14 @@ GameObject:
   - component: {fileID: 1925812819}
   - component: {fileID: 1925812818}
   - component: {fileID: 1925812817}
+  - component: {fileID: 1925812820}
   m_Layer: 5
   m_Name: Contet Scroll View_EN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1925812816
 RectTransform:
   m_ObjectHideFlags: 0
@@ -41590,6 +41490,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1925812815}
   m_CullTransparentMesh: 1
+--- !u!114 &1925812820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925812815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b381b1beacdee7448e6692d19e278f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player: {fileID: 430467865}
 --- !u!1 &1926763188
 GameObject:
   m_ObjectHideFlags: 0
@@ -42229,7 +42142,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1947031050
 RectTransform:
   m_ObjectHideFlags: 0
@@ -48637,9 +48550,9 @@ MonoBehaviour:
   installButton: {fileID: 296193938}
   prograss: {fileID: 845214933}
   gameExcutePath: 
+  isNeedUpdate: 0
   downloadFailedPopup_1: {fileID: 1114380073}
   downloadFailedPopup_2: {fileID: 879023171}
-  isNeedUpdate: 0
   donwloadStateMessage_1: {fileID: 1967059183202868516}
   donwloadStateMessage_2: {fileID: 5410489379052632560}
 --- !u!1001 &1928901120007354780
@@ -53692,9 +53605,9 @@ MonoBehaviour:
   installButton: {fileID: 2000867020}
   prograss: {fileID: 8740760894777457196}
   gameExcutePath: 
+  isNeedUpdate: 0
   downloadFailedPopup_1: {fileID: 1099895211}
   downloadFailedPopup_2: {fileID: 2074280126}
-  isNeedUpdate: 0
   donwloadStateMessage_1: {fileID: 7061941490524558301}
   donwloadStateMessage_2: {fileID: 3627791154558383881}
 --- !u!114 &7153272692343321110
@@ -53719,9 +53632,9 @@ MonoBehaviour:
   installButton: {fileID: 1671618265}
   prograss: {fileID: 8740760894249371253}
   gameExcutePath: 
+  isNeedUpdate: 0
   downloadFailedPopup_1: {fileID: 467934520}
   downloadFailedPopup_2: {fileID: 1907040190}
-  isNeedUpdate: 0
   donwloadStateMessage_1: {fileID: 7061941489743884164}
   donwloadStateMessage_2: {fileID: 3627791154869193552}
 --- !u!114 &7153272692741430496
@@ -53746,9 +53659,9 @@ MonoBehaviour:
   installButton: {fileID: 1931773965}
   prograss: {fileID: 8740760895999109251}
   gameExcutePath: 
+  isNeedUpdate: 0
   downloadFailedPopup_1: {fileID: 2002662572}
   downloadFailedPopup_2: {fileID: 733212708}
-  isNeedUpdate: 0
   donwloadStateMessage_1: {fileID: 7061941491748045170}
   donwloadStateMessage_2: {fileID: 3627791155815687590}
 --- !u!114 &7153272693430475566
@@ -53773,9 +53686,9 @@ MonoBehaviour:
   installButton: {fileID: 2101816175}
   prograss: {fileID: 8740760895343357773}
   gameExcutePath: 
+  isNeedUpdate: 0
   downloadFailedPopup_1: {fileID: 1277099169}
   downloadFailedPopup_2: {fileID: 1083909359}
-  isNeedUpdate: 0
   donwloadStateMessage_1: {fileID: 7061941490822022844}
   donwloadStateMessage_2: {fileID: 3627791155930112616}
 --- !u!114 &7532319768545075307

@@ -30,6 +30,8 @@ public class BannerInfo : MonoBehaviour
     [Header("[ Event ]")]
     public EventTrigger.Entry clickEvent;
 
+    [Space(10)]
+    [Header("[ Error Text ]")]
     public GameObject downloadErrorText;
 
     // Start is called before the first frame update

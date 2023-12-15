@@ -74,11 +74,6 @@ public class Login : MonoBehaviour
                 TryRequestKey();
             }
         }
-
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    tcp_Server.StartServer();
-        //}
     }
 
     // Check Input Field
@@ -96,9 +91,6 @@ public class Login : MonoBehaviour
 
     private void TryRequestKey()
     {
-        //Debug.Log("Key값 요청");
-        //tcp_Server.StartServer();
-
         if (DEV.instance.isTEST_Login)
         {
             SetLogin();
@@ -161,7 +153,6 @@ public class Login : MonoBehaviour
 
                     if (www.result == UnityWebRequest.Result.Success)
                     {
-                        //string requestResult = www.downloadHandler.text;
                         Debug.Log("결과값 : " + requestResult);
                         await TryLogin(requestResult);
                     }
@@ -173,7 +164,6 @@ public class Login : MonoBehaviour
                     Debug.Log("응답 실패 (로그인 실패) : " + requestResult);
 
                     // invalid ID, password value
-                    //GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
                     GameManager.instance.popupManager.popups[(int)PopupType.IdIncorrect].SetActive(true);
                 }
             }
@@ -191,11 +181,6 @@ public class Login : MonoBehaviour
         content.AddField("Id", id.text);
         content.AddField("pswd", rsaPassword);
 
-        //Debug.Log($"FilePath.Instance.GetKeyUrl : {URL.Instance.GetKeyUrl} " +
-        //    $"/ id.text : {id.text} / FilePath.Instance.Key_password : {URL.Instance.Key_password}" +
-        //    $" / rsaPassword : {rsaPassword}");
-
-        Debug.Log("Try Login : " + API.instance.TryLoginURL);
         using (UnityWebRequest www = UnityWebRequest.Post(API.instance.TryLoginURL, content))
         //using (UnityWebRequest www = UnityWebRequest.Post("http://101.101.218.135:5002/onlineScienceMuseumAPI/tryLogin.do", content))
         {
@@ -239,8 +224,6 @@ public class Login : MonoBehaviour
 
                 Debug.Log("응답 실패 (로그인 실패) : " + requestResult);
 
-                //Debug.Log("블랙리스트 결과 : " + requestResult.Contains("TL_103"));
-
                 bool isBlackList = requestResult.Contains("TL_103");
 
                 // error code : TL_103
@@ -257,7 +240,6 @@ public class Login : MonoBehaviour
                 // invalid ID, password value
                 else
                 {
-                    //GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
                     GameManager.instance.popupManager.popups[(int)PopupType.PasswordIncorrect].SetActive(true);
                 }
             }
@@ -273,11 +255,6 @@ public class Login : MonoBehaviour
         content.AddField("Id", id.text);
         content.AddField("pswd", rsaPassword);
 
-        Debug.Log("rsaPassword " + rsaPassword);
-        //Debug.Log("content 인코딩 완료");
-
-        //var content = new FormUrlEncodedContent(loginValues);
-        Debug.Log("Try Login : " + API.instance.TryLoginURL);
         using (UnityWebRequest www = UnityWebRequest.Post(API.instance.TryLoginURL, content))
         //using (UnityWebRequest www = UnityWebRequest.Post("http://101.101.218.135:5002/onlineScienceMuseumAPI/tryLogin.do", content))
         {
@@ -338,10 +315,6 @@ public class Login : MonoBehaviour
 
                 Debug.Log("응답 실패 (로그인 실패) : " + requestResult);
 
-                //Debug.Log("블랙리스트 결과 : " + requestResult.Contains("TL_103"));
-
-                //bool isBlackList = requestResult.Contains("TL_103");
-
                 // error code : TL_103
                 // black list
                 //if (isBlackList)
@@ -363,7 +336,6 @@ public class Login : MonoBehaviour
                 // invalid ID, password value
                 else
                 {
-                    //GameManager.instance.popupManager.popups[(int)PopupType.loginFailed].SetActive(true);
                     GameManager.instance.popupManager.popups[(int)PopupType.PasswordIncorrect].SetActive(true);
                 }
             }
@@ -413,9 +385,6 @@ public class Login : MonoBehaviour
         GameManager gameManager = GameManager.instance;
 
         gameManager.popupManager.popups[(int)PopupType.SelectServer].SetActive(false);
-
-        // Todo : 2023.12.11 set download url (admin / update check)
-        //FilePath.Instance.SetDownloadURL(gameManager.selectedServerNum);
 
         gameManager.isLogin = true; // login
         gameManager.playerManager.nickname.text = myID;// set id
