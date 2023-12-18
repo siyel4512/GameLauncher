@@ -886,17 +886,20 @@ public class API : URL
                     Debug.Log("응답 성공 (런처 버전 확인) : " + requestResult);
                     Debug.Log($"현재 런처 버전 : {DEV.instance.versionManager.LoadVersion().major}.{DEV.instance.versionManager.LoadVersion().minor}.{DEV.instance.versionManager.LoadVersion().patch}");
                     Debug.Log($"현재 런처 버전2 : {DEV.instance.versionManager.versionText_Login.text}");
+
                     // 런처 버전 비교
-                    if (requestResult == DEV.instance.versionManager.versionText_Login.text)
+                    if (requestResult != DEV.instance.versionManager.versionText_Login.text)
+                    //if (requestResult != "1.0.0")
                     {
-                        Debug.Log("[Launcher version check] 버전 같음 / 업데이트 할 필요 없음...");
+                        Debug.Log("[Launcher version check] 버전 다름");
+
+                        // Todo : 업데이트 필요 팝업창 후 런처 강제 종료...
+                        // Todo : 업데이트 할 수 있는 방법으로 진행할것
+                        GameManager.instance.popupManager.ShowLauncherUpdatePopup();
                     }
                     else
                     {
-                        Debug.Log("[Launcher version check] 버전 다름");
-                        
-                        // Todo : 업데이트 필요 팝업창 후 런처 강제 종료...
-                        // Todo : 업데이트 할 수 있는 방법으로 진행할것
+                        Debug.Log("[Launcher version check] 버전 같음 / 업데이트 할 필요 없음...");
                     }
                 }
             }

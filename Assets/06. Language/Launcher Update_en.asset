@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Launcher Update_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 97e00140a26643c4f8a373529379963e, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 18703978496
+    m_Localized: ' Launcher has been updated. Please update to the latest version.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2609210986496
+    m_Localized: Update
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2612616761344
+    m_Localized: Cancel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54778459066368
+    m_Localized: ' Preparing for update. Please wait a moment.'
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

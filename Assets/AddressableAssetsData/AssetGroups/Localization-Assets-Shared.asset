@@ -41,6 +41,10 @@ MonoBehaviour:
     m_Address: Assets/06. Language/Friend List Table Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
+  - m_GUID: 97e00140a26643c4f8a373529379963e
+    m_Address: Assets/06. Language/Launcher Update Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 1ac17de0933c6244ca277ac5e4137a40, type: 2}
   m_SchemaSet:

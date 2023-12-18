@@ -27,7 +27,8 @@ public enum PopupType
     IdIncorrect,
     PasswordIncorrect,
     logoutFailed,
-    DeletedAccount
+    DeletedAccount,
+    launcherUpdate
 }
 
 public class PopupManager : MonoBehaviour
@@ -249,6 +250,30 @@ public class PopupManager : MonoBehaviour
     public void BTN_ConfirmDeletedAccount()
     {
         popups[(int)PopupType.DeletedAccount].SetActive(false);
+    }
+    #endregion
+
+    #region Launcher Update
+    // Logout
+    public void ShowLauncherUpdatePopup()
+    {
+        popups[(int)PopupType.launcherUpdate].SetActive(true);
+    }
+
+    // confirm logout
+    public void BTN_ConfirmLauncherUpdate()
+    {
+        popups[(int)PopupType.launcherUpdate].SetActive(false);
+
+        // launcher update(download)
+        GameManager.instance.launcherDownload.FileDownload().Forget();
+    }
+
+    // cancel logout
+    public void BTN_CancelLauncherUpdate()
+    {
+        //popups[(int)PopupType.launcherUpdate].SetActive(false);
+        Application.Quit();
     }
     #endregion
 }

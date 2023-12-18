@@ -17,11 +17,6 @@ public class LanguageButtonAnimation : MonoBehaviour
     public Sequence buttonAnimation;
     public float animationTime; // 애니메이션 실행 속도
 
-    public void Update()
-    {
-        Debug.Log("[위치 테스트] : " + ToggleButtonBackground.localPosition.x);
-    }
-
     public void SetLanguageButton(int languageNum)
     {
         switch (languageNum)

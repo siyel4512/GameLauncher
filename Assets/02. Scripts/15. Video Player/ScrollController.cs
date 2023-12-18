@@ -8,18 +8,6 @@ public class ScrollController : MonoBehaviour, IBeginDragHandler, IDragHandler, 
 {
     public ScrollRect scrollRect;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //scrollRect = GetComponent<ScrollRect>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void OnBeginDrag(PointerEventData eventData)
     {
         //throw new System.NotImplementedException();

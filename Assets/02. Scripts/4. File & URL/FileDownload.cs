@@ -616,24 +616,24 @@ public class FileDownload : MonoBehaviour
     // 여기서부터 에셋번들 다운로드 관련 스크립트
     //string ipDev = "http://49.50.162.141:5002";// 개발서버 url
     //string ipLive = "http://49.50.162.141:5002";// 라이브서버 url
-    string ip;
-    string myBundleListUrl = "/onlineScienceMuseumAPI/callDownloadAssetList.do";
-    string downloadBundleUrl = "/onlineScienceMuseumAPI/downloadAssetBundleFile.do";
+    //string ip;
+    //string myBundleListUrl = "/onlineScienceMuseumAPI/callDownloadAssetList.do";
+    //string downloadBundleUrl = "/onlineScienceMuseumAPI/downloadAssetBundleFile.do";
 
     IEnumerator GetMyBundleListJson()
     {
-        // test server
-        if (DEV.instance.isUsingTestServer)
-        {
-            ip = "http://101.101.218.135:5002";
-            //ip = "https://metaplytest.co.kr";
-        }
-        // liver server
-        else
-        {
-            ip = "http://49.50.162.141:5002";
-            //ip = "http://metaply.go.kr";
-        }
+        //// test server
+        //if (DEV.instance.isUsingTestServer)
+        //{
+        //    ip = "http://101.101.218.135:5002";
+        //    //ip = "https://metaplytest.co.kr";
+        //}
+        //// liver server
+        //else
+        //{
+        //    ip = "http://49.50.162.141:5002";
+        //    //ip = "http://metaply.go.kr";
+        //}
 
         // 1.오브젝트 저작도구에서 제작한 나의 번들 리스트 확인
         string bundleSaveFolderPath = Path.GetDirectoryName(gameExcutePath);
@@ -645,7 +645,8 @@ public class FileDownload : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("token", Login.PID);
 
-        string requestUrl = ip + myBundleListUrl;
+        //string requestUrl = ip + myBundleListUrl;
+        string requestUrl = GameManager.instance.api.myBundleListURL;
 
         using (UnityWebRequest www = UnityWebRequest.Post(requestUrl, form))
         {
@@ -720,7 +721,8 @@ public class FileDownload : MonoBehaviour
                     form.AddField("flag", "1"); // flag값이 1일 경우, manifest 파일 다운로드
 
                 string tempFilePath = Path.GetTempFileName();
-                string requestUrl = ip + downloadBundleUrl;
+                //string requestUrl = ip + downloadBundleUrl;
+                string requestUrl = GameManager.instance.api.downloadBundleURL;
 
                 using (UnityWebRequest www = UnityWebRequest.Post(requestUrl, form))
                 {

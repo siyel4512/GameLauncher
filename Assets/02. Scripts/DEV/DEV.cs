@@ -20,7 +20,7 @@ public class DEV : MonoBehaviour
     public bool isTEST_Contents;
     public bool isManualRefreshAllData = false;
 
-    [Space(10)]
+    [Header("==========================")]
     public bool isAdmin;
     public bool isProtectFileDownload; // 다운로드 중 버튼 누름 방지
     public bool isFileDownload; // 파일 다운로드 중
@@ -33,6 +33,9 @@ public class DEV : MonoBehaviour
     [Space(10)]
     public bool isUsingTestServer;
     public bool isLoginToTestServer; // 테스트 서버로 로그인
+
+    [Space(10)]
+    public bool isUpdateLauncher; // 런처 업데이트 사용 유무
 
     [Header("==========================")]
     public bool isTempBannerMode; // cdn 이미지 다운로드 문제 해결시 삭제 예정

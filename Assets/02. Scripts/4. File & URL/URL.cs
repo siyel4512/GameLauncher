@@ -32,9 +32,18 @@ public class URL : MonoBehaviour
     protected string fileDownloadURL;
     protected string fileDownloadURL_Live;
 
+    // abnormal shutdown
     protected string abnormalShutdownURL;
 
+    // asset bundle download
+    public string myBundleListURL;
+    public string downloadBundleURL;
+
+    // launcher version check
     protected string launcherVersionCheckURL;
+
+    // launcher download
+    public string launcherDownloadURL;
 
     #region API
     // using server
@@ -65,12 +74,19 @@ public class URL : MonoBehaviour
     // file download
     private string fileDownload_URL = "onlineScienceMuseumAPI/downloadBuildFile.do";
 
+    // asset bundle download
+    private string myBundleList_URL = "onlineScienceMuseumAPI/callDownloadAssetList.do";
+    private string downloadBundle_URL = "onlineScienceMuseumAPI/downloadAssetBundleFile.do";
+
     // abnormal shutdown
     private string abnormalShutdown_URL = "onlineScienceMuseumAPI/insertErrLog.do";
 
     // launcher version check
     //https://metaplytest.co.kr/onlineScienceMuseumAPI/getCurrentVersionOfLauncher.do
     private string launcherVersionCheck_URL = "onlineScienceMuseumAPI/getCurrentVersionOfLauncher.do";
+
+    //launcher download
+    private string launcherDownload_URL = "onlineScienceMuseumAPI/downloadInstallFile.do";
     #endregion
 
     // set URL
@@ -113,11 +129,18 @@ public class URL : MonoBehaviour
             fileDownloadURL = testServer + fileDownload_URL;
             fileDownloadURL_Live = liveServer + fileDownload_URL;
 
+            // asset bundle download
+            myBundleListURL = testServer + myBundleList_URL;
+            downloadBundleURL = testServer + downloadBundle_URL;
+
             // abnormal shutdown
             abnormalShutdownURL = testServer + abnormalShutdown_URL;
 
             // launcher version check
             launcherVersionCheckURL = testServer + launcherVersionCheck_URL;
+
+            // launcher download
+            launcherDownloadURL = testServer + launcherDownload_URL;
 
         }
         // live server
@@ -157,12 +180,21 @@ public class URL : MonoBehaviour
             fileDownloadURL = testServer + fileDownload_URL;
             fileDownloadURL_Live = liveServer + fileDownload_URL;
 
+            // asset bundle download
+            myBundleListURL = liveServer + myBundleList_URL;
+            downloadBundleURL = liveServer + downloadBundle_URL;
+
             // abnormal shutdown
             //abnormalShutdownURL = liveServer + abnormalShutdown_URL;
             abnormalShutdownURL = testServer + abnormalShutdown_URL;
 
             // launcher version check
             launcherVersionCheckURL = liveServer + launcherVersionCheck_URL;
+
+            // launcher download
+            launcherDownloadURL = liveServer + launcherDownload_URL;
         }
+
+        Debug.Log($"[bundle] {myBundleListURL} / {downloadBundleURL}");
     }
 }

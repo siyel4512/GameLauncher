@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     public PCPowerManager pcPowerMnager;
     public UGCManager ugcManager;
     public LanguageManager languageManager;
+    public LauncherDownload launcherDownload;
     public API api;
     public JsonData jsonData;
 
@@ -69,9 +70,9 @@ public class GameManager : MonoBehaviour
 
     public bool isQuit;
 
-    [Space(10)]
-    [Header("[ Audio Listener ]")]
-    public AudioListener audioListener;
+    //[Space(10)]
+    //[Header("[ Audio Listener ]")]
+    //public AudioListener audioListener;
 
     private void Awake()
     {
@@ -241,12 +242,14 @@ public class GameManager : MonoBehaviour
         if (focus)
         {
             // 런처 사용중
-            audioListener.enabled = true; // 음소거 해제
+            //audioListener.enabled = true; // 음소거 해제
+            SoundManager.instance.AudioSwitch(true); // 음소거 해제
         }
         else
         {
             // 다른 응용 프로그램 사용중
-            audioListener.enabled = false; // 음소거
+            //audioListener.enabled = false; // 음소거
+            SoundManager.instance.AudioSwitch(false); // 음소거
         }
     }
     

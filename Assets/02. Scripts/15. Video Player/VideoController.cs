@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,8 +34,12 @@ public class VideoController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SetControllerButtons();
-        SetCenterPlayButton();
+        // 영어 버전일때만 실행
+        if (GameManager.instance.languageManager.currentLanguageNum == 0)
+        {
+            SetControllerButtons();
+            SetCenterPlayButton();
+        }
     }
 
     public void SetControllerButtons()
@@ -45,8 +50,6 @@ public class VideoController : MonoBehaviour
         if (viewport.rect.height < contents.rect.height)
         {
             float scrollPos = ((viewport.rect.height + contents.anchoredPosition.y) / contents.rect.height) * 100;
-
-            //Debug.Log("스크롤 위치 계산 : " + ((viewport.rect.height + contents.anchoredPosition.y) / contents.rect.height) * 100);
 
             // 재생 버튼 & 볼륨 스피커 maskable 숨기기
             if (scrollPos <= controlButtonsLimeLine)
@@ -106,24 +109,12 @@ public class VideoController : MonoBehaviour
         // 스크롤바가 생겼을때
         if (viewport.rect.height < contents.rect.height)
         {
-            //Debug.Log($"contents 높이 : {rectTransform1.rect.height} / 이미지 높이 : {rectTransform2.rect.height} / 스크롤 위치 : {rectTransform3.anchoredPosition.y} / 이미지 높이 + 스크롤 위치 : {rectTransform2.rect.height + rectTransform3.anchoredPosition.y}");
-
-            //float scrollPos1 = ((rectTransform2.rect.height + rectTransform3.anchoredPosition.y) / rectTransform1.rect.height) * 100;
-            float scrollPos1 = ((viewport.rect.height + contents.anchoredPosition.y) / contents.rect.height) * 100;
-            //Debug.Log($"스크롤 위치 퍼센트 : {scrollPos1}");
-
-            float scrollPos2 = viewport.rect.height + contents.anchoredPosition.y;
-
-            //Debug.Log($"비디오 위치1 : {Mathf.Abs(videoTransform.localPosition.y) + 25} / 이미지 높이 - 스크롤 위치 : {scrollPos2} / 거리 계산 {Mathf.Abs((Mathf.Abs(videoTransform.localPosition.y) + 25) - scrollPos2)}");
-            //Debug.Log($"비디오 위치2 : {Mathf.Abs(videoTransform.localPosition.y)} / 스크롤 위치 / 2 : {rectTransform3.anchoredPosition.y / 2} / (스크롤 위치 + (이미지 높이 / 2)) : {rectTransform3.anchoredPosition.y + (rectTransform2.rect.height /*/ 2*/)} / (스크롤 위치 - (이미지 높이 / 2)) : {rectTransform3.anchoredPosition.y - (rectTransform2.rect.height /*/
-
+            // 스크롤 범위 계산
             float minPos = contents.anchoredPosition.y;
             float maxPos = contents.anchoredPosition.y + viewport.rect.height;
 
             if (minPos + min_correctionValue <= Mathf.Abs(videoPosition.localPosition.y) && maxPos - max_correctionValue >= Mathf.Abs(videoPosition.localPosition.y))
             {
-                Debug.Log("[TEST] 화면에 들어옴...");
-
                 for (int i = 0; i < CenterPlayButtonImages.Length; i++)
                 {
                     CenterPlayButtonImages[i].maskable = false;
