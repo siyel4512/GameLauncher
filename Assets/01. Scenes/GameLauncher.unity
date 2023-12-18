@@ -190,7 +190,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1420501877}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &12989072
 MonoBehaviour:
@@ -8432,7 +8432,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1420501877}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &431125561
 PrefabInstance:
@@ -11056,7 +11056,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1420501877}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &536767945
 MonoBehaviour:
@@ -11483,6 +11483,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f6ddb73d92632646ba5e3c5ee06d622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myBundleListURL: 
+  downloadBundleURL: 
+  launcherDownloadURL: 
 --- !u!1 &548758757
 GameObject:
   m_ObjectHideFlags: 0
@@ -15153,7 +15156,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1420501877}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &721861403
 MonoBehaviour:
@@ -31765,12 +31768,12 @@ Transform:
   - {fileID: 1385737051}
   - {fileID: 1281924094}
   - {fileID: 546057155}
-  - {fileID: 1730189061}
   - {fileID: 721861402}
   - {fileID: 1818451629}
   - {fileID: 536767944}
   - {fileID: 430467866}
   - {fileID: 12989071}
+  - {fileID: 1730189061}
   - {fileID: 2002685643}
   - {fileID: 1563014037}
   m_Father: {fileID: 0}
@@ -31803,6 +31806,7 @@ MonoBehaviour:
   ugcManager: {fileID: 288331701}
   languageManager: {fileID: 536767945}
   launcherDownload: {fileID: 2002685644}
+  soundManager: {fileID: 1563014038}
   api: {fileID: 546057156}
   jsonData: {fileID: 1420501881}
   SelectButtons:
@@ -31819,7 +31823,6 @@ MonoBehaviour:
   isUsingRefreshTimer: 0
   turnOffLimitTime: 2
   isQuit: 0
-  audioListener: {fileID: 963194226}
 --- !u!114 &1420501879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38189,7 +38192,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1420501877}
-  m_RootOrder: 7
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1730189062
 MonoBehaviour:
@@ -38209,7 +38212,6 @@ MonoBehaviour:
     patch: 0
   versionText_Login: {fileID: 505323080}
   versionText_MainPage: {fileID: 1797915974}
-  version_popup: {fileID: 0}
 --- !u!1001 &1732217174
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39528,7 +39530,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1420501877}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1818451630
 MonoBehaviour:

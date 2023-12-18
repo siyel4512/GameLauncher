@@ -26,7 +26,7 @@ public class LauncherDownload : MonoBehaviour
     {
         path = Path.GetDirectoryName(Environment.GetFolderPath(Environment.SpecialFolder.Personal));
         path = Path.Combine(path, "Downloads");
-        //Debug.LogError(path + "\\" + exeFileName); // 저장할 .exe 파일 변경하기
+        //Debug.LogError(path + "\\" + exeFileName);
     }
 
     // Update is called once per frame

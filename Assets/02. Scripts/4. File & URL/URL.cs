@@ -194,7 +194,5 @@ public class URL : MonoBehaviour
             // launcher download
             launcherDownloadURL = liveServer + launcherDownload_URL;
         }
-
-        Debug.Log($"[bundle] {myBundleListURL} / {downloadBundleURL}");
     }
 }

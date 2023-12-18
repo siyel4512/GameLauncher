@@ -8,21 +8,17 @@ public class VersionManager : MonoBehaviour
     public TMP_Text versionText_Login;
     public TMP_Text versionText_MainPage;
 
-    public TMP_Text version_popup;
-
     // Start is called before the first frame update
     void Start()
     {
-        if (DEV.instance.isUpdateLauncher)
-        {
-            Debug.LogError("런처 업데이트 확인");
-            
-            // set launcher version
-            SetVersion(LoadVersion());
+        //if (DEV.instance.isUpdateLauncher)
+        //{
+        //    // set launcher version
+        //    SetVersion(LoadVersion());
 
-            // check launcher version
-            GameManager.instance.api.LauncherVersionCheck().Forget();
-        }
+        //    // check launcher version
+        //    GameManager.instance.api.LauncherVersionCheck().Forget();
+        //}
     }
 
     // show version value

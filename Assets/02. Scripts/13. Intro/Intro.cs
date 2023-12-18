@@ -24,7 +24,16 @@ public class Intro : MonoBehaviour
             .Append(introCanvasGroup.DOFade(0f, fadeTime)) // hide canvas group
             .OnComplete(()=> 
             { 
-                introCanvasGroup.gameObject.SetActive(false); 
+                introCanvasGroup.gameObject.SetActive(false);
+
+                if (DEV.instance.isUpdateLauncher)
+                {
+                    // set launcher version
+                    DEV.instance.versionManager.SetVersion(DEV.instance.versionManager.LoadVersion());
+
+                    // check launcher version
+                    GameManager.instance.api.LauncherVersionCheck().Forget();
+                }
             });  
     }
 }

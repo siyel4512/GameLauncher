@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     public UGCManager ugcManager;
     public LanguageManager languageManager;
     public LauncherDownload launcherDownload;
+    public SoundManager soundManager;
     public API api;
     public JsonData jsonData;
 
@@ -243,13 +244,13 @@ public class GameManager : MonoBehaviour
         {
             // 런처 사용중
             //audioListener.enabled = true; // 음소거 해제
-            SoundManager.instance.AudioSwitch(true); // 음소거 해제
+            soundManager.AudioSwitch(true); // 음소거 해제
         }
         else
         {
             // 다른 응용 프로그램 사용중
             //audioListener.enabled = false; // 음소거
-            SoundManager.instance.AudioSwitch(false); // 음소거
+            soundManager.AudioSwitch(false); // 음소거
         }
     }
     
