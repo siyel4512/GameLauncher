@@ -106,31 +106,27 @@ public class VideoController : MonoBehaviour
     {
         if (!DEV.instance.isUsingVideoAnimControl) return;
 
-        // 스크롤바가 생겼을때
-        if (viewport.rect.height < contents.rect.height)
-        {
-            // 스크롤 범위 계산
-            float minPos = contents.anchoredPosition.y;
-            float maxPos = contents.anchoredPosition.y + viewport.rect.height;
+        // 스크롤 범위 계산
+        float minPos = contents.anchoredPosition.y;
+        float maxPos = contents.anchoredPosition.y + viewport.rect.height;
 
-            if (minPos + min_correctionValue <= Mathf.Abs(videoPosition.localPosition.y) && maxPos - max_correctionValue >= Mathf.Abs(videoPosition.localPosition.y))
+        if (minPos + min_correctionValue <= Mathf.Abs(videoPosition.localPosition.y) && maxPos - max_correctionValue >= Mathf.Abs(videoPosition.localPosition.y))
+        {
+            for (int i = 0; i < CenterPlayButtonImages.Length; i++)
             {
-                for (int i = 0; i < CenterPlayButtonImages.Length; i++)
-                {
-                    CenterPlayButtonImages[i].maskable = false;
-                    CenterPlayButtonImages[i].gameObject.SetActive(true);
-                }
-                //CenterPlayButton.SetActive(true);
+                CenterPlayButtonImages[i].maskable = false;
+                CenterPlayButtonImages[i].gameObject.SetActive(true);
             }
-            else
+            //CenterPlayButton.SetActive(true);
+        }
+        else
+        {
+            for (int i = 0; i < CenterPlayButtonImages.Length; i++)
             {
-                for (int i = 0; i < CenterPlayButtonImages.Length; i++)
-                {
-                    CenterPlayButtonImages[i].maskable = true;
-                    CenterPlayButtonImages[i].gameObject.SetActive(false);
-                }
-                //CenterPlayButton.SetActive(false);
+                CenterPlayButtonImages[i].maskable = true;
+                CenterPlayButtonImages[i].gameObject.SetActive(false);
             }
+            //CenterPlayButton.SetActive(false);
         }
     }
 }

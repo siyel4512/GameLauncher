@@ -40,6 +40,7 @@ public class DEV : MonoBehaviour
     [Header("==========================")]
     public bool isTempBannerMode; // cdn 이미지 다운로드 문제 해결시 삭제 예정
     public bool isCdnTest;
+    public bool isSendingErrorLog; // dp
 
     [Space(10)]
     public FilePath filePath;

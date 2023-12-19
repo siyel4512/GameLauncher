@@ -15,6 +15,8 @@ using Debug = UnityEngine.Debug;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using System.Linq;
+using static UnityEditor.PlayerSettings;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 
 public enum LauncherStatus
 {
@@ -189,6 +191,12 @@ public class FileDownload : MonoBehaviour
         {
             Status = LauncherStatus.failed;
             Debug.Log($"Error installing game files: {ex}");
+
+            if (DEV.instance.isSendingErrorLog)
+            {
+                // send error log
+                API.instance.Send_AbnormalShutdown($"file download error : {ex}").Forget();
+            }
         }
     }
 
@@ -287,6 +295,12 @@ public class FileDownload : MonoBehaviour
                 // disable protect guard
                 DEV.instance.downloadProtectGaurd.SetActive(DEV.instance.isFileDownload);
             }
+
+            if (DEV.instance.isSendingErrorLog)
+            {
+                // send error log
+                API.instance.Send_AbnormalShutdown($"wrong download path : {ex}").Forget();
+            }
         }
     }
 
@@ -349,6 +363,12 @@ public class FileDownload : MonoBehaviour
             }
 
             downloadFailedPopup_2.SetActive(true);
+
+            if (DEV.instance.isSendingErrorLog)
+            {
+                // send error log
+                API.instance.Send_AbnormalShutdown($"failed unzip : {ex}").Forget();
+            }
         }
     }
 
@@ -551,11 +571,17 @@ public class FileDownload : MonoBehaviour
         }
         catch (IOException ioe)
         {
-            Debug.Log("[excute failed]" + ioe);
+            Debug.Log("[execute failed]" + ioe);
+
+            if (DEV.instance.isSendingErrorLog)
+            {
+                // send error log
+                API.instance.Send_AbnormalShutdown($"execute failed : {ioe}").Forget();
+            }
         }
         finally
         {
-
+            
         }
     }
 
@@ -619,22 +645,8 @@ public class FileDownload : MonoBehaviour
     //string ip;
     //string myBundleListUrl = "/onlineScienceMuseumAPI/callDownloadAssetList.do";
     //string downloadBundleUrl = "/onlineScienceMuseumAPI/downloadAssetBundleFile.do";
-
     IEnumerator GetMyBundleListJson()
     {
-        //// test server
-        //if (DEV.instance.isUsingTestServer)
-        //{
-        //    ip = "http://101.101.218.135:5002";
-        //    //ip = "https://metaplytest.co.kr";
-        //}
-        //// liver server
-        //else
-        //{
-        //    ip = "http://49.50.162.141:5002";
-        //    //ip = "http://metaply.go.kr";
-        //}
-
         // 1.오브젝트 저작도구에서 제작한 나의 번들 리스트 확인
         string bundleSaveFolderPath = Path.GetDirectoryName(gameExcutePath);
         bundleSaveFolderPath += "\\Bundle";
@@ -653,7 +665,15 @@ public class FileDownload : MonoBehaviour
             yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)
+            {
                 Debug.LogError("번들 데이터 전송 실패: " + www.error);
+
+                if (DEV.instance.isSendingErrorLog)
+                {
+                    // send error log
+                    API.instance.Send_AbnormalShutdown($"bundle data transfer failed : {www.error}").Forget();
+                }
+            }
             else
             {
                 string myBundleListJsonString = www.downloadHandler.text;
@@ -742,6 +762,13 @@ public class FileDownload : MonoBehaviour
                         if (elapsedTime >= maxDownloadTime)
                         {
                             Debug.Log($"[{_bundleKeys[i]}] 다운로드 시간이 초과되었습니다.");
+
+                            if (DEV.instance.isSendingErrorLog)
+                            {
+                                // send error log
+                                API.instance.Send_AbnormalShutdown($"bundle data download time out : {www.error}").Forget();
+                            }
+
                             break;
                         }
 

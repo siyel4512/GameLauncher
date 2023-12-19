@@ -1,10 +1,13 @@
 using RenderHeads.Media.AVProVideo;
+using RenderHeads.Media.AVProVideo.Demos;
 using UnityEngine;
 
 public class VideoPlayer : MonoBehaviour
 {
     public MediaPlayer Player;
     private string videoLink;
+
+    public MediaPlayerUI mediaPlayerUI;
 
     public void Awake()
     {
@@ -27,6 +30,7 @@ public class VideoPlayer : MonoBehaviour
         // start video
         Player.enabled = true;
         Player.OpenMedia(new MediaPath(videoLink, MediaPathType.AbsolutePathOrURL), autoPlay: true);
+        //mediaPlayerUI.TogglePlayPause();
     }
 
     public void OnDisable()

@@ -32,12 +32,12 @@ public class LauncherDownload : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            //preparingUpdatePopup.SetActive(true);
-            //FileDownload().Forget();
-            GameManager.instance.popupManager.ShowLauncherUpdatePopup();
-        }
+        //if (Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    //preparingUpdatePopup.SetActive(true);
+        //    //FileDownload().Forget();
+        //    GameManager.instance.popupManager.ShowLauncherUpdatePopup();
+        //}
 
         if (isCampletedDownloand)
         {
@@ -96,6 +96,13 @@ public class LauncherDownload : MonoBehaviour
         {
             //Debug.LogError("[Launcher Donwload] Redownload");
             Debug.Log("[Launcher Donwload] Redownload");
+
+            if (DEV.instance.isSendingErrorLog)
+            {
+                // send error log
+                API.instance.Send_AbnormalShutdown($"launcher install file redownload").Forget();
+            }
+
             await UniTask.Delay(3000);
             FileDownload().Forget();
         }

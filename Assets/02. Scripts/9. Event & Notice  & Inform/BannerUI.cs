@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 using System.Security.Cryptography;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 
 public class BannerUI : SwipeUI
 {
@@ -223,6 +224,12 @@ public class BannerUI : SwipeUI
 
                             int newIndex = i % defaultBannerImages.Length;
                             imageCache.Add(defaultBannerImages[newIndex]);
+
+                            if (DEV.instance.isSendingErrorLog)
+                            {
+                                // send error log
+                                API.instance.Send_AbnormalShutdown($"event banner response failed : {www.error}").Forget();
+                            }
                         }
                     }
                 }
@@ -247,6 +254,12 @@ public class BannerUI : SwipeUI
                             int newIndex = i % defaultBannerImages.Length;
                             imageCache.Add(defaultBannerImages[newIndex]);
                         }
+                    }
+
+                    if (DEV.instance.isSendingErrorLog)
+                    {
+                        // send error log
+                        API.instance.Send_AbnormalShutdown($"invalid {i} banner image Url").Forget();
                     }
                 }
             }
@@ -274,6 +287,12 @@ public class BannerUI : SwipeUI
                             imageCache.Add(defaultBannerImages[newIndex]);
                         }
                     }
+
+                    if (DEV.instance.isSendingErrorLog)
+                    {
+                        // send error log
+                        API.instance.Send_AbnormalShutdown($"{i} image : {ex}").Forget();
+                    }
                 }
                 else
                 {
@@ -297,6 +316,13 @@ public class BannerUI : SwipeUI
                             imageCache.Add(defaultBannerImages[newIndex]);
                         }
                     }
+
+                    if (DEV.instance.isSendingErrorLog)
+                    {
+                        // send error log
+                        API.instance.Send_AbnormalShutdown($"{i} image : {ex.Message}").Forget();
+                    }
+                   
                 }
             }
             catch (Exception e)
@@ -320,6 +346,12 @@ public class BannerUI : SwipeUI
                         int newIndex = i % defaultBannerImages.Length;
                         imageCache.Add(defaultBannerImages[newIndex]);
                     }
+                }
+
+                if (DEV.instance.isSendingErrorLog)
+                {
+                    // send error log
+                    API.instance.Send_AbnormalShutdown($"{i} Etc error {e}").Forget();
                 }
             }
         }

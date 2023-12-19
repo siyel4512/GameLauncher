@@ -75,8 +75,13 @@ public class API : URL
                 string requestResult = www.downloadHandler.text;
                 Debug.Log("응답 실패 (친구 리스트 결과) : " + requestResult);
                 temp_requestResult = requestResult;
+
+                if (DEV.instance.isSendingErrorLog)
+                {
+                    // send error log
+                    Send_AbnormalShutdown($"request friend list response failed : {www.error}").Forget();
+                }
             }
-            
         }
 
         //await UniTask.SwitchToMainThread();
@@ -173,6 +178,12 @@ public class API : URL
 
                 Debug.Log("응답 실패 (친구 검색 결과) : " + requestResult);
                 isSuccessSearch = false;
+
+                if (DEV.instance.isSendingErrorLog)
+                {
+                    // send error log
+                    Send_AbnormalShutdown($"request search friend response failed : {www.error}").Forget();
+                }
             }
         }
 
@@ -209,6 +220,12 @@ public class API : URL
             {
                 string requestResult = www.downloadHandler.text;
                 Debug.Log("응답 실패 (친구 신청 결과) : " + requestResult);
+
+                if (DEV.instance.isSendingErrorLog)
+                {
+                    // send error log
+                    Send_AbnormalShutdown($"temp request add friend response failed : {www.error}").Forget();
+                }
             }
         }
 
@@ -244,7 +261,13 @@ public class API : URL
             catch (UnityWebRequestException ex)
             {
                 string requestResult = www.downloadHandler.text;
-                Debug.Log("응답 실패 (친구 신청 결과) : " + requestResult);
+                Debug.Log("응답 실패 (친구 신청 결과) : " + requestResult + " // " + ex);
+
+                if (DEV.instance.isSendingErrorLog)
+                {
+                    // send error log
+                    Send_AbnormalShutdown($"requeset add friend response failed : {www.error}").Forget();
+                }
             }
 
             GameManager.instance.friendListManager.ResetSearchUserNickName();
@@ -294,8 +317,14 @@ public class API : URL
             {
                 string requestResult = www.downloadHandler.text;
 
-                Debug.Log("응답 실패 (친구 요청 리스트 결과) : " + requestResult);
+                Debug.Log("응답 실패 (친구 요청 리스트 결과) : " + requestResult + " // " + ex);
                 temp_requestResult = requestResult;
+
+                if (DEV.instance.isSendingErrorLog)
+                {
+                    // send error log
+                    Send_AbnormalShutdown($"request reqeuset_friend list response failed : {www.error}").Forget();
+                }
             }
         }
 
@@ -366,7 +395,13 @@ public class API : URL
             catch (UnityWebRequestException ex)
             {
                 string requestResult = www.downloadHandler.text;
-                Debug.Log("응답 실패 (친구 요청 승락 결과) : " + requestResult);
+                Debug.Log("응답 실패 (친구 요청 승락 결과) : " + requestResult + " // " + ex);
+
+                if (DEV.instance.isSendingErrorLog)
+                {
+                    // send error log
+                    Send_AbnormalShutdown($"request accept response failed : {www.error}").Forget();
+                }
             }
         }
     }
@@ -395,7 +430,13 @@ public class API : URL
             catch (UnityWebRequestException ex)
             {
                 string requestResult = www.downloadHandler.text;
-                Debug.Log("응답 실패 (거절 및 삭제 결과) : " + requestResult);
+                Debug.Log("응답 실패 (거절 및 삭제 결과) : " + requestResult + " // " + ex);
+
+                if (DEV.instance.isSendingErrorLog)
+                {
+                    // send error log
+                    Send_AbnormalShutdown($"request refuse and delete response failed : {www.error}").Forget();
+                }
             }
         }
     }
@@ -496,7 +537,7 @@ public class API : URL
             {
                 string requestResult = www.downloadHandler.text;
 
-                Debug.Log("응답 실패 (다운로드 경로 결과) : " + requestResult);
+                Debug.Log("응답 실패 (다운로드 경로 결과) : " + requestResult + " // " + ex);
             }
         }
     }
@@ -541,7 +582,7 @@ public class API : URL
             {
                 string requestResult = www.downloadHandler.text;
 
-                Debug.Log("응답 실패 (다운로드 경로 결과) : " + requestResult);
+                Debug.Log("응답 실패 (다운로드 경로 결과) : " + requestResult + " // " + ex);
             }
         }
     }
@@ -621,7 +662,7 @@ public class API : URL
             {
                 string requestResult = www.downloadHandler.text;
                 temp_requestResult = requestResult;
-                Debug.Log("응답 실패 (게시글 요청 결과) : " + requestResult);
+                Debug.Log("응답 실패 (게시글 요청 결과) : " + requestResult + " // " + ex);
             }
         }
 
@@ -861,7 +902,7 @@ public class API : URL
             catch (UnityWebRequestException ex)
             {
                 string requestResult = www.downloadHandler.text;
-                Debug.Log("응답 실패 (에러 로그) : " + requestResult);
+                Debug.Log("응답 실패 (에러 로그) : " + requestResult + " // " + ex);
             }
         }
     }
@@ -884,17 +925,17 @@ public class API : URL
                     string requestResult = www.downloadHandler.text;
 
                     Debug.Log("응답 성공 (런처 버전 확인) : " + requestResult);
-                    Debug.Log($"현재 런처 버전 : {DEV.instance.versionManager.LoadVersion().major}.{DEV.instance.versionManager.LoadVersion().minor}.{DEV.instance.versionManager.LoadVersion().patch}");
-                    Debug.Log($"현재 런처 버전2 : {DEV.instance.versionManager.versionText_Login.text}");
+
+                    string currentLauncherVersion = DEV.instance.versionManager.LoadVersion().major + "." + DEV.instance.versionManager.LoadVersion().minor + "." + DEV.instance.versionManager.LoadVersion().patch;
+                    //Debug.Log($"현재 런처 버전 : {DEV.instance.versionManager.LoadVersion().major}.{DEV.instance.versionManager.LoadVersion().minor}.{DEV.instance.versionManager.LoadVersion().patch}");
+                    //Debug.Log($"현재 런처 버전2 : {DEV.instance.versionManager.versionText_Login.text}");
+                    //Debug.Log($"현재 런처 버전3 : {currentLauncherVersion}");
 
                     // 런처 버전 비교
-                    if (requestResult != DEV.instance.versionManager.versionText_Login.text)
+                    if (requestResult != currentLauncherVersion)
                     //if (requestResult != "1.0.0")
                     {
                         Debug.Log("[Launcher version check] 버전 다름");
-
-                        // Todo : 업데이트 필요 팝업창 후 런처 강제 종료...
-                        // Todo : 업데이트 할 수 있는 방법으로 진행할것
                         GameManager.instance.popupManager.ShowLauncherUpdatePopup();
                     }
                     else
@@ -906,6 +947,12 @@ public class API : URL
             catch (UnityWebRequestException ex)
             {
                 Debug.Log("응답 실패 (런처 버전 확인) : " + ex);
+
+                if (DEV.instance.isSendingErrorLog)
+                {
+                    // send error log
+                    Send_AbnormalShutdown($"launcher version check response failed : {www.error}").Forget();
+                }
             }
         }
     }

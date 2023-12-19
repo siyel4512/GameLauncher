@@ -11,14 +11,14 @@ public class VersionManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //if (DEV.instance.isUpdateLauncher)
-        //{
-        //    // set launcher version
-        //    SetVersion(LoadVersion());
+        if (DEV.instance.isUpdateLauncher)
+        {
+            // set launcher version
+            SetVersion(LoadVersion());
 
-        //    // check launcher version
-        //    GameManager.instance.api.LauncherVersionCheck().Forget();
-        //}
+            ////check launcher version
+            //GameManager.instance.api.LauncherVersionCheck().Forget();
+        }
     }
 
     // show version value

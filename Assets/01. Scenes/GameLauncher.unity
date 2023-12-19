@@ -4794,7 +4794,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &237557737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8086,7 +8086,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &430467862
 GameObject:
@@ -11609,53 +11609,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 548758757}
   m_CullTransparentMesh: 1
---- !u!1 &556479117
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 556479119}
-  - component: {fileID: 556479118}
-  m_Layer: 0
-  m_Name: TEST Launcher Download
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &556479118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 556479117}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b10623dbf1c0c2548a9ee84accf48a4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  path: 
-  isCampletedDownloand: 0
-  isDownloading: 0
---- !u!4 &556479119
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 556479117}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &561267953
 GameObject:
   m_ObjectHideFlags: 0
@@ -23997,7 +23950,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1068022004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30926,10 +30879,10 @@ MonoBehaviour:
   mainBoardScrollPos: {fileID: 773876714}
   launcherUserGuideLinks:
   - onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf
-  - onlinemuseum/curiverseUserGuide/launcherUserGuideBook_TEST_EN.pdf
+  - onlinemuseum/curiverseUserGuide/launcherUserGuideBook.pdf
   UGCInstallMenualLinks:
   - onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf
-  - onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual_TEST_EN.pdf
+  - onlinemuseum/ugcAuthoringToolGuide/UGC_install_manual.pdf
 --- !u!114 &1385737053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31852,6 +31805,7 @@ MonoBehaviour:
   isUpdateLauncher: 1
   isTempBannerMode: 0
   isCdnTest: 0
+  isSendingErrorLog: 1
   filePath: {fileID: 288331700}
   ugcManager: {fileID: 288331701}
   selectServer: {fileID: 1420501882}
@@ -42334,6 +42288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 430467865}
+  mediaPlayerUI: {fileID: 202952401}
 --- !u!1 &1926763188
 GameObject:
   m_ObjectHideFlags: 0
@@ -45197,7 +45152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4d66ca0e9b371c43b1f3ddee503b39d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exeFileName: MetaPly_Launcher_TEST.exe
+  exeFileName: MetaPly_Launcher.exe
   path: 
   isCampletedDownloand: 0
   isDownloading: 0
