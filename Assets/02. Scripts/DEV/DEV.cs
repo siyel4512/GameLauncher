@@ -24,7 +24,9 @@ public class DEV : MonoBehaviour
     public bool isAdmin;
     public bool isProtectFileDownload; // 다운로드 중 버튼 누름 방지
     public bool isFileDownload; // 파일 다운로드 중
-    public bool isScienceMuseum;
+    public bool isUsingBatch_Admin; // 나만의 과학관 승인 사용 유무
+
+    [Space(10)]
     public bool isUsingTokenForFriendList; // 친구 리스트 요청시 token값 사용
     //public bool isUsingTmpForInputField; // input field에서 TMPro를 사용할 것인지
     public bool isUsingAbnormalShutdown;
@@ -36,6 +38,9 @@ public class DEV : MonoBehaviour
 
     [Space(10)]
     public bool isUpdateLauncher; // 런처 업데이트 사용 유무
+
+    [Space(10)]
+    public bool isScienceMuseum;
 
     [Header("==========================")]
     public bool isTempBannerMode; // cdn 이미지 다운로드 문제 해결시 삭제 예정

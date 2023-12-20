@@ -6,9 +6,6 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-using System.Security.Cryptography;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
-
 public class BannerUI : SwipeUI
 {
     [Header("[ Setting ]")]

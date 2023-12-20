@@ -291,6 +291,7 @@ public class FriendListManager : MonoBehaviour
                             Debug.Log("[Add friend] addable user");
                             GameManager.instance.popupManager.SetContents(1, searchUserNickname.text); // set nick name in popup
                             GameManager.instance.popupManager.popups[(int)PopupType.RequestFriend].SetActive(true); // open popup
+                            GameManager.instance.popupManager.popups[(int)PopupType.UserSearch].SetActive(false); // open popup
 
                             searchUserWaringText.text = "";
                             currentWarningTextNum = 0;

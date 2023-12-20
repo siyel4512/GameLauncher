@@ -377,7 +377,10 @@ public class Login : MonoBehaviour
         gameManager.GetComponent<SelectServer>().SetTestServer();
         gameManager.popupManager.popups[(int)PopupType.SelectServer].SetActive(true);
 
-        batchAdminButton.SetActive(true);
+        if (DEV.instance.isUsingBatch_Admin)
+        {
+            batchAdminButton.SetActive(true);
+        }
     }
 
     public void BTN_SelectServer()

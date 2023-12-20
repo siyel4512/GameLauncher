@@ -15,8 +15,6 @@ using Debug = UnityEngine.Debug;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using System.Linq;
-using static UnityEditor.PlayerSettings;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 
 public enum LauncherStatus
 {

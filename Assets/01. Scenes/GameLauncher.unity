@@ -4794,7 +4794,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &237557737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12890,7 +12890,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 7
   m_TargetDisplay: 0
 --- !u!1 &631021259
 GameObject:
@@ -23950,7 +23950,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1068022004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31403,7 +31403,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 7
+  m_SortingOrder: 6
   m_TargetDisplay: 0
 --- !u!1 &1407368054 stripped
 GameObject:
@@ -31796,13 +31796,14 @@ MonoBehaviour:
   isAdmin: 0
   isProtectFileDownload: 1
   isFileDownload: 0
-  isScienceMuseum: 0
+  isUsingBatch_Admin: 1
   isUsingTokenForFriendList: 0
   isUsingAbnormalShutdown: 0
   isUsingVideoAnimControl: 1
   isUsingTestServer: 1
   isLoginToTestServer: 0
   isUpdateLauncher: 1
+  isScienceMuseum: 0
   isTempBannerMode: 0
   isCdnTest: 0
   isSendingErrorLog: 1
@@ -57353,7 +57354,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB098\uB9CC\uC758\uACFC\uD559\uAD00 DIY"
+  m_text: "\uB098\uB9CC\uC758 \uACFC\uD559\uAD00 DIY"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 51890438e7aef2b49ac9036b4fa99ab3, type: 2}
   m_sharedMaterial: {fileID: -322181135264957342, guid: 51890438e7aef2b49ac9036b4fa99ab3, type: 2}
@@ -59123,7 +59124,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB098\uB9CC\uC758\uACFC\uD559\uAD00 DIY"
+  m_text: "\uB098\uB9CC\uC758 \uACFC\uD559\uAD00 DIY"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d3dfa2d35adac2042a5ae4b7592661f6, type: 2}
   m_sharedMaterial: {fileID: -322181135264957342, guid: d3dfa2d35adac2042a5ae4b7592661f6, type: 2}

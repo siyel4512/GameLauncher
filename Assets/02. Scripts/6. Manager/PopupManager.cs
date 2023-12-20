@@ -131,6 +131,7 @@ public class PopupManager : MonoBehaviour
     public void BTN_CancelRequestFriend()
     {
         popups[(int)PopupType.RequestFriend].SetActive(false);
+        popups[(int)PopupType.UserSearch].SetActive(true);
     }
 
     // confirm search user failed
