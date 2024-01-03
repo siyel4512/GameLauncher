@@ -216,11 +216,19 @@ public class FilePath : MonoBehaviour
             //if (BuildFileUrls[i] == "")
             if (temp_downloadURL.downloadURLs[i] == "")
             {
+                // 다운로드 경로 저장
                 Debug.Log($"[Compare] {i}번 공백 초기화");
                 buildFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path;
                 jsonFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].json_path;
-
                 SaveDownloadURL(i, buildFileUrls[i]);
+
+                // 다운로드 경로 세팅
+                string[] folderFullName = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path.Split("/");
+                string[] exeFolderName = folderFullName[folderFullName.Length - 1].Split(".");
+
+                exeFolderNames[i] = exeFolderName[0];
+                exeFolderPaths[i] = Path.Combine(rootPaths[i], exeFolderName[0]);
+                exeZipFilePaths[i] = Path.Combine(rootPaths[i], exeFolderPaths[i] + ".zip");
             }
             //else if (buildFileUrls[i] != GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path)
             else if (temp_downloadURL.downloadURLs[i] != GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path)
@@ -258,7 +266,6 @@ public class FilePath : MonoBehaviour
                     Debug.Log($"[Compare] {i} : {exeFolderPaths[i]}");
                 }
 
-                // Todo : 2023.12.11 update check
                 // 이미 설치된 파일 (최신) & 런처가 가지고 있는 경로가 구버전일 경우 (파일 이름이 다른 경우)
                 string[] tempFolderFullName = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path.Split("/");
                 string[] tempExeFolderName = tempFolderFullName[tempFolderFullName.Length - 1].Split(".");
@@ -271,7 +278,6 @@ public class FilePath : MonoBehaviour
                     Debug.Log($"[Compare {i} 파일 존재1 " + exeFolderPaths[i]);
                     GameManager.instance.SelectButtons[i].isNeedUpdate = true;
                 }
-                // Todo : 2023.12.11 update check
                 // 이미 설치된 파일(최신) & 런처가 가지고 있는 경로가 구버전일 경우 (파일 이름이 다른 경우)
                 else if (Directory.Exists(tempExeFolderPath)) 
                 {
@@ -296,11 +302,12 @@ public class FilePath : MonoBehaviour
                     Debug.Log($"[Compare] {i} 파일 없음");
                     GameManager.instance.SelectButtons[i].isNeedUpdate = false;
 
-                    // 다운로드 저장 테스트
+                    // 다운로드 경로 저장
                     buildFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path;
                     jsonFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].json_path;
                     SaveDownloadURL(i, buildFileUrls[i]);
 
+                    // 다운로드 경로 설정
                     string[] folderFullName = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path.Split("/");
                     string[] exeFolderName = folderFullName[folderFullName.Length - 1].Split(".");
 
