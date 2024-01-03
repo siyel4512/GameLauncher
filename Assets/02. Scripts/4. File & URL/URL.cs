@@ -49,8 +49,8 @@ public class URL : MonoBehaviour
     // using server
     private string testServer = "http://101.101.218.135:5002/";
     //private string testServer = "https://metaplytest.co.kr/";
-    private string liveServer = "http://49.50.162.141:5002/";
-    //private string liveServer = "http://metaply.go.kr/";
+    //private string liveServer = "http://49.50.162.141:5002/";
+    private string liveServer = "https://metaply.go.kr/";
 
     // login
     private string requestKey_URL = "onlineScienceMuseumAPI/checkId.do";
