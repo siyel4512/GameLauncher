@@ -45,11 +45,16 @@ public class URL : MonoBehaviour
     // launcher download
     public string launcherDownloadURL;
 
+    // user guide link
+    protected string launcherUserGuideURL;
+    protected string ugcInstallMenualURL;
+
+    // english video link
+    protected string videoEnURL;
+
     #region API
     // using server
-    private string testServer = "http://101.101.218.135:5002/";
-    //private string testServer = "https://metaplytest.co.kr/";
-    //private string liveServer = "http://49.50.162.141:5002/";
+    private string testServer = "https://metaplytest.co.kr/";
     private string liveServer = "https://metaply.go.kr/";
 
     // login
@@ -61,8 +66,6 @@ public class URL : MonoBehaviour
 
     // event banner & notice
     private string mainBoard_URP = "onlineScienceMuseumAPI/mainBoard.do";
-
-    // guide download
 
     // friend list
     private string friendList_URL = "onlineScienceMuseumAPI/frndInfo.do";
@@ -87,6 +90,14 @@ public class URL : MonoBehaviour
 
     //launcher download
     private string launcherDownload_URL = "onlineScienceMuseumAPI/downloadInstallFile.do";
+
+    // user guide link
+    private string launcherUserGuide_URL = "onlineScienceMuseumAPI/getLauncherGuide.do";
+    private string ugcInstallMenual_URL = "onlineScienceMuseumAPI/getToolGuide.do";
+
+    // english video link
+    private string video_En_URL = "onlineScienceMuseumAPI/getVideo.do";
+
     #endregion
 
     // set URL
@@ -142,6 +153,12 @@ public class URL : MonoBehaviour
             // launcher download
             launcherDownloadURL = testServer + launcherDownload_URL;
 
+            // user guide link
+            launcherUserGuideURL = testServer + launcherUserGuide_URL;
+            ugcInstallMenualURL = testServer + ugcInstallMenual_URL;
+
+            // english video link
+            videoEnURL = testServer + video_En_URL;
         }
         // live server
         else
@@ -193,6 +210,13 @@ public class URL : MonoBehaviour
 
             // launcher download
             launcherDownloadURL = liveServer + launcherDownload_URL;
+
+            // user guide link
+            launcherUserGuideURL = liveServer + launcherUserGuide_URL;
+            ugcInstallMenualURL = liveServer + ugcInstallMenual_URL;
+
+            // english video link
+            videoEnURL = liveServer + video_En_URL;
         }
     }
 }

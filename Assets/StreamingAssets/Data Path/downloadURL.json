@@ -1,9 +1,9 @@
 {
-  "downloadURLs": [
-    "https://yhbdymjatqnq20869625.cdn.ntruss.com/onlinemuseum/game/DEV/PC/2023_12_04_23_32_57/Clientv001_001_001-2023_12_4_23_27.zip",
-    "https://yhbdymjatqnq20869625.cdn.ntruss.com/onlinemuseum/game/DEV/VR/2023_12_11_16_55_14/MetaPly_VR_Stable_ver176.zip",
-    "https://yhbdymjatqnq20869625.cdn.ntruss.com/onlinemuseum/game/DEV/PROD/2023_11_08_15_11_25/ObjectForLIVE_23_11_08_15_09.zip",
-    "https://yhbdymjatqnq20869625.cdn.ntruss.com/onlinemuseum/game/DEV/COLCA/2023_11_09_16_08_26/PlaceForLIVE_23_11_08_18_36.zip",
-    "https://yhbdymjatqnq20869625.cdn.ntruss.com/onlinemuseum/game/DEV/ADMIN/2023_11_02_10_52_10/Upload_Test1.zip"
-  ]
+    "downloadURLs": [
+        "https://yhbdymjatqnq20869625.cdn.ntruss.com/CDNResources/game/DEV/PC/2023_12_04_23_32_57/Clientv001_001_001-2023_12_4_23_27.zip",
+        "https://yhbdymjatqnq20869625.cdn.ntruss.com/CDNResources/game/DEV/VR/2023_12_11_16_55_14/MetaPly_VR_Stable_ver176.zip",
+        "https://yhbdymjatqnq20869625.cdn.ntruss.com/CDNResources/game/DEV/PROD/2023_11_08_14_10_41/ObjectForLIVE_23_11_08.zip",
+        "https://yhbdymjatqnq20869625.cdn.ntruss.com/CDNResources/game/DEV/COLCA/2023_11_09_15_55_38/PlaceForLIVE_23_11_08_18_36.zip",
+        "https://yhbdymjatqnq20869625.cdn.ntruss.com/CDNResources/game/DEV/ADMIN/2024_01_12_18_50_53/Upload_Test4.zip"
+    ]
 }

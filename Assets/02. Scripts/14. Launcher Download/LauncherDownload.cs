@@ -60,8 +60,8 @@ public class LauncherDownload : MonoBehaviour
 
         webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallBack);
         webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadGameCompletedCallback);
-        webClient.DownloadFileAsync(new Uri("http://101.101.218.135:5002/onlineScienceMuseumAPI/downloadInstallFile.do"), path + "\\" + exeFileName); // download build file
-        //webClient.DownloadFileAsync(new Uri(GameManager.instance.api.launcherDownloadURL), path + "\\" + exeFileName); // download build file
+        //webClient.DownloadFileAsync(new Uri("http://101.101.218.135:5002/onlineScienceMuseumAPI/downloadInstallFile.do"), path + "\\" + exeFileName); // download build file
+        webClient.DownloadFileAsync(new Uri(GameManager.instance.api.launcherDownloadURL), path + "\\" + exeFileName); // download build file
     }
 
     private void DownloadProgressCallBack(object sender, DownloadProgressChangedEventArgs e)

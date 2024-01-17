@@ -302,6 +302,7 @@ public class FilePath : MonoBehaviour
                     Debug.Log($"[Compare] {i} 파일 없음");
                     GameManager.instance.SelectButtons[i].isNeedUpdate = false;
 
+                    // 2024-01-12 저장
                     // 다운로드 경로 저장
                     buildFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].zip_path;
                     jsonFileUrls[i] = GameManager.instance.jsonData.temp_donwloadUrlList[i].json_path;

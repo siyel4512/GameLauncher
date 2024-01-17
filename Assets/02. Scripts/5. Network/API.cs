@@ -1,8 +1,10 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using UnityEngine;
 using UnityEngine.Networking;
+using static Unity.VisualScripting.Icons;
 
 public class API : URL
 {
@@ -843,24 +845,6 @@ public class API : URL
 
         return target;
     }
-
-    public async UniTaskVoid Request_GuideDownload1()
-    {
-        await UniTask.SwitchToThreadPool();
-        Debug.Log("Request_GuideDownload1() start()");
-        await UniTask.SwitchToMainThread();
-
-        //GameManager.instance.bannerNoticeManager.guideInfo[0].SetLinkURL("https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Test+PDF.pdf");
-    }
-
-    public async UniTaskVoid Request_GuideDownload2()
-    {
-        await UniTask.SwitchToThreadPool();
-        Debug.Log("Request_GuideDownload2() start()");
-        await UniTask.SwitchToMainThread();
-
-        //GameManager.instance.bannerNoticeManager.guideInfo[1].SetLinkURL("https://launcherdownload1.s3.ap-northeast-2.amazonaws.com/Test+PDF.pdf");
-    }
     #endregion
 
     #region turn off pc
@@ -953,6 +937,108 @@ public class API : URL
                     // send error log
                     Send_AbnormalShutdown($"launcher version check response failed : {www.error}").Forget();
                 }
+            }
+        }
+    }
+    #endregion
+
+    #region English Video Link
+    //public async UniTaskVoid Request_EnglishVideoLink(string language)
+    public async UniTask<string> Request_EnglishVideoLink(string language)
+    {
+        await UniTask.SwitchToThreadPool();
+        Debug.Log("Request_EnglishVideoLink() start()");
+        await UniTask.SwitchToMainThread();
+
+        string link = "";
+
+        var content = new WWWForm();
+        content.AddField("language", language); // ko, en
+
+        using (UnityWebRequest www = UnityWebRequest.Post(videoEnURL, content))
+        {
+            try
+            {
+                await www.SendWebRequest();
+
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    string requestResult = www.downloadHandler.text;
+
+                    Debug.Log("응답 성공 (영문 소개 영상) : " + requestResult);
+                    link = requestResult;
+                }
+            }
+            catch (UnityWebRequestException ex)
+            {
+                string requestResult = www.downloadHandler.text;
+                Debug.Log("응답 실패 (영문 소개 영상) : " + requestResult + " // " + ex);
+            }
+        }
+
+        return link;
+    }
+    #endregion
+
+    #region User Guide Link
+    // launcher user guide
+    public async UniTaskVoid Request_LauncherUserGuideLink(string language)
+    {
+        await UniTask.SwitchToThreadPool();
+        Debug.Log("Request_LauncherUserGuideLink() start()");
+        await UniTask.SwitchToMainThread();
+
+        var content = new WWWForm();
+        content.AddField("language", language); // ko, en
+        Debug.Log("URL : " + launcherUserGuideURL);
+        using (UnityWebRequest www = UnityWebRequest.Post(launcherUserGuideURL, content))
+        {
+            try
+            {
+                await www.SendWebRequest();
+
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    string requestResult = www.downloadHandler.text;
+
+                    Debug.Log("응답 성공 (런처 유저 가이드) : " + requestResult);
+                }
+            }
+            catch (UnityWebRequestException ex)
+            {
+                string requestResult = www.downloadHandler.text;
+                Debug.Log("응답 실패 (런처 유저 가이드) : " + requestResult + " // " + ex);
+            }
+        }
+    }
+
+    // ugc install menual
+    public async UniTaskVoid Request_UgcInstallMenualLink(string language)
+    {
+        await UniTask.SwitchToThreadPool();
+        Debug.Log("Request_UgcInstallMenualLink() start()");
+        await UniTask.SwitchToMainThread();
+
+        var content = new WWWForm();
+        content.AddField("language", language); // ko, en
+
+        using (UnityWebRequest www = UnityWebRequest.Post(ugcInstallMenualURL, content))
+        {
+            try
+            {
+                await www.SendWebRequest();
+
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    string requestResult = www.downloadHandler.text;
+
+                    Debug.Log("응답 성공 (UGC Install Menual) : " + requestResult);
+                }
+            }
+            catch (UnityWebRequestException ex)
+            {
+                string requestResult = www.downloadHandler.text;
+                Debug.Log("응답 실패 (UGC Install Menual) : " + requestResult + " // " + ex);
             }
         }
     }
