@@ -37,7 +37,134 @@ public class BannerNoticeManager : MonoBehaviour
             // Create Event News
             noticeUI.TryAddContents(eventNewsCount);
 
-            // Set Guide URL
+            //// Todo : link 가져오기 테스트 완료 후 삭제 예정
+            //if (!DEV.instance.isLinkLoadTEST)
+            //{
+            //    // Set Guide URL
+            //    // test server
+            //    if (DEV.instance.isUsingTestServer)
+            //    {
+            //        // korean
+            //        guideInfo[0].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[0]);
+            //        guideInfo[1].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[0]);
+
+            //        // english
+            //        guideInfo[2].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[1]);
+            //        guideInfo[3].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[1]);
+            //    }
+            //    // live server
+            //    else
+            //    {
+            //        // korean
+            //        guideInfo[0].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[0]);
+            //        guideInfo[1].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[0]);
+
+            //        // english
+            //        guideInfo[2].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[1]);
+            //        guideInfo[3].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[1]);
+            //    }
+            //}
+            //else
+            //{
+            //    // Set Guide URL
+            //    // korean
+            //    guideInfo[0].SetLinkURL(await API.instance.Request_LauncherUserGuideLink("ko"));
+            //    guideInfo[1].SetLinkURL(await API.instance.Request_UGCInstallMenualLink("ko"));
+
+            //    // english
+            //    guideInfo[2].SetLinkURL(await API.instance.Request_LauncherUserGuideLink("en"));
+            //    guideInfo[3].SetLinkURL(await API.instance.Request_UGCInstallMenualLink("en"));
+            //}
+        }
+        else
+        {
+            // Create Event Banner
+            GameManager.instance.api.Request_MainBoard(0).Forget();
+
+            // Create Notice
+            GameManager.instance.api.Request_MainBoard(1).Forget();
+
+            // Create Curiverse Notice
+            GameManager.instance.api.Request_MainBoard(2).Forget();
+
+            //// Set Guide ULR
+            //GameManager.instance.api.Request_MainBoard(3).Forget();
+        }
+    }
+
+    public async void LoadGuideLink()
+    {
+        if (DEV.instance.isTEST_Contents)
+        {
+            // Todo : link 가져오기 테스트 완료 후 삭제 예정
+            if (!DEV.instance.isLinkLoadTEST)
+            {
+                // Set Guide URL
+                // test server
+                if (DEV.instance.isUsingTestServer)
+                {
+                    // korean
+                    guideInfo[0].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[0]);
+                    guideInfo[1].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[0]);
+
+                    // english
+                    guideInfo[2].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[1]);
+                    guideInfo[3].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[1]);
+                }
+                // live server
+                else
+                {
+                    // korean
+                    guideInfo[0].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[0]);
+                    guideInfo[1].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[0]);
+
+                    // english
+                    guideInfo[2].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[1]);
+                    guideInfo[3].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[1]);
+                }
+            }
+            else
+            {
+                // Set Guide URL
+                // korean
+                guideInfo[0].SetLinkURL(await API.instance.Request_LauncherUserGuideLink("ko"));
+                guideInfo[1].SetLinkURL(await API.instance.Request_UGCInstallMenualLink("ko"));
+
+                // english
+                guideInfo[2].SetLinkURL(await API.instance.Request_LauncherUserGuideLink("en"));
+                guideInfo[3].SetLinkURL(await API.instance.Request_UGCInstallMenualLink("en"));
+            }
+        }
+        else
+        {
+            // Set Guide ULR
+            GameManager.instance.api.Request_MainBoard(3).Forget();
+        }
+    }
+
+    public void CreateEventBanner()
+    {
+        // Create Event Banner
+        bannerUI.TryAddContents(eventBannerCount);
+    }
+
+    public void SetNotice()
+    {
+        // Create Notice
+        shortNotice.SetContents(shortNoticeCount);
+    }
+
+    public void CreateNews()
+    {
+        // Create Event News
+        noticeUI.TryAddContents(eventNewsCount);
+    }
+
+    public async void SetGuideDowloadLink()
+    {
+        // Todo : link 가져오기 테스트 완료 후 삭제 예정
+        if (!DEV.instance.isLinkLoadTEST)
+        {
             // test server
             if (DEV.instance.isUsingTestServer)
             {
@@ -63,64 +190,15 @@ public class BannerNoticeManager : MonoBehaviour
         }
         else
         {
-            // Create Event Banner
-            GameManager.instance.api.Request_MainBoard(0).Forget();
+            Debug.Log("가이드 링크 호출");
 
-            // Create Notice
-            GameManager.instance.api.Request_MainBoard(1).Forget();
-
-            // Create Curiverse Notice
-            GameManager.instance.api.Request_MainBoard(2).Forget();
-
-            // Set Guide ULR
-            GameManager.instance.api.Request_MainBoard(3).Forget();
-        }
-    }
-
-    public void CreateEventBanner()
-    {
-        // Create Event Banner
-        bannerUI.TryAddContents(eventBannerCount);
-    }
-
-    public void SetNotice()
-    {
-        // Create Notice
-        shortNotice.SetContents(shortNoticeCount);
-    }
-
-    public void CreateNews()
-    {
-        // Create Event News
-        noticeUI.TryAddContents(eventNewsCount);
-    }
-
-    public void SetGuideDowloadLink()
-    {
-        //guideInfo[0].SetLinkURL(GameManager.instance.jsonData.guide_List[0].lnchrImg);
-        //guideInfo[1].SetLinkURL(GameManager.instance.jsonData.guide_List[1].lnchrImg);
-
-        // test server
-        if (DEV.instance.isUsingTestServer)
-        {
             // korean
-            guideInfo[0].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[0]);
-            guideInfo[1].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[0]);
+            guideInfo[0].SetLinkURL(await API.instance.Request_LauncherUserGuideLink("ko"));
+            guideInfo[1].SetLinkURL(await API.instance.Request_UGCInstallMenualLink("ko"));
 
             // english
-            guideInfo[2].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[1]);
-            guideInfo[3].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[1]);
-        }
-        // live server
-        else
-        {
-            // korean
-            guideInfo[0].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[0]);
-            guideInfo[1].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[0]);
-
-            // english
-            guideInfo[2].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[1]);
-            guideInfo[3].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[1]);
+            guideInfo[2].SetLinkURL(await API.instance.Request_LauncherUserGuideLink("en"));
+            guideInfo[3].SetLinkURL(await API.instance.Request_UGCInstallMenualLink("en"));
         }
     }
 }

@@ -16,9 +16,9 @@ public class NEW_TEST : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("API Å×½ºÆ®...");
-            //API.instance.Request_LauncherUserGuideLink("ko").Forget();
-            //API.instance.Request_UgcInstallMenualLink("ko").Forget();
-            Debug.Log(await API.instance.Request_EnglishVideoLink("ko"));
+            Debug.Log("Launcher User Guide : " + await API.instance.Request_LauncherUserGuideLink("ko"));
+            Debug.Log("Ugc Install Menual : " + await API.instance.Request_UGCInstallMenualLink("ko"));
+            Debug.Log("English Video : " + await API.instance.Request_EnglishVideoLink("ko"));
         }
     }
 }

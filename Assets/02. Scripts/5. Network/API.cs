@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using UnityEngine;
 using UnityEngine.Networking;
+using static System.Windows.Forms.LinkLabel;
 using static Unity.VisualScripting.Icons;
 
 public class API : URL
@@ -946,9 +947,7 @@ public class API : URL
     //public async UniTaskVoid Request_EnglishVideoLink(string language)
     public async UniTask<string> Request_EnglishVideoLink(string language)
     {
-        await UniTask.SwitchToThreadPool();
         Debug.Log("Request_EnglishVideoLink() start()");
-        await UniTask.SwitchToMainThread();
 
         string link = "";
 
@@ -967,12 +966,14 @@ public class API : URL
 
                     Debug.Log("응답 성공 (영문 소개 영상) : " + requestResult);
                     link = requestResult;
+                    //link = "";
                 }
             }
             catch (UnityWebRequestException ex)
             {
                 string requestResult = www.downloadHandler.text;
                 Debug.Log("응답 실패 (영문 소개 영상) : " + requestResult + " // " + ex);
+                link = "";
             }
         }
 
@@ -982,11 +983,11 @@ public class API : URL
 
     #region User Guide Link
     // launcher user guide
-    public async UniTaskVoid Request_LauncherUserGuideLink(string language)
+    public async UniTask<string> Request_LauncherUserGuideLink(string language)
     {
-        await UniTask.SwitchToThreadPool();
         Debug.Log("Request_LauncherUserGuideLink() start()");
-        await UniTask.SwitchToMainThread();
+        
+        string link = "";
 
         var content = new WWWForm();
         content.AddField("language", language); // ko, en
@@ -1002,22 +1003,26 @@ public class API : URL
                     string requestResult = www.downloadHandler.text;
 
                     Debug.Log("응답 성공 (런처 유저 가이드) : " + requestResult);
+                    link = requestResult;
                 }
             }
             catch (UnityWebRequestException ex)
             {
                 string requestResult = www.downloadHandler.text;
                 Debug.Log("응답 실패 (런처 유저 가이드) : " + requestResult + " // " + ex);
+                link = "https://metaply.go.kr/";
             }
         }
+
+        return link;
     }
 
     // ugc install menual
-    public async UniTaskVoid Request_UgcInstallMenualLink(string language)
+    public async UniTask<string> Request_UGCInstallMenualLink(string language)
     {
-        await UniTask.SwitchToThreadPool();
         Debug.Log("Request_UgcInstallMenualLink() start()");
-        await UniTask.SwitchToMainThread();
+
+        string link = "";
 
         var content = new WWWForm();
         content.AddField("language", language); // ko, en
@@ -1033,14 +1038,18 @@ public class API : URL
                     string requestResult = www.downloadHandler.text;
 
                     Debug.Log("응답 성공 (UGC Install Menual) : " + requestResult);
+                    link = requestResult;
                 }
             }
             catch (UnityWebRequestException ex)
             {
                 string requestResult = www.downloadHandler.text;
                 Debug.Log("응답 실패 (UGC Install Menual) : " + requestResult + " // " + ex);
+                link = "https://metaply.go.kr/";
             }
         }
+
+        return link;
     }
     #endregion
 }

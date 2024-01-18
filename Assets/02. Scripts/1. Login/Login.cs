@@ -361,6 +361,7 @@ public class Login : MonoBehaviour
         gameManager.api.Request_RequestFriendList().Forget(); // create request friend list
 
         gameManager.bannerNoticeManager.CreateAllContents();
+        gameManager.bannerNoticeManager.LoadGuideLink();
         
         // start TCP server
         tcp_Server.StartServer();
@@ -400,6 +401,7 @@ public class Login : MonoBehaviour
         gameManager.api.Request_RequestFriendList().Forget(); // create request friend list
 
         gameManager.bannerNoticeManager.CreateAllContents();
+        gameManager.bannerNoticeManager.LoadGuideLink();
 
         // start TCP server
         tcp_Server.StartServer();

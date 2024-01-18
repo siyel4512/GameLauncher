@@ -37,19 +37,15 @@ public class FileDownload : MonoBehaviour
             switch (_status)
             {
                 case LauncherStatus.ready:
-                    //excuteButton_txt.text = "Play";
                     excuteButton_txt.text = "Start";
                     break;
                 case LauncherStatus.failed:
-                    //excuteButton_txt.text = "Update Failed - Retry";
                     excuteButton_txt.text = "Update Failed";
                     break;
                 case LauncherStatus.downloadGame:
-                    //excuteButton_txt.text = "Download Game";
                     excuteButton_txt.text = "Download";
                     break;
                 case LauncherStatus.downloadUpdate:
-                    //excuteButton_txt.text = "Download Update";
                     excuteButton_txt.text = "Update";
                     break;
                 default:
@@ -102,7 +98,6 @@ public class FileDownload : MonoBehaviour
     {
         Debug.Log("[Check update file] " + FilePath.Instance.ExeFolderPaths[buttonNum]);
 
-        //excuteButton_txt.text = "-";
         excuteButton_txt.text = FilePath.Instance.fileCheckText;
 
         // Todo : file check
@@ -140,7 +135,6 @@ public class FileDownload : MonoBehaviour
         else if (FilePath.Instance.ExeFolderPaths[buttonNum] == null)
         {
             Debug.Log("[Check update file] 초반 세팅");
-            //excuteButton_txt.text = "-";
             excuteButton_txt.text = FilePath.Instance.fileCheckText;
         }
         else

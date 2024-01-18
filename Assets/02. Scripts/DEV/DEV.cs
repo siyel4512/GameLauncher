@@ -69,11 +69,12 @@ public class DEV : MonoBehaviour
 
     public GameObject downloadProtectGaurd;
 
-    [Space(10)]
-    public string CDN_Live;
-    public string CDN_Test;
 
+    // Todo : 삭제 예정
     [Header("==========================")]
+    [Space(10)]
+    public string CDN_Live; // Todo :isLinkLoadTEST 
+    public string CDN_Test;
     public bool isLinkLoadTEST; // Todo : 가이드, 영어 비디오 경로 받아오기 완료 후 삭제 필요
 
     // Start is called before the first frame update

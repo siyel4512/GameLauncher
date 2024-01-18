@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
 
         if (DEV.instance.isManualRefreshAllData && Input.GetKeyDown(KeyCode.F5) && isLogin)
         {
-            Debug.Log("F5 누름 !!!!");
+            Debug.Log("Manual Refresh Data");
             ManualRefreshAllData();
         }
     }
@@ -231,8 +231,7 @@ public class GameManager : MonoBehaviour
         bannerNoticeManager.CreateAllContents();
 
         // guide download
-        //api.Request_GuideDownload1().Forget();
-        //api.Request_GuideDownload2().Forget();
+        bannerNoticeManager.LoadGuideLink();
 
         Debug.Log("Manual RefreshAllData");
     }
