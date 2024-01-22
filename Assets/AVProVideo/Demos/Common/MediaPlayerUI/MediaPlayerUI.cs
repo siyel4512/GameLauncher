@@ -612,13 +612,14 @@ namespace RenderHeads.Media.AVProVideo.Demos
 				}
 			}
 
-			if (_imageAudioSpectrum)
-			{
-				_imageAudioSpectrum.gameObject.SetActive(showAudioSpectrum);
-			}
-		}
+            // Todo : 오디오 스팩트럼 이미지 필요시 주석 풀고 AudioSpectrum Gameobject 활성화
+            //if (_imageAudioSpectrum)
+            //{
+            //	_imageAudioSpectrum.gameObject.SetActive(showAudioSpectrum);
+            //}
+        }
 
-		private void OnTimeSliderBeginDrag()
+        private void OnTimeSliderBeginDrag()
 		{
 			if (_mediaPlayer && _mediaPlayer.Control != null)
 			{

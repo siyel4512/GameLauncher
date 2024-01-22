@@ -1,11 +1,8 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 using UnityEngine;
 using UnityEngine.Networking;
-using static System.Windows.Forms.LinkLabel;
-using static Unity.VisualScripting.Icons;
 
 public class API : URL
 {
@@ -967,6 +964,7 @@ public class API : URL
                     Debug.Log("응답 성공 (영문 소개 영상) : " + requestResult);
                     link = requestResult;
                     //link = "";
+                    //link = null;
                 }
             }
             catch (UnityWebRequestException ex)
