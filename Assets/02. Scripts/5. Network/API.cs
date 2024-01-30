@@ -1050,4 +1050,50 @@ public class API : URL
         return link;
     }
     #endregion
+
+    #region Urgent Notice 
+    // check urgent notice
+    public async UniTaskVoid Request_UrgentNotice()
+    {
+        Debug.Log("Request_UrgentNotice() start()");
+        
+        JsonData jsonData = GameManager.instance.jsonData;
+        var content = new WWWForm();
+
+        using (UnityWebRequest www = UnityWebRequest.Post(urgentNoticeURL, content))
+        {
+            try
+            {
+                await www.SendWebRequest();
+
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    string requestResult = www.downloadHandler.text;
+
+                    Debug.Log("응답 성공 (Urgent Notice) : " + requestResult);
+
+                    List<SaveData.urgentNotice> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).speicalNoticeList;
+                    jsonData.urgentNotice_List = new List<SaveData.urgentNotice>();
+                    jsonData.urgentNotice_List = tempSaveData;
+
+                    if (tempSaveData.Count > 0)
+                    {
+                        // 긴급공지 팝업 표시
+                    }
+                    else
+                    {
+                        // 긴급공지 팝업 숨김
+                    }
+                }
+            }
+            catch (UnityWebRequestException ex)
+            {
+                string requestResult = www.downloadHandler.text;
+                Debug.Log("응답 실패 (Urgent Notice) : " + requestResult + " // " + ex);
+
+                // 긴급 공지 팝업 숨김
+            }
+        }
+    }
+    #endregion
 }

@@ -31,6 +31,8 @@ public class JsonData : MonoBehaviour
     public List<SaveData.mainBoard> temp_guide_List;
     public List<SaveData.mainBoard> guide_List;
 
+    public List<SaveData.urgentNotice> urgentNotice_List;
+
     #region compare to json data (friend list)
     // compare to friend & request list
     public bool CompareToFriendList(List<SaveData.friendList> _list, List<SaveData.friendList> _temp_list)
@@ -169,6 +171,8 @@ public class JsonData : MonoBehaviour
 
         temp_guide_List = new List<SaveData.mainBoard>();
         guide_List = new List<SaveData.mainBoard>();
+
+        urgentNotice_List = new List<SaveData.urgentNotice>();
 }
     #endregion
 }

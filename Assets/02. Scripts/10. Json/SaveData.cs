@@ -60,4 +60,16 @@ public class SaveData
         public string json_path;
     }
     public downloadUrlList downloadUrl;
+
+
+    [Serializable]
+    public class urgentNotice
+    {
+        public int boardNum;
+        public string webImg;
+        public int hits;
+        public string boardUrl;
+        public int pageNumber;
+    }
+    public List<urgentNotice> speicalNoticeList;
 }

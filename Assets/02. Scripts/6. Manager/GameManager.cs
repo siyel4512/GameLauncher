@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     public SoundManager soundManager;
     public API api;
     public JsonData jsonData;
+    public UrgentNoticeManager urgentNoticeManager;
 
     [Space(10)]
     [Header("[ File Download Buttons ]")]

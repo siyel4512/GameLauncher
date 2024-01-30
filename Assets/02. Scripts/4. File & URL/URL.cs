@@ -48,6 +48,9 @@ public class URL : MonoBehaviour
     // english video link
     protected string videoEnURL;
 
+    // urgent notice
+    protected string urgentNoticeURL;
+
     #region API
     // using server
     private string testServer = "https://metaplytest.co.kr/";
@@ -93,6 +96,9 @@ public class URL : MonoBehaviour
 
     // english video link
     private string video_En_URL = "onlineScienceMuseumAPI/getVideo.do";
+
+    // urgent notice
+    private string urgentNotice_URL = "onlineScienceMuseumAPI/getSpecialNotice.do";
 
     #endregion
 
@@ -155,6 +161,9 @@ public class URL : MonoBehaviour
 
             // english video link
             videoEnURL = testServer + video_En_URL;
+
+            // urgent notice
+            urgentNoticeURL = testServer + urgentNotice_URL;
         }
         // live server
         else
@@ -213,6 +222,9 @@ public class URL : MonoBehaviour
 
             // english video link
             videoEnURL = liveServer + video_En_URL;
+
+            // urgent notice
+            urgentNoticeURL = liveServer + urgentNotice_URL;
         }
     }
 }

@@ -49,6 +49,10 @@ MonoBehaviour:
     m_Address: Assets/06. Language/EventBanner Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
+  - m_GUID: 6dd7b6acc08389c42ae04645a839f423
+    m_Address: Assets/06. Language/Urgent Notice Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 1ac17de0933c6244ca277ac5e4137a40, type: 2}
   m_SchemaSet:
