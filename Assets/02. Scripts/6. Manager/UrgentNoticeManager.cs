@@ -15,10 +15,10 @@ public class UrgentNoticeManager : MonoBehaviour
     public Button closeButton;
 
     #region Default Setting
-    public void SetupNotice()
-    {
-        urgentNoticePopup.SetActive(CheckData()); // Todo : 긴급공지 표시 유무 체크 (필요한 위치에 추가할것)
-    }
+    //public void SetupNotice()
+    //{
+    //    urgentNoticePopup.SetActive(CheckData()); // Todo : 긴급공지 표시 유무 체크 (필요한 위치에 추가할것)
+    //}
 
     public void BTN_Close()
     {
@@ -30,6 +30,7 @@ public class UrgentNoticeManager : MonoBehaviour
 
         // popup창 닫기
         urgentNoticePopup.SetActive(false);
+        viewAgainToggle.isOn = false;
         Debug.Log($"닫기 버튼 누름 / {viewAgainToggle.isOn}");
     }
     #endregion
@@ -38,7 +39,7 @@ public class UrgentNoticeManager : MonoBehaviour
     public bool CheckData()
     {
         bool isShowPopup;
-
+        viewAgainToggle.isOn = false;
         UrgentNoticeCheckData loadData = LoadCheckData();
         DateTime currentTime = DateTime.Now;
 
@@ -94,6 +95,30 @@ public class UrgentNoticeManager : MonoBehaviour
         string jsonData = JsonUtility.ToJson(checkData, true);
         string path = Path.Combine(Application.streamingAssetsPath + "/UrgentNotice", "UrgentNotice.json");
         File.WriteAllText(path, jsonData);
+    }
+    #endregion
+
+    #region Test Urgent Notice
+    [Header("[ UI ]")]
+    public UrgentNoticeUI noticeUI;
+
+    [Space(10)]
+    [Header("[ Contents Count ]")]
+    public int eventNewsCount;
+
+    [Space(10)]
+    [Header("[ Main Board Scroll ]")]
+    public RectTransform mainBoardScrollPos;
+
+    public void CreateAllContents()
+    {
+        API.instance.Request_UrgentNotice().Forget();
+    }
+
+    public void CreateNews()
+    {
+        // Create Event News
+        noticeUI.TryAddContents(eventNewsCount);
     }
     #endregion
 }

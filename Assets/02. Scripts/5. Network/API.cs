@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -612,7 +613,7 @@ public class API : URL
 
         string temp_requestResult = "";
 
-        using (UnityWebRequest www = UnityWebRequest.Post(mainBoardURP, content))
+        using (UnityWebRequest www = UnityWebRequest.Post(mainBoardURL, content))
         {
             try
             {
@@ -1058,9 +1059,14 @@ public class API : URL
         Debug.Log("Request_UrgentNotice() start()");
         
         JsonData jsonData = GameManager.instance.jsonData;
-        var content = new WWWForm();
+        UrgentNoticeManager urgentNoticeManager = GameManager.instance.urgentNoticeManager;
 
-        using (UnityWebRequest www = UnityWebRequest.Post(urgentNoticeURL, content))
+        int _boardType = 1;
+
+        var content = new WWWForm();
+        content.AddField("boardType", _boardType.ToString());
+
+        using (UnityWebRequest www = UnityWebRequest.Post(mainBoardURL, content))
         {
             try
             {
@@ -1072,17 +1078,60 @@ public class API : URL
 
                     Debug.Log("응답 성공 (Urgent Notice) : " + requestResult);
 
-                    List<SaveData.urgentNotice> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).speicalNoticeList;
-                    jsonData.urgentNotice_List = new List<SaveData.urgentNotice>();
+                    List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).mainboardlist;
+                    jsonData.urgentNotice_List = new List<SaveData.mainBoard>();
                     jsonData.urgentNotice_List = tempSaveData;
 
+                    
                     if (tempSaveData.Count > 0)
                     {
+                        Debug.Log($"[Test] 긴급 공지 팝업 개수 : {tempSaveData.Count}");
                         // 긴급공지 팝업 표시
+                        urgentNoticeManager.urgentNoticePopup.SetActive(urgentNoticeManager.CheckData());
+
+                        #region Test Urgent Notice
+                        // set event news count
+                        //urgentNoticeManager.eventNewsCount = jsonData.urgentNotice_List.Count;
+                        urgentNoticeManager.eventNewsCount = 1;
+
+                        // frist time setting
+                        if (jsonData.news_List.Count == 0 || (jsonData.news_List.Count != jsonData.temp_news_List.Count))
+                        {
+                            if (jsonData.news_List.Count != 0)
+                            {
+                                // delete data
+                                urgentNoticeManager.noticeUI.DeleteContents();
+                            }
+
+                            jsonData.news_List = new List<SaveData.mainBoard>();
+                            List<SaveData.mainBoard> tempSaveData_temp = JsonUtility.FromJson<SaveData>(requestResult).mainboardlist;
+                            jsonData.news_List = tempSaveData_temp;
+                            //jsonData.news_List = OrderSort(tempSaveData, false);
+
+                            // create data
+                            urgentNoticeManager.CreateNews();
+                        }
+                        else
+                        {
+                            // compare to json data
+                            bool isCompareResult = jsonData.CompareToMainBoard(jsonData.news_List, jsonData.temp_news_List);
+
+                            if (!isCompareResult)
+                            {
+                                // delete data
+                                urgentNoticeManager.noticeUI.DeleteContents();
+
+                                // create data
+                                urgentNoticeManager.CreateNews();
+                            }
+                        }
+                        #endregion
                     }
                     else
                     {
+                        Debug.Log($"[Test] 긴급 공지 팝업 개수 : {tempSaveData.Count}");
                         // 긴급공지 팝업 숨김
+                        urgentNoticeManager.urgentNoticePopup.SetActive(false);
                     }
                 }
             }
@@ -1092,8 +1141,59 @@ public class API : URL
                 Debug.Log("응답 실패 (Urgent Notice) : " + requestResult + " // " + ex);
 
                 // 긴급 공지 팝업 숨김
+                urgentNoticeManager.urgentNoticePopup.SetActive(false);
             }
         }
     }
+
+    //public async UniTaskVoid /*Request_UrgentNotice*/()
+    //{
+    //    Debug.Log("Request_UrgentNotice() start()");
+
+    //    JsonData jsonData = GameManager.instance.jsonData;
+    //    UrgentNoticeManager urgentNoticeManager = GameManager.instance.urgentNoticeManager;
+
+    //    var content = new WWWForm();
+
+    //    using (UnityWebRequest www = UnityWebRequest.Post(urgentNoticeURL, content))
+    //    {
+    //        try
+    //        {
+    //            await www.SendWebRequest();
+
+    //            if (www.result == UnityWebRequest.Result.Success)
+    //            {
+    //                string requestResult = www.downloadHandler.text;
+
+    //                Debug.Log("응답 성공 (Urgent Notice) : " + requestResult);
+
+    //                List<SaveData.urgentNotice> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).speicalNoticeList;
+    //                jsonData.urgentNotice_List_Temp = new List<SaveData.urgentNotice>();
+    //                jsonData.urgentNotice_List_Temp = tempSaveData;
+
+    //                if (tempSaveData.Count > 0)
+    //                {
+    //                    Debug.Log($"[Test] 긴급 공지 팝업 개수 : {tempSaveData.Count}");
+    //                    // 긴급공지 팝업 표시
+    //                    urgentNoticeManager.urgentNoticePopup.SetActive(urgentNoticeManager.CheckData());
+    //                }
+    //                else
+    //                {
+    //                    Debug.Log($"[Test] 긴급 공지 팝업 개수 : {tempSaveData.Count}");
+    //                    // 긴급공지 팝업 숨김
+    //                    urgentNoticeManager.urgentNoticePopup.SetActive(false);
+    //                }
+    //            }
+    //        }
+    //        catch (UnityWebRequestException ex)
+    //        {
+    //            string requestResult = www.downloadHandler.text;
+    //            Debug.Log("응답 실패 (Urgent Notice) : " + requestResult + " // " + ex);
+
+    //            // 긴급 공지 팝업 숨김
+    //            urgentNoticeManager.urgentNoticePopup.SetActive(false);
+    //        }
+    //    }
+    //}
     #endregion
 }

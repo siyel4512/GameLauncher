@@ -15,7 +15,9 @@ public class TEST : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            API.instance.Request_UrgentNotice().Forget();
+            //API.instance.Request_UrgentNotice().Forget();
+            GameManager.instance.urgentNoticeManager.CreateAllContents();
+            //GameManager.instance.urgentNoticeManager.BTN_Close();
         }
     }
 }

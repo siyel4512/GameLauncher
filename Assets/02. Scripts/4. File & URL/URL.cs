@@ -22,7 +22,7 @@ public class URL : MonoBehaviour
     protected string requestRefuseNDeleteURL;
     protected string searchUserWithNicknameURL;
 
-    protected string mainBoardURP;
+    protected string mainBoardURL;
 
     // file download
     protected string fileDownloadURL;
@@ -64,7 +64,7 @@ public class URL : MonoBehaviour
     private string playerStateUpdate_URL = "onlineScienceMuseumAPI/changeMyStatus.do";
 
     // event banner & notice
-    private string mainBoard_URP = "onlineScienceMuseumAPI/mainBoard.do";
+    private string mainBoard_URL = "onlineScienceMuseumAPI/mainBoard.do";
 
     // friend list
     private string friendList_URL = "onlineScienceMuseumAPI/frndInfo.do";
@@ -136,7 +136,7 @@ public class URL : MonoBehaviour
             searchUserWithNicknameURL = testServer + searchUserWithNickname_URL;
 
             // main board
-            mainBoardURP = testServer + mainBoard_URP;
+            mainBoardURL = testServer + mainBoard_URL;
 
             // file download
             fileDownloadURL = testServer + fileDownload_URL;
@@ -196,7 +196,7 @@ public class URL : MonoBehaviour
             searchUserWithNicknameURL = liveServer + searchUserWithNickname_URL;
 
             // main board
-            mainBoardURP = liveServer + mainBoard_URP;
+            mainBoardURL = liveServer + mainBoard_URL;
 
             // file download
             fileDownloadURL = testServer + fileDownload_URL;
