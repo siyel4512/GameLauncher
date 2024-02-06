@@ -76,6 +76,9 @@ public class DEV : MonoBehaviour
     public string CDN_Live; // Todo :isLinkLoadTEST 
     public string CDN_Test;
     public bool isLinkLoadTEST; // Todo : 가이드, 영어 비디오 경로 받아오기 완료 후 삭제 필요
+    public bool isCheckNoticePopup; // Todo : 긴급공지 팝업 테스트 관련
+    
+    public bool isRefreshUrgentNotice;
 
     // Start is called before the first frame update
     void Awake()

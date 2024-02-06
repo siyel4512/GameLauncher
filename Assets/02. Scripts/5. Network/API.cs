@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -626,6 +627,7 @@ public class API : URL
                     temp_requestResult = requestResult;
 
                     Debug.Log("응답 성공 (게시글 요청 결과) : " + requestResult);
+                    //Debug.Log($"응답 성공 (게시글 요청 결과) {boardType} : {requestResult}");
 
                     List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).mainboardlist;
 
@@ -1079,59 +1081,213 @@ public class API : URL
                     Debug.Log("응답 성공 (Urgent Notice) : " + requestResult);
 
                     List<SaveData.mainBoard> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).mainboardlist;
-                    jsonData.urgentNotice_List = new List<SaveData.mainBoard>();
-                    jsonData.urgentNotice_List = tempSaveData;
 
-                    
-                    if (tempSaveData.Count > 0)
+                    // 긴급공지 팝업만 가져오기
+                    List<SaveData.mainBoard> tempCheckNoticePopupData = new List<SaveData.mainBoard>();
+                    for (int i = 0; i < tempSaveData.Count; i++)
                     {
-                        Debug.Log($"[Test] 긴급 공지 팝업 개수 : {tempSaveData.Count}");
-                        // 긴급공지 팝업 표시
-                        urgentNoticeManager.urgentNoticePopup.SetActive(urgentNoticeManager.CheckData());
-
-                        #region Test Urgent Notice
-                        // set event news count
-                        //urgentNoticeManager.eventNewsCount = jsonData.urgentNotice_List.Count;
-                        urgentNoticeManager.eventNewsCount = 1;
-
-                        // frist time setting
-                        if (jsonData.news_List.Count == 0 || (jsonData.news_List.Count != jsonData.temp_news_List.Count))
+                        if (tempSaveData[i].popupYn == "Y")
                         {
-                            if (jsonData.news_List.Count != 0)
+                            Debug.Log($"{i}번 데이터는 팝업 데이터...");
+                            tempCheckNoticePopupData.Add(tempSaveData[i]);
+                        }
+                    }
+                    Debug.Log($"총 팝업 개수 : {tempCheckNoticePopupData.Count}");
+                        
+                    // Todo : 긴급공지 관련 테스트, 테스트 종료 후 삭제 요망
+                    if (DEV.instance.isCheckNoticePopup)
+                    {
+                        if (tempCheckNoticePopupData.Count > 0)
+                        {
+                            #region 테스트 슬롯 생성
+                            // 일반 버전 (생성만함)
+                            if (!DEV.instance.isRefreshUrgentNotice)
                             {
+                                jsonData.urgentNotice_List = new List<SaveData.mainBoard>();
+                                jsonData.urgentNotice_List = tempCheckNoticePopupData;
+
+                                // 긴급공지 팝업 표시
+                                urgentNoticeManager.urgentNoticePopup.SetActive(urgentNoticeManager.CheckData());
+
+                                // set event news count
+                                //urgentNoticeManager.eventNewsCount = jsonData.urgentNotice_List.Count;
+                                //urgentNoticeManager.eventNewsCount = 5; // Todo : 긴급공지 표시 수 테스트
+                                urgentNoticeManager.urgentNoticeCount = tempCheckNoticePopupData.Count; // Todo : 긴급공지 표시 수 테스트
+
                                 // delete data
-                                urgentNoticeManager.noticeUI.DeleteContents();
+                                //urgentNoticeManager.noticeUI.DeleteContents();
+
+                                // create data
+                                urgentNoticeManager.CreateUrgentNotice();
+
+                                Debug.Log("[urgent notice] 일반 생성 완료");
                             }
+                            // 새로고침 버전
+                            else
+                            {
+                                jsonData.temp_urgentNotice_List = new List<SaveData.mainBoard>();
+                                jsonData.temp_urgentNotice_List = tempCheckNoticePopupData;
 
-                            jsonData.news_List = new List<SaveData.mainBoard>();
-                            List<SaveData.mainBoard> tempSaveData_temp = JsonUtility.FromJson<SaveData>(requestResult).mainboardlist;
-                            jsonData.news_List = tempSaveData_temp;
-                            //jsonData.news_List = OrderSort(tempSaveData, false);
+                                // 긴급공지 팝업 표시
+                                urgentNoticeManager.urgentNoticePopup.SetActive(urgentNoticeManager.CheckData());
 
-                            // create data
-                            urgentNoticeManager.CreateNews();
+                                // set event news count
+                                //urgentNoticeManager.eventNewsCount = jsonData.urgentNotice_List.Count;
+                                //urgentNoticeManager.eventNewsCount = 5; // Todo : 긴급공지 표시 수 테스트
+                                urgentNoticeManager.urgentNoticeCount = tempCheckNoticePopupData.Count; // Todo : 긴급공지 표시 수 테스트
+
+                                // frist time setting
+                                if (jsonData.urgentNotice_List.Count == 0 || (jsonData.urgentNotice_List.Count != jsonData.temp_urgentNotice_List.Count))
+                                {
+                                    if (jsonData.urgentNotice_List.Count != 0)
+                                    {
+                                        // delete data
+                                        urgentNoticeManager.noticeUI.DeleteContents();
+                                        Debug.Log("[urgent notice] 새로고침 생성 1-1");
+                                    }
+
+                                    jsonData.urgentNotice_List = new List<SaveData.mainBoard>();
+                                    jsonData.urgentNotice_List = tempCheckNoticePopupData;
+                                    //jsonData.news_List = OrderSort(tempSaveData, false);
+
+                                    // create data
+                                    urgentNoticeManager.CreateUrgentNotice();
+
+                                    Debug.Log("[urgent notice] 새로고침 생성 1-2");
+                                }
+                                else
+                                {
+                                    // compare to json data
+                                    bool isCompareResult = jsonData.CompareToMainBoard(jsonData.urgentNotice_List, jsonData.temp_urgentNotice_List);
+
+                                    if (!isCompareResult)
+                                    {
+                                        // delete data
+                                        urgentNoticeManager.noticeUI.DeleteContents();
+                                        Debug.Log("[urgent notice] 새로고침 생성 2-1");
+
+                                        // create data
+                                        urgentNoticeManager.CreateUrgentNotice();
+                                        Debug.Log("[urgent notice] 새로고침 생성 2-2");
+                                    }
+                                }
+
+                                Debug.Log("[urgent notice] 새로고침 생성 완료");
+                            }
+                            #endregion
+
+                            // side 버튼 표시 및 숨김
+                            if (urgentNoticeManager.urgentNoticeCount == 1)
+                            {
+                                urgentNoticeManager.urgentNoticeUI.sideButtons.SetActive(false);
+                            }
+                            else
+                            {
+                                urgentNoticeManager.urgentNoticeUI.sideButtons.SetActive(true);
+                            }
                         }
                         else
                         {
-                            // compare to json data
-                            bool isCompareResult = jsonData.CompareToMainBoard(jsonData.news_List, jsonData.temp_news_List);
-
-                            if (!isCompareResult)
-                            {
-                                // delete data
-                                urgentNoticeManager.noticeUI.DeleteContents();
-
-                                // create data
-                                urgentNoticeManager.CreateNews();
-                            }
+                            Debug.Log($"[Test] 긴급 공지 팝업 개수 : {tempSaveData.Count}");
+                            // 긴급공지 팝업 숨김
+                            urgentNoticeManager.urgentNoticePopup.SetActive(false);
                         }
-                        #endregion
                     }
+                    // backup...
                     else
                     {
-                        Debug.Log($"[Test] 긴급 공지 팝업 개수 : {tempSaveData.Count}");
-                        // 긴급공지 팝업 숨김
-                        urgentNoticeManager.urgentNoticePopup.SetActive(false);
+                        if (tempCheckNoticePopupData.Count > 0)
+                        {
+                            #region 테스트 슬롯 생성
+                            // 일반 버전 (생성만함)
+                            if (!DEV.instance.isRefreshUrgentNotice)
+                            {
+                                jsonData.urgentNotice_List = new List<SaveData.mainBoard>();
+                                jsonData.urgentNotice_List = tempSaveData;
+
+                                // 긴급공지 팝업 표시
+                                urgentNoticeManager.urgentNoticePopup.SetActive(urgentNoticeManager.CheckData());
+
+                                // set event news count
+                                //urgentNoticeManager.eventNewsCount = jsonData.urgentNotice_List.Count;
+                                urgentNoticeManager.urgentNoticeCount = 5; // Todo : 긴급공지 표시 수 테스트
+
+                                // delete data
+                                //urgentNoticeManager.noticeUI.DeleteContents();
+
+                                // create data
+                                urgentNoticeManager.CreateUrgentNotice();
+
+                                Debug.Log("[urgent notice] 일반 생성 완료 TEST");
+                            }
+                            // 새로고침 버전
+                            else
+                            {
+                                jsonData.temp_urgentNotice_List = new List<SaveData.mainBoard>();
+                                jsonData.temp_urgentNotice_List = tempSaveData;
+
+                                // 긴급공지 팝업 표시
+                                urgentNoticeManager.urgentNoticePopup.SetActive(urgentNoticeManager.CheckData());
+
+                                // set event news count
+                                urgentNoticeManager.urgentNoticeCount = 5; // Todo : 긴급공지 표시 수 테스트
+                                Debug.Log($"[urgent notice] : {jsonData.urgentNotice_List.Count}");
+                                // frist time setting
+                                if (jsonData.urgentNotice_List.Count == 0 || (jsonData.urgentNotice_List.Count != jsonData.temp_urgentNotice_List.Count))
+                                {
+                                    if (jsonData.urgentNotice_List.Count != 0)
+                                    {
+                                        // delete data
+                                        urgentNoticeManager.noticeUI.DeleteContents();
+                                        Debug.Log("[urgent notice] 새로고침 생성 1-1 TEST");
+                                    }
+
+                                    jsonData.urgentNotice_List = new List<SaveData.mainBoard>();
+                                    jsonData.urgentNotice_List = tempSaveData;
+                                    //jsonData.news_List = OrderSort(tempSaveData, false);
+
+                                    // create data
+                                    urgentNoticeManager.CreateUrgentNotice();
+
+                                    Debug.Log("[urgent notice] 새로고침 생성 1-2 TEST");
+                                }
+                                else
+                                {
+                                    // compare to json data
+                                    bool isCompareResult = jsonData.CompareToMainBoard(jsonData.urgentNotice_List, jsonData.temp_urgentNotice_List);
+
+                                    if (!isCompareResult)
+                                    {
+                                        // delete data
+                                        urgentNoticeManager.noticeUI.DeleteContents();
+                                        Debug.Log("[urgent notice] 새로고침 생성 2-1 TEST");
+
+                                        // create data
+                                        urgentNoticeManager.CreateUrgentNotice();
+                                        Debug.Log("[urgent notice] 새로고침 생성 2-2 TEST");
+                                    }
+                                }
+
+                                Debug.Log("[urgent notice] 새로고침 생성 완료 TEST");
+                            }
+                            #endregion
+
+                            // side 버튼 표시 및 숨김
+                            if (urgentNoticeManager.urgentNoticeCount == 1)
+                            {
+                                urgentNoticeManager.urgentNoticeUI.sideButtons.SetActive(false);
+                            }
+                            else
+                            {
+                                urgentNoticeManager.urgentNoticeUI.sideButtons.SetActive(true);
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log($"[Test] 긴급 공지 팝업 개수 : {tempSaveData.Count}");
+                            // 긴급공지 팝업 숨김
+                            urgentNoticeManager.urgentNoticePopup.SetActive(false);
+                        }
                     }
                 }
             }

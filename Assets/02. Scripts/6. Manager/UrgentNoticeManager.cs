@@ -14,12 +14,9 @@ public class UrgentNoticeManager : MonoBehaviour
     public Toggle viewAgainToggle;
     public Button closeButton;
 
-    #region Default Setting
-    //public void SetupNotice()
-    //{
-    //    urgentNoticePopup.SetActive(CheckData()); // Todo : 긴급공지 표시 유무 체크 (필요한 위치에 추가할것)
-    //}
+    public UrgentNoticeUI urgentNoticeUI;
 
+    #region Default Setting
     public void BTN_Close()
     {
         // 오늘하루 안봄
@@ -104,7 +101,7 @@ public class UrgentNoticeManager : MonoBehaviour
 
     [Space(10)]
     [Header("[ Contents Count ]")]
-    public int eventNewsCount;
+    public int urgentNoticeCount;
 
     [Space(10)]
     [Header("[ Main Board Scroll ]")]
@@ -112,13 +109,16 @@ public class UrgentNoticeManager : MonoBehaviour
 
     public void CreateAllContents()
     {
+        // 긴급공지 재확인 유무 체크
+
+        // 긴급공지 테이터 요청
         API.instance.Request_UrgentNotice().Forget();
     }
 
-    public void CreateNews()
+    public void CreateUrgentNotice()
     {
         // Create Event News
-        noticeUI.TryAddContents(eventNewsCount);
+        noticeUI.TryAddContents(urgentNoticeCount);
     }
     #endregion
 }

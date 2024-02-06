@@ -31,6 +31,7 @@ public class JsonData : MonoBehaviour
     public List<SaveData.mainBoard> temp_guide_List;
     public List<SaveData.mainBoard> guide_List;
 
+    public List<SaveData.mainBoard> temp_urgentNotice_List;
     public List<SaveData.mainBoard> urgentNotice_List;
     //public List<SaveData.urgentNotice> urgentNotice_List_Temp;
 

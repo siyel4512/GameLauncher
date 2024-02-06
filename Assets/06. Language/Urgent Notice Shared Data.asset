@@ -23,6 +23,10 @@ MonoBehaviour:
     m_Key: close urgent notice popup
     m_Metadata:
       m_Items: []
+  - m_Id: 2899300423569408
+    m_Key: more contents
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

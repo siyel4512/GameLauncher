@@ -96,34 +96,34 @@ public class BannerNoticeManager : MonoBehaviour
     {
         if (DEV.instance.isTEST_Contents)
         {
-            // Todo : link 가져오기 테스트 완료 후 삭제 예정
-            if (!DEV.instance.isLinkLoadTEST)
-            {
-                // Set Guide URL
-                // test server
-                if (DEV.instance.isUsingTestServer)
-                {
-                    // korean
-                    guideInfo[0].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[0]);
-                    guideInfo[1].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[0]);
+            //// Todo : link 가져오기 테스트 완료 후 삭제 예정
+            //if (!DEV.instance.isLinkLoadTEST)
+            //{
+            //    // Set Guide URL
+            //    // test server
+            //    if (DEV.instance.isUsingTestServer)
+            //    {
+            //        // korean
+            //        guideInfo[0].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[0]);
+            //        guideInfo[1].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[0]);
 
-                    // english
-                    guideInfo[2].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[1]);
-                    guideInfo[3].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[1]);
-                }
-                // live server
-                else
-                {
-                    // korean
-                    guideInfo[0].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[0]);
-                    guideInfo[1].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[0]);
+            //        // english
+            //        guideInfo[2].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[1]);
+            //        guideInfo[3].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[1]);
+            //    }
+            //    // live server
+            //    else
+            //    {
+            //        // korean
+            //        guideInfo[0].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[0]);
+            //        guideInfo[1].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[0]);
 
-                    // english
-                    guideInfo[2].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[1]);
-                    guideInfo[3].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[1]);
-                }
-            }
-            else
+            //        // english
+            //        guideInfo[2].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[1]);
+            //        guideInfo[3].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[1]);
+            //    }
+            //}
+            //else
             {
                 // Set Guide URL
                 // korean
@@ -162,33 +162,33 @@ public class BannerNoticeManager : MonoBehaviour
 
     public async void SetGuideDowloadLink()
     {
-        // Todo : link 가져오기 테스트 완료 후 삭제 예정
-        if (!DEV.instance.isLinkLoadTEST)
-        {
-            // test server
-            if (DEV.instance.isUsingTestServer)
-            {
-                // korean
-                guideInfo[0].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[0]);
-                guideInfo[1].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[0]);
+        //// Todo : link 가져오기 테스트 완료 후 삭제 예정
+        //if (!DEV.instance.isLinkLoadTEST)
+        //{
+        //    // test server
+        //    if (DEV.instance.isUsingTestServer)
+        //    {
+        //        // korean
+        //        guideInfo[0].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[0]);
+        //        guideInfo[1].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[0]);
 
-                // english
-                guideInfo[2].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[1]);
-                guideInfo[3].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[1]);
-            }
-            // live server
-            else
-            {
-                // korean
-                guideInfo[0].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[0]);
-                guideInfo[1].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[0]);
+        //        // english
+        //        guideInfo[2].SetLinkURL(DEV.instance.CDN_Test + launcherUserGuideLinks[1]);
+        //        guideInfo[3].SetLinkURL(DEV.instance.CDN_Test + UGCInstallMenualLinks[1]);
+        //    }
+        //    // live server
+        //    else
+        //    {
+        //        // korean
+        //        guideInfo[0].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[0]);
+        //        guideInfo[1].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[0]);
 
-                // english
-                guideInfo[2].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[1]);
-                guideInfo[3].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[1]);
-            }
-        }
-        else
+        //        // english
+        //        guideInfo[2].SetLinkURL(DEV.instance.CDN_Live + launcherUserGuideLinks[1]);
+        //        guideInfo[3].SetLinkURL(DEV.instance.CDN_Live + UGCInstallMenualLinks[1]);
+        //    }
+        //}
+        //else
         {
             Debug.Log("가이드 링크 호출");
 

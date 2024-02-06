@@ -134,6 +134,10 @@ public class UrgentNoticeUI : SwipeUI
 
         spawnedContents.Clear();
         spawnedStepButton.Clear();
+
+        JsonData jsonData = GameManager.instance.jsonData;
+        jsonData.temp_urgentNotice_List.Clear();
+        jsonData.urgentNotice_List.Clear();
     }
     #endregion
 }

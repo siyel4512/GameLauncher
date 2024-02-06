@@ -19,5 +19,10 @@ public class TEST : MonoBehaviour
             GameManager.instance.urgentNoticeManager.CreateAllContents();
             //GameManager.instance.urgentNoticeManager.BTN_Close();
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameManager.instance.urgentNoticeManager.urgentNoticeUI.DeleteContents();
+        }
     }
 }

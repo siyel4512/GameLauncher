@@ -50,6 +50,7 @@ public class SaveData
         public string regDt;
         public string upDt;
         public string boardUrl;
+        public string popupYn;
     }
     public List<mainBoard> mainboardlist;
 
@@ -61,7 +62,7 @@ public class SaveData
     }
     public downloadUrlList downloadUrl;
 
-
+    // Todo : 긴급공지 관련 삭제 예정
     [Serializable]
     public class urgentNotice
     {

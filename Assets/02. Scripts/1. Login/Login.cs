@@ -7,12 +7,10 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
-using System.Windows.Forms;
 
 using Debug = UnityEngine.Debug;
 using UnityEngine.Networking;
 using Button = UnityEngine.UI.Button;
-using Application = System.Windows.Forms.Application;
 
 public class Login : MonoBehaviour
 {
@@ -141,7 +139,6 @@ public class Login : MonoBehaviour
             Debug.Log($"파일 없음 / {API.instance.GetKeyURL}");
 
             using (UnityWebRequest www = UnityWebRequest.Post(API.instance.GetKeyURL, content))
-            //using (UnityWebRequest www = UnityWebRequest.Post("http://101.101.218.135:5002/onlineScienceMuseumAPI/checkId.do", content))
             {
                 try
                 {
@@ -182,7 +179,6 @@ public class Login : MonoBehaviour
         content.AddField("pswd", rsaPassword);
 
         using (UnityWebRequest www = UnityWebRequest.Post(API.instance.TryLoginURL, content))
-        //using (UnityWebRequest www = UnityWebRequest.Post("http://101.101.218.135:5002/onlineScienceMuseumAPI/tryLogin.do", content))
         {
             try
             {
@@ -256,7 +252,6 @@ public class Login : MonoBehaviour
         content.AddField("pswd", rsaPassword);
 
         using (UnityWebRequest www = UnityWebRequest.Post(API.instance.TryLoginURL, content))
-        //using (UnityWebRequest www = UnityWebRequest.Post("http://101.101.218.135:5002/onlineScienceMuseumAPI/tryLogin.do", content))
         {
             try
             {

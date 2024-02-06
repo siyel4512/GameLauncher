@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
+using UnityEditor.Build.Pipeline.Utilities;
+using Unity.VisualScripting;
 
 public class UrgentNoticeInfo : MonoBehaviour
 {
@@ -27,6 +29,7 @@ public class UrgentNoticeInfo : MonoBehaviour
     public UrgentNoticeUI noticeUI;
     public TMP_Text title_text;
     public TMP_Text content_text;
+    public float tileFontSize = 30f;
 
     [Space(10)]
     [Header("[ Event ]")]
@@ -41,8 +44,7 @@ public class UrgentNoticeInfo : MonoBehaviour
     // set contents
     public void SetContents()
     {
-        title_text.text = title;
-        content_text.text = content;
+        content_text.text = $"<size={tileFontSize}><align=center>{title}</align></size>\n\n{content}";
     }
 
     // open url
