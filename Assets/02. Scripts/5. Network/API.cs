@@ -1087,19 +1087,17 @@ public class API : URL
                     for (int i = 0; i < tempSaveData.Count; i++)
                     {
                         if (tempSaveData[i].popupYn == "Y")
+                        //if (tempSaveData[i].popupYn == "Yes")
                         {
-                            Debug.Log($"{i}번 데이터는 팝업 데이터...");
                             tempCheckNoticePopupData.Add(tempSaveData[i]);
                         }
                     }
-                    Debug.Log($"총 팝업 개수 : {tempCheckNoticePopupData.Count}");
-                        
+
                     // Todo : 긴급공지 관련 테스트, 테스트 종료 후 삭제 요망
                     if (DEV.instance.isCheckNoticePopup)
                     {
                         if (tempCheckNoticePopupData.Count > 0)
                         {
-                            #region 테스트 슬롯 생성
                             // 일반 버전 (생성만함)
                             if (!DEV.instance.isRefreshUrgentNotice)
                             {
@@ -1110,9 +1108,7 @@ public class API : URL
                                 urgentNoticeManager.urgentNoticePopup.SetActive(urgentNoticeManager.CheckData());
 
                                 // set event news count
-                                //urgentNoticeManager.eventNewsCount = jsonData.urgentNotice_List.Count;
-                                //urgentNoticeManager.eventNewsCount = 5; // Todo : 긴급공지 표시 수 테스트
-                                urgentNoticeManager.urgentNoticeCount = tempCheckNoticePopupData.Count; // Todo : 긴급공지 표시 수 테스트
+                                urgentNoticeManager.urgentNoticeCount = tempCheckNoticePopupData.Count;
 
                                 // delete data
                                 //urgentNoticeManager.noticeUI.DeleteContents();
@@ -1132,9 +1128,7 @@ public class API : URL
                                 urgentNoticeManager.urgentNoticePopup.SetActive(urgentNoticeManager.CheckData());
 
                                 // set event news count
-                                //urgentNoticeManager.eventNewsCount = jsonData.urgentNotice_List.Count;
-                                //urgentNoticeManager.eventNewsCount = 5; // Todo : 긴급공지 표시 수 테스트
-                                urgentNoticeManager.urgentNoticeCount = tempCheckNoticePopupData.Count; // Todo : 긴급공지 표시 수 테스트
+                                urgentNoticeManager.urgentNoticeCount = tempCheckNoticePopupData.Count;
 
                                 // frist time setting
                                 if (jsonData.urgentNotice_List.Count == 0 || (jsonData.urgentNotice_List.Count != jsonData.temp_urgentNotice_List.Count))
@@ -1174,7 +1168,6 @@ public class API : URL
 
                                 Debug.Log("[urgent notice] 새로고침 생성 완료");
                             }
-                            #endregion
 
                             // side 버튼 표시 및 숨김
                             if (urgentNoticeManager.urgentNoticeCount == 1)
@@ -1188,7 +1181,6 @@ public class API : URL
                         }
                         else
                         {
-                            Debug.Log($"[Test] 긴급 공지 팝업 개수 : {tempSaveData.Count}");
                             // 긴급공지 팝업 숨김
                             urgentNoticeManager.urgentNoticePopup.SetActive(false);
                         }
@@ -1198,7 +1190,6 @@ public class API : URL
                     {
                         if (tempCheckNoticePopupData.Count > 0)
                         {
-                            #region 테스트 슬롯 생성
                             // 일반 버전 (생성만함)
                             if (!DEV.instance.isRefreshUrgentNotice)
                             {
@@ -1209,7 +1200,6 @@ public class API : URL
                                 urgentNoticeManager.urgentNoticePopup.SetActive(urgentNoticeManager.CheckData());
 
                                 // set event news count
-                                //urgentNoticeManager.eventNewsCount = jsonData.urgentNotice_List.Count;
                                 urgentNoticeManager.urgentNoticeCount = 5; // Todo : 긴급공지 표시 수 테스트
 
                                 // delete data
@@ -1270,7 +1260,6 @@ public class API : URL
 
                                 Debug.Log("[urgent notice] 새로고침 생성 완료 TEST");
                             }
-                            #endregion
 
                             // side 버튼 표시 및 숨김
                             if (urgentNoticeManager.urgentNoticeCount == 1)
@@ -1284,7 +1273,6 @@ public class API : URL
                         }
                         else
                         {
-                            Debug.Log($"[Test] 긴급 공지 팝업 개수 : {tempSaveData.Count}");
                             // 긴급공지 팝업 숨김
                             urgentNoticeManager.urgentNoticePopup.SetActive(false);
                         }

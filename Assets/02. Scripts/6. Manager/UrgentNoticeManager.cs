@@ -9,14 +9,17 @@ using UnityEngine.UI;
 
 public class UrgentNoticeManager : MonoBehaviour
 {
+    #region Default Setting
+    [Header("[ Default Component ]")]
+    public UrgentNoticeUI urgentNoticeUI;
     public UrgentNoticeCheckData checkData;
+
+    [Space(10)]
+    [Header("[ Popup UI ]")]
     public GameObject urgentNoticePopup;
     public Toggle viewAgainToggle;
     public Button closeButton;
 
-    public UrgentNoticeUI urgentNoticeUI;
-
-    #region Default Setting
     public void BTN_Close()
     {
         // 오늘하루 안봄
@@ -24,11 +27,9 @@ public class UrgentNoticeManager : MonoBehaviour
         {
             SaveCheckData();
         }
-
-        // popup창 닫기
-        urgentNoticePopup.SetActive(false);
-        viewAgainToggle.isOn = false;
-        Debug.Log($"닫기 버튼 누름 / {viewAgainToggle.isOn}");
+        
+        urgentNoticePopup.SetActive(false); // 긴급공지 팝업창 닫기
+        viewAgainToggle.isOn = false; // 체크 해제
     }
     #endregion
 
@@ -36,31 +37,27 @@ public class UrgentNoticeManager : MonoBehaviour
     public bool CheckData()
     {
         bool isShowPopup;
-        viewAgainToggle.isOn = false;
-        UrgentNoticeCheckData loadData = LoadCheckData();
-        DateTime currentTime = DateTime.Now;
-
-        //Debug.Log($"{currentTime.Date} / {currentTime}");
-        //Debug.Log($"{currentTime.Year} / {currentTime.Month} / {currentTime.DayOfYear}");
+        viewAgainToggle.isOn = false; // 다시보지않기 체크 해제
+        UrgentNoticeCheckData loadData = LoadCheckData(); // 런처가 저장하고 있는 날짜 데이터 로드
+        DateTime currentTime = DateTime.Now; // 현재 날짜 데이터 가져오기
 
         // hide urgent notice popup
         if (loadData.year == currentTime.Year.ToString()
             && loadData.month == currentTime.Month.ToString()
             && loadData.day == currentTime.DayOfYear.ToString())
         {
-            Debug.Log("[urgent notice] : hide popup");
             isShowPopup = false;
         }
         // show urgent notice popup
         else
         {
-            Debug.Log("[urgent notice] : show popup");
             isShowPopup = true;
         }
 
         return isShowPopup;
     }
 
+    // 팝업창 표시 유무 체크용 날짜 저장
     public void SaveCheckData()
     {
         DateTime currentTime = DateTime.Now;
@@ -74,6 +71,7 @@ public class UrgentNoticeManager : MonoBehaviour
         File.WriteAllText(path, jsonData);
     }
 
+    // 팝업창 표시 유무 체크용 날짜 로드
     public UrgentNoticeCheckData LoadCheckData()
     {
         string path = Path.Combine(Application.streamingAssetsPath + "/UrgentNotice", "UrgentNotice.json");
@@ -83,6 +81,7 @@ public class UrgentNoticeManager : MonoBehaviour
         return checkData;
     }
 
+    // 팝업창 표시 유무 체크용 날짜 리셋
     public void ResetCheckData()
     {
         checkData.year = "";
@@ -95,8 +94,9 @@ public class UrgentNoticeManager : MonoBehaviour
     }
     #endregion
 
-    #region Test Urgent Notice
-    [Header("[ UI ]")]
+    #region Notice Contents
+    [Space(10)]
+    [Header("[ Notice UI ]")]
     public UrgentNoticeUI noticeUI;
 
     [Space(10)]
@@ -109,8 +109,6 @@ public class UrgentNoticeManager : MonoBehaviour
 
     public void CreateAllContents()
     {
-        // 긴급공지 재확인 유무 체크
-
         // 긴급공지 테이터 요청
         API.instance.Request_UrgentNotice().Forget();
     }

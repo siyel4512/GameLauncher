@@ -123,21 +123,33 @@ public class UrgentNoticeUI : SwipeUI
         warningText.SetActive(false);
 
         sw.Stop();
+
+        StopAllCoroutines(); // 애니메이션 코루틴 강제 종료
+
         isUsingStepButtons = false;
         currentPage = 0;
 
+        // step 버튼 제거 및 리셋
         for (int i = 0; i < spawnedContents.Count; i++)
         {
             Destroy(spawnedContents[i].gameObject);
             Destroy(spawnedStepButton[i].gameObject);
         }
-
         spawnedContents.Clear();
         spawnedStepButton.Clear();
 
+        // json data reset
         JsonData jsonData = GameManager.instance.jsonData;
         jsonData.temp_urgentNotice_List.Clear();
         jsonData.urgentNotice_List.Clear();
+
+        sideButtons.SetActive(false);
+    }
+
+    public void TEST_Coroutine()
+    {
+        sw.Stop();
+        
     }
     #endregion
 }

@@ -23,6 +23,7 @@ public class TEST : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             GameManager.instance.urgentNoticeManager.urgentNoticeUI.DeleteContents();
+            //GameManager.instance.urgentNoticeManager.urgentNoticeUI.TEST_Coroutine();
         }
     }
 }
