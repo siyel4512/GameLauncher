@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,9 @@ public class TEST : MonoBehaviour
         {
             GameManager.instance.urgentNoticeManager.urgentNoticeUI.DeleteContents();
             //GameManager.instance.urgentNoticeManager.urgentNoticeUI.TEST_Coroutine();
+
+            //DateTime currentTime = DateTime.Now;
+            //Debug.Log($"날짜 체크 : {currentTime.Year} / {currentTime.Month} / {currentTime.Day}");
         }
     }
 }

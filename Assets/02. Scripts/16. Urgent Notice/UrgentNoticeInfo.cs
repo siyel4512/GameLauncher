@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using UnityEditor.Build.Pipeline.Utilities;
 using Unity.VisualScripting;
+using System;
 
 public class UrgentNoticeInfo : MonoBehaviour
 {
@@ -45,6 +46,15 @@ public class UrgentNoticeInfo : MonoBehaviour
     public void SetContents()
     {
         content_text.text = $"<size={tileFontSize}><align=center>{title}</align></size>\n\n{content}";
+
+        //// 줄바꿈 태그 테스트
+        //string origin_text = $"문구 테스트 입니다_1<br />문구 테스트 입니다_2<br/>문구 테스트 입니다_3<br>문구 테스트 입니다_4</br>";
+        //string temp_text1 = origin_text.Replace("<br>", "\n"); // 문자 변경이 필요할시 사용할것
+        //string temp_text2 = temp_text1.Replace("<br/>", "\n"); // 문자 변경이 필요할시 사용할것
+        //string temp_text3 = temp_text2.Replace("<br />", "\n"); // 문자 변경이 필요할시 사용할것
+        //string temp_text4 = temp_text3.Replace("</br>", "\n"); // 문자 변경이 필요할시 사용할것
+        //Debug.Log("태그 테스트 : " + temp_text4);
+        //content_text.text = temp_text4;
     }
 
     // open url

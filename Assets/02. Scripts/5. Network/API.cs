@@ -1089,7 +1089,7 @@ public class API : URL
                         if (tempSaveData[i].popupYn == "Y")
                         //if (tempSaveData[i].popupYn == "Yes")
                         {
-                            tempCheckNoticePopupData.Add(tempSaveData[i]);
+                            tempCheckNoticePopupData.Add(tempSaveData[i]); // 표시할 팝업창 데이터 저장
                         }
                     }
 
@@ -1146,7 +1146,6 @@ public class API : URL
 
                                     // create data
                                     urgentNoticeManager.CreateUrgentNotice();
-
                                     Debug.Log("[urgent notice] 새로고침 생성 1-2");
                                 }
                                 else
@@ -1185,10 +1184,11 @@ public class API : URL
                             urgentNoticeManager.urgentNoticePopup.SetActive(false);
                         }
                     }
-                    // backup...
+                    // backup... (팝업이 아닌 모든 게시글 가져오기 테스트)
                     else
                     {
-                        if (tempCheckNoticePopupData.Count > 0)
+                        //if (tempCheckNoticePopupData.Count > 0)
+                        if (tempSaveData.Count > 0)
                         {
                             // 일반 버전 (생성만함)
                             if (!DEV.instance.isRefreshUrgentNotice)
@@ -1200,7 +1200,8 @@ public class API : URL
                                 urgentNoticeManager.urgentNoticePopup.SetActive(urgentNoticeManager.CheckData());
 
                                 // set event news count
-                                urgentNoticeManager.urgentNoticeCount = 5; // Todo : 긴급공지 표시 수 테스트
+                                //urgentNoticeManager.urgentNoticeCount = 5; // Todo : 긴급공지 표시 수 테스트
+                                urgentNoticeManager.urgentNoticeCount = tempSaveData.Count; // Todo : 긴급공지 표시 수 테스트
 
                                 // delete data
                                 //urgentNoticeManager.noticeUI.DeleteContents();
@@ -1220,7 +1221,8 @@ public class API : URL
                                 urgentNoticeManager.urgentNoticePopup.SetActive(urgentNoticeManager.CheckData());
 
                                 // set event news count
-                                urgentNoticeManager.urgentNoticeCount = 5; // Todo : 긴급공지 표시 수 테스트
+                                //urgentNoticeManager.urgentNoticeCount = 5; // Todo : 긴급공지 표시 수 테스트
+                                urgentNoticeManager.urgentNoticeCount = tempSaveData.Count; // Todo : 긴급공지 표시 수 테스트
                                 Debug.Log($"[urgent notice] : {jsonData.urgentNotice_List.Count}");
                                 // frist time setting
                                 if (jsonData.urgentNotice_List.Count == 0 || (jsonData.urgentNotice_List.Count != jsonData.temp_urgentNotice_List.Count))
@@ -1238,7 +1240,6 @@ public class API : URL
 
                                     // create data
                                     urgentNoticeManager.CreateUrgentNotice();
-
                                     Debug.Log("[urgent notice] 새로고침 생성 1-2 TEST");
                                 }
                                 else
@@ -1289,55 +1290,5 @@ public class API : URL
             }
         }
     }
-
-    //public async UniTaskVoid /*Request_UrgentNotice*/()
-    //{
-    //    Debug.Log("Request_UrgentNotice() start()");
-
-    //    JsonData jsonData = GameManager.instance.jsonData;
-    //    UrgentNoticeManager urgentNoticeManager = GameManager.instance.urgentNoticeManager;
-
-    //    var content = new WWWForm();
-
-    //    using (UnityWebRequest www = UnityWebRequest.Post(urgentNoticeURL, content))
-    //    {
-    //        try
-    //        {
-    //            await www.SendWebRequest();
-
-    //            if (www.result == UnityWebRequest.Result.Success)
-    //            {
-    //                string requestResult = www.downloadHandler.text;
-
-    //                Debug.Log("응답 성공 (Urgent Notice) : " + requestResult);
-
-    //                List<SaveData.urgentNotice> tempSaveData = JsonUtility.FromJson<SaveData>(requestResult).speicalNoticeList;
-    //                jsonData.urgentNotice_List_Temp = new List<SaveData.urgentNotice>();
-    //                jsonData.urgentNotice_List_Temp = tempSaveData;
-
-    //                if (tempSaveData.Count > 0)
-    //                {
-    //                    Debug.Log($"[Test] 긴급 공지 팝업 개수 : {tempSaveData.Count}");
-    //                    // 긴급공지 팝업 표시
-    //                    urgentNoticeManager.urgentNoticePopup.SetActive(urgentNoticeManager.CheckData());
-    //                }
-    //                else
-    //                {
-    //                    Debug.Log($"[Test] 긴급 공지 팝업 개수 : {tempSaveData.Count}");
-    //                    // 긴급공지 팝업 숨김
-    //                    urgentNoticeManager.urgentNoticePopup.SetActive(false);
-    //                }
-    //            }
-    //        }
-    //        catch (UnityWebRequestException ex)
-    //        {
-    //            string requestResult = www.downloadHandler.text;
-    //            Debug.Log("응답 실패 (Urgent Notice) : " + requestResult + " // " + ex);
-
-    //            // 긴급 공지 팝업 숨김
-    //            urgentNoticeManager.urgentNoticePopup.SetActive(false);
-    //        }
-    //    }
-    //}
     #endregion
 }

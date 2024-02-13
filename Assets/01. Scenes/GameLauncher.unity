@@ -32497,11 +32497,8 @@ MonoBehaviour:
   pcPowerManager: {fileID: 721861403}
   versionManager: {fileID: 1730189062}
   downloadProtectGaurd: {fileID: 1913535562}
-  CDN_Live: https://yhbdymjatqnq20869625.cdn.ntruss.com/
-  CDN_Test: https://ejrdejzsaflk20717940.cdn.ntruss.com/
-  isLinkLoadTEST: 1
-  isCheckNoticePopup: 1
-  isRefreshUrgentNotice: 1
+  isCheckNoticePopup: 0
+  isRefreshUrgentNotice: 0
 --- !u!114 &1420501881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37064,6 +37061,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3e3d6e4e26e246448eb5c73d794482d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  urgentNoticeUI: {fileID: 2609015501989262320}
   checkData:
     year: 
     month: 
@@ -37071,7 +37069,6 @@ MonoBehaviour:
   urgentNoticePopup: {fileID: 4592440782808908079}
   viewAgainToggle: {fileID: 1140736752}
   closeButton: {fileID: 4592440782891990432}
-  urgentNoticeUI: {fileID: 2609015501989262320}
   noticeUI: {fileID: 2609015501989262320}
   urgentNoticeCount: 10
   mainBoardScrollPos: {fileID: 0}

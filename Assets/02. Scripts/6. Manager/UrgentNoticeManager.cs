@@ -30,6 +30,8 @@ public class UrgentNoticeManager : MonoBehaviour
         
         urgentNoticePopup.SetActive(false); // 긴급공지 팝업창 닫기
         viewAgainToggle.isOn = false; // 체크 해제
+
+        urgentNoticeUI.DeleteContents();
     }
     #endregion
 
@@ -44,7 +46,7 @@ public class UrgentNoticeManager : MonoBehaviour
         // hide urgent notice popup
         if (loadData.year == currentTime.Year.ToString()
             && loadData.month == currentTime.Month.ToString()
-            && loadData.day == currentTime.DayOfYear.ToString())
+            && loadData.day == currentTime.Day.ToString())
         {
             isShowPopup = false;
         }
@@ -64,7 +66,7 @@ public class UrgentNoticeManager : MonoBehaviour
 
         checkData.year = currentTime.Year.ToString();
         checkData.month = currentTime.Month.ToString();
-        checkData.day = currentTime.DayOfYear.ToString();
+        checkData.day = currentTime.Day.ToString();
 
         string jsonData = JsonUtility.ToJson(checkData, true);
         string path = Path.Combine(Application.streamingAssetsPath + "/UrgentNotice", "UrgentNotice.json");
@@ -121,6 +123,7 @@ public class UrgentNoticeManager : MonoBehaviour
     #endregion
 }
 
+// urgent notice (긴급공지) 팝업창 표시 확인용
 [System.Serializable]
 public class UrgentNoticeCheckData
 {

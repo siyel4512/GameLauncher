@@ -144,12 +144,14 @@ public class UrgentNoticeUI : SwipeUI
         jsonData.urgentNotice_List.Clear();
 
         sideButtons.SetActive(false);
+
+        Debug.Log("[urgent notice] 삭제 완료");
     }
 
-    public void TEST_Coroutine()
-    {
-        sw.Stop();
-        
-    }
+    // Todo : 긴급공지 테스트 관련 삭제 예정
+    //public void TEST_Coroutine()
+    //{
+    //    sw.Stop();
+    //}
     #endregion
 }

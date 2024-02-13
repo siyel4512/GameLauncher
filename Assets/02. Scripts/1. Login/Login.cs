@@ -364,6 +364,9 @@ public class Login : MonoBehaviour
         // id & password input field reset
         id.text = "";
         password.text = "";
+
+        // urgent notice (긴급공지 체크)
+        GameManager.instance.urgentNoticeManager.CreateAllContents();
     }
 
     public void AdminUser()
@@ -404,6 +407,9 @@ public class Login : MonoBehaviour
         // id & password input field reset
         id.text = "";
         password.text = "";
+
+        // urgent notice (긴급공지)
+        GameManager.instance.urgentNoticeManager.CreateAllContents();
     }
 
     // Success logout
